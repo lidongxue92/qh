@@ -61,7 +61,7 @@
                     <div class="country_span">来自
                     <img src="~@/assets/icon/fg.png" alt="">
                     法国</div>
-                    <div class="country_label"">本商品售价已含税，无需额外支付税费</div>
+                    <div class="country_label">本商品售价已含税，无需额外支付税费</div>
                  </div>
             </div>
         </div>
@@ -69,6 +69,7 @@
         <!-- 领取优惠券部分 -->
         <group>
           <x-switch title="领券" v-model="show13" id="title——lq"></x-switch>
+          <img class="img" src="~@/assets/icon/goods-left.png">
         </group>
         <div v-transfer-dom>
           <popup v-model="show13" position="bottom" max-height="50%">
@@ -90,7 +91,7 @@
 
         <div class="detail-bottom" style="margin-bottom:55px;">
             <tab :line-width=2
-                 active-color='#AB956D'
+                 active-color='#f54321'
                  v-model="index">
                 <tab-item class="vux-center"
                           :selected="selectd === item"
@@ -117,8 +118,8 @@
                     <div class="img-box">
                       <img src="https://ws1.sinaimg.cn/large/663d3650gy1fq6824ur1dj20ia0pydlm.jpg" style="max-width:100%">
                     </div>
-                    <div @click="showHideOnBlur=false">
-                      <qrcode :value="value" :fg-color="fgColor" id="fx-qcode"></qrcode>长按图片识别二维码
+                    <div @click="showHideOnBlur=false" class="qrcode_box">
+                       <qrcode value="http://weixin.qq.com/q/02k5PNp0zhdzi10000g07J"  id="fx-qcode" type="img"></qrcode>长按识别二维码
                     </div>
                   </x-dialog>
                 </div>
@@ -132,7 +133,7 @@
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
-const tabList = () => ['商品详情', '产品参数']
+const tabList = () => ['图文详情', '商品解答']
 export default {
     name: 'detail',
     directives: {
@@ -144,7 +145,7 @@ export default {
             countsArray: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
             count: ['1'],
             list: tabList(),
-            selectd: '商品详情',
+            selectd: '图文详情',
             index: 0,
             isFly: false,
             isShake: false,
@@ -257,14 +258,18 @@ export default {
     }
 }
 </script>
-
+<style type="text/css">
+    .vux-no-group-title{position: relative;}
+    .weui-cell__ft input{opacity: 0;position: relative;z-index:1;left:0.5rem;}
+</style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
     @import '~vux/src/styles/close.less';
     .detail {
     background-color:#f9f9f9;
+    .img{position: absolute;top:0.9rem;right: 1.2rem;width: 0.7rem;}
     .detail-main {
-    background:#fff;
+    background:#ffffff;
     .fixed-cart-box {
     position:fixed;
     z-index:10;
@@ -279,7 +284,7 @@ export default {
 .total-count {
     font-size:0.6rem;
     background-color:#ab956d;
-    color:#fff;
+    color:#ffffff;
     position:absolute;
     right:32px;
     top:0;
@@ -307,11 +312,11 @@ export default {
     vertical-align:top;
 }
 }.cart-box {
-    height:55px;
+    height:3.5rem;
     width:100%;
     border-top:1px solid #dddddd;
-    background-color:#f54321;
-    color:#fff;
+    background-color:#ffffff;
+    color:#ffffff;
     position:fixed;
     bottom:0;
     left:0;
@@ -321,7 +326,7 @@ export default {
     .product-counts {
     width:30%;
     height:100%;
-    background-color:#fff;
+    background-color:#ffffff;
     font-family:PingFangSC-Regular;
     font-size:0.8rem;
     color:#666666;
@@ -330,11 +335,11 @@ export default {
     box-sizing:border-box;
     .picker {
     width:35%;
-    height:60%;
+    height:40%;
     background:url(~@/assets/icon/kefu.png) no-repeat
                         right center;
     background-size:100% 100%;
-    margin:3px auto 2px auto;
+    margin:5px auto 2px auto;
     /*border:1px solid red;
     */
 }
@@ -343,7 +348,7 @@ export default {
     height:40%;
     /*border:1px solid red;
     */
-                    font-size:0.6rem;
+    font-size:1rem;
 }
 }.add-cart-btn {
     height:100%;
@@ -354,9 +359,10 @@ export default {
     letter-spacing:0;
     text-align:center;
     position:relative;
+    background: #f54321;
     flex:1;
     &:active {
-    color:#fff;
+    color:#ffffff;
 }
 &.disabled {
     color:#d5d5db;
@@ -411,14 +417,16 @@ export default {
     flex-wrap:nowrap;
     justify-content:space-between;
     .country_span {
-    margin:0!important;
+        font-size: 0.8rem;
     img {
-    vertical-align:middle;
+    position: relative;
+    top: 0.4rem;
     width:1.5rem;
-    height:1.2rem;
 }
 }.country_label {
-    margin:0!important;
+    position: relative;
+    font-size: 0.8rem;
+    top: 0.2rem;
 }
 }&.name_box {
     box-sizing:border-box;
@@ -469,7 +477,7 @@ s {
     border-radius:4px;
     width:33px;
     height:23px;
-    margin-left:15px;
+    margin-left:10px;
     font-family:PingFangSC-Regular;
     font-size:0.6rem;
     color:#ffffff;
@@ -482,10 +490,10 @@ s {
     background:#56c66a;
 }
 }}}}.detail-bottom {
-    background:#fff;
+    background:#ffffff;
     margin-top:15px;
     .tab-swiper {
-    background-color:#fff;
+    background-color:#ffffff;
     height:180px;
 }
 }.sold_information {
@@ -649,8 +657,8 @@ s {
     color:#333333;
     letter-spacing:0;
     text-align:left;
-    height:1rem;
-    line-height:1rem;
+    height:1.5rem;
+    line-height:1.5rem;
     overflow:hidden;
     text-overflow:ellipsis;
     display:-webkit-box;
@@ -760,5 +768,19 @@ s {
     margin-left:0;
     display:inline-block;
     vertical-align:middle;
+    canvas{width: 50px;height: 50px}
+}
+/*针对iPhone X底部footer做适配*/
+@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+    .detail .detail-main .cart-box{padding-bottom: 32px;}
+}
+
+.qrcode_box{
+    font-family:PingFangSC-Regular;
+    font-size:1.2rem;
+    color:#ffffff;
+    letter-spacing:0;
+    text-align:center;
+    color:#333333;
 }
 </style>

@@ -1,18 +1,11 @@
 <template>
     <div class="page-view">
-        <div v-transfer-dom>
-            <actionsheet :menus="menus"
-                         v-model="showMenu"
-                         show-cancel
-                         @on-click-menu="onSelectMenu"></actionsheet>
-        </div>
         <view-box ref="viewBox"
                   body-padding-top="46px"
                   :body-padding-bottom="isPaddingBottom">
             <keep-alive>
                 <router-view class="router-view" />
             </keep-alive>
-
             <tabbar slot="bottom"
                     style="position:fixed"
                     v-if="!isShowTabbar">
@@ -26,19 +19,19 @@
                              :selected="$route.path === '/page/category'">
                     <span class="icon icon-category"
                           slot="icon"></span>
-                    <span slot="label">店铺营销</span>
+                    <span slot="label">理财</span>
                 </tabbar-item>
-                <tabbar-item link="/page/cart"
-                             :selected="$route.path === '/page/cart'">
+                <tabbar-item link="/page/data"
+                             :selected="$route.path === '/page/data'">
                     <span class="icon icon-cart"
                           slot="icon"></span>
-                    <span slot="label">数据统计</span>
+                    <span slot="label">发现</span>
                 </tabbar-item>
-                <tabbar-item link="/page/user"
-                             :selected="$route.path === '/page/user'">
+                <tabbar-item link="/page/about"
+                             :selected="$route.path === '/page/about'">
                     <span class="icon icon-user"
                           slot="icon"></span>
-                    <span slot="label">商家中心</span>
+                    <span slot="label">我的</span>
                 </tabbar-item>
             </tabbar>
         </view-box>
@@ -62,11 +55,6 @@ export default {
     data() {
         return {
             showMenu: false,
-            menus: {
-                menu1: '关于 Pretty Vendor ',
-                menu2: '喜欢就给我个star吧 ^_^ ',
-                menu3: '退出登录'
-            }
         }
     },
     created() {},
@@ -83,10 +71,10 @@ export default {
             }
         },
         isShowTabbar() {
-            // if (/detail|theme|order|address|about/.test(this.$route.path)) {
-            //     return true
-            // }
-            // return false
+            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData/.test(this.$route.path)) {
+                return true
+            }
+            return false
         },
         isPaddingBottom() {
             // if (/detail|theme|order|address|about/.test(this.$route.path)) {
@@ -98,16 +86,6 @@ export default {
     methods: {
         onClickMore() {
             this.showMenu = true
-        },
-        onSelectMenu(key, item) {
-            if (key === 'menu1') {
-                this.$router.push({ path: '/page/about' })
-            } else if (key === 'menu2') {
-                window.location.href =
-                    'https://huahua0406.github.io/pretty-vendor/'
-            } else if (key === 'menu3') {
-                this.$router.push({ path: '/login' })
-            }
         }
     },
     components: {
@@ -120,7 +98,7 @@ export default {
 }
 </script>
 <style type="text/css">
-    .weui-tabbar{left: 0;}
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color: #f54321!important;}
 </style>
 <style scoped lang="less">
 .page-view {
@@ -161,6 +139,12 @@ export default {
                 }
             }
         }
+    }
+}
+/*针对iPhone X底部footer做适配*/
+@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+    .weui-tabbar{
+        padding-bottom:34px;
     }
 }
 </style>

@@ -151,7 +151,7 @@ export default {
             display: flex;
             padding: 10px;
             padding-left: 0;
-            background-color: #fff;
+            background-color: #ffffff;
             height: 93px;
             &:last-child {
                 margin-bottom: 0;
@@ -260,7 +260,7 @@ export default {
         border-bottom: 1px solid #ccc;
         box-sizing: border-box;
         background-color: #ab956d;
-        color: #fff;
+        color: #ffffff;
         z-index: 100;
         div {
             display: flex;
@@ -287,7 +287,7 @@ export default {
                 .accounts-btn {
                     width: 50%;
                     font-size: 14px;
-                    border-right: 1px dotted #fff;
+                    border-right: 1px dotted #ffffff;
                 }
                 .price-text {
                     width: 20%;

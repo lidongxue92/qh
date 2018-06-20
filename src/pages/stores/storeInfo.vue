@@ -1,85 +1,63 @@
 <template>
   <div id='storeInfo'>
     <!--  店铺logo -->
-       <div class='finish_room2'>
-         <div  class='room_img'>
-            <img :src="imgs">
-         </div>
-         <div class='room_add_btn'>
-              <input @change='add_img'  type="file">
-              <div class="room_opacity"></div>
-              <div id="img-change2">
-                <div class="img-changeImg"></div>
-                <p class="img-changeText">更换店铺图像</p>
-              </div>
-         </div>
-     </div>
-     <p class="store_name">{{value1}}</p>
+    <div class='finish_room2'>
+       <div class='room_add_btn'>
+           <ossFile :imgs='imgs'></ossFile>
+         <!--  <div class="room_opacity"></div>
+          <div id="img-change2">
+            <div class="img-changeImg"></div>
+            <p class="img-changeText">更换店铺图像</p>
+          </div> -->
+        </div>
+    </div>
+    <p class="store_name">{{datas.name}}</p>
     <ul class="store-list">
       <li class="clearfix">
-        <span class="fl">店铺名称</span><span class="fr">西贝筱面古北店&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺名称</span><span class="fr"><b>{{datas.name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="logo">
-        <span class="fl">品牌名称</span><span class="fr">西贝&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">品牌名称</span><span class="fr"><b>{{datas.brand_name}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shop">
-        <span class="fl">公司模式</span><span class="fr">直营分店&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">公司模式</span><span class="fr"><input type="text" class="mobile"  v-model="type"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix">
-        <span class="fl">店铺地址</span><span class="fr">上海市闵行区闵行区古北路1699写字楼15楼&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺地址</span><span class="fr"><b>{{datas.address}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="people">
-        <span class="fl">负责人</span><span class="fr">王富贵&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">负责人</span><span class="fr"><b>{{datas.contact}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
-      <li class="clearfix" v-on:click="phone">
-        <span class="fl">修改手机号</span><span class="fr">152****8765&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+      <li class="clearfix" :data1='datas.mobile'  @click='changephone(datas.mobile)'>
+        <span class="fl">修改手机号</span><span class="fr"><input type="text" class="mobile"  v-model="type2"/>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <li class="clearfix" v-on:click="shopinfo">
-        <span class="fl">店铺介绍</span><span class="fr">西贝莜面村是西贝餐饮集团旗下的主品牌，主营中式休闲正餐，西北菜的杰出代表&emsp;<img src="~@/assets/icon/goods-left.png"></span>
+        <span class="fl">店铺介绍</span><span class="fr"><b>{{datas.description}}</b>&emsp;<img src="~@/assets/icon/goods-left.png"></span>
       </li>
       <!-- 营业执照 -->
       <li class="zz_box clearfix">
         <span class="zz_text">营业执照</span>
         <div class='finish_zhizhao'>
                <div  class='zhizhao_img'>
-                  <img :src="img_zhi">
-               </div>
-               <div class='zhizhao_add_btn'>
-                    <input @change='add_zzimg'  type="file">
-                    <div class="zhizhao_opacity"></div>
-                    <div id="img-changeZZ">
-                      <div class="img-changeImgZZ"></div>
-                      <p class="img-changeTextZZ">更换营业执照</p>
-                    </div>
+                  <img :src="datas.img_src">
                </div>
            </div>
       </li>
-    </ul> 
+    </ul>
     <!-- 公司模式 -->
     <div class="shop">
       <h5>公司模式</h5>
       <div class="select">
         <select>
-          <option>直营分店</option>
-          <option>加盟</option>
+          <option value="1">直营分店</option>
+          <option value="2">加盟</option>
         </select>
         <img src="~@/assets/icon/arrow@right.png">
       </div>
       <div class="clearfix btn">
-        <span v-on:click="gb" class="fl">取消</span><span v-on:click="tj" class="fr">确认</span>
+        <span v-on:click="cancel" class="fl">取消</span><span v-on:click="company_model" class="fr">确认</span>
       </div>
-      
     </div>
-    <!-- <group label-width="4.5em" label-margin-right="2em" label-align="right" id="form_box">
-      <x-input title="店铺名称" :value="value1" disabled ></x-input>
-      <x-input title="所属品牌" :value="value2" disabled v-on:click="linktoDetail"></x-input>
-      <x-input title="公司模式" :value="value3" disabled></x-input>
-      <x-textarea title="店铺地址" :show-counter="false" :rows="3" :value="value4" disabled></x-textarea>
-      <x-input title="负责人" :value="value5" disabled></x-input>
-      <x-input title="联系电话" type="number" :value="value6" disabled></x-input>
-      <x-textarea title="店铺介绍" :value="value7" :show-counter="false" :rows="3" disabled></x-textarea>
-    </group> -->
-
     <div class="bg"></div>
   </div>
 </template>
@@ -87,14 +65,10 @@
 <script>
 import $ from 'jquery'
 import { GroupTitle, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch,Panel, Radio,XButton,Box} from 'vux'
-  /**
-* 从 file 域获取 本地图片 url
-*/
-function getFileUrl(obj) {
-  let url;
-  url = window.URL.createObjectURL(obj.files.item(0));
-  return url;
-}
+import axios from 'axios'
+//引入上传图片组键
+import ossFile from '../../components/oss_file'
+
   export default {
     name: 'storeInfo',
     components: {
@@ -112,35 +86,22 @@ function getFileUrl(obj) {
       Panel,
       Radio,
       XButton,
-      Box
+      Box,
+      ossFile
     },
+     created() {
+      this.binfo_data()
+     },
     methods:{
-        add_img(event){
-          var reader =new FileReader();
-          var img1=event.target.files[0];
-          reader.readAsDataURL(img1);
-          var that=this;
-          reader.onloadend=function(){
-              that.imgs=reader.result
-          }
-        },
-        add_zzimg(event){
-          var reader =new FileReader();
-          var img1=event.target.files[0];
-          reader.readAsDataURL(img1);
-          var that=this;
-          reader.onloadend=function(){
-              that.img_zhi=reader.result
-          }
-        },
         logo() {
             this.$router.push({ path: '/page/logo'})
         },
         shopinfo() {
             this.$router.push({ path: '/page/shopinfo'})
         },
-        phone() {
-            this.$router.push({ path: '/page/phone'})
+        changephone(a) {
+          console.log(a)
+           this.$router.push({ path: '/page/changephone',query: { mobile: a }})
         },
         people() {
             this.$router.push({ path: '/page/people'})
@@ -149,37 +110,106 @@ function getFileUrl(obj) {
             $(".shop").show()
             $(".bg").show(  )
         },
-        gb() {
+        cancel() {
             $('.shop').hide()
             $(".bg").hide()
         } ,
-        tj() {
+        // 商铺数据接口
+        binfo_data(){
+          const _this= this;
+          const url ='http://public.weifenvip.com/index/Shop/shopInfo';
+          const params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);
+          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          axios.post(url,params).then(response => {
+            const data = response.data.data
+            const str=data.mobile;
+            const str2 = str.substr(0,3)+"****"+str.substr(7);
+            console.log(str2)
+            _this.type2=str2
+            _this.datas=data
+            _this.mobile = data.mobile;
+            console.log(data)
+            if (data.company_model == '1') {
+              _this.type = '直营分店'
+            }
+            if (data.company_model == '2') {
+              _this.type = '加盟'
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
+        // 更改公司模式
+        company_model(){
+          const url ='http://public.weifenvip.com/index/Shop/editInfo';
+          const company_model = $(".select").find("option:selected").val();
+          console.log(company_model)
+          const params = new URLSearchParams();
+          params.append('token',localStorage.currentUser_token);
+          params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
+          params.append('company_model',company_model);
+          axios.post(url,params).then(response => {
+            console.log(response.data)
             $('.shop').hide()
             $(".bg").hide()
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+
+            },2000)
+            location.reload()
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
+        // 处理手机号
+        phone(){
         }
     },
     data () {
       return {
         value1: '西贝筱面古北店',
-        value2: '西贝',
-        value3: '直营分店',
-        value4: '上海市闵行区闵行区古北路1699写字楼15楼',
-        value5: '富贵',
-        value6: '13712345678',
-        value7: '西贝莜面村是西贝餐饮集团旗下的主品牌，主营中式休闲正餐，西北菜的杰出代表',
-        value8: '',
-        time1: '2017-06-01',
-        numberValue: 0,
-        type: '1',
         imgs:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
-        img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG'
+        img_zhi:'https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=3410181771,3257903943&fm=58&w=121&h=140&img.PNG',
+        datas:{},
+        type2:'',
+        type:'',
+        mobile:''
       }
     },
     //页面加载后执行
     mounted(){
+      // this.phone()
     }
   }
 </script>
+<style type="text/css">
+.container{
+    width:150px!important;
+    height:150px!important;
+    position:relative;
+        border-radius: 50%;
+}
+#selectfiles{
+    width:150px!important;
+    height:150px!important;
+    opacity:0;
+    position:absolute;
+    top:0;
+    left:0;
+        border-radius: 50%;
+}
+#imgId{
+    width:150px!important;
+    height:150px!important;
+    position:absolute;
+    top:0;
+    left:0;
+        border-radius: 50%;
+}
+</style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
   #storeInfo {
@@ -203,12 +233,17 @@ function getFileUrl(obj) {
 .tr{text-align: right;}
 .store-list{
   padding: 0;margin-top: 1rem;
-  li{list-style: none;padding: 10px 15px;border-bottom: 1px solid #ddd;img{position: relative;top: 0.2rem;}.fr{color: #999;width: 60%;text-align: right}}
+  li{list-style: none;padding:0.5rem;border-bottom: 1px solid #dddddd;font-size:0.9rem;.fr{color: #999999;width: 70%;text-align: right;line-height: 1.2rem;font-size: 0.8rem;position:relative;
+    img{position: absolute;width: 0.6rem;top: 0.2rem;}
+    b{font-weight: normal;display: inline-block;width: 80%;}
+    .mobile{border: 0;text-align: right;color: #999999}
+    }
+  }
 }
 /*公司模式*/
 .shop{
   display: none;
-  position: absolute;width: 80%;background: #fff;
+  position: absolute;width: 80%;background: #ffffff;
   top: 20%;
   border-radius: 10px;
   padding: 1rem;
@@ -224,7 +259,7 @@ function getFileUrl(obj) {
     margin-top: 20px;
     span{display: inline-block;width: 40%;text-align: center;line-height: 40px;}
     .fl{background: #f7f7f7;border-radius: 4px;color: #333;}
-    .fr{background: #fd5536;border-radius: 4px;color: #fff;}
+    .fr{background: #fd5536;border-radius: 4px;color: #ffffff;}
   }
 }
 /*蒙版*/
@@ -247,13 +282,14 @@ function getFileUrl(obj) {
   font-size:0.8rem;
   color:#ff8134;
   letter-spacing:0;
-  background:#fff;
+  background:#ffffff;
   ::after {
   border:0!important;
 }
 }}.store_name {
   font-family:PingFangSC-Regular;
   font-size:1rem;
+  line-height:3rem;
   color:#333333;
   letter-spacing:0;
   text-align:center;
@@ -353,10 +389,9 @@ function getFileUrl(obj) {
 /*营业执照样式*/
    .zz_box {
   width:100%;
-  height:200px;
-  /*border:1px solid red;
-  */
-    box-sizing:border-box;
+  height:auto;
+  border:0!important;
+  box-sizing:border-box;
   padding:10px 15px;
 }
 .finish_zhizhao {
@@ -379,7 +414,7 @@ function getFileUrl(obj) {
   left:1%;
 }
 .finish_zhizhao>.zhizhao_img>img {
-  width:99%;
+  width:99%!important;
   height:89px;
 }
 .zhizhao_add_btn {

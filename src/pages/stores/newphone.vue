@@ -83,10 +83,10 @@ export default {
   .input{
     margin-top:20px;
     .fl{width: 52%;background: #f7f7f7;line-height: 40px;border: 0;border-radius: 4px;padding-left: 4%;}
-    .fr{display: inline-block;width: 35%;border: 1px solid #fd5536;border-radius: 4px;text-align: center;line-height: 40px;color: #fd5536;height: 38px;font-size: 0.8rem;background: #fff;}
-    .count{display: inline-block;width: 35%;border: 1px solid #fd5536;border-radius: 4px;text-align: center;line-height: 40px;color: #fd5536;height: 38px;font-size: 0.8rem;background: #fff;}
+    .fr{display: inline-block;width: 35%;border: 1px solid #fd5536;border-radius: 4px;text-align: center;line-height: 40px;color: #fd5536;height: 38px;font-size: 0.8rem;background: #ffffff;}
+    .count{display: inline-block;width: 35%;border: 1px solid #fd5536;border-radius: 4px;text-align: center;line-height: 40px;color: #fd5536;height: 38px;font-size: 0.8rem;background: #ffffff;}
   }
   .phone{width: 96%;background: #f7f7f7;line-height: 40px;border: 0;border-radius: 4px;padding-left: 4%;margin-top:10px; }
-  .button{width: 100%;height: 40px;background: #fd5536;border-radius: 4px;color: #fff;display: inline-block;line-height: 40px;text-align: center;margin-top: 30px}
+  .button{width: 100%;height: 40px;background: #fd5536;border-radius: 4px;color: #ffffff;display: inline-block;line-height: 40px;text-align: center;margin-top: 30px}
 }
 </style>

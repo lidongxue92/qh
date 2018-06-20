@@ -106,7 +106,7 @@ export default {
     background-color: #ededed;
     .user-header {
         background-color: #ab956d;
-        color: #fff;
+        color: #ffffff;
         display: flex;
         align-items: center;
         padding: 15px;
@@ -121,7 +121,7 @@ export default {
         }
     }
     .user-address {
-        background-color: #fff;
+        background-color: #ffffff;
         .add-new-address {
             padding: 10px 0;
             width: 100%;
@@ -143,7 +143,7 @@ export default {
                 text-align: center;
                 border-bottom: 1px solid #ededed;
                 font-size: 14px;
-                background-color: #fff;
+                background-color: #ffffff;
                 position: relative;
                 .icon-arrow {
                     position: absolute;
@@ -184,13 +184,13 @@ export default {
             text-align: center;
             border-bottom: 1px solid #ededed;
             font-size: 14px;
-            background-color: #fff;
+            background-color: #ffffff;
             position: relative;
         }
         .order-item {
             margin-bottom: 10px;
             color: #777777;
-            background-color: #fff;
+            background-color: #ffffff;
             font-size: 14px;
             &:last-child {
                 margin-bottom: 0;
@@ -250,7 +250,7 @@ export default {
                     margin-right: 15px;
                     background-color: #b42f2d;
                     border-radius: 2px;
-                    color: #fff;
+                    color: #ffffff;
                     text-align: center;
                     line-height: 30px;
                     border: none;
@@ -268,7 +268,7 @@ export default {
             color: #ccc;
             align-items: center;
             justify-content: center;
-            background: #fff;
+            background: #ffffff;
         }
     }
 }

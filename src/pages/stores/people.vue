@@ -60,6 +60,6 @@ export default {
 .logo{
   padding: 20px;h5{line-height: 30px;font-size: 1rem;font-weight: normal;}
   .input{width: 96%;background: #f7f7f7;line-height: 40px;border: 0;border-radius: 4px;padding-left: 4%;margin-top:10px; }
-  .button{width: 100%;height: 40px;background: #fd5536;border-radius: 4px;color: #fff;display: inline-block;line-height: 40px;text-align: center;margin-top: 30px}
+  .button{width: 100%;height: 40px;background: #fd5536;border-radius: 4px;color: #ffffff;display: inline-block;line-height: 40px;text-align: center;margin-top: 30px}
 }
 </style>

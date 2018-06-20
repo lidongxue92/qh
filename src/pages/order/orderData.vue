@@ -15,11 +15,11 @@
 		<div class="data_display">
 
 		    <div class="yx_display">
-		    	<p class="yx_display_title">营销商品数据额统计</p>
+		    	<p class="yx_display_title">营销商品数据额统计<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yx_display_tab">
-			    	<li class="oli li_select">7日</li>
-			    	<li class="oli">30日</li>
-			    	<li class="oli">年度</li>
+			    	<li class="oli first" v-bind:class='{ li_select: is_show1}' v-on:click="salesVolume1()">7日</li>
+			    	<li class="oli" v-bind:class='{ li_select: is_show2}' v-on:click="salesVolume2()">30日</li>
+			    	<li class="oli last" v-bind:class='{ li_select: is_show3}' v-on:click="salesVolume3()">年度</li>
 		    	</ul>
 		      <p class="yx_display_ftitle">销售金额( 单位：元 )</p>
 	          <div class="charts" >
@@ -28,11 +28,11 @@
 		    </div>
 
 		     <div class="yh_display">
-		    	<p class="yh_display_title">用户消费数据统计</p>
+		    	<p class="yh_display_title">用户消费数据统计<span>查看更多&ensp;<img src="~@/assets/icon/goods-left.png"></span></p>
 		    	<ul class="yh_display_tab">
-			    	<li class="oli li_select">7日</li>
-			    	<li class="oli">30日</li>
-			    	<li class="oli">年度</li>
+			    	<li class="oli first" v-bind:class='{ li_select: is_show4}' v-on:click="salesVolume4()">7日</li>
+			    	<li class="oli" v-bind:class='{ li_select: is_show5}' v-on:click="salesVolume5()">30日</li>
+			    	<li class="oli last" v-bind:class='{ li_select: is_show6}' v-on:click="salesVolume6()">年度</li>
 		    	</ul>
 		      <p class="yh_display_ftitle">销售金额( 单位：元 )</p>
 	          <div class="yhcharts" >
@@ -51,6 +51,12 @@ export default {
   },
   data() {
     return {
+    	is_show1:true,
+    	is_show2:false,
+    	is_show3:false,
+    	is_show4:true,
+    	is_show5:false,
+    	is_show6:false
     };
   },
   methods:{
@@ -67,34 +73,34 @@ export default {
 		     var option = null;
 		     // 指定图表的配置项和数据
 		     option = {
-		     	title:{
-			         text:'营销商品销售额',
-			         textStyle:{
-			            //文字颜色
-			            color:'#ffffff',
-			            //字体风格,'normal','italic','oblique'
-			            fontStyle:'normal',
-			            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-			            fontWeight:'normal',
-			            //字体系列
-			            fontFamily:'sans-serif',
-			            //字体大小
-			    　　　　 fontSize:14,
-			        }
-			    },
+		     // 	title:{
+			    //      text:'营销商品销售额',
+			    //      textStyle:{
+			    //         //文字颜色
+			    //         color:'#ffffff',
+			    //         //字体风格,'normal','italic','oblique'
+			    //         fontStyle:'normal',
+			    //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+			    //         fontWeight:'normal',
+			    //         //字体系列
+			    //         fontFamily:'sans-serif',
+			    //         //字体大小
+			    // 　　　　 fontSize:14,
+			    //     }
+			    // },
 			    xAxis: {
 			        type: 'category',
 			        data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
 			        axisLine: {
                     lineStyle: {
                         type: 'solid',
-                        color: '#fff',//左边线的颜色
+                        color: '#ffffff',//左边线的颜色
                         width:'2'//坐标线的宽度
 	                    }
 	                },
 	                axisLabel: {
 	                    textStyle: {
-	                        color: '#fff',//坐标值得具体的颜色
+	                        color: '#ffffff',//坐标值得具体的颜色
 	                    }
 	                },
 	                axisTick:{
@@ -115,7 +121,7 @@ export default {
                     type: 'line',
 	                    itemStyle: {
 	                        normal: {
-	                            color: '#FFFFFF'/*线条颜色*/,
+	                            color: '#ffffff'/*线条颜色*/,
 	                            label : {show: true}
 	                        }
 	                    },
@@ -143,34 +149,34 @@ export default {
 		     var option = null;
 		     // 指定图表的配置项和数据
 		     option = {
-		     	title:{
-			         text:'用户消费',
-			         textStyle:{
-			            //文字颜色
-			            color:'#f7ff50',
-			            //字体风格,'normal','italic','oblique'
-			            fontStyle:'normal',
-			            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
-			            fontWeight:'normal',
-			            //字体系列
-			            fontFamily:'sans-serif',
-			            //字体大小
-			    　　　　 fontSize:14,
-			        }
-			    },
+		     // 	title:{
+			    //      text:'用户消费',
+			    //      textStyle:{
+			    //         //文字颜色
+			    //         color:'#f7ff50',
+			    //         //字体风格,'normal','italic','oblique'
+			    //         fontStyle:'normal',
+			    //         //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+			    //         fontWeight:'normal',
+			    //         //字体系列
+			    //         fontFamily:'sans-serif',
+			    //         //字体大小
+			    // 　　　　 fontSize:14,
+			    //     }
+			    // },
 			    xAxis: {
 			        type: 'category',
 			        data: ['1日', '2日', '3日', '4日', '5日', '6日', '7日'],
 			        axisLine: {
                     lineStyle: {
                         type: 'solid',
-                        color: '#fff',//左边线的颜色
+                        color: '#ffffff',//左边线的颜色
                         width:'2'//坐标线的宽度
 	                    }
 	                },
 	                axisLabel: {
 	                    textStyle: {
-	                        color: '#fff',//坐标值得具体的颜色
+	                        color: '#ffffff',//坐标值得具体的颜色
 	                    }
 	                },
 	                axisTick:{
@@ -204,7 +210,66 @@ export default {
 		     if (option && typeof option === "object") {
 		         mainChart.setOption(option, true)
 		     };
-  	}
+  	},
+  	salesVolume1:function(){
+        const _this = this;
+        this.is_show1=true
+        this.is_show2=false
+        this.is_show3=false
+        _this.$loading.show();//显示
+	    setTimeout(function(){  //模拟请求
+	          _this.$loading.hide(); //隐藏
+	    },2000);
+	},
+    salesVolume2:function(){
+        const _this = this;
+        this.is_show2=true
+        this.is_show1=false
+        this.is_show3=false
+        _this.$loading.show();//显示
+	    setTimeout(function(){  //模拟请求
+	          _this.$loading.hide(); //隐藏
+	    },2000);
+	},
+	salesVolume3:function(){
+        const _this = this;
+        this.is_show2=false
+        this.is_show1=false
+        this.is_show3=true
+        _this.$loading.show();//显示
+	    setTimeout(function(){  //模拟请求
+	          _this.$loading.hide(); //隐藏
+	    },2000);
+	},salesVolume4:function(){
+        const _this = this;
+        this.is_show4=true
+        this.is_show5=false
+        this.is_show6=false
+        _this.$loading.show();//显示
+	    setTimeout(function(){  //模拟请求
+	          _this.$loading.hide(); //隐藏
+	    },2000);
+	},
+	salesVolume5:function(){
+        const _this = this;
+        this.is_show4=false
+        this.is_show5=true
+        this.is_show6=false
+        _this.$loading.show();//显示
+	    setTimeout(function(){  //模拟请求
+	          _this.$loading.hide(); //隐藏
+	    },2000);
+	},
+	salesVolume6:function(){
+        const _this = this;
+        this.is_show4=false
+        this.is_show5=false
+        this.is_show6=true
+        _this.$loading.show();//显示
+	    setTimeout(function(){  //模拟请求
+	          _this.$loading.hide(); //隐藏
+	    },2000);
+	}
   },
   mounted(){
 	  	this.yx_display()
@@ -222,7 +287,7 @@ export default {
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content:space-between;
-        background-color:#fff;
+        background-color:#ffffff;
         padding:20px 0 12px 0;
         li{
         	text-align:center;
@@ -247,7 +312,7 @@ export default {
 	 	margin-top:10px;
 	 	.yx_display{
 	 		height:auto;
-	 		background-color:#fff;
+	 		background-color:#ffffff;
 	 		padding-bottom:15px;
 	 		.yx_display_title{
 	 			width:100%;
@@ -261,6 +326,7 @@ export default {
 				text-align:left;
 				font-weight:600;
 				border:1px solid #eeeeee;
+				span{float: right;font-size:0.9rem;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.2rem;}}
 	 		}
 	 		.yx_display_ftitle{
 	 			font-family:PingFangSC-Regular;
@@ -278,7 +344,7 @@ export default {
 		        flex-direction: row;
 		        flex-wrap: nowrap;
 		        justify-content:space-between;
-		        background-color:#fff;
+		        background-color:#ffffff;
 		        li{
 		        	text-align:center;
 		        	flex-grow:1;
@@ -286,8 +352,16 @@ export default {
 					font-size:0.8rem;
 					color:#777777;
 					letter-spacing:0;
-					padding:10px 30px;
+					padding:5px 20px;
 					border:1px solid #eeeeee;
+		        }
+		        .first{
+					border-top-left-radius:0.3rem;
+					border-bottom-left-radius:0.3rem;
+		        }
+		        .last{
+		        	border-top-right-radius:0.3rem;
+					border-bottom-right-radius:0.3rem;
 		        }
 		        .li_select{
 		        	border:1.5px solid #f54321;
@@ -298,7 +372,7 @@ export default {
 	 		margin-top:10px;
 	 		padding-bottom:15px;
 	 		height:auto;
-	 		background-color:#fff;
+	 		background-color:#ffffff;
 	 		.yh_display_title{
 	 			width:100%;
 	 			height:auto;
@@ -311,6 +385,7 @@ export default {
 				text-align:left;
 				font-weight:600;
 				border:1px solid #eeeeee;
+				span{float: right;font-size:0.9rem;font-weight:normal;color:#999999;img{width: 0.6rem;position: relative;top: 0.2rem;}}
 	 		}
 	 		.yh_display_ftitle{
 	 			font-family:PingFangSC-Regular;
@@ -328,7 +403,7 @@ export default {
 		        flex-direction: row;
 		        flex-wrap: nowrap;
 		        justify-content:space-between;
-		        background-color:#fff;
+		        background-color:#ffffff;
 		        li{
 		        	text-align:center;
 		        	flex-grow:1;
@@ -336,8 +411,16 @@ export default {
 					font-size:0.8rem;
 					color:#777777;
 					letter-spacing:0;
-					padding:10px 30px;
+					padding:5px 20px;
 					border:1px solid #eeeeee;
+		        }
+		        .first{
+					border-top-left-radius:0.3rem!important;
+					border-bottom-left-radius:0.3rem!important;
+		        }
+		        .last{
+		        	border-top-right-radius:0.3rem!important;
+					border-bottom-right-radius:0.3rem!important;
 		        }
 		        .li_select{
 		        	border:1.5px solid #f54321;
@@ -345,13 +428,13 @@ export default {
 	 		}
 	 	}
 	 	.charts{
-	 		width:80%;
+	 		width:90%;
 	 		margin:10px auto;
 	 		height:215px;
 	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#e84f57), to(#eb8139));
 	 	}
 	 	.yhcharts{
-	 		width:80%;
+	 		width:90%;
 	 		margin:10px auto;
 	 		height:215px;
 	 		background:-webkit-gradient(linear, 0% 20%, 8% 100%,from(#e84f57), to(#eb8139));

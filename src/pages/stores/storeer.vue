@@ -31,14 +31,10 @@ export default {
     data(){
 　　　　　　return {
 　　　　　　　　active: false,
-　　　　　　　　items: [
-　　　　　　　　　　{select:'营销中（29)'},
-　　　　　　　　　　{select:'已下架（39)'},
-　　　　　　　　]
 　　　　　　}
 　　　　},
     created() {
-        this.getCategory()
+       // this.getCategory()
     },
     computed: {
         menuBanner() {
@@ -54,7 +50,7 @@ export default {
             this.getProduct(id)
         },
         linktoDetail() {
-            this.$router.push({ path: '/page/changestore'})
+            this.$router.push({ path: '/page/changeshop'})
         },
     }
 }
@@ -79,21 +75,21 @@ export default {
   background: #f1f1f1;
   h5{position: relative;font-size: 1rem;font-weight: normal;.icon{width: 0.6rem;position: absolute;right: -6%;top: 30%;}}
   .top{padding: 10px 10px 20px 10px;
-    background: #fff;
+    background: #ffffff;
     .left{width:10%;margin-top: 1rem;img{width: 100%;}}
   .right{
       margin-top: 1rem;
       left: 3%;
       position: relative;
       width:80%;
-      p{font-size: 0.8rem;color: #999;}}
+      p{font-size: 0.8rem;color: #999999;}}
   }
   .middle {
     padding: 10px;
-    background: #fff;margin-top: 20px;
+    background: #ffffff;margin-top: 20px;
     li{
-      line-height: 4rem;border-bottom: 1px solid #ddd;height:4rem;
-      .fr{color: #999;img{position: relative;top:0.2rem;}}
+      line-height: 4rem;border-bottom: 1px solid #dddddd;height:4rem;
+      .fr{color: #999999;img{position: relative;top:0.2rem;width:0.6rem; }}
     }
   }
 }

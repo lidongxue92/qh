@@ -26,6 +26,12 @@ if (window.ENV !== "undefined") {
       appId = wxConfig.developAppId;
       break;
 
+    case "TEST":
+        URL = wxConfig.testUrl;
+      wsURL = wxConfig.testWsUrl;
+      appId = wxConfig.testAppId;
+      break;
+
     default:
         URL = `errorEnv`;
       wsURL = `errorEnv`;

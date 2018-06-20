@@ -38,14 +38,11 @@ body {
     height: 100%;
     width: 100%;
     overflow-x: hidden;
-    margin: 0 auto;
 }
 #vux_view_box_body{
     padding-top:0 !important;
 }
 #app {
-    width:750px;
-    margin:auto;
     height: 100%;
 }
 .vux-slider .vux-icon-dot {
@@ -54,7 +51,7 @@ body {
     border-radius: 4px !important;
 }
 .detail .vux-cell-value {
-    color: #fff !important;
+    color: #ffffff !important;
 }
 .detail .vux-cell-box::before {
     display: none;
