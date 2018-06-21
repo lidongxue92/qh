@@ -4,7 +4,7 @@
         <div class="index_banner" >
             <swiper :list="demo02_list" style="width:85%;margin:0 auto;" :aspect-ratio="300/800" dots-position="center"></swiper>
             <!-- 新手 -->
-            <div class="set" v-if="isshow">
+            <div class="set" v-if="!isshow">
                 <div class="left">
                     <p><span class="res">注册领取</span><span class="new">新手礼包</span></p>
                     <p><span class="c-FF6332">1588</span>元投资红包+<span class="c-48BBFF">2.88%</span>加息券</p>
@@ -15,8 +15,8 @@
                 </div>
             </div>
             <!-- 非新手 -->
-            <div class="list" v-if="isshow1">
-                <p>公告</p>
+            <div class="list" v-if="!isshow1">
+                <p><img src="~@/assets/img/icon_lab@2x.png" />&ensp;热烈庆祝道道理财隆重上线，百万福利派送中……</p>
                 <ul>
                     <li>
                         <img src="~@/assets/img/icon_you@2x.png">
@@ -36,11 +36,11 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in datalist">
-                    <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                <li v-for="(item,index) in datalist" @click="linkToDetail">
+                    <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.Profit}}</span>
+                            <span class="Profit">{{item.Profit}}<b v-if="isshow2">{{item.profit}}</b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -84,12 +84,13 @@ export default {
             recentList: [],
             datalist:[
                 {Title:'热卖产品',Data:'新手福利高预期收益',Label:'热卖',Profit:'12%',Day:'3',Quota:'1000',img:'../../assets/img/icon_biao1@2x.png'},
-                {Title:'火爆产品',Data:'热销火爆 高收益',Label:'',Profit:'10%+0.5%',Day:'2',Quota:'3000',img:'../../assets/img/icon_biao1@2x.png'}
+                {Title:'火爆产品',Data:'热销火爆 高收益',Label:'',Profit:'10%',Day:'2',Quota:'3000',img:'../../assets/img/icon_biao1@2x.png',profit:'+5%'}
             ],
             demo02_list: baseList,
             num:'',
             isshow:true,
             isshow1:false,
+            isshow2:true,
         }
     },
     created() {
@@ -147,27 +148,31 @@ export default {
     .index_banner{
         width:100%;position: relative;
         .set{
-            position: relative;bottom: 20px;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;height: 150px;
+            position: relative;bottom: 1rem;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;padding: 1rem 0;
             .left{
-                display: inline-block;width:58%;font-size: 0.8rem;padding: 0 1rem;
-                .res{font-size: 1rem;font-weight: 700;color: #333;}
-                .new{font-size: 1rem;font-weight: 700;color: #FFA303;}
+                display: inline-block;width:58%;font-size: 0.6rem;padding: 0 1rem;
+                .res{font-size: 0.8rem;font-weight: 700;color: #333;}
+                .new{font-size: 0.8rem;font-weight: 700;color: #FFA303;}
                 .c-FF6332{color: #FF6332}
                 .c-48BBFF{color: #48BBFF}
                 .button{display: inline-block;width: 70%;line-height: 30px;color: #fff;height: 30px;font-size: 1rem;background: #2395FF;text-align: center;border-radius: 30px;margin-top: 10px;}
             }
             .right{
                 display: inline-block;width: 30%;
-                img{width: 100%;margin-top: 2rem;}
+                img{width: 100%;}
             }
         }
         .list{
             background: #fff;
-            p{font-size: 0.8rem;padding: 0.5rem 1rem;}
+            p{
+                font-size: 0.6rem;padding: 0.2rem 1rem;background: #F6F6F6;height: 1.3rem;color: #666;
+                img{width: 0.8rem;height: 0.7rem;}
+            }
             ul{
                 li{
-                    list-style: none;display:inline-block;width: 31%;text-align: center;
-                    img{width:40%;}
+                    list-style: none;display:inline-block;width: 31%;text-align: center;background: #fff;padding: 1rem 0;
+                    p{background: transparent;font-size: 0.7rem;}
+                    img{width:2rem;height: 2rem;}
                 }
             }
         }
@@ -177,29 +182,37 @@ export default {
             li{
                 background: #fff;margin-top: 10px;padding:1rem;
                 h5{
-                    border-bottom: 1px solid #eee;font-weight: normal;font-size: 1rem;
-                    span{color: #999;margin-left: 10px;font-size: 0.7rem;}
-                    img{float: right;}
+                    border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;
+                    span{color: #999;margin-left: 10px;font-size: 0.6rem;}
+                    .img{
+                        float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;
+                    }
+                    .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
+                    .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}
+                    .img3{background: url(~@/assets/img/icon_biao4@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                 }
                 .left{
-                    display: inline-block;width: 49%;border-right: 1px solid #eee;margin-top: 1rem;text-align: center;font-size: 0.8rem;
-                    .Profit{display: block;width: 100%;color: #FFA303;font-size: 1.5rem;font-weight: 600;text-align: center;}
-                }
-                .right{
-                    display: inline-block;width: 49%;
-                    .day{
-                        font-size: 0.8rem;border-right: 1px solid #eee;padding: 0 0.8rem;
+                    display: inline-block;width: 48%;border-right: 1px solid #eee;margin-top: 1rem;text-align: left;font-size: 0.6rem;color: #999;
+                    .Profit{
+                        display: block;width: 100%;color: #FFA303;font-size: 2rem;font-weight: 600;text-align: left;
                         b{font-size: 1rem;font-weight: normal;}
                     }
-                    .status{color: #FFA303;font-size: 0.8rem;padding:0 0.8rem;}
+                }
+                .right{
+                    display: inline-block;width: 48%;
+                    .day{
+                        font-size: 0.6rem;border-right: 1px solid #eee;padding: 0 0.8rem;
+                        b{font-size: 0.8rem;font-weight: normal;}
+                    }
+                    .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;}
                     .Quota{
-                        display: inline-block;width: 100%;font-size: 0.8rem;padding: 0 0.8rem;color: #999;
+                        display: inline-block;width: 100%;font-size: 0.6rem;padding: 0 0.8rem;color: #999;
                         b{font-weight: normal;color: #333;font-size: 0.9rem;}
                     }
                 }
             }
         }
     }
-    .note{text-align: center;padding: 1rem 5rem;font-size: 0.7rem;color: #999;}
+    .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
 }
 </style>

@@ -334,6 +334,7 @@ export default {
       border: 1px solid #e6e6e6;
   }
   .register_content_input{
+    font-size: 0.9rem;
       width:98%;
       height: 30px;
       padding: 5px 0 5px 10px;
@@ -344,6 +345,7 @@ export default {
   .verification{
       vertical-align: middle;
       margin-left: 10px;
+      font-size: 0.9rem!important;
   }
   .agreement{
       position: relative;
@@ -399,13 +401,13 @@ export default {
       display: block;
       width: 100%;
       height: 40px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       text-align: center;
       line-height: 40px;
       color: #fff;
       background-color: #2B9AFF;
       border-radius: 30px;
-      /*margin-top: 30px;*/
+      margin-top:1rem;
       cursor:pointer;
   }
   .bg-ed711f{
@@ -418,6 +420,7 @@ export default {
       margin-bottom: 15px;
   }
   .login_content1 input{
+      font-size:0.9rem;
       padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
@@ -501,7 +504,7 @@ export default {
   .weui-cells:after{border-bottom: 0!important;}
   .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
   .weui-btn:after{border: 0!important;}
-  .weui-input{border:0!important; font-size: 0.8rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
+  .weui-input{border:0!important; font-size: 0.9rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
   .weui-cell{padding: 10px 0!important;}
   .weui-cells{border-bottom: 1px solid #eee;}
   @media screen and (max-width: 320px) {
@@ -522,7 +525,7 @@ export default {
   }
   .list{
     padding: 1rem;
-    h5{font-weight: normal;}
+    h5{font-weight: normal;font-size: 1rem;}
     label{display: block;}
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;

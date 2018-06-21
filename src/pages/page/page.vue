@@ -100,6 +100,7 @@ export default {
 <style type="text/css">
 .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color: #2395FF!important;}
 .weui-tabbar__icon{width: 1rem !important;height: 1rem!important}
+.weui-tabbar{background: #fff!important;}
 </style>
 <style scoped lang="less">
 .page-view {
