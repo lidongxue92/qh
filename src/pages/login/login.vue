@@ -302,6 +302,7 @@ export default {
   }
   .yanzhengma_input{
     width: 60%;
+    font-size:0.9rem;
     padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
@@ -335,6 +336,7 @@ export default {
   .verification{
       vertical-align: middle;
       margin-left: 10px;
+      font-size:0.9rem!important;
   }
   .agreement{
       position: relative;
@@ -380,9 +382,8 @@ export default {
   }
   /*注册*/
   .login_content1{
-      width: 90%;
+      width: 100%;
       background-color: #fff;
-      padding: 0 5%;
       padding-bottom: 30px!important;
       position: relative!important;
   }
@@ -391,7 +392,7 @@ export default {
       display: block;
       width: 100%;
       height: 40px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       text-align: center;
       line-height: 40px;
       color: #fff;
@@ -409,6 +410,7 @@ export default {
       margin-bottom: 15px;
   }
   .login_content1 input{
+    font-size:0.9rem;
       padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
@@ -493,7 +495,7 @@ export default {
   .weui-cells:after{border-bottom: 0!important;}
   .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
   .weui-btn:after{border: 0!important;}
-  .weui-input{border: 0!important;font-size: 0.8rem!important;height: 42px!important;line-height:42px!important;padding-left: 5px;width: 90%!important}
+  .weui-input{border: 0!important;font-size: 0.9rem!important;height: 42px!important;line-height:42px!important;padding-left: 5px;width: 90%!important}
   .weui-cell{padding: 10px 0!important}
   .weui-cells{border-bottom: 1px solid #eee}
   @media screen and (max-width: 320px) {
@@ -519,9 +521,8 @@ export default {
         a{float: right;color: #FFA303;font-size: 0.8rem;margin-top: 5px;}
     }
     .list{
-        padding: 1rem;
         h5{font-weight: normal;}
-        label{display: block;position: relative;height: 42px;width: 100%;}
+        label{display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;}
         .Agreement{
           font-size: 0.8rem;margin-top: 20px;position: relative;
           input{position: relative;top: 2px;}

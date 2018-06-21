@@ -38,7 +38,7 @@
           </x-input>
         </group>
         <label style="margin-top: 10px;">
-          <input type="password" placeholder="请输入密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
+          <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
           <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
       <label>
@@ -325,6 +325,7 @@ export default {
       border: 1px solid #e6e6e6;
   }
   .register_content_input{
+    font-size:0.9rem;
       width:98%;
       height: 30px;
       padding: 5px 0 5px 10px;
@@ -380,17 +381,16 @@ export default {
   }
   /*注册*/
   .login_content1{
-      width: 90%;
+      width: 100%;
       background-color: #fff;
-      position: absolute;
-      padding: 0 5%;
+      margin-top: 2rem;
   }
   .login_content1 label{width: 100%;display: block;position: relative;}
   .user_login{
       display: block;
       width: 100%;
       height: 40px;
-      font-size: 1rem;
+      font-size:0.9rem;
       text-align: center;
       line-height: 40px;
       color: #fff;
@@ -398,17 +398,18 @@ export default {
       border-radius: 30px;
       /*margin-top: 30px;*/
       cursor:pointer;
+      margin-top: 1rem;
   }
   .bg-ed711f{
     background: #2773FF
   }
   .login_content1 p{
       margin-top: 30px;
-      font-size: 25px;
       line-height: 18px;
       margin-bottom: 15px;
   }
   .login_content1 input{
+      font-size: 0.9rem;
       padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
@@ -492,8 +493,9 @@ export default {
   .weui-cells:after{border-bottom: 0!important;}
   .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
   .weui-btn:after{border: 0!important;}
-  .weui-input{border:0!important; font-size: 0.8rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
+  .weui-input{border:0!important; font-size:0.9rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
   .weui-cell{padding: 10px 0!important;}
+  .weui-btn_mini{font-size: 0.9rem!important;}
   .weui-cells{border-bottom: 1px solid #eee;}
   @media screen and (max-width: 320px) {
     .register_content_input{width: 17rem}
@@ -503,17 +505,18 @@ export default {
 </style>
 <style scoped lang="less">
 .settlein{
+  padding: 1rem;
   .bg-img{
     text-align: center;
     h5{
-      text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;padding: 1rem;
+      text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;
       img{float: left;width: 1rem;height: 1rem;margin-top: 0;}
     }
     img{margin-top:2rem;width: 5rem;height: 5rem;}
   }
   .list{
     padding: 1rem;
-    h5{font-weight: normal;}
+    h5{font-weight: normal;font-size: 1rem;}
     label{display: block;}
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
