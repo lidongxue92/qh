@@ -107,6 +107,7 @@ export default {
     .weui-tabbar__item {
         background: #fff;        
         padding-top: .8rem /* 20/40 */;
+        padding-bottom: .3rem /* 10/40 */;
         .icon {
             width: 1rem;
             height: 1rem;

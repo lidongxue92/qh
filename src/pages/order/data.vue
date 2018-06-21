@@ -61,18 +61,19 @@ export default {
   width: 100%;
   height: 100%;
   background: #F6F6F6;
+  padding-bottom: 1.3rem;
 
   li{
     list-style: none;
     width: 92%;
-    margin: .5rem /* 20/40 */ auto;
+    margin: .6rem /* 25/40 */ auto;
     background: #fff;
     img{
       width: 100%;
     }
     p{
       color: #999;
-      font-size: .7rem /* 28/40 */;
+      font-size: .8rem /* 30/40 */;
       padding: .6rem /* 25/40 */;
       overflow: hidden;
       text-overflow: ellipsis;
