@@ -8,10 +8,11 @@ const Findpassword = r => require.ensure([], () => r(require('@/pages/login/find
 const Page = r => require.ensure([], () => r(require('@/pages/page/page')), 'page')
 const Home = r => require.ensure([], () => r(require('@/pages/home/home')), 'home')
 const Ceshi = r => require.ensure([], () => r(require('@/pages/detail/ceshi')), 'ceshi')
+const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
+const Category = r => require.ensure([], () => r(require('@/pages/category/category')), 'category')
+const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail')), 'detail')
 // const Theme = r => require.ensure([], () => r(require('@/pages/theme/theme')), 'theme')
-// const Category = r => require.ensure([], () => r(require('@/pages/category/category')), 'category')
 // const addGoods = r => require.ensure([], () => r(require('@/pages/category/addGoods')), 'addGoods')
-// const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail')), 'detail')
 // const Order = r => require.ensure([], () => r(require('@/pages/order/order')), 'order')
 // const OrderData = r => require.ensure([], () => r(require('@/pages/order/orderData')), 'orderData')
 // const Address = r => require.ensure([], () => r(require('@/pages/address/address')), 'address')
@@ -35,7 +36,7 @@ const Ceshi = r => require.ensure([], () => r(require('@/pages/detail/ceshi')), 
 // const storesuccess = r => require.ensure([], () => r(require('@/pages/stores/storesuccess')), 'storesuccess')
 // const Store_users = r => require.ensure([], () => r(require('@/pages/stores/store_users')), 'store_users')
 // const newData = r => require.ensure([], () => r(require('@/pages/order/newData')), 'newData')
-// const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
+
 
 
 Vue.use(Router)
@@ -69,6 +70,32 @@ const routes = [
                     title: '测试'
                 },
                 component: Ceshi
+            },
+            {
+                path: 'data',
+                name: 'data',
+                meta: {
+                    title: '发现'
+                },
+                component: data
+            },
+            {
+                path: 'category',
+                name: 'category',
+                meta: {
+                    title: '产品',
+                    // requireAuth: true
+                },
+                component: Category
+            },
+            {
+                path: 'detail',
+                name: 'detail',
+                meta: {
+                    title: '产品详情',
+                    // requireAuth: true
+                },
+                component: Detail
             }
             // {
             //     path: 'theme',
@@ -78,15 +105,7 @@ const routes = [
             //     },
             //     component: Theme
             // },
-            // {
-            //     path: 'category',
-            //     name: 'category',
-            //     meta: {
-            //         title: '店铺营销',
-            //         requireAuth: true
-            //     },
-            //     component: Category
-            // },
+
             // {
             //     path: 'addGoods',
             //     name: 'addGoods',
@@ -95,15 +114,6 @@ const routes = [
             //         requireAuth: true
             //     },
             //     component: addGoods
-            // },
-            // {
-            //     path: 'detail',
-            //     name: 'detail',
-            //     meta: {
-            //         title: '商品详情',
-            //         requireAuth: true
-            //     },
-            //     component: Detail
             // },
             // {
             //     path: 'dyinvite',
@@ -323,14 +333,6 @@ const routes = [
             //     },
             //     component: newData
             // },
-            // {
-            //     path: 'data',
-            //     name: 'data',
-            //     meta: {
-            //         title: '数据统计'
-            //     },
-            //     component: data
-            // }
         ]
     },
     {

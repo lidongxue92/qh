@@ -1,7 +1,11 @@
 <template>
   <div class="settlein">
     <div class="phone" v-if='isshow'>
-      <div class="bg-img"></div>
+      <div class="bg-img">
+        <h5><img src="~@/assets/img/icon_register_close@2x.png">
+        注册</h5>
+        <img src="~@/assets/img/logo@2x.png">
+      </div>
       <div class="login_content1 ">
         <label>
           <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
@@ -12,9 +16,11 @@
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login" @click="Login">下一步</a>
+        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
     <div class="list" v-if="isshow1">
+      <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;">注册</h5>
       <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
       <group>
         <x-input type="text"
@@ -39,7 +45,7 @@
           <input type="password" placeholder="请输入邀请码(选填)" class="register_content_input"><br>
       </label>
       <label class="Agreement"  v-for="item of items">
-        <input type="checkbox" v-model="item.state" v-on:click="alocked(item)" />&ensp;我已阅读并同意《启航金服平台注册服务协议》
+        <input type="checkbox" v-model="item.state" v-on:click="alocked(item)" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>
       <a class="user_login" @click="sub">提交注册</a>
@@ -76,8 +82,8 @@ export default {
       }
     },
     methods:{
-      goto_protocol(){
-        this.$router.push({path:"/protocol"})
+      login(){
+        this.$router.push({path:"/login"})
         
       },
       checkUserPhone(){
@@ -200,7 +206,7 @@ export default {
         timer() {
             if (this.time > 0) {
                 this.time--
-                this.btnText = this.time + 's后重新获取'
+                this.btnText = this.time + 's'
                 setTimeout(this.timer, 1000)
             } else {
                 this.time = 0
@@ -294,7 +300,7 @@ export default {
   }
   .tishixiaoxi{
       font-size: 0.7rem;
-      color:#ed711f;
+      color:#FFA303;
       display: block;
       line-height: 20px;
      
@@ -323,7 +329,8 @@ export default {
       height: 30px;
       padding: 5px 0 5px 10px;
       /*margin-top: 30px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .verification{
       vertical-align: middle;
@@ -387,13 +394,13 @@ export default {
       text-align: center;
       line-height: 40px;
       color: #fff;
-      background-color: #ddd;
-      border-radius: 5px;
+      background-color: #2B9AFF;
+      border-radius: 30px;
       /*margin-top: 30px;*/
       cursor:pointer;
   }
   .bg-ed711f{
-    background: #ed711f
+    background: #2773FF
   }
   .login_content1 p{
       margin-top: 30px;
@@ -405,7 +412,8 @@ export default {
       padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .verification1{
       vertical-align: middle;
@@ -482,8 +490,11 @@ export default {
   }
   .weui-cells:before{border-top: 0!important;}
   .weui-cells:after{border-bottom: 0!important;}
-  .weui-input{border: 1px solid #eeeeee!important;font-size: 0.8rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
-  .weui-cell{padding: 10px 0!important}
+  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
+  .weui-btn:after{border: 0!important;}
+  .weui-input{border:0!important; font-size: 0.8rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
+  .weui-cell{padding: 10px 0!important;}
+  .weui-cells{border-bottom: 1px solid #eee;}
   @media screen and (max-width: 320px) {
     .register_content_input{width: 17rem}
     .yanzhengma_input{width: 10rem;}
@@ -493,7 +504,12 @@ export default {
 <style scoped lang="less">
 .settlein{
   .bg-img{
-    min-height: 15rem;
+    text-align: center;
+    h5{
+      text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;padding: 1rem;
+      img{float: left;width: 1rem;height: 1rem;margin-top: 0;}
+    }
+    img{margin-top:2rem;width: 5rem;height: 5rem;}
   }
   .list{
     padding: 1rem;
@@ -502,9 +518,11 @@ export default {
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
       input{position: relative;top: 2px;}
+      b{font-weight: normal;}
       span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
     }
-    .user_login{margin-top: 30px;background: #ed711f}
+    .user_login{margin-top: 30px;background: #2B9AFF}
   }
+  .c-2395FF{color: #2395FF}
 }
 </style>

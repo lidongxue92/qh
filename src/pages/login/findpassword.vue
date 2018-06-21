@@ -1,7 +1,6 @@
 <template>
   <div class="settlein">
     <div class="phone" v-if='isshow'>
-      <div class="bg-img"></div>
       <div class="login_content1 ">
         <label>
           <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
@@ -12,9 +11,11 @@
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login" @click="Login">下一步</a>
+        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
     <div class="list" v-if="isshow1">
+      <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;"></h5>
       <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
       <group>
         <x-input type="text"
@@ -32,14 +33,18 @@
           </x-input>
         </group>
         <label style="margin-top: 10px;">
-          <input type="password" placeholder="请输入密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
+          <input type="password" placeholder="请输入新密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
+          <span class="tishixiaoxi disappear">请输入新密码。</span>
+      </label>
+      <label style="margin-top: 10px;">
+          <input type="password" placeholder="确认新密码" class="register_content_input" v-model="LUserPsd1" @blur="checkLPsd1"><br>
           <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
-      <label style="margin-top: 30px;">
-          <input type="password" placeholder="请确入密码" class="register_content_input" v-model="LUserPsd1" @blur="checkLPsd1"><br>
-          <span class="tishixiaoxi disappear">请确入密码。</span>
+      <label class="Agreement"  v-for="item of items">
+        <input type="checkbox" v-model="item.state" v-on:click="alocked(item)" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
+        <span v-if='!isshow2'>请同意注册协议</span>
       </label>
-      <a class="user_login" @click="sub">确定提交</a>
+      <a class="user_login" @click="sub">确认提交</a>
     </div>
   </div>
   
@@ -74,8 +79,8 @@ export default {
       }
     },
     methods:{
-      goto_protocol(){
-        this.$router.push({path:"/protocol"})
+      login(){
+        this.$router.push({path:"/login"})
         
       },
       checkUserPhone(){
@@ -198,7 +203,7 @@ export default {
         timer() {
             if (this.time > 0) {
                 this.time--
-                this.btnText = this.time + 's后重新获取'
+                this.btnText = this.time + 's'
                 setTimeout(this.timer, 1000)
             } else {
                 this.time = 0
@@ -219,17 +224,16 @@ export default {
               $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
           }
       },
-      // 确认密码
       checkLPsd1(){
           if(this.LUserPsd == ''){
-              $(".list span:eq(2)").text("请确认密码");
-              $(".list span:eq(2)").removeClass("disappear")
-          }else if(this.LUserPsd1 == this.LUserPsd){
-              $(".list span:eq(2)").addClass("disappear")
+              $(".list span:eq(1)").text("请输入密码");
+              $(".list span:eq(1)").removeClass("disappear")
+          }else if(this.LUserPsd == this.LUserPsd1){
+              $(".list span:eq(1)").addClass("disappear")
               return true;
           }else{
-              $(".list span:eq(2)").removeClass("disappear");
-              $(".list span:eq(2)").text("两次密码必须一致")
+              $(".list span:eq(1)").removeClass("disappear");
+              $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
           }
       },
       alocked: function (item) {
@@ -239,13 +243,8 @@ export default {
         console.log(_this.isshow2)
       },
       sub(){
-        if( this.checkLPsd() == true && this.checkLPsd1()){
-            const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-
-            },2000)
+        if( this.checkLPsd() == true && this.checkLPsd1() == true){
+            alert('1')
           }
       }
 
@@ -310,10 +309,10 @@ export default {
   }
   .tishixiaoxi{
       font-size: 0.7rem;
-      color:#ed711f;
+      color:#FFA303;
       display: block;
       line-height: 20px;
-     margin-top: 5px;
+     
   }
   .yanzhengma_input{
     width: 60%;
@@ -339,7 +338,8 @@ export default {
       height: 30px;
       padding: 5px 0 5px 10px;
       /*margin-top: 30px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .verification{
       vertical-align: middle;
@@ -389,9 +389,9 @@ export default {
   }
   /*注册*/
   .login_content1{
+    margin-top: 3rem;
       width: 90%;
       background-color: #fff;
-      position: absolute;
       padding: 0 5%;
   }
   .login_content1 label{width: 100%;display: block;position: relative;}
@@ -403,13 +403,13 @@ export default {
       text-align: center;
       line-height: 40px;
       color: #fff;
-      background-color: #ddd;
-      border-radius: 5px;
+      background-color: #2B9AFF;
+      border-radius: 30px;
       /*margin-top: 30px;*/
       cursor:pointer;
   }
   .bg-ed711f{
-    background: #ed711f
+    background: #2773FF
   }
   .login_content1 p{
       margin-top: 30px;
@@ -421,7 +421,8 @@ export default {
       padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .verification1{
       vertical-align: middle;
@@ -498,8 +499,11 @@ export default {
   }
   .weui-cells:before{border-top: 0!important;}
   .weui-cells:after{border-bottom: 0!important;}
-  .weui-input{border: 1px solid #eeeeee!important;font-size: 0.8rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
-  .weui-cell{padding: 10px 0!important}
+  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
+  .weui-btn:after{border: 0!important;}
+  .weui-input{border:0!important; font-size: 0.8rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
+  .weui-cell{padding: 10px 0!important;}
+  .weui-cells{border-bottom: 1px solid #eee;}
   @media screen and (max-width: 320px) {
     .register_content_input{width: 17rem}
     .yanzhengma_input{width: 10rem;}
@@ -509,18 +513,25 @@ export default {
 <style scoped lang="less">
 .settlein{
   .bg-img{
-    min-height: 15rem;
+    text-align: center;
+    h5{
+      text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;padding: 1rem;
+      img{float: left;width: 1rem;height: 1rem;margin-top: 0;}
+    }
+    img{margin-top:2rem;width: 5rem;height: 5rem;}
   }
   .list{
     padding: 1rem;
     h5{font-weight: normal;}
-    label{display: block;height: 42px;}
+    label{display: block;}
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
       input{position: relative;top: 2px;}
+      b{font-weight: normal;}
       span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
     }
-    .user_login{margin-top: 30px;background: #ed711f}
+    .user_login{margin-top: 30px;background: #2B9AFF}
   }
+  .c-2395FF{color: #2395FF}
 }
 </style>

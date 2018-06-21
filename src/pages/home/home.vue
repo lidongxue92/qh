@@ -3,63 +3,55 @@
         <!-- 临时新建进入商品详情的入口-->
         <div class="index_banner" >
             <swiper :list="demo02_list" style="width:85%;margin:0 auto;" :aspect-ratio="300/800" dots-position="center"></swiper>
+            <!-- 新手 -->
             <div class="set" v-if="isshow">
-                <a href="javascript:" @click="settlein()">注册</a>
+                <div class="left">
+                    <p><span class="res">注册领取</span><span class="new">新手礼包</span></p>
+                    <p><span class="c-FF6332">1588</span>元投资红包+<span class="c-48BBFF">2.88%</span>加息券</p>
+                    <a href="javascript:" class="button" @click="settlein">立即注册</a>
+                </div>
+                <div class="right">
+                    <img src="~@/assets/img/resimg.png">
+                </div>
             </div>
+            <!-- 非新手 -->
             <div class="list" v-if="isshow1">
                 <p>公告</p>
                 <ul>
-                    <li><img src=""></li>
-                    <li><img src=""></li>
-                    <li><img src=""></li>
+                    <li>
+                        <img src="~@/assets/img/icon_you@2x.png">
+                        <p>邀请好友</p>
+                    </li>
+                    <li>
+                        <img src="~@/assets/img/icon_huo@2x.png">
+                        <p>xx活动</p>
+                    </li>
+                    <li>
+                        <img src="~@/assets/img/icon_banz@2x.png">
+                        <p>帮助中心</p>
+                    </li>
                 </ul>
             </div>
         </div>
+        <!-- 理财列表 -->
        <div class="middle">
-           <h5>精品推荐</h5>
-           <div>
-               <table>
-                   <tr>
-                       <td>新手产品</td>
-                       <td></td>
-                       <td>热卖</td>
-                   </tr>
-                   <tr>
-                       <td class="first">
-                            <p>12%</p>
-                            <p>预计年化收益率</p>
-                        </td>
-                       <td>
-                            <p>15天</p>
-                            <p>理财期限</p>
-                        </td>
-                       <td>
-                            <p>11000</p>
-                            <p>剩余额度</p>
-                       </td>
-                   </tr>
-                    <tr>
-                       <td>火爆产品</td>
-                       <td></td>
-                       <td></td>
-                   </tr>
-                   <tr>
-                       <td class="first">
-                            <p>10%+0.5%</p>
-                            <p>预计年化收益率</p>
-                        </td>
-                       <td>
-                            <p>30天</p>
-                            <p>理财期限</p>
-                        </td>
-                       <td>
-                            <p>3000</p>
-                            <p>剩余额度</p>
-                       </td>
-                   </tr>
-               </table>
-           </div>
+           <ul class="productlist">
+                <li v-for="(item,index) in datalist">
+                    <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                    <div>
+                        <p class="left">
+                            <span class="Profit">{{item.Profit}}</span>
+                            <span>历史年化收益率</span>
+                        </p>
+                        <p class="right">
+                            <span class="day"><b>{{item.Day}}</b> 个月</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.Quota}}</b></span>
+                        </p>
+                    </div>
+                </li>
+           </ul>
        </div>
+       <p class="note">预期收益不代表对投资人实际收益的承诺 理财有风险，投资需谨慎 </p>
     </div>
 </template>
 
@@ -90,7 +82,10 @@ export default {
             imgList: [],
             themeList: [],
             recentList: [],
-            datalist:[],
+            datalist:[
+                {Title:'热卖产品',Data:'新手福利高预期收益',Label:'热卖',Profit:'12%',Day:'3',Quota:'1000',img:'../../assets/img/icon_biao1@2x.png'},
+                {Title:'火爆产品',Data:'热销火爆 高收益',Label:'',Profit:'10%+0.5%',Day:'2',Quota:'3000',img:'../../assets/img/icon_biao1@2x.png'}
+            ],
             demo02_list: baseList,
             num:'',
             isshow:true,
@@ -148,37 +143,63 @@ export default {
 </style>
 <style scoped lang="less">
 .home {
-    background: #fff;padding-bottom:10px;padding: 1rem;color: #333;
+    background: #f7f7f7;padding-bottom:10px;color: #333;
     .index_banner{
-        width:100%;position: relative;background: #ffffff;
+        width:100%;position: relative;
         .set{
-            position: absolute;top: 40%;width: 80%;min-height: 100px;left: 10%;border: 1px solid #eeeeee;
-            a{display: inline-block;width: 40%;height: 30px;background:#eeeeee;color: #999999;text-align: center;line-height: 30px;border-radius: 5px;position: relative;left: 30%;top:60px;}
+            position: relative;bottom: 20px;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;height: 150px;
+            .left{
+                display: inline-block;width:58%;font-size: 0.8rem;padding: 0 1rem;
+                .res{font-size: 1rem;font-weight: 700;color: #333;}
+                .new{font-size: 1rem;font-weight: 700;color: #FFA303;}
+                .c-FF6332{color: #FF6332}
+                .c-48BBFF{color: #48BBFF}
+                .button{display: inline-block;width: 70%;line-height: 30px;color: #fff;height: 30px;font-size: 1rem;background: #2395FF;text-align: center;border-radius: 30px;margin-top: 10px;}
+            }
+            .right{
+                display: inline-block;width: 30%;
+                img{width: 100%;margin-top: 2rem;}
+            }
         }
         .list{
-            p{font-size: 0.8rem;}
+            background: #fff;
+            p{font-size: 0.8rem;padding: 0.5rem 1rem;}
             ul{
                 li{
-                    list-style: none;display:inline-block;width: 31%;border: 1px solid #eee;text-align: center;min-height: 60px;
-                    img{width: 100%;}
+                    list-style: none;display:inline-block;width: 31%;text-align: center;
+                    img{width:40%;}
                 }
             }
         }
     }
     .middle{
-        margin-top: 30px;
-        h5{font-size: 0.9rem;padding-left: 10%;font-weight: normal;}
-        div{
-            border: 1px solid #eeeeee;padding: 5%;margin-top: 10px;
-            table{
-                border: 1px solid #eee;border-collapse: collapse;width:100%;
-                td{
-                    border: 1px solid #eee;font-size: 0.8rem;padding: 1rem 0.5rem;width: 28%;text-align: center;
-                    p{text-align: center;}
+        .productlist{
+            li{
+                background: #fff;margin-top: 10px;padding:1rem;
+                h5{
+                    border-bottom: 1px solid #eee;font-weight: normal;font-size: 1rem;
+                    span{color: #999;margin-left: 10px;font-size: 0.7rem;}
+                    img{float: right;}
                 }
-                .first{width: 42%;}
+                .left{
+                    display: inline-block;width: 49%;border-right: 1px solid #eee;margin-top: 1rem;text-align: center;font-size: 0.8rem;
+                    .Profit{display: block;width: 100%;color: #FFA303;font-size: 1.5rem;font-weight: 600;text-align: center;}
+                }
+                .right{
+                    display: inline-block;width: 49%;
+                    .day{
+                        font-size: 0.8rem;border-right: 1px solid #eee;padding: 0 0.8rem;
+                        b{font-size: 1rem;font-weight: normal;}
+                    }
+                    .status{color: #FFA303;font-size: 0.8rem;padding:0 0.8rem;}
+                    .Quota{
+                        display: inline-block;width: 100%;font-size: 0.8rem;padding: 0 0.8rem;color: #999;
+                        b{font-weight: normal;color: #333;font-size: 0.9rem;}
+                    }
+                }
             }
         }
     }
+    .note{text-align: center;padding: 1rem 5rem;font-size: 0.7rem;color: #999;}
 }
 </style>

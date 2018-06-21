@@ -31,7 +31,7 @@
                              :selected="$route.path === '/page/about'">
                     <span class="icon icon-user"
                           slot="icon"></span>
-                    <span slot="label">我的</span>
+                    <span slot="label">资产</span>
                 </tabbar-item>
             </tabbar>
         </view-box>
@@ -98,15 +98,16 @@ export default {
 }
 </script>
 <style type="text/css">
-.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color: #f54321!important;}
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color: #2395FF!important;}
+.weui-tabbar__icon{width: 1rem !important;height: 1rem!important}
 </style>
 <style scoped lang="less">
 .page-view {
     height: 100%;
     .weui-tabbar__item {
         .icon {
-            width: 27px;
-            height: 27px;
+            width: 1rem;
+            height: 1rem;
             display: inline-block;
             background-size: 100% 100%;
             background-repeat: no-repeat;

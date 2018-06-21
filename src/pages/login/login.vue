@@ -1,6 +1,8 @@
 <template>
   <div class="settlein">
-        <div class="bg-img"></div>
+        <div class="bg-img">
+          <img src="~@/assets/img/logo@2x.png">
+        </div>
         <div class="middle">
             <ul>
                 <li class="password active" @click="tab">密码登录</li>
@@ -12,10 +14,10 @@
                     <span class="tishixiaoxi disappear">请输入手机号。</span>
                 </label>
                 <label>
-                    <input type="password" placeholder="请输入密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
+                    <input type="password" placeholder="请输登录入密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
                     <span class="tishixiaoxi disappear">请输入密码。</span>
                 </label>
-                <a href="javascript:" @click="findpassword">密码找回</a>
+                <a href="javascript:" @click="findpassword">忘记密码?</a>
             </div>
             <div class="list" v-if="isshow1">
               <label>
@@ -43,8 +45,8 @@
                 </group>
             </div>
         </div>
-        <a class="user_login" @click="Login">登录</a>
-        <a class="user_login" @click="settlein">注册</a>
+        <a class="user_login" @click="Login" style="background: #2B9AFF">登录</a>
+        <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
   </div>
 </template>
 <script>
@@ -291,7 +293,7 @@ export default {
   }
   .tishixiaoxi{
     font-size: 0.7rem;
-    color:#ed711f;
+    color:#FFA303;
     display: block;
     line-height: 20px;
     margin-top: 5px;
@@ -303,7 +305,8 @@ export default {
     padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .disappear{
        visibility:hidden;
@@ -326,7 +329,8 @@ export default {
       height: 30px;
       padding: 5px 0 5px 10px;
       /*margin-top: 30px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .verification{
       vertical-align: middle;
@@ -391,8 +395,7 @@ export default {
       text-align: center;
       line-height: 40px;
       color: #fff;
-      background-color: #ed711f!important;
-      border-radius: 5px;
+      border-radius: 30px;
       margin-top: 20px;
       cursor:pointer;
   }
@@ -409,7 +412,8 @@ export default {
       padding: 5px 0 5px 10px;
       height: 30px;
       /*margin-top: 25px;*/
-      border: 1px solid #e6e6e6;
+      border: 0;
+      border-bottom: 1px solid #e6e6e6;
   }
   .verification1{
       vertical-align: middle;
@@ -487,8 +491,11 @@ export default {
   }
   .weui-cells:before{border-top: 0!important;}
   .weui-cells:after{border-bottom: 0!important;}
-  .weui-input{border: 1px solid #eeeeee!important;font-size: 0.8rem!important;height: 42px!important;line-height:42px!important;padding-left: 5px;width: 90%!important}
+  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
+  .weui-btn:after{border: 0!important;}
+  .weui-input{border: 0!important;font-size: 0.8rem!important;height: 42px!important;line-height:42px!important;padding-left: 5px;width: 90%!important}
   .weui-cell{padding: 10px 0!important}
+  .weui-cells{border-bottom: 1px solid #eee}
   @media screen and (max-width: 320px) {
     .register_content_input{width:96%}
     .yanzhengma_input{width: 10rem;}
@@ -496,19 +503,20 @@ export default {
 </style>
 <style scoped lang="less">
 .settlein{
+    color: #333;
     padding: 1rem;
   .bg-img{
-    min-height: 10rem;
-    padding-bottom: 20px;
+    text-align: center;
+    img{width: 5rem;height: 5rem;margin-top: 2rem;}
   }
   .middle{
-    border: 1px solid #eeeeee;
+    margin-top: 2rem;
     ul{
-        li{list-style: none;display: inline-block;width: 49.1%;line-height: 40px;text-align: center;border-bottom: 1px solid #eeeeee;font-size: 0.8rem;}
-        .active{background:#ed711f;color: #fff; }
+        li{list-style: none;display: inline-block;width: 49.1%;line-height: 40px;text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
+        .active{border-bottom: 1px solid #2395FF;color: #2395FF}
     }
     .login_content1{
-        a{float: right;color: #ed711f;font-size: 0.8rem;margin-top: 5px;}
+        a{float: right;color: #FFA303;font-size: 0.8rem;margin-top: 5px;}
     }
     .list{
         padding: 1rem;
