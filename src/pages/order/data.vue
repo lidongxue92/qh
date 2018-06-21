@@ -1,53 +1,51 @@
 <template>
-	<div class="commodityData">
-		<img src="">
-		<p>暂未开放 敬请期待~</p>
-	</div>
+<div class="container">
+    <topComponent title='发现' :showLeft='false'></topComponent>
+      <ul>
+        <li >
+          <a :href="'http://test.qihangjf.com:29084/zhuCeSongLi.html?token=' + token">
+            <img src="../../../static/img/tt4633.png" alt="" srcset="">
+            <p>注册送礼</p>
+         </a>
+        </li>
+         <li >
+           <a :href="'http://test.qihangjf.com:29084/TenHaoLi.html?token=' + token">
+            <img src="../../../static/img/tt46333.png" alt="" srcset="">
+            <p>十大豪礼</p>
+           </a>
+        </li>
+         <li >
+           <a :href="'http://test.qihangjf.com:29084/fengKong.html?token=' + token">
+            <img src="../../../static/img/tt4642.png" alt="" srcset="">
+            <p>风控</p>
+         </a>
+        </li>
+        <li>
+          <a :href="'http://test.qihangjf.com:29084/yaoQing.html?token=' + token">
+            <img src="../../../static/img/tt463.png">
+            <p>邀请好友</p>
+          </a>
+        </li>
+      </ul>
+  </div>
 </template>
 <script>
-import storeNewdata from '../../components/store-new-user-data'
-import staffNewdtata from '../../components/staff-invite-new-data'
-import visitsalesNewdata from '../../components/visit-sales-this-week'
-import weeksalescomparisonNewdata from '../../components/this-week-sales-comparison'
-import sdayordersdata from '../../components/sdayorders'
-import sdaystradingdata from '../../components/sdaystrading'
+import topComponent from '../../components/common/top';
+
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
 export default {
-  name:'commodityData',
+  name:'find',
   components: {
-  	//店铺新增用户数据
-  	storeNewdata,
-  	// 员工邀新业绩排行
-  	staffNewdtata,
-  	//本周访问量销售量
-  	visitsalesNewdata,
-  	// 本周销量对比图
-  	weeksalescomparisonNewdata,
-  	//7日订单量
-  	sdayordersdata,
-  	// 7日交易量
-  	sdaystradingdata
+    topComponent,
+    ButtonTabItem,
   },
   data() {
     return {
-    	is_show1: true,
+    	
     };
   },
   methods:{
-  	// 营销商品数据
-  	commodityData(){
-        this.$router.push({ path: '/page/commodityData' })
-    },
-    salesVolume1:function(){
-        const _this = this;
-        this.is_show1=true
-        this.is_show2=false
-        _this.$loading.show();//显示
-	    setTimeout(function(){  //模拟请求
-	          _this.$loading.hide(); //隐藏
-	           _this.isshow=false
-	    },2000);
-	}
+
   },
 
   mounted(){
@@ -55,10 +53,25 @@ export default {
 }
 </script>
 <style scoped lang="less">
+*{
+  padding: 0;
+  margin: 0;
+}
+.container {
+  width: 100%;
+  height: 100%;
+  background: #F6F6F6;
 
-.commodityData{
-	background-color:#fff;
-	img{width: 100%;min-height: 300px;}
-	p{font-size: 1rem;text-align: center;}
+  ul{
+    margin-top: .5rem /* 20/40 */;
+  }
+  li{
+    width: 95%;
+    margin: 0 auto;
+    background: #fff;
+    img{
+      width: 100%;
+    }
+  }
 }
 </style>

@@ -36,7 +36,7 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in datalist">
+                <li v-for="(item,index) in datalist" :key="index">
                     <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
                     <div>
                         <p class="left">

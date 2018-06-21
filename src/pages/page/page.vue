@@ -100,11 +100,15 @@ export default {
 <style type="text/css">
 .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color: #2395FF!important;}
 .weui-tabbar__icon{width: 1rem !important;height: 1rem!important}
+.weui-tabbar__item{
+    padding: .4rem /* 15/40 */ 0 !important;
+}
 </style>
 <style scoped lang="less">
 .page-view {
     height: 100%;
     .weui-tabbar__item {
+        background: #fff;        
         .icon {
             width: 1rem;
             height: 1rem;
