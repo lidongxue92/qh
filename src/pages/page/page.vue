@@ -106,6 +106,7 @@ export default {
     height: 100%;
     .weui-tabbar__item {
         background: #fff;        
+        padding-top: .8rem /* 20/40 */;
         .icon {
             width: 1rem;
             height: 1rem;
@@ -144,9 +145,9 @@ export default {
     }
 }
 /*针对iPhone X底部footer做适配*/
-@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-    .weui-tabbar{
-        padding-bottom:34px;
-    }
-}
+// @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+//     .weui-tabbar{
+//         padding-bottom:34px;
+//     }
+// }
 </style>

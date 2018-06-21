@@ -62,15 +62,21 @@ export default {
   height: 100%;
   background: #F6F6F6;
 
-  ul{
-    margin-top: .5rem /* 20/40 */;
-  }
   li{
-    width: 95%;
-    margin: 0 auto;
+    list-style: none;
+    width: 92%;
+    margin: .5rem /* 20/40 */ auto;
     background: #fff;
     img{
       width: 100%;
+    }
+    p{
+      color: #999;
+      font-size: .7rem /* 28/40 */;
+      padding: .6rem /* 25/40 */;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

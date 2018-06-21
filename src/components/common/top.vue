@@ -31,10 +31,23 @@
 <style lang="less" scoped>
 .top{
   width: 100%;
-  height: 2.2rem;
+  height: 2.8rem;
+  line-height: 2.8rem;
   text-align: center;
-  background: #000;
-  color: #fff
+  color: #fff;
+/*渐变*/
+    background: #2B9AFF;
+    background: -moz-linear-gradient(left, #2B9AFF 0%, #2773FF 100%);
+    background: -webkit-gradient(linear, left, color-stop(0%, #2B9AFF), color-stop(100%, #2773FF));
+    background: -webkit-linear-gradient(left, #2B9AFF 0%, #2773FF 100%);
+    background: -o-linear-gradient(left, #2B9AFF 0%, #2773FF 100%);
+    background: -ms-linear-gradient(left, #2B9AFF 0%, #2773FF 100%);
+    background: linear-gradient(to right, #2B9AFF 0%, #2773FF 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2B9AFF', endColorstr='#2773FF', GradientType=0);
+
+  h1{
+    font-size: 1rem;
+  }
 }
 </style>
 
