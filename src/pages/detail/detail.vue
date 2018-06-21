@@ -1,16 +1,13 @@
 <template>
     <div class="detail page">
-        <h5>产品名称</h5>
         <div class="product">
+         <h5>产品名称</h5>
             <div class="left">
-                <p>10%+5%</p>
+                <p>10%</p>
                 <span>预计年化收益率</span>
             </div>
             <div class="right">
                 <p>理财期限</p>
-                <p>可转让</p>
-                <p>募集期</p>
-                <p>起投金额</p>
                 <p>开发额度</p>
                 <p>剩余额度</p>
             </div>
@@ -42,7 +39,7 @@ export default {
     },
     created() {},
     activated() {
-        this.getALLProducts()
+        // this.getALLProducts()
     },
     methods: {
         linkToCart() {
@@ -75,18 +72,17 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    padding: 0.5rem;
-    h5{text-align: center;font-size: 1rem;line-height: 30px;border-bottom: 1px solid #eee;font-weight: normal;}
     .product{
-        border: 1px solid #eee;padding: 1rem 0;height: 190px;
+        background: #2B9AFF;color: #fefefe;
+        h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}
         .left{
-            display: inline-block;width: 55%;text-align: center;position: relative;top:-60px;
-            p{font-size: 1.1rem;color: #ed711f;vertical-align: middle;text-align: center;font-weight: 600;}
-            span{text-align: center;font-size: 0.8rem;}
+            display: inline-block;width: 55%;text-align: center;position: relative;
+            p{font-size: 3rem;color: #fff;vertical-align: middle;text-align: center;}
+            span{text-align: center;font-size: 0.5rem;}
         }
         .right{
             display: inline-block;width: 39%;
-            p{line-height: 30px;font-size: 0.9rem;}
+            p{line-height: 1.1rem;font-size: 0.6rem;color: #fff;}
         }
     }
 }
