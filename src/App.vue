@@ -44,7 +44,7 @@ body {
 }
 #app {
     height: 100%;
-    max-width:640px;
+    // max-width:640px;
 }
 .vux-slider .vux-icon-dot {
     width: 8px !important;

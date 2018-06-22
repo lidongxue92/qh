@@ -27,8 +27,8 @@
                           slot="icon"></span>
                     <span slot="label">发现</span>
                 </tabbar-item>
-                <tabbar-item link="/page/about"
-                             :selected="$route.path === '/page/about'">
+                <tabbar-item link="/page/asset"
+                             :selected="$route.path === '/page/asset'">
                     <span class="icon icon-user"
                           slot="icon"></span>
                     <span slot="label">资产</span>
@@ -77,10 +77,10 @@ export default {
             return false
         },
         isPaddingBottom() {
-            // if (/detail|theme|order|address|about/.test(this.$route.path)) {
-            //     return '0'
-            // }
-            // return '53px'
+        //     if (/platform/.test(this.$route.path)) {
+        //         return true
+        //     }
+        //     return false
         }
     },
     methods: {
@@ -100,12 +100,14 @@ export default {
 <style type="text/css">
 .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{color: #2395FF!important;}
 .weui-tabbar__icon{width: 1rem !important;height: 1rem!important}
-.weui-tabbar{background: #fff!important;}
 </style>
 <style scoped lang="less">
 .page-view {
     height: 100%;
     .weui-tabbar__item {
+        background: #fff;        
+        padding-top: .8rem /* 20/40 */;
+        padding-bottom: .3rem /* 10/40 */;
         .icon {
             width: 1rem;
             height: 1rem;
@@ -144,9 +146,9 @@ export default {
     }
 }
 /*针对iPhone X底部footer做适配*/
-@media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
-    .weui-tabbar{
-        padding-bottom:34px;
-    }
-}
+// @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+//     .weui-tabbar{
+//         padding-bottom:34px;
+//     }
+// }
 </style>
