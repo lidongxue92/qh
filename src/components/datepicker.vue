@@ -41,7 +41,7 @@ export default {
 
 <style scoped lang="less">
 .datepicker {
-    background:#fffffffff;
+    background:#fff;
     height:40px;
     padding:13px 5%;
     display:flex;
