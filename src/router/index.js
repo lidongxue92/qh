@@ -17,8 +17,9 @@ const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail'))
 const Asset = r => require.ensure([], () => r(require('@/pages/asset/asset')), 'asset')
 const Platform = r => require.ensure([], () => r(require('@/pages/asset/platform')), 'platform')
 const BillingDetails = r => require.ensure([], () => r(require('@/pages/asset/billingDetails')), 'billingDetails')
+const Recharge = r => require.ensure([], () => r(require('@/pages/asset/recharge')), 'recharge')
+const Withdraw = r => require.ensure([], () => r(require('@/pages/asset/withdraw')), 'withdraw')
 
-// billingDetail
 
 // const Theme = r => require.ensure([], () => r(require('@/pages/theme/theme')), 'theme')
 // const addGoods = r => require.ensure([], () => r(require('@/pages/category/addGoods')), 'addGoods')
@@ -211,6 +212,22 @@ const routes = [
                     title: '账单明细'
                 },
                 component: BillingDetails,
+                // requireAuth: true
+            }, {
+                path: 'recharge',
+                name: 'recharge',
+                meta: {
+                    title: '充值'
+                },
+                component: Recharge,
+                // requireAuth: true
+            }, {
+                path: 'withdraw',
+                name: 'withdraw',
+                meta: {
+                    title: '提现'
+                },
+                component: Withdraw,
                 // requireAuth: true
             }
             // {

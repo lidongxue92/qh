@@ -31,11 +31,63 @@
 
     <!-- 充值提现 -->
     <div class="recharge">
-      <div><p>充值</p></div>
-      <div><p class="withdraw">提现</p></div>
+      <div @click="linkToRecharge"><p>充值</p></div>
+      <div @click="linkToWithdraw"><p class="withdraw">提现</p></div>
     </div>
     <!-- 充值提现 -->
     <div class="grayLine"></div>
+
+    <!-- 主要内容 -->
+    <div class="assetMain">
+      <div class="assetMainLeft">
+        <div id="charts">
+          <div id="main" :style="{width:'100%',height:'14rem'}"></div>
+        </div>
+      </div>
+      <div class="assetMainRight">
+        <div class="moneyName1">
+          <div>
+            <b></b>
+            <span>待收本金</span>
+            <p>1000.00</p>
+          </div>
+          <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
+        </div>
+
+        <div class="moneyName2">
+          <div>
+            <b></b>
+            <span>待收收益</span>
+            <p>1000.00</p>
+          </div>
+        </div>
+
+        <div class="moneyName3">
+          <div>
+            <b></b>
+            <span>转让金额</span>
+            <p>1000.00</p>
+          </div>
+          <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
+        </div>
+
+        <div class="moneyName4">
+          <div>
+            <b></b>
+            <span>账户余额</span>
+            <p>1000.00</p>
+          </div>
+        </div>
+
+        <div class="moneyName5">
+          <div>
+            <b></b>
+            <span>冻结金额</span>
+            <p>1000.00</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
@@ -43,6 +95,7 @@
 </template>
 
 <script>
+var echarts = require('echarts');
 import axios from 'axios';
 export default {
   name: 'asset',
@@ -61,13 +114,82 @@ export default {
     },
     linkToBiling(){
       this.$router.push({path:'/page/billingDetails'})
-    }
+    },
+    linkToRecharge(){
+      this.$router.push({path:'/page/recharge'})
+    },
+    linkToWithdraw(){
+      this.$router.push({path:'/page/withdraw'})
+    },
+
+  },
+
+  mounted() {
+    /*ECharts图表*/
+    var myChart = echarts.init(document.getElementById('main'));
+    myChart.setOption({
+            title: {//标题组件
+                text: '18000.00',
+                subtext: '总资产(元)',
+                left: 'center',
+                show:true,
+                top:"40%",
+                textStyle: {    
+                  color: "#333",    
+                  fontSize: 16,   
+                  align:'center',
+                },
+                subtextStyle:{
+                  color: "#666",    
+                  fontSize: 12,   
+                  align:'center',
+                }
+            },
+            tooltip : { //提示框组件
+              show:false,
+            },
+            color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+            series : [ //系列列表
+                {
+                    // name:'设备状态',  //系列名称
+                    type:'pie',   //类型 pie表示饼图
+                    radius : ['56%', '70%'],  //饼图的半径,第一项是内半径,第二项是外半径,内半径为0就是真的饼,不是环形
+                    hoverAnimation:false,
+                    legendHoverLink:false,
+                    itemStyle : {  //图形样式
+                        normal : { //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
+                            label : {  //饼图图形上的文本标签
+                                show : false  //平常不显示
+                            },
+                            labelLine : {     //标签的视觉引导线样式
+                                show : false  //平常不显示
+                            }
+                        },
+                        emphasis : {   //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
+                            label : {  //饼图图形上的文本标签
+                                show : false,
+                            }
+                        }
+                    },
+                    data:[
+                        {value:80, name:'待收本金'},
+                        {value:10, name:'待收收益'},
+                        {value:30, name:'转让金额'},
+                        {value:20, name:'账户余额'},
+                        {value:25, name:'冻结金额'}
+                    ]
+                }
+            ]
+    })
   }
 
 }
 </script>
 
 <style scoped lang="less">
+h1,h2,h3,h4,h5,h6{
+  font-weight: normal;
+}
 /*资产头部*/
   .assetTop{
     width: 100%;
@@ -96,6 +218,7 @@ export default {
         font-size: 1rem /* 40/40 */;
         color: #fff;
         text-align: center;
+        font-weight: normal;
       }
       .message{
         float: right;
@@ -177,14 +300,15 @@ export default {
     div{
       width: 50%;
       p{
-        width: 70%;
+        width: 80%;
         text-align: center;
         margin: .5rem auto;
         border: 1px solid #2395FF;
         color: #2395FF;
         border-radius: 2.5rem /* 100/40 */;
-        padding-top: .8rem;
-        padding-bottom: .8rem;
+        padding-top: .7rem;
+        padding-bottom: .7rem;
+        font-size: 1rem;
       }
     }
     
@@ -209,4 +333,71 @@ export default {
   height: 10px;
   background: #F6F6F6;
 }
+/*主要内容*/
+  .assetMain{
+    display: flex;
+    flex: 1;
+    .assetMainLeft{
+      width: 50%;
+    }
+    #charts{
+      width: 100%;
+      margin-top: 2rem /* 100/40 */;
+    }
+    .assetMainRight{
+      width: 50%;
+      b{
+        display: inline-block;
+        width: .4rem /* 15/40 */;
+        height: .4rem /* 15/40 */;
+        background: #41A8FF;
+      }
+      .moneyName2 b{
+        background: #86C8FF;
+      }
+      .moneyName3 b{
+        background:#FF8B13;
+      }
+      .moneyName4 b{
+        background: #FFB971;
+      }
+      .moneyName5 b{
+        background: #FF8A77;
+      }
+      .moneyName1,.moneyName2,.moneyName3,.moneyName4,.moneyName5{
+        width: 100%;
+        margin-bottom: .5rem /* 20/40 */;
+        overflow: hidden;
+        div{
+          float: left;
+        }
+        span{
+          color: #999;
+          font-size: .8rem ;
+        }
+        p{
+          font-size: 1rem;
+          text-indent: .8em;
+        }
+      }
+
+
+      
+
+      .nameImg1{
+        margin-left: 30%;
+        margin-top: 10%;
+        width: .5rem /* 20/40 */;
+        img{
+          width: 100%;
+        }
+      }
+
+
+
+
+    }
+  }
+
+/*主要内容*/
 </style>
