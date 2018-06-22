@@ -17,21 +17,43 @@
                 <span class="right1">起投金额&emsp;<b>100元</b></span>
             </p>
         </div>
-        <!-- 购买金额 -->
-        <div class="Amount">
-            <h5>购买金额</h5>
-            <p>
-                <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                <input class="money" v-model="money"/>元
-                <img class="rightimg" src="~@/assets/img/add.png" @click="add">
-            </p>
-            <p class="word">
-                <span class="fl">红包卡券</span><span class="fr">0个可用&emsp;<img src="~@/assets/img/right.png"></span>
-            </p>
-            <p class="word">
-            <span class="fl">预期收益</span><span class="fr c-FFA303"><b>20</b>&ensp;元</span>
-            </p>
+        <div class="middle">
+            <!-- 购买金额 -->
+            <div class="Amount">
+                <h5>购买金额</h5>
+                <p>
+                    <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
+                    <input class="money" v-model="money"/>元
+                    <img class="rightimg" src="~@/assets/img/add.png" @click="add">
+                </p>
+                <p class="word">
+                    <span class="fl">红包卡券</span><span class="fr">0个可用&emsp;<img src="~@/assets/img/right.png"></span>
+                </p>
+                <p class="word">
+                    <span class="fl">预期收益</span><span class="fr c-FFA303"><b>20</b>&ensp;元</span>
+                </p>
+                <p class="bottomimg">
+                    <span class="fl">
+                        起息日
+                        <b>2018-04-12</b>
+                    </span>
+                    <span>
+                        到期日
+                        <b>2018-04-12</b>
+                    </span>
+                    <span class="fr">
+                        到帐日
+                        <b>2018-04-12</b>
+                    </span>
+                </p>
+            </div>
+            <!-- 项目介绍 -->
+            <ul class="list">
+                <li @click="linkTodetail1">项目介绍 <img src="~@/assets/img/right.png"></li>
+                <li>投资记录 <img src="~@/assets/img/right.png"></li>
+            </ul>
         </div>
+        <button class="button">立即投资</button>
     </div>
 </template>
 
@@ -60,8 +82,8 @@ export default {
         // this.getALLProducts()
     },
     methods: {
-        linkToCart() {
-            this.$router.push({ path: '/page/cart' })
+        linkTodetail1() {
+            this.$router.push({ path: '/page/detailProduct' })
         },
         add(){
             const _this = this
@@ -143,25 +165,46 @@ export default {
             }
         }
     }
-    .Amount{
-        margin-top: 0.5rem;background: #fff;border-radius: 3px;width: 94%;margin-left: 3%;padding: 0.5rem;color: #333;
-        h5{font-size: 0.8rem;font-weight: normal;}
-        p{
-            padding:1rem;text-align: center;font-size: 0.6rem;
-            .leftimg{width: 2.4rem;height: 2.4rem;float: left;}
-            input{border: 0;text-align: center;font-size: 1.1rem;width: 15%;margin-top: 0.8rem;}
-            .rightimg{width: 2.4rem;height: 2.4rem;float: right;}
-        }
-        .word{
-            border-top: 1px solid #eee;flex: 1;padding:1rem 0 2rem 0;
-            .fl{float: left;font-size: 0.8rem;}
-            .fr{
-                float: right;color: #999;font-size:0.7rem;
-                img{width: 0.4rem;height: 0.7rem;}
-                b{font-size: 1.25rem;font-weight: normal;color: #FFA303}
+    .middle{
+        padding: 0 0.5rem;
+        .Amount{
+            margin-top: 0.5rem;background: #fff;border-radius: 3px;padding: 0.5rem;color: #333;
+            h5{font-size: 0.8rem;font-weight: normal;}
+            p{
+                padding:1rem;text-align: center;font-size: 0.6rem;
+                .leftimg{width: 2.4rem;height: 2.4rem;float: left;}
+                input{border: 0;text-align: center;font-size: 1.1rem;width: 15%;margin-top: 0.8rem;}
+                .rightimg{width: 2.4rem;height: 2.4rem;float: right;}
             }
-            .c-FFA303{color: #FFA303}
+            .word{
+                border-top: 1px solid #eee;flex: 1;padding:1rem 0 2rem 0;
+                .fl{float: left;font-size: 0.8rem;}
+                .fr{
+                    float: right;color: #999;font-size:0.7rem;
+                    img{width: 0.4rem;height: 0.7rem;}
+                    b{font-size: 1.25rem;font-weight: normal;color: #FFA303}
+                }
+                .c-FFA303{color: #FFA303;position: relative;bottom: 0.3rem;}
+            }
+            .bottomimg{
+                background: url(~@/assets/img/bottom.png);background-size: 100%;background-repeat: no-repeat;background-position: bottom;padding: 1rem 0;font-size: 0.6rem;border-top: 1px solid #eee;
+                span{
+                    display: inline-block;
+                    b{display: block;font-weight: normal;font-size: 0.5rem;color: #999;}
+                }
+                .fl{float: left;text-align: left;}
+                .fr{float: right;text-align: right;}
+            }
+        }
+        .list{
+            margin-top: 0.5rem;background: #fff;border-radius: 3px;padding: 0.5rem;color: #333;
+            li{
+                list-style: none;font-size: 0.8rem;border-bottom: 1px solid #eee;padding: 0.5rem 0;
+                img{float: right;width: 0.4rem;height: 0.7rem;position: relative;top: 0.1rem;}
+            }
+            li:last-child{border-bottom: 0;}
         }
     }
+    .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
 }
 </style>

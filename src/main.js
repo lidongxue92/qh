@@ -27,6 +27,8 @@ import 'wc-loading/style.css'
 Vue.use(Loading);
 
 
+
+
 // 微信授权插件初始化
 // Vue.use(WechatAuth , {
 //   router, // 路由实例对象

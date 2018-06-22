@@ -36,8 +36,11 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in datalist" @click="linkToDetail">
-                    <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5>
+                <li v-for="(item,index) in datalist" :key="index">
+                    <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                <!-- <li v-for="(item,index) in datalist" @click="linkToDetail" :key="index">
+                    <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5> -->
+
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.Profit}}<b v-if="isshow2">{{item.profit}}</b></span>
@@ -185,7 +188,13 @@ export default {
                     border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
-                        float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;
+                        float: right;
+                        // display: inline-block;
+                        width: 5rem;
+                        height:1.8rem;
+                        color: #fff;
+                        text-align: center;
+                        line-height:1.8rem;font-size: 0.6rem;
                     }
                     .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                     .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}

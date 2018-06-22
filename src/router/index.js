@@ -11,12 +11,13 @@ const Ceshi = r => require.ensure([], () => r(require('@/pages/detail/ceshi')), 
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
 const Category = r => require.ensure([], () => r(require('@/pages/category/category')), 'category')
 const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail')), 'detail')
+const DetailProduct = r => require.ensure([], () => r(require('@/pages/detail/detailProduct')), 'detailProduct')
+const Asset = r => require.ensure([], () => r(require('@/pages/asset/asset')), 'asset')
 // const Theme = r => require.ensure([], () => r(require('@/pages/theme/theme')), 'theme')
 // const addGoods = r => require.ensure([], () => r(require('@/pages/category/addGoods')), 'addGoods')
 // const Order = r => require.ensure([], () => r(require('@/pages/order/order')), 'order')
 // const OrderData = r => require.ensure([], () => r(require('@/pages/order/orderData')), 'orderData')
 // const Address = r => require.ensure([], () => r(require('@/pages/address/address')), 'address')
-// const About = r => require.ensure([], () => r(require('@/pages/about/about')), 'about')
 // const StoreInfo = r => require.ensure([], () => r(require('@/pages/stores/storeInfo')), 'storeInfo')
 // const ShopCenter = r => require.ensure([], () => r(require('@/pages/stores/shopCenter')), 'shopCenter')
 // const logo = r => require.ensure([], () => r(require('@/pages/stores/logo')), 'logo')
@@ -96,7 +97,16 @@ const routes = [
                     // requireAuth: true
                 },
                 component: Detail
-            }
+            },
+            {
+                path: 'detailProduct',
+                name: 'detailProduct',
+                meta: {
+                    title: '项目详情',
+                    // requireAuth: true
+                },
+                component: DetailProduct
+            },
             // {
             //     path: 'theme',
             //     name: 'theme',
@@ -178,15 +188,15 @@ const routes = [
             //     },
             //     component: User
             // },
-            // {
-            //     path: 'about',
-            //     name: 'about',
-            //     meta: {
-            //         title: '店铺中心'
-            //     },
-            //     component: About,
-            //     requireAuth: true
-            // },
+            {
+                path: 'asset',
+                name: 'asset',
+                meta: {
+                    title: '资产'
+                },
+                component: Asset,
+                requireAuth: true
+            },
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',
