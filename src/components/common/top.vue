@@ -51,7 +51,18 @@
 
   h1{
     font-size: 1rem;
-  }
+  } 
+
+  .back{
+        float: left;
+        width: .8rem;
+        position: relative;
+        left: 1rem;
+        top: .4rem;
+        img{
+            width: 100%;
+        }
+    }
 }
 </style>
 
