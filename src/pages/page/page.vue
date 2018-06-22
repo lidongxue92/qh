@@ -77,10 +77,10 @@ export default {
             return false
         },
         isPaddingBottom() {
-            // if (/detail|theme|order|address|asset/.test(this.$route.path)) {
-            //     return '0'
-            // }
-            // return '53px'
+        //     if (/platform/.test(this.$route.path)) {
+        //         return true
+        //     }
+        //     return false
         }
     },
     methods: {
