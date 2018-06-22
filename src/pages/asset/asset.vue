@@ -3,22 +3,22 @@
     <!-- 资产头部 -->
     <div class="assetTop">
       <div class="title">
-        <div><span class="head"><img src="../../assets/img/icon_head@2x.png"></span></div>
+        <div @click="zhezhaoShow"><span class="head"><img src="../../assets/img/icon_head@2x.png"></span></div>
         <div><h1>资产</h1></div>
-        <div><span class="message"><img src="../../assets/img/icon_xiaoxi@2x.png"></span></div>
+        <div @click="linkToMsg"><span class="message"><img src="../../assets/img/icon_xiaoxi@2x.png"></span></div>
       </div>
       <div class="assetTopMain">
         <h5>总资产(元) <span @click="eyesTab"><img :src="imgSrc"></span></h5>
-        <p class="totalMoney">1880000.08</p>
+        <p class="totalMoney numberChange">{{totalMoney}}</p>
       </div>
       <div class="assetTopBottom">
         <div class="atbLeft">
           <h6>可用余额(元)</h6>
-          <p>88888000.00</p>
+          <p class="numberChange">{{numberChange}}</p>
         </div>
         <div class="atbRight">
           <h6>累计收益(元)</h6>
-          <p>8990.00</p>
+          <p class="numberChange">{{numberChange}}</p>
         </div>
       </div>
     </div>
@@ -42,14 +42,19 @@
       <div class="assetMainLeft">
         <div id="charts">
           <div id="main" :style="{width:'100%',height:'14rem'}"></div>
+          <div class="title">
+            <h5 class="totalMoney numberChange">{{totalMoney}}</h5>
+            <p>总资产(元)</p>
+          </div>
         </div>
+        
       </div>
       <div class="assetMainRight">
-        <div class="moneyName1">
+        <div class="moneyName1" @click="linkToPrincipal">
           <div>
             <b></b>
             <span>待收本金</span>
-            <p>1000.00</p>
+            <p class="numberChange">{{numberChange}}</p>
           </div>
           <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
         </div>
@@ -58,15 +63,15 @@
           <div>
             <b></b>
             <span>待收收益</span>
-            <p>1000.00</p>
+            <p class="numberChange">{{numberChange}}</p>
           </div>
         </div>
 
-        <div class="moneyName3">
+        <div class="moneyName3" @click="linkToIncome">
           <div>
             <b></b>
             <span>转让金额</span>
-            <p>1000.00</p>
+            <p class="numberChange">{{numberChange}}</p>
           </div>
           <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
         </div>
@@ -75,7 +80,7 @@
           <div>
             <b></b>
             <span>账户余额</span>
-            <p>1000.00</p>
+            <p class="numberChange">{{numberChange}}</p>
           </div>
         </div>
 
@@ -83,11 +88,101 @@
           <div>
             <b></b>
             <span>冻结金额</span>
-            <p>1000.00</p>
+            <p class="numberChange">{{numberChange}}</p>
           </div>
         </div>
       </div>
     </div>
+
+
+    <!-- 侧边栏 -->
+    <div class="zhezhao" @click="zhezhaoHide">
+         
+    </div>
+    <div class="slider">
+      <!-- 侧栏头部 -->
+      <div class="sliderTop">
+        <div class="atHead">
+          <img src="../../assets/img/sliderBox/sliderHead.png">
+          <div v-if="isShow">
+            <p>张** / 请实名</p>
+            <p>157******98</p>
+          </div>
+          <div v-else>
+            <h5>去登录</h5>
+          </div>
+        </div>
+        <div class="sliderTop2">
+          <div class="st2Left">
+              <img src="../../assets/img/sliderBox/sliderCar.png" >
+              <div>
+                <h6>理财卡</h6>
+                <p>未绑卡</p>
+              </div>
+          </div>
+          <div class="st2Right">
+              <img src="../../assets/img/sliderBox/sliderRisk.png" >
+              <div>
+                <h6>风险评估</h6>
+                <p>未评估</p>
+              </div>
+          </div>
+        </div>
+      </div>
+      <!-- 侧栏头部 -->
+
+      <!-- 侧栏菜单项 -->
+      <div class="sliderMain">
+        <ul>
+          <li>
+            <img src="../../assets/img/sliderBox/slider1.png">
+            <span>托管账户(未开通)</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider2.png">
+            <span>账户设置</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider3.png">
+            <span>邀请好友</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider4.png">
+            <span>常见问题</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider5.png">
+            <span>联系地址</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider6.png">
+            <span>客服与反馈</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider7.png">
+            <span>关于我们</span>
+          </li>
+          <li>
+            <img src="../../assets/img/sliderBox/slider8.png">
+            <span>版本更新</span>
+          </li>
+        </ul>
+      </div>
+      <!-- 侧栏菜单项 -->
+
+      <!-- 侧栏底部 -->
+      <div class="sliderBottom">
+        <div v-if="isShow">
+          <p>登陆</p>
+          <p>注册</p>
+        </div>
+        <div v-else class="loginOut">
+          <p>安全退出</p>
+        </div>
+      </div>
+
+
+    </div>     
 
 
 
@@ -96,18 +191,48 @@
 
 <script>
 var echarts = require('echarts');
+import $ from 'jquery';
 import axios from 'axios';
 export default {
   name: 'asset',
   data(){
 　　return {
         imgSrc:"../../../static/img/openEyes.png",
+        totalMoney:1888800.01,
+        numberChange: 10000.08,
+        isShow: false,
 　　　}
 　},
 
   methods:{
-    eyesTab(){      
-      this.imgSrc == "../../../static/img/openEyes.png" ? this.imgSrc = "../../../static/img/closeEyes.png" : this.imgSrc = "../../../static/img/openEyes.png"
+    eyesTab(){     
+      if (this.imgSrc == "../../../static/img/openEyes.png") {
+        this.imgSrc = "../../../static/img/closeEyes.png";
+        $(".numberChange").text("****")
+        
+      }else{
+        this.imgSrc = "../../../static/img/openEyes.png";
+         $(".numberChange").text(this.numberChange);
+         $(".totalMoney").text(this.totalMoney);
+      }
+    },
+    zhezhaoShow(){
+      $(".zhezhao").fadeIn(400);
+      $(".slider").animate({left:"0"},400);      
+    },
+    zhezhaoHide(){
+       $(".zhezhao").fadeOut(400);
+       $(".slider").animate({left:"-75%"},400);
+
+    },
+
+
+
+
+
+
+    linkToMsg(){
+      this.$router.push({path:'/page/message'})
     },
     linkToPlatfrom(){
       this.$router.push({path:'/page/platform'})
@@ -121,6 +246,12 @@ export default {
     linkToWithdraw(){
       this.$router.push({path:'/page/withdraw'})
     },
+    linkToPrincipal(){
+      this.$router.push({path:'/page/principal'})
+    },
+    linkToIncome(){
+      this.$router.push({path:'/page/income'})
+    },
 
   },
 
@@ -128,23 +259,6 @@ export default {
     /*ECharts图表*/
     var myChart = echarts.init(document.getElementById('main'));
     myChart.setOption({
-            title: {//标题组件
-                text: '18000.00',
-                subtext: '总资产(元)',
-                left: 'center',
-                show:true,
-                top:"40%",
-                textStyle: {    
-                  color: "#333",    
-                  fontSize: 16,   
-                  align:'center',
-                },
-                subtextStyle:{
-                  color: "#666",    
-                  fontSize: 12,   
-                  align:'center',
-                }
-            },
             tooltip : { //提示框组件
               show:false,
             },
@@ -180,16 +294,21 @@ export default {
                     ]
                 }
             ]
-    })
+    });
+    /*ECharts图表*/
   }
 
 }
 </script>
 
 <style scoped lang="less">
-h1,h2,h3,h4,h5,h6{
-  font-weight: normal;
-}
+  h1,h2,h3,h4,h5,h6{
+    font-weight: normal;
+  }
+  *{
+    padding: 0;
+    margin: 0;
+  }
 /*资产头部*/
   .assetTop{
     width: 100%;
@@ -256,7 +375,7 @@ h1,h2,h3,h4,h5,h6{
     .assetTopBottom{
       width: 85%;
       margin: .8rem auto 0;
-      padding-bottom: .6rem;
+      padding-bottom: .5rem;
       display: flex;
       flex: 1;
       .atbLeft,.atbRight{
@@ -339,13 +458,34 @@ h1,h2,h3,h4,h5,h6{
     flex: 1;
     .assetMainLeft{
       width: 50%;
+      
+       #charts{
+        width: 100%;
+        margin-top: 2rem /* 100/40 */;
+        position: relative;
+        
+      }
+      .title{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translateX(-50%);
+        h5{
+          text-align: center;
+          color: #333;
+          font-size: 1.1rem;
+        }
+        p{
+          text-align: center;
+          color: #666;
+          font-size: .8rem;
+        }
+      }
     }
-    #charts{
-      width: 100%;
-      margin-top: 2rem /* 100/40 */;
-    }
+
     .assetMainRight{
       width: 50%;
+
       b{
         display: inline-block;
         width: .4rem /* 15/40 */;
@@ -364,13 +504,18 @@ h1,h2,h3,h4,h5,h6{
       .moneyName5 b{
         background: #FF8A77;
       }
+      .moneyName1{
+        margin-top: 2rem;
+      }
       .moneyName1,.moneyName2,.moneyName3,.moneyName4,.moneyName5{
         width: 100%;
         margin-bottom: .5rem /* 20/40 */;
         overflow: hidden;
-        div{
+        
+        div:first-child{
           float: left;
         }
+        
         span{
           color: #999;
           font-size: .8rem ;
@@ -379,25 +524,157 @@ h1,h2,h3,h4,h5,h6{
           font-size: 1rem;
           text-indent: .8em;
         }
+        .nameImg1{
+          float: right;
+          margin-top: 10%;
+          margin-right: 1rem;
+          width: .5rem /* 20/40 */;
+          img{
+            width: 100%;
+          }
+        }
       }
 
 
       
 
-      .nameImg1{
-        margin-left: 30%;
-        margin-top: 10%;
-        width: .5rem /* 20/40 */;
-        img{
-          width: 100%;
-        }
-      }
+      
 
 
 
 
     }
   }
-
 /*主要内容*/
+
+/*侧边栏*/
+.zhezhao{
+  background: rgba(0, 0, 0, .3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.slider{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 72%;
+  height: 100%;
+  background: #fff;
+  box-shadow: 1px 0 5px 5px rgba(0, 0, 0, .1);
+
+  /*侧栏头部*/
+    .sliderTop{
+      width: 100%;
+      height: 8.8rem /* 352/40 */;
+      background: url("../../assets/img/sliderBox/sliderBg.png") no-repeat;
+      background-size: 100%;
+
+      .atHead{
+        overflow: hidden;
+        padding-top: 2.4rem;
+        img{
+          width: 3rem;
+          height: 3rem;
+          margin: 0 1rem .5rem;
+          float: left;
+        }
+        div{
+          float: left;
+          color: #fff;
+          font-size: .8rem /* 32/40 */;
+          margin-top: .3rem /* 10/40 */;
+          h5{
+            font-size: 1rem;
+            margin-top: 0.3rem;
+          }
+        }
+      }
+
+      .sliderTop2{
+        background: #4FC4FC;
+        bottom: 0;
+        display: flex;
+        flex: 1;
+
+        .st2Left,.st2Right{
+          width: 50%;
+          margin: .4rem;
+          img{
+            width: 1.8rem /* 70/40 */;
+            height: 1.8rem;
+            margin: .5rem;
+            float: left;
+          }
+          div{
+            float: left;
+            color: #fff;
+            font-size: .6rem /* 32/40 */;
+            margin-top: .3rem /* 10/40 */;
+            p{
+              color: rgba(255, 255, 255, .8);
+            }
+          }
+        }
+        .st2Left{
+          border-right: 1px solid rgba(255, 255, 255, .7);
+        }
+        .st2Right img{
+          margin-left: 0;
+        }
+        
+      }
+    }
+  /*侧栏头部*/
+
+  /*侧栏菜单*/
+    .sliderMain{
+      width: 80%;
+      margin: 1rem auto;
+
+      li{
+        border-bottom: 1px solid #EEE;
+        padding: .8rem 0 .6rem .1rem;
+        img{
+          width: 1.2rem ;
+        }
+        span{
+          display: inline-block;
+          margin-left: 1rem;
+        }
+      }
+    }
+
+  /*侧栏菜单*/
+  
+  // 侧栏底部
+  .sliderBottom{
+    background: #f6f6f6;
+    text-align: center;
+   
+
+    .loginOut{
+      padding: 1.5rem auto;
+      p{
+        color: #fff;
+        background: url("../../assets/img/sliderBox/sliderBtn.png") no-repeat;
+        background-size: 100% ;
+        width: 10rem;
+        height: 2rem;
+        line-height: 2rem;
+        font-size: 0.8rem;
+        margin: 0 auto;
+        
+      }
+    }
+
+
+
+  }
+
+}
+
+
 </style>

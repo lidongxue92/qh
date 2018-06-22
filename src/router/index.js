@@ -19,6 +19,11 @@ const Platform = r => require.ensure([], () => r(require('@/pages/asset/platform
 const BillingDetails = r => require.ensure([], () => r(require('@/pages/asset/billingDetails')), 'billingDetails')
 const Recharge = r => require.ensure([], () => r(require('@/pages/asset/recharge')), 'recharge')
 const Withdraw = r => require.ensure([], () => r(require('@/pages/asset/withdraw')), 'withdraw')
+const Principal = r => require.ensure([], () => r(require('@/pages/asset/principal')), 'principal')
+const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
+const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
+
+
 
 
 // const Theme = r => require.ensure([], () => r(require('@/pages/theme/theme')), 'theme')
@@ -213,7 +218,8 @@ const routes = [
                 },
                 component: BillingDetails,
                 // requireAuth: true
-            }, {
+            }, 
+            {
                 path: 'recharge',
                 name: 'recharge',
                 meta: {
@@ -229,6 +235,34 @@ const routes = [
                 },
                 component: Withdraw,
                 // requireAuth: true
+            }, 
+            {
+                path: 'principal',
+                name: 'principal',
+                meta: {
+                    title: '待收本金'
+                },
+                component: Principal,
+                // requireAuth: true
+            }, 
+            {
+                path: 'income',
+                name: 'income',
+                meta: {
+                    title: '待收收益'
+                },
+                component: Income,
+                // requireAuth: true
+            },
+            {
+                path: 'message',
+                name: 'message',
+                meta: {
+                    title: '消息公告'
+                },
+                component: Message,
+                // requireAuth: true
+                
             }
             // {
             //     path: 'storeInfo',
