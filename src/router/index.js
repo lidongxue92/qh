@@ -12,7 +12,11 @@ const Ceshi = r => require.ensure([], () => r(require('@/pages/detail/ceshi')), 
 const data = r => require.ensure([], () => r(require('@/pages/order/data')), 'data')
 const Category = r => require.ensure([], () => r(require('@/pages/category/category')), 'category')
 const Detail = r => require.ensure([], () => r(require('@/pages/detail/detail')), 'detail')
+const Detailto = r => require.ensure([], () => r(require('@/pages/detail/detailto')), 'detailto')
 const DetailProduct = r => require.ensure([], () => r(require('@/pages/detail/detailProduct')), 'detailProduct')
+const Pay = r => require.ensure([], () => r(require('@/pages/detail/pay')), 'pay')
+const Log = r => require.ensure([], () => r(require('@/pages/detail/log')), 'log')
+const Red = r => require.ensure([], () => r(require('@/pages/detail/red')), 'red')
 
 // 资产相关页面
 const Asset = r => require.ensure([], () => r(require('@/pages/asset/asset')), 'asset')
@@ -107,6 +111,15 @@ const routes = [
                 component: Detail
             },
             {
+                path: 'detailto',
+                name: 'detailto',
+                meta: {
+                    title: '转让产品详情',
+                    // requireAuth: true
+                },
+                component: Detailto
+            },
+            {
                 path: 'detailProduct',
                 name: 'detailProduct',
                 meta: {
@@ -114,6 +127,33 @@ const routes = [
                     // requireAuth: true
                 },
                 component: DetailProduct
+            },
+            {
+                path: 'pay',
+                name: 'pay',
+                meta: {
+                    title: '确认投资',
+                    // requireAuth: true
+                },
+                component: Pay
+            },
+            {
+                path: 'log',
+                name: 'log',
+                meta: {
+                    title: '确认投资',
+                    // requireAuth: true
+                },
+                component: Log
+            },
+            {
+                path: 'red',
+                name: 'red',
+                meta: {
+                    title: '使用红包',
+                    // requireAuth: true
+                },
+                component: Red
             },
             // {
             //     path: 'theme',

@@ -1,7 +1,7 @@
 <template>
     <div class="detail page">
         <div class="product">
-         <h5>产品名称</h5>
+            <top v-bind:title="title"></top>
             <div class="left">
                 <span class="interest">10<b>&ensp;%</b></span>
                 <span class="rate">预计年化收益率</span>
@@ -26,7 +26,7 @@
                     <input class="money" v-model="money"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
-                <p class="word">
+                <p class="word" @click="red">
                     <span class="fl">红包卡券</span><span class="fr">0个可用&emsp;<img src="~@/assets/img/right.png"></span>
                 </p>
                 <p class="word">
@@ -50,17 +50,33 @@
             <!-- 项目介绍 -->
             <ul class="list">
                 <li @click="linkTodetail1">项目介绍 <img src="~@/assets/img/right.png"></li>
-                <li>投资记录 <img src="~@/assets/img/right.png"></li>
+                <li @click="log">投资记录 <img src="~@/assets/img/right.png"></li>
             </ul>
         </div>
-        <button class="button">立即投资</button>
+        <button class="button" @click="tost">立即投资</button>
+        <div class="tost" v-if="isshow">
+            <div class="vux-circle-demo" style="margin-top: 9rem;margin-left: 7rem;">
+                <div style='width: 9.9rem;height:9.9rem;'>
+                  <x-circle
+                    :percent="percent"
+                    :stroke-width="4"
+                    :trail-width="1"
+                    :stroke-color="['#36D1DC', '#5B86E5']"
+                    trail-color="#ececec">
+                    <span style="color:#2395FF;font-size: 2.3rem;">00.0{{time}}</span>
+                  </x-circle>
+                </div>
+              </div>
+              <button class="button bottom">确认支付</button>
+        </div>
     </div>
 </template>
 
 <script>
-import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
+import { PopupPicker, Tab, TabItem, Swiper,XCircle, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import top from '../../components/common/top1'
 import $ from 'jquery'
 export default {
     name: 'detail',
@@ -70,20 +86,30 @@ export default {
     data() {
         return {
             product: null,
-            money:'1000'
+            money:'1000',
+            title:'启航新手礼',
+            isshow:false,
+            percent: 0,
+            time:6
         }
     },
     computed: {
     },
     mounted () {
     },
-    created() {},
+    created() {
+    },
     activated() {
-        // this.getALLProducts()
     },
     methods: {
         linkTodetail1() {
             this.$router.push({ path: '/page/detailProduct' })
+        },
+        log() {
+            this.$router.push({ path: '/page/log' })
+        },
+        red() {
+            this.$router.push({ path: '/page/red' })
         },
         add(){
             const _this = this
@@ -100,7 +126,23 @@ export default {
                 this.money = parseFloat(this.money)-1000
                 console.log (this.money)
             }
-        }
+        },
+        timer() {
+          const _this =this
+          if (_this.time > 0) {
+              _this.time--
+              setTimeout(_this.timer, 1000)
+              _this.percent = parseFloat(_this.percent)+17
+              console.log()
+          }else{
+            this.isshow = false
+            this.$router.push({ path: '/page/pay' })
+          }
+      },
+      tost(){
+        this.isshow = true
+        this.timer()
+      }
     },
     components: {
         PopupPicker,
@@ -120,7 +162,9 @@ export default {
         XSwitch,
         Toast,
         XAddress,
-        XButton
+        XButton,
+        top,
+        XCircle
     }
 }
 </script>
@@ -128,7 +172,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;
+    background: #f7f7f7;position: relative;
     .product{
         background: url(~@/assets/img/bg.png);color: #fefefe;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}
@@ -206,5 +250,9 @@ export default {
         }
     }
     .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+    .tost{
+        position: absolute;width: 100%;height: 100%;z-index: 11;background: #f6f6f6;top: 0;text-align: center;
+        .bottom{background: #80BFFF;position: fixed;bottom:2rem;left: 0;}
+    }
 }
 </style>

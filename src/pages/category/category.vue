@@ -35,7 +35,7 @@
         <div class="Transfer" v-if='isshow1'>
             <div class="middle">
              <ul class="productlist">
-                  <li v-for="(item,index) in datalist" @click="linktoDetail()">
+                  <li v-for="(item,index) in datalist" @click="linktoDetailto()">
                       <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5>
                       <div>
                           <p class="left">
@@ -81,6 +81,9 @@ export default {
       // 跳转详情页
         linktoDetail() {
             this.$router.push({ path: '/page/detail'})
+        },
+        linktoDetailto() {
+            this.$router.push({ path: '/page/detailto'})
         },
         // 理财专区
         Conducttab(){
