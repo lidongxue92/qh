@@ -46,6 +46,13 @@ body {
     height: 100%;
     // max-width:640px;
 }
+li{
+    list-style: none;
+}
+*{
+padding: 0;
+margin: 0;
+}
 .vux-slider .vux-icon-dot {
     width: 8px !important;
     height: 8px !important;
