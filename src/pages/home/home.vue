@@ -189,7 +189,7 @@ export default {
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
                         float: right;
-                        display: inline-block;
+                        // display: inline-block;
                         width: 5rem;
                         height:1.8rem;
                         color: #fff;

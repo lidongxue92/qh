@@ -27,8 +27,8 @@
                           slot="icon"></span>
                     <span slot="label">发现</span>
                 </tabbar-item>
-                <tabbar-item link="/page/about"
-                             :selected="$route.path === '/page/about'">
+                <tabbar-item link="/page/asset"
+                             :selected="$route.path === '/page/asset'">
                     <span class="icon icon-user"
                           slot="icon"></span>
                     <span slot="label">资产</span>
@@ -77,7 +77,7 @@ export default {
             return false
         },
         isPaddingBottom() {
-            // if (/detail|theme|order|address|about/.test(this.$route.path)) {
+            // if (/detail|theme|order|address|asset/.test(this.$route.path)) {
             //     return '0'
             // }
             // return '53px'
