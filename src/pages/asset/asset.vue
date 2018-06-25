@@ -109,7 +109,7 @@
             <p>157******98</p>
           </div>
           <div v-else>
-            <h5>去登录</h5>
+            <h5 @click="linkToLogin">去登录</h5>
           </div>
         </div>
         <div class="sliderTop2">
@@ -136,7 +136,7 @@
         <ul>
           <li>
             <img src="../../assets/img/sliderBox/slider1.png">
-            <span>托管账户(未开通)</span>
+            <span>托管账户<b>(未开通)</b></span>
           </li>
           <li>
             <img src="../../assets/img/sliderBox/slider2.png">
@@ -154,32 +154,35 @@
             <img src="../../assets/img/sliderBox/slider5.png">
             <span>联系地址</span>
           </li>
-          <li>
+          <li @click="linkToService">
             <img src="../../assets/img/sliderBox/slider6.png">
             <span>客服与反馈</span>
           </li>
-          <li>
+          <li @click="linkToAboutUs">
             <img src="../../assets/img/sliderBox/slider7.png">
             <span>关于我们</span>
           </li>
-          <li>
+          <!-- <li>
             <img src="../../assets/img/sliderBox/slider8.png">
             <span>版本更新</span>
-          </li>
+          </li> -->
         </ul>
+
+        <!-- 侧栏底部 -->
+        <div class="sliderBottom">
+          <div class="loginOut" v-if="isShow">
+            <p>安全退出</p>
+          </div>
+          <div v-else class="loginReg">
+            <p class="login" @click="linkToLogin">登陆</p>
+            <p @click="linkToRegister">注册</p>
+          </div>
+          
+        </div>
       </div>
       <!-- 侧栏菜单项 -->
 
-      <!-- 侧栏底部 -->
-      <div class="sliderBottom">
-        <div v-if="isShow">
-          <p>登陆</p>
-          <p>注册</p>
-        </div>
-        <div v-else class="loginOut">
-          <p>安全退出</p>
-        </div>
-      </div>
+      
 
 
     </div>     
@@ -251,6 +254,20 @@ export default {
     },
     linkToIncome(){
       this.$router.push({path:'/page/income'})
+    },
+
+    // 侧栏
+    linkToAboutUs(){
+      this.$router.push({path:'/page/aboutUs'})
+    },
+    linkToService(){
+      this.$router.push({path:'/page/service'})
+    },
+    linkToLogin(){
+      this.$router.push({path:'/login'})
+    },
+    linkToRegister(){
+      this.$router.push({path:'/settlein'})
     },
 
   },
@@ -555,6 +572,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 600;
 }
 .slider{
   position: fixed;
@@ -564,6 +582,8 @@ export default {
   height: 100%;
   background: #fff;
   box-shadow: 1px 0 5px 5px rgba(0, 0, 0, .1);
+  z-index: 601;
+  overflow: scroll;
 
   /*侧栏头部*/
     .sliderTop{
@@ -637,6 +657,12 @@ export default {
       li{
         border-bottom: 1px solid #EEE;
         padding: .8rem 0 .6rem .1rem;
+        color: #333;
+        b{
+          font-weight: normal;
+          color: #999999;
+          font-size: .6rem /* 24/40 */;
+        }
         img{
           width: 1.2rem ;
         }
@@ -651,12 +677,11 @@ export default {
   
   // 侧栏底部
   .sliderBottom{
-    background: #f6f6f6;
+    // background: #f6f6f6;
     text-align: center;
    
-
     .loginOut{
-      padding: 1.5rem auto;
+      padding: 1.5rem;
       p{
         color: #fff;
         background: url("../../assets/img/sliderBox/sliderBtn.png") no-repeat;
@@ -667,6 +692,24 @@ export default {
         font-size: 0.8rem;
         margin: 0 auto;
         
+      }
+    }
+
+    .loginReg{
+      p{
+        color: #fff;
+        background: #2395FF;
+        border-radius: 2.5rem /* 100/40 */;
+        border: 1px solid #2395ff;
+        width: 10rem;
+        height: 2rem;
+        line-height: 2rem;
+        font-size: 0.8rem;
+        margin: 1rem auto;
+      }
+      .login{
+        color: #2395FF;
+        background: #fff;
       }
     }
 

@@ -29,6 +29,12 @@ const Income = r => require.ensure([], () => r(require('@/pages/asset/income')),
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
 const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/assetdetail')), 'assetdetail')
 
+// 侧栏
+const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
+const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
+
+
+
 
 
 
@@ -117,51 +123,6 @@ const routes = [
                 },
                 component: Detail
             },
-            {
-                path: 'detailto',
-                name: 'detailto',
-                meta: {
-                    title: '转让产品详情',
-                    // requireAuth: true
-                },
-                component: Detailto
-            },
-            {
-                path: 'detailProduct',
-                name: 'detailProduct',
-                meta: {
-                    title: '项目详情',
-                    // requireAuth: true
-                },
-                component: DetailProduct
-            },
-            {
-                path: 'pay',
-                name: 'pay',
-                meta: {
-                    title: '确认投资',
-                    // requireAuth: true
-                },
-                component: Pay
-            },
-            {
-                path: 'log',
-                name: 'log',
-                meta: {
-                    title: '确认投资',
-                    // requireAuth: true
-                },
-                component: Log
-            },
-            {
-                path: 'red',
-                name: 'red',
-                meta: {
-                    title: '使用红包',
-                    // requireAuth: true
-                },
-                component: Red
-            },
             // {
             //     path: 'theme',
             //     name: 'theme',
@@ -247,83 +208,75 @@ const routes = [
                 path: 'asset',
                 name: 'asset',
                 meta: {
-                    title: '资产'
+                    title: '资产',
+                    // requireAuth: true
                 },
                 component: Asset,
-                // requireAuth: true
             },
             {
                 path: 'platform',
                 name: 'platform',
                 meta: {
-                    title: '平台福利'
+                    title: '平台福利',
+                    // requireAuth: true
                 },
                 component: Platform,
-                // requireAuth: true
+                
             },
             {
                 path: 'billingDetails',
                 name: 'billingDetails',
                 meta: {
-                    title: '账单明细'
+                    title: '账单明细',
+                    // requireAuth: true
                 },
-                component: BillingDetails,
-                // requireAuth: true
+                component: BillingDetails
             }, 
             {
                 path: 'recharge',
                 name: 'recharge',
                 meta: {
-                    title: '充值'
+                    title: '充值',
+                    // requireAuth: true
                 },
-                component: Recharge,
-                // requireAuth: true
+                component: Recharge
             }, {
                 path: 'withdraw',
                 name: 'withdraw',
                 meta: {
-                    title: '提现'
-                },
-                component: Withdraw,
+                    title: '提现',
                 // requireAuth: true
+                },
+                component: Withdraw
             }, 
             {
                 path: 'principal',
                 name: 'principal',
                 meta: {
-                    title: '待收本金'
-                },
-                component: Principal,
+                    title: '待收本金',
                 // requireAuth: true
+                },
+                component: Principal
             }, 
             {
                 path: 'income',
                 name: 'income',
                 meta: {
-                    title: '待收收益'
-                },
-                component: Income,
+                    title: '待收收益',
                 // requireAuth: true
+                },
+                component: Income
             },
             {
                 path: 'message',
                 name: 'message',
                 meta: {
-                    title: '消息公告'
-                },
-                component: Message,
+                    title: '消息公告',
                 // requireAuth: true
+                },
+                component: Message
                 
             },
-            {
-                path: 'assetdetail',
-                name: 'assetdetail',
-                meta: {
-                    title: '产品详情'
-                },
-                component: AssetDetail,
-                
-            }
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',
