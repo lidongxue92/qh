@@ -28,7 +28,9 @@ export default {
     }
 }
 </script>
-
+<style type="text/css">
+    .weui-tab__panel{padding-bottom: 0!important;}
+</style>
 <style lang="less">
 @import '~vux/src/styles/reset.less';
 @import '~vux/src/styles/1px.less';

@@ -38,8 +38,8 @@
            <ul class="productlist">
                 <li v-for="(item,index) in datalist" :key="index">
                     <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
-                <li v-for="(item,index) in datalist" @click="linkToDetail" :key="index">
-                    <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5>
+                <!-- <li v-for="(item,index) in datalist" @click="linkToDetail" :key="index">
+                    <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5> -->
 
                     <div>
                         <p class="left">
@@ -147,7 +147,7 @@ export default {
 </style>
 <style scoped lang="less">
 .home {
-    background: #f7f7f7;padding-bottom:10px;color: #333;
+    background: #f7f7f7;padding-bottom:10px;color: #333;height: 100%;
     .index_banner{
         width:100%;position: relative;
         .set{
