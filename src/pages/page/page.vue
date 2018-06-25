@@ -71,12 +71,7 @@ export default {
             }
         },
         isShowTabbar() {
-<<<<<<< HEAD
             if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|principal|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs/.test(this.$route.path)) {
-=======
-
-            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs/.test(this.$route.path)) {
->>>>>>> 880bc51616f019db5d4730e4a22a31f9dc8658f8
                 return true
             }
             return false
