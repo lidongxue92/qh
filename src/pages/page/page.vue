@@ -71,7 +71,7 @@ export default {
             }
         },
         isShowTabbar() {
-            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs/.test(this.$route.path)) {
+            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|principal|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs/.test(this.$route.path)) {
                 return true
             }
             return false
