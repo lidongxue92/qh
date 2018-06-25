@@ -1,5 +1,5 @@
 <template>
-    <topComponent title='待收本金' :showLeft='false'>
+    <topComponent title='理财详情' :showLeft='false'>
         <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
     </topComponent>
 </template>

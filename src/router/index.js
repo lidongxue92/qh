@@ -23,6 +23,12 @@ const Principal = r => require.ensure([], () => r(require('@/pages/asset/princip
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
 
+// 侧栏
+const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
+const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
+
+
+
 
 
 
@@ -111,6 +117,8 @@ const routes = [
                 },
                 component: Detail
             },
+            
+            
             // {
             //     path: 'theme',
             //     name: 'theme',
@@ -196,74 +204,98 @@ const routes = [
                 path: 'asset',
                 name: 'asset',
                 meta: {
-                    title: '资产'
+                    title: '资产',
+                    // requireAuth: true
                 },
                 component: Asset,
-                // requireAuth: true
             },
             {
                 path: 'platform',
                 name: 'platform',
                 meta: {
-                    title: '平台福利'
+                    title: '平台福利',
+                    // requireAuth: true
                 },
                 component: Platform,
-                // requireAuth: true
+                
             },
             {
                 path: 'billingDetails',
                 name: 'billingDetails',
                 meta: {
-                    title: '账单明细'
+                    title: '账单明细',
+                    // requireAuth: true
                 },
-                component: BillingDetails,
-                // requireAuth: true
+                component: BillingDetails
             }, 
             {
                 path: 'recharge',
                 name: 'recharge',
                 meta: {
-                    title: '充值'
+                    title: '充值',
+                    // requireAuth: true
                 },
-                component: Recharge,
-                // requireAuth: true
+                component: Recharge
             }, {
                 path: 'withdraw',
                 name: 'withdraw',
                 meta: {
-                    title: '提现'
-                },
-                component: Withdraw,
+                    title: '提现',
                 // requireAuth: true
+                },
+                component: Withdraw
             }, 
             {
                 path: 'principal',
                 name: 'principal',
                 meta: {
-                    title: '待收本金'
-                },
-                component: Principal,
+                    title: '待收本金',
                 // requireAuth: true
+                },
+                component: Principal
             }, 
             {
                 path: 'income',
                 name: 'income',
                 meta: {
-                    title: '待收收益'
-                },
-                component: Income,
+                    title: '待收收益',
                 // requireAuth: true
+                },
+                component: Income
             },
             {
                 path: 'message',
                 name: 'message',
                 meta: {
-                    title: '消息公告'
-                },
-                component: Message,
+                    title: '消息公告',
                 // requireAuth: true
+                },
+                component: Message
                 
-            }
+            },
+
+            // 侧栏菜单
+            {
+                path: 'aboutUs',
+                name: 'aboutUs',
+                meta: {
+                    title: '关于平台',
+                // requireAuth: true
+                },
+                component: AboutUs
+            },
+            {
+                path: 'service',
+                name: 'service',
+                meta: {
+                    title: '客服与反馈',
+                    // requireAuth: true
+                },
+                component: Service
+            },
+
+
+
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',

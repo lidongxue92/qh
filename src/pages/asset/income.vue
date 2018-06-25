@@ -1,5 +1,5 @@
 <template>
-    <topComponent title='待收收益' :showLeft='false'>
+    <topComponent title='债权转让' :showLeft='false'>
         <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
     </topComponent>
 </template>
@@ -14,7 +14,7 @@ export default {
     },
     data(){
         return{
-            isShowTabbar:false
+            
         }
     },
     methods:{
