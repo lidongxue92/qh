@@ -147,7 +147,7 @@ export default {
 </style>
 <style scoped lang="less">
 .home {
-    background: #f7f7f7;padding-bottom:10px;color: #333;
+    background: #f7f7f7;padding-bottom:10px;color: #333;height: 100%;
     .index_banner{
         width:100%;position: relative;
         .set{

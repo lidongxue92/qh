@@ -27,6 +27,7 @@ const Withdraw = r => require.ensure([], () => r(require('@/pages/asset/withdraw
 const Principal = r => require.ensure([], () => r(require('@/pages/asset/principal')), 'principal')
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
+const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/assetdetail')), 'assetdetail')
 
 
 
@@ -312,6 +313,15 @@ const routes = [
                 },
                 component: Message,
                 // requireAuth: true
+                
+            },
+            {
+                path: 'assetdetail',
+                name: 'assetdetail',
+                meta: {
+                    title: '产品详情'
+                },
+                component: AssetDetail,
                 
             }
             // {

@@ -101,7 +101,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;
+    background: #f7f7f7;height:100%;
     .tab{
         background: #fff;margin-top: 1rem;
         li{list-style: none;width: 49%;text-align: center;font-size: 0.9rem;line-height: 2.5rem;height: 2.5rem;color: #999;display: inline-block;}

@@ -73,7 +73,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;
+    background: #f7f7f7;height:100%;
     .middle{
         .list{
             margin-top: 0.5rem;background: #fff;border-radius: 3px;padding: 0.5rem 0.6rem;color: #333;border-radius: 5px;

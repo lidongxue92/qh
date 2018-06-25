@@ -94,7 +94,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;position: relative;
+    background: #f7f7f7;position: relative;height: 100%;
     .product{
         background: url(~@/assets/img/bg.png);color: #fefefe;padding-bottom: 1rem;
         .proict{

@@ -168,7 +168,7 @@ export default {
 .detail {
     background: #f7f7f7;
     .middle{
-        padding: 0 0.5rem;margin-top: 1rem;
+        padding: 0 0.5rem;margin-top: 1rem;height: 100%;
         .product{
             background: #FFF;border-radius: 5px;padding: 0.5rem;
             h5{font-weight: normal;font-size: 0.8rem;border-bottom: 1px solid #eee;line-height: 2.2rem;}

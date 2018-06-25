@@ -127,6 +127,7 @@ export default {
 }
 .goods{
     background: #f7f7f7;
+    height: 100%;
     h5{line-height: 30px;font-weight: normal;font-size: 0.8rem;border-bottom: 1px solid #eee;padding: 0 1rem;}
     .tab{
         background: #2B9AFF;
