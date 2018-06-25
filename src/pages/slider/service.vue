@@ -56,10 +56,9 @@ export default {
 }
 .container{
     width: 100%;
-    height: 100%;
+    height: auto;
     background: #f6f6f6;
-    padding-bottom: 5rem /* 100/40 */;
-    margin-bottom: 0;
+    padding-bottom: 3rem /* 100/40 */;
 
     .main{
         width: 92%;
