@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
     <div class="asset">
     <!-- 资产头部 -->
     <div class="assetTop">
@@ -60,8 +59,6 @@
         </div>
     </div>
   </div>
-=======
->>>>>>> 880bc51616f019db5d4730e4a22a31f9dc8658f8
 </template>
 
 <script>
