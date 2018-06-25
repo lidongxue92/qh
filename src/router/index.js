@@ -277,6 +277,26 @@ const routes = [
                 component: Message
                 
             },
+
+            //侧边菜单
+            {
+                path: 'aboutUs',
+                name: 'aboutUs',
+                meta: {
+                    title: '关于我们',
+                    // requireAuth: true
+                },
+                component: AboutUs
+            }, {
+                path: 'service',
+                name: 'service',
+                meta: {
+                    title: '客服与反馈',
+                    // requireAuth: true
+                },
+                component: Service
+
+            },
             {
                 path: 'assetdetail',
                 name: 'assetdetail',
