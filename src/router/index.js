@@ -27,6 +27,7 @@ const Withdraw = r => require.ensure([], () => r(require('@/pages/asset/withdraw
 const Principal = r => require.ensure([], () => r(require('@/pages/asset/principal')), 'principal')
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
+const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/assetdetail')), 'assetdetail')
 
 // 侧栏
 const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
@@ -122,49 +123,6 @@ const routes = [
                 },
                 component: Detail
             },
-             {
-                 path: 'detailto',
-                 name: 'detailto',
-                 meta: {
-                     title: '转让产品详情',
-                     // requireAuth: true
-                 },
-                 component: Detailto
-             }, {
-                 path: 'detailProduct',
-                 name: 'detailProduct',
-                 meta: {
-                     title: '项目详情',
-                     // requireAuth: true
-                 },
-                 component: DetailProduct
-             }, {
-                 path: 'pay',
-                 name: 'pay',
-                 meta: {
-                     title: '确认投资',
-                     // requireAuth: true
-                 },
-                 component: Pay
-             }, {
-                 path: 'log',
-                 name: 'log',
-                 meta: {
-                     title: '确认投资',
-                     // requireAuth: true
-                 },
-                 component: Log
-             }, {
-                 path: 'red',
-                 name: 'red',
-                 meta: {
-                     title: '使用红包',
-                     // requireAuth: true
-                 },
-                 component: Red
-             },
-            
-            
             // {
             //     path: 'theme',
             //     name: 'theme',
@@ -319,29 +277,6 @@ const routes = [
                 component: Message
                 
             },
-
-            // 侧栏菜单
-            {
-                path: 'aboutUs',
-                name: 'aboutUs',
-                meta: {
-                    title: '关于平台',
-                // requireAuth: true
-                },
-                component: AboutUs
-            },
-            {
-                path: 'service',
-                name: 'service',
-                meta: {
-                    title: '客服与反馈',
-                    // requireAuth: true
-                },
-                component: Service
-            },
-
-
-
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',
