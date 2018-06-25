@@ -319,9 +319,16 @@ const routes = [
                 component: CommonProblem
 
             },
-            
-
-
+            {
+                path: 'assetdetail',
+                name: 'assetdetail',
+                meta: {
+                    title: '产品详情',
+                // requireAuth: true
+                },
+                component: AssetDetail
+                
+            },
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',
