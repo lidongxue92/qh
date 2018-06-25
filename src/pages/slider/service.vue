@@ -58,7 +58,7 @@ export default {
     width: 100%;
     height: auto;
     background: #f6f6f6;
-    padding-bottom: 3rem /* 100/40 */;
+    padding-bottom: 2.5rem /* 100/40 */;
 
     .main{
         width: 92%;
