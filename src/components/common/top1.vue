@@ -1,9 +1,8 @@
 <template>
   <div class="top gradient">
-    <span class="back" @click='goBack' v-if='iSshow'><img src="~@/assets/img/left.png"></span>
-    <slot name="left"></slot>
+    <span class="back" @click='goBack'><img src="~@/assets/img/left.png"></span>
     <h1>{{title}}</h1>
-    <slot name="right"></slot>
+    <span class="right">{{righttitle}}</span>
   </div>
 </template>
 <script>
@@ -18,7 +17,7 @@
         this.$router.back()
       }
     },
-    props: ['title'],
+    props: ['title', 'righttitle'],
     mounted: function () {
       // 如果传递了back,则左侧返回文字显示的是传入的值
       if (this.$options.propsData.back !== undefined) this.backTit = this.$options.propsData.back;
@@ -37,7 +36,7 @@
   height: 2.8rem;
   line-height: 2.8rem;
   text-align: center;
-  color: #fff;
+  color: #fff;position: relative;
 /*渐变*/
     background: #2B9AFF;
     background: -moz-linear-gradient(left, #2B9AFF 0%, #2773FF 100%);
@@ -64,6 +63,7 @@
             width: 100%;
         }
     }
+    .right{float: right;font-size: 0.8rem;color: #fff;position: absolute;right: 0.5rem;top: 0;}
 }
 </style>
 

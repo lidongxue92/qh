@@ -23,7 +23,7 @@
                 <h5>购买金额</h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model="money"/>元
+                    <input class="money" v-model="money" @change="change"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red">
@@ -32,7 +32,7 @@
                 <p class="word">
                     <span class="fl">预期收益</span><span class="fr c-FFA303"><b>20</b>&ensp;元</span>
                 </p>
-                <p class="bottomimg">
+                <p class="bottomimg" v-if="isshow4">
                     <span class="fl">
                         起息日
                         <b>2018-04-12</b>
@@ -46,6 +46,7 @@
                         <b>2018-04-12</b>
                     </span>
                 </p>
+                <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
             </div>
             <!-- 项目介绍 -->
             <ul class="list">
@@ -89,6 +90,8 @@ export default {
             money:'1000',
             title:'启航新手礼',
             isshow:false,
+            isshow3:false,
+            isshow4:true,
             percent: 0,
             time:6
         }
@@ -125,6 +128,11 @@ export default {
             if (value>'1000') {
                 this.money = parseFloat(this.money)-1000
                 console.log (this.money)
+            }
+        },
+        change(){
+            if (value>'1000') {
+                $(".leftimg").attr('src',"../../assets/img/add1.png")
             }
         },
         timer() {
@@ -238,6 +246,10 @@ export default {
                 }
                 .fl{float: left;text-align: left;}
                 .fr{float: right;text-align: right;}
+            }
+            .full{
+                text-align: left;border-top: 1px solid #eee;
+                img{float: left;width: 1.4rem;height: 1.4rem;}
             }
         }
         .list{

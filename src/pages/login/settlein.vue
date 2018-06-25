@@ -45,7 +45,7 @@
           <input type="password" placeholder="请输入邀请码(选填)" class="register_content_input"><br>
       </label>
       <label class="Agreement"  v-for="item of items">
-        <input type="checkbox" v-model="item.state" v-on:click="alocked(item)" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
+        <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>
       <a class="user_login" @click="sub">提交注册</a>
@@ -85,6 +85,15 @@ export default {
       login(){
         this.$router.push({path:"/login"})
         
+      },
+      check(){
+        if ($('.Agreement .check').is(':checked')) {
+            $('.Agreement .img').removeClass('img1').addClass('img2')
+            return true
+        }else{
+            $('.Agreement .img').removeClass('img2').addClass('img1')
+            return false
+        }
       },
       checkUserPhone(){
         if(this.userPhone == ''){
@@ -227,14 +236,8 @@ export default {
               $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
           }
       },
-      alocked: function (item) {
-        const _this = this
-        item.state = !item.state;
-        _this.isshow2 = item.state
-        console.log(_this.isshow2)
-      },
       sub(){
-        if( this.checkLPsd() == true && this.isshow2 !== false){
+        if( this.checkLPsd() == true && this.check == true){
             alert('1')
           }
       }
@@ -520,7 +523,10 @@ export default {
     label{display: block;}
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
-      input{position: relative;top: 2px;}
+      input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11;}
+      .img{position: absolute;width: 0.8rem;height: 0.8rem;left: 0;top: 0.4rem;display: inline-block;}
+      .img1{background: url(~@/assets/img/noagree.png);background-size: 100%;background-repeat: no-repeat;}
+      .img2{background: url(~@/assets/img/agree_blue.png);background-size: 100%;background-repeat: no-repeat;}
       b{font-weight: normal;}
       span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
     }

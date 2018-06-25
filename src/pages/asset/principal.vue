@@ -3,7 +3,7 @@
     <!-- 资产头部 -->
     <div class="assetTop">
       <div class="title">
-        <img src="~@/assets/img/left.png">
+        <img src="~@/assets/img/left.png" @click="goBack">
         <span>理财详情</span>
       </div>
       <div class="assetTopMain">
@@ -12,7 +12,7 @@
       </div>
       <p class="assetBottom">
           <span class="left">投资本金(元) <b>100,000.00</b></span>
-          <span class="right">我要转让 >></span>
+          <span class="right" @click="Transfer">我要转让 >></span>
       </p>
     </div>
     <!-- 标 -->
@@ -89,6 +89,9 @@ export default {
         },
         assetdetail(){
             this.$router.push({ path: '/page/assetdetail' })
+        },
+        Transfer(){
+            this.$router.push({ path: '/page/Transfer' })
         },
         has(){
             $(".has").addClass('active')
