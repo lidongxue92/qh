@@ -154,13 +154,13 @@
             <img src="../../assets/img/sliderBox/slider5.png">
             <span>联系地址</span>
           </li>
-          <li>
+          <li @click="linkToService">
             <img src="../../assets/img/sliderBox/slider6.png">
-            <span @click="linkToService">客服与反馈</span>
+            <span>客服与反馈</span>
           </li>
-          <li>
+          <li @click="linkToAboutUs">
             <img src="../../assets/img/sliderBox/slider7.png">
-            <span @click="linkToAboutUs">关于我们</span>
+            <span>关于我们</span>
           </li>
           <!-- <li>
             <img src="../../assets/img/sliderBox/slider8.png">
