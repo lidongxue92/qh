@@ -32,7 +32,8 @@ const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/asset
 // 侧栏
 const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
 const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
-
+const Address = r => require.ensure([], () => r(require('@/pages/slider/address')), 'address')
+const CommonProblem = r => require.ensure([], () => r(require('@/pages/slider/commonProblem')), 'commonProblem')
 
 
 
@@ -287,7 +288,8 @@ const routes = [
                     // requireAuth: true
                 },
                 component: AboutUs
-            }, {
+            }, 
+            {
                 path: 'service',
                 name: 'service',
                 meta: {
@@ -297,6 +299,27 @@ const routes = [
                 component: Service
 
             },
+            {
+                path: 'address',
+                name: 'address',
+                meta: {
+                    title: '联系地址',
+                    // requireAuth: true
+                },
+                component: Address
+
+            },
+            {
+                path: 'commonProblem',
+                name: 'commonProblem',
+                meta: {
+                    title: '常见问题',
+                    // requireAuth: true
+                },
+                component: CommonProblem
+
+            },
+            
 
 
             // {

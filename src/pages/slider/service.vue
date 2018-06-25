@@ -10,6 +10,22 @@
 			<div class="limitNum"><span class="limitNum_word">0</span> / 500</div>
 
             <button>提交</button>
+
+            <div id="bottom">
+                <p class="tel">400-821-6328</p>
+                <p>客服热线</p>
+
+                <div class="pic">
+                    <div>
+                        <img src="../../assets/img/weiXinEwm.png">
+                        <p>公众服务号</p>
+                    </div>
+                    <div>
+                        <img src="../../assets/img/weiXinEwm.png">
+                        <p>公众订阅号</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -51,12 +67,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page-view{
-    background: #f6f6f6 !important;
-}
 .container{
     width: 100%;
-    height: auto;
+    height: 100%;
     background: #f6f6f6;
     padding-bottom: 2.5rem /* 100/40 */;
 
@@ -95,6 +108,34 @@ export default {
             border:none;
             outline: none;
             color: #fff;
+        }
+
+        #bottom{
+            width: 100%;
+            height: 16.3rem /* 651/40 */;
+            background: url("../../assets/img/sliderBox/serviceBg.png") no-repeat;
+            background-size: 100% 100%;
+            p{
+                color: #333;
+                font-size: .7rem /* 26/40 */;
+                text-align: center;
+                margin: 0;
+            }
+            .tel{
+                color: #FFA303;
+                font-size: 1.3rem /* 50/40 */;
+                padding-top: .6rem;
+                margin: .5rem auto 0;
+            }
+
+            .pic{
+                margin-top: 2.5rem;
+                div{
+                    width: 50%;
+                    float: left;
+                    text-align: center;
+                }
+            }
         }
     }
 }

@@ -8,6 +8,10 @@ import http from './common/js/http'
 import {hex_sha1} from './assets/js/sha1.js'
 import * as myPub from '@/assets/js/public.js'
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
 // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'
 import WechatAuth from 'vue-wechat-auth'
