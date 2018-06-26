@@ -9,8 +9,8 @@
                 <el-collapse-item>
                     <template slot="title">
                         <div class="questionTitle">
-                            <span class="number">Q<b>{{index + 1}}</b></span>
-                            <p class="name">我能申请多少金额？分多少期？</p>
+                           <span class="number">Q<b>{{index + 1}}</b></span>
+                            <p>我能申请多少金额？分多少期？</p>
                         </div>
                     </template>
                     <div class="answer">
@@ -22,7 +22,7 @@
                     <template slot="title">
                         <div class="questionTitle">
                             <span class="number">Q<b>{{index + 1}}</b></span>
-                            <p class="name">我能申请多少金额？分多少期？内容这里是回答内容这里是回答内容这里是回答内容</p>
+                            <p>我能申请多少金额？分多少期？内容这里？分多少期？内容这里是回答内容这里是回答内容这里是回答内容</p>
                         </div>
                     </template>
                     <div class="answer">
@@ -34,11 +34,11 @@
                     <template slot="title">
                         <div class="questionTitle">
                             <span class="number">Q<b>{{index + 1}}</b></span>
-                            <p class="name">我能申请多少金额？分多少期？内容这里是回答内容这里是回答内容这里是回答内容</p>
+                            <p>我能申请多少金额？分多少期？内容这里是回答内容这里是回答内容这里是回答内容我能申请多少金额？分多少期？内容这里是回答内容这里是回答内容这里是回答内容</p>
                         </div>
                     </template>
                     <div class="answer">
-                        <p>这里是回答内容，这里是回答内容这里是回答内容这里是回答内容这里是回答内容这里是回答内容。这里是回答内容这里是回答内容这里是回答内容</p>
+                        <p>这里是回答内容，这里是回答内容这里是回答内容这里是回答内容这回答内容这里是回答内容这里是回答内容这里是回答内容。这里是回答内容这里是回答内容这里是回答内容</p>
                     </div>
                 </el-collapse-item>
             </el-collapse>
@@ -85,6 +85,20 @@ export default {
 }
 </script>
 
+
+<style>
+.el-collapse-item__header{
+    height: auto;
+    line-height: 1em;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.el-collapse-item__arrow{
+    line-height: 1em;
+    padding-top: .8rem;
+}
+</style>
+
 <style lang="less" scoped>
 .el-collapse{
     border-top: none;
@@ -104,10 +118,11 @@ export default {
              width: 92%;
              margin: 0 auto;
             .questionTitle{
-                width: 90%;
                 .number{
+                    display: inline-block;
                     width: 12%;
-                    float: left;                 
+                    line-height: 1.5em;
+                    vertical-align: top;             
                     color: #2395FF;
                     font-size: 1.2rem;
                     b{
@@ -118,7 +133,7 @@ export default {
                 }
                 p{
                     display: inline-block;
-                    width: 88%;
+                    width: 80%;
                     line-height: 1.5rem;
                     font-size: .9rem;
                     vertical-align:auto;
