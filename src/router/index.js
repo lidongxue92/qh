@@ -28,13 +28,16 @@ const Principal = r => require.ensure([], () => r(require('@/pages/asset/princip
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
 const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/assetdetail')), 'assetdetail')
-
+const MsgDetail = r => require.ensure([], () => r(require('@/pages/asset/msgDetail')), 'msgDetail')
+const MsgDetail1 = r => require.ensure([], () => r(require('@/pages/asset/msgDetail1')), 'msgDetail1')
 // 侧栏
 const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
 const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
 const Address = r => require.ensure([], () => r(require('@/pages/slider/address')), 'address')
 const CommonProblem = r => require.ensure([], () => r(require('@/pages/slider/commonProblem')), 'commonProblem')
 const Invite = r => require.ensure([], () => r(require('@/pages/slider/invite')), 'invite')
+const FriendList = r => require.ensure([], () => r(require('@/pages/slider/friendList')), 'friendList')
+
 
 
 
@@ -278,6 +281,24 @@ const routes = [
                 component: Message
                 
             },
+            {
+                path: 'msgDetail',
+                name: 'msgDetail',
+                meta: {
+                    title: '消息详情',
+                    // requireAuth: true
+                },
+                component: MsgDetail
+            },
+            {
+                path: 'msgDetail1',
+                name: 'msgDetail1',
+                meta: {
+                    title: '公告详情',
+                    // requireAuth: true
+                },
+                component: MsgDetail1
+            },
 
             //侧边菜单
             {
@@ -329,6 +350,16 @@ const routes = [
                 component: Invite
 
             },
+            {
+                path: 'friendList',
+                name: 'friendList',
+                meta: {
+                    title: '我的好友',
+                    // requireAuth: true
+                },
+                component: FriendList
+            },
+            
             {
                 path: 'assetdetail',
                 name: 'assetdetail',

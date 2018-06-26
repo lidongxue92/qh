@@ -64,6 +64,13 @@
             width: 100%;
         }
     }
+    .right{
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        font-size: .7rem /* 26/40 */;
+        line-height: 2.8rem;
+    }
 }
 </style>
 
