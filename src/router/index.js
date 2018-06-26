@@ -40,7 +40,7 @@ const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs'
 const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
 const Address = r => require.ensure([], () => r(require('@/pages/slider/address')), 'address')
 const CommonProblem = r => require.ensure([], () => r(require('@/pages/slider/commonProblem')), 'commonProblem')
-
+const Invite = r => require.ensure([], () => r(require('@/pages/slider/invite')), 'invite')
 
 
 
@@ -338,8 +338,16 @@ const routes = [
                 component: CommonProblem
 
             },
-            
-            
+            {
+                path: 'invite',
+                name: 'invite',
+                meta: {
+                    title: '邀请好友',
+                    // requireAuth: true
+                },
+                component: Invite
+
+            },
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',

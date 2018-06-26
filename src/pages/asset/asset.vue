@@ -142,7 +142,7 @@
             <img src="../../assets/img/sliderBox/slider2.png">
             <span>账户设置</span>
           </li>
-          <li>
+          <li @click="linkToInvite">
             <img src="../../assets/img/sliderBox/slider3.png">
             <span>邀请好友</span>
           </li>
@@ -229,11 +229,6 @@ export default {
 
     },
 
-
-
-
-
-
     linkToMsg(){
       this.$router.push({path:'/page/message'})
     },
@@ -259,6 +254,9 @@ export default {
     // 侧栏
     userset(){
       this.$router.push({path:'/page/userset'})
+    },
+    linkToInvite(){
+      this.$router.push({path:'/page/invite'})
     },
     linkToProblem(){
       this.$router.push({path:'/page/commonProblem'})
