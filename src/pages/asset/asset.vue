@@ -93,6 +93,7 @@
         </div>
       </div>
     </div>
+
     <div class="zhezhao" @click="zhezhaoHide"></div>
     <slider> </slider>
 
@@ -136,7 +137,6 @@ export default {
     zhezhaoHide(){
        $(".zhezhao").fadeOut(400);
        $(".slider").animate({left:"-75%"},400);
-
     },
 
     linkToMsg(){
@@ -159,9 +159,8 @@ export default {
     },
     linkToIncome(){
       this.$router.push({path:'/page/income'})
-
+    }
   },
-
   mounted() {
     /*ECharts图表*/
     var myChart = echarts.init(document.getElementById('main'));
@@ -204,7 +203,7 @@ export default {
     });
     /*ECharts图表*/
   }
-}
+
 }
 </script>
 
