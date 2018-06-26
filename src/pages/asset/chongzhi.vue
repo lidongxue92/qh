@@ -39,7 +39,7 @@ export default {
     background: #f6f6f6;
 
     .czTop{
-        
+        margin-top: 0.5rem;
     }
 }
 </style>
