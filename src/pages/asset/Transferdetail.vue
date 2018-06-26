@@ -28,18 +28,28 @@
     <!-- 标 -->
     <div class="list">
         <ul>
-            <li>到期日 <span>2017.12.30</span></li>
+            <li>到期日 <span class="color">2017.12.30</span></li>
             <li>起息日 <span>2017.12.12</span></li>
             <li>投资日 <span>2017.12.12</span></li>
             <li>收益方式 <span>到期还本付息</span></li>
         </ul>
-        <img v-if="isshow2" src="~@/assets/img/had.png">
-        <div class="product" v-if="isshow3">
-            <h5>资金去向 <span></span></h5>
-            <p v-if="isshow">某某项目 <img class="img" src="~@/assets/img/right.png"></p>
-        </div>
-        <p class="note" v-if="!isshow">流标，标的募集未满额</p>
+        <ul>
+            <li>已持有天数 <span>200天</span></li>
+            <li>剩余天数<span  class="color">165天</span></li>
+            <li>转让日期 <span>2017.12.12</span></li>
+            <li>当日转让结算利率<span  class="color">6.5%</span></li>
+            <li>当日转让结算收益<span  class="color">4500.58元</span></li>
+            <li>转让成功后本息合计<span  class="color">1004500.58元</span></li>
+            <li>转让手续费<span  class="color">880.00元</span></li>
+        </ul>
     </div>
+    <span class="button" @click="sub">提交转让</span>
+    <div class="tost">
+      <img src="~@/assets/img/face.png"><span class="close" @click="close">&Chi;</span>
+      <p>主人你就真的狠心不要我了么？</p>
+      <span class="left" @click="leftclose">狠心转让</span><span class="right" @click="rightclose">我在想想</span>
+    </div> 
+    <div class="bg"></div>
   </div>
 </template>
 
@@ -64,8 +74,22 @@ export default {
         goBack() {
             this.$router.back()
         },
-        category(){
-            this.$router.push({ path: '/page/category' })
+        sub(){
+          $(".bg").css("display","block")
+          $(".tost").css("display","block")
+        },
+        rightclose(){
+          $(".bg").css("display","none")
+          $(".tost").css("display","none")
+        },
+        leftclose(){
+          $(".bg").css("display","none")
+          $(".tost").css("display","none")
+          this.$router.push({ path: '/page/Transfersuccess' })
+        },
+        close(){
+          $(".bg").css("display","none")
+          $(".tost").css("display","none")
         }
     },
     mounted() {
@@ -82,7 +106,7 @@ export default {
     margin: 0;
   }
 .asset{
-    background: #f6f6f6;height: 100%;
+    background: #f6f6f6;padding-bottom: 1rem;position: relative;
     /*资产头部*/
     .assetTop{
         width: 100%;
@@ -135,28 +159,26 @@ export default {
         }
     }
     .list{
-        margin-top: 0.8rem;position: relative;
-        ul{ 
-            padding: 0 0.8rem;background: #fff;
-            li{
-                line-height: 2.5rem;height: 2.5rem;font-size: 0.8rem;color: #666;border-bottom: 1px solid #eee;
-                span{float: right;color: #333;text-align: right;}
-            }
-            li:last-child{border-bottom: 0;}
+      position: relative;
+      ul{ 
+        padding: 0 0.8rem;background: #fff;margin-top: 0.8rem;
+        li{
+            line-height: 2.5rem;height: 2.5rem;font-size: 0.8rem;color: #666;border-bottom: 1px solid #eee;
+            span{float: right;color: #333;text-align: right;}
+            .color{color: #FFA303}
         }
-        img{position: absolute;top: 1rem;left: 8rem;width: 8rem;height: 8rem;}
-        .product{
-            margin-top: 0.8rem;background: #fff;
-            h5{
-                color: #333;font-size: 0.8rem;line-height: 2rem;border-bottom: 1px solid #eee;height: 2rem;padding: 0 0.8rem;
-                span{color: #FFA303}
-            }
-            p{
-                font-size: 0.7rem;height: 2.5rem;line-height: 2.5rem;padding: 0 0.8rem;
-                .img{float: right;width: 0.4rem;height:0.7rem;position: relative;top: 1rem;left: 0}
-            }
-        }
-        .note{color: #FF6936;font-size: 0.8rem;text-align: right;padding: 0.8rem;}
+        li:last-child{border-bottom: 0;}
+      }
+    }
+    .button{width: 90%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border-radius: 30px;line-height: 2.4rem;height: 2.4rem;color: #fff;font-size: 0.9rem;margin-top: 2rem;display: inline-block;text-align: center;margin-left: 5%;}
+    .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);top:0;left: 0;z-index: 11;display: none;}
+    .tost{
+      width: 60%;height: 8.3rem;border-radius: 5px;position: absolute;top: 40%;background: #fff;left: 20%;text-align: center;z-index: 111;overflow: hidden;display: none;
+      img{width: 2.6rem;height: 2.3rem;margin-top: 1rem;}
+      .close{color: #ccc;position: absolute;right: 1rem;top: 0.5rem;}
+      p{font-size: 0.8rem;color: #333;text-align: center;}
+      .left{color: #2B9AFF;font-size: 0.9rem;width: 49%;display: inline-block;text-align: center;line-height: 2.2rem;height: 2.2rem;float: left;margin-top: 1.1rem;border-top: 1px solid #eee;}
+      .right{font-size: 0.9rem;width: 51%;display: inline-block;text-align: center;line-height: 2.2rem;height: 2.2rem;float: left;margin-top: 1.1rem;border-top: 1px solid #eee;color: #fff;background:#2B9AFF }
     }
 }
 

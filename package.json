@@ -27,6 +27,7 @@
     "vue-loading-template": "^0.1.7",
     "vue-resource": "^1.5.0",
     "vue-router": "^3.0.1",
+    "vue-social-share": "0.0.3",
     "vue-wechat-auth": "^1.0.2",
     "vuex": "^3.0.1",
     "vux": "^2.9.0",

@@ -72,6 +72,7 @@ export default {
         },
         isShowTabbar() {
             if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|principal|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs|address|invite|friendList|commonProblem|message|msgDetail|MsgDetail1/.test(this.$route.path)) {
+
                 return true
             }
             return false

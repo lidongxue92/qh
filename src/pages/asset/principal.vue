@@ -3,7 +3,7 @@
     <!-- 资产头部 -->
     <div class="assetTop">
       <div class="title">
-        <img src="~@/assets/img/left.png">
+        <img src="~@/assets/img/left.png" @click="goBack">
         <span>理财详情</span>
       </div>
       <div class="assetTopMain">
@@ -12,7 +12,7 @@
       </div>
       <p class="assetBottom">
           <span class="left">投资本金(元) <b>100,000.00</b></span>
-          <span class="right">我要转让 >></span>
+          <span class="right" @click="Transfer">我要转让 >></span>
       </p>
     </div>
     <!-- 标 -->
@@ -90,17 +90,35 @@ export default {
         assetdetail(){
             this.$router.push({ path: '/page/assetdetail' })
         },
+        Transfer(){
+            this.$router.push({ path: '/page/Transfer' })
+        },
         has(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
         },
         going(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".going").addClass('active')
             $(".has").removeClass('active')
             $(".had").removeClass('active')
         },
         had(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".had").addClass('active')
             $(".has").removeClass('active')
             $(".going").removeClass('active')

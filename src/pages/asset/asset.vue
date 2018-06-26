@@ -92,14 +92,7 @@
           </div>
         </div>
       </div>
-    </div>
-
-
-    <!-- 侧边栏 -->
-    <div class="zhezhao" @click="zhezhaoHide"></div>
-    <slider></slider>
-
-       
+    </div>      
 
 
 
@@ -147,7 +140,6 @@ export default {
 
     },
 
-
     linkToMsg(){
       this.$router.push({path:'/page/message'})
     },
@@ -168,7 +160,6 @@ export default {
     },
     linkToIncome(){
       this.$router.push({path:'/page/income'})
-    },   
 
   },
 

@@ -28,8 +28,18 @@ const Principal = r => require.ensure([], () => r(require('@/pages/asset/princip
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
 const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/assetdetail')), 'assetdetail')
+
 const MsgDetail = r => require.ensure([], () => r(require('@/pages/asset/msgDetail')), 'msgDetail')
 const MsgDetail1 = r => require.ensure([], () => r(require('@/pages/asset/msgDetail1')), 'msgDetail1')
+
+const Transfer = r => require.ensure([], () => r(require('@/pages/asset/Transfer')), 'Transfer')
+const TransferAgreement = r => require.ensure([], () => r(require('@/pages/asset/TransferAgreement')), 'TransferAgreement')
+const Transferdetail = r => require.ensure([], () => r(require('@/pages/asset/Transferdetail')), 'Transferdetail')
+const Transfersuccess = r => require.ensure([], () => r(require('@/pages/asset/Transfersuccess')), 'Transfersuccess')
+const Userset = r => require.ensure([], () => r(require('@/pages/asset/userset')), 'userset')
+
+
+
 // 侧栏
 const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
 const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
@@ -127,87 +137,51 @@ const routes = [
                 },
                 component: Detail
             },
-            // {
-            //     path: 'theme',
-            //     name: 'theme',
-            //     meta: {
-            //         title: '主题'
-            //     },
-            //     component: Theme
-            // },
-
-            // {
-            //     path: 'addGoods',
-            //     name: 'addGoods',
-            //     meta: {
-            //         title: '添加商品',
-            //         requireAuth: true
-            //     },
-            //     component: addGoods
-            // },
-            // {
-            //     path: 'dyinvite',
-            //     name: 'dyinvite',
-            //     meta: {
-            //         title: '店员邀新排行榜',
-            //         requireAuth: true
-            //     },
-            //     component: Dyinvite
-            // },
-            // {
-            //     path: 'cart',
-            //     name: 'cart',
-            //     meta: {
-            //         title: '购物车',
-            //         // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: Cart
-            // },
-            // {
-            //     path: 'order',
-            //     name: 'order',
-            //     meta: {
-            //         title: '订单',
-            //         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: Order
-            // },
-            // {
-            //     path: 'orderData',
-            //     name: 'orderData',
-            //     meta: {
-            //         title: '店铺订单数据',
-            //         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: OrderData
-            // },
-            // {
-            //     path: 'commodityData',
-            //     name: 'commodityData',
-            //     meta: {
-            //         title: '营销商品数据',
-            //         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: CommodityData
-            // },
-            // {
-            //     path: 'address',
-            //     name: 'address',
-            //     meta: {
-            //         title: '地址',
-            //         requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: Address
-            // },
-            // {
-            //     path: 'user',
-            //     name: 'user',
-            //     meta: {
-            //         title: '我的',
-            //         // requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-            //     },
-            //     component: User
-            // },
+            {
+                path: 'detailto',
+                name: 'detailto',
+                meta: {
+                    title: '转让产品详情',
+                    // requireAuth: true
+                },
+                component: Detailto
+            },
+            {
+                path: 'detailProduct',
+                name: 'detailProduct',
+                meta: {
+                    title: '产品详情介绍',
+                    // requireAuth: true
+                },
+                component: DetailProduct
+            },
+            {
+                path: 'log',
+                name: 'log',
+                meta: {
+                    title: '日志',
+                    // requireAuth: true
+                },
+                component: Log
+            },
+            {
+                path: 'pay',
+                name: 'pay',
+                meta: {
+                    title: '确认支付',
+                    // requireAuth: true
+                },
+                component: Pay
+            },
+            {
+                path: 'red',
+                name: 'red',
+                meta: {
+                    title: '平台福利',
+                    // requireAuth: true
+                },
+                component: Red
+            },
             {
                 path: 'asset',
                 name: 'asset',
@@ -216,16 +190,6 @@ const routes = [
                     // requireAuth: true
                 },
                 component: Asset,
-            },
-            {
-                path: 'platform',
-                name: 'platform',
-                meta: {
-                    title: '平台福利',
-                    // requireAuth: true
-                },
-                component: Platform,
-                
             },
             {
                 path: 'billingDetails',
@@ -282,6 +246,7 @@ const routes = [
                 
             },
             {
+
                 path: 'msgDetail',
                 name: 'msgDetail',
                 meta: {
@@ -298,6 +263,55 @@ const routes = [
                     // requireAuth: true
                 },
                 component: MsgDetail1
+
+                path: 'Transfer',
+                name: 'Transfer',
+                meta: {
+                    title: '债权转让',
+                // requireAuth: true
+                },
+                component: Transfer
+                
+            },
+            {
+                path: 'TransferAgreement',
+                name: 'TransferAgreement',
+                meta: {
+                    title: '债权转让协议',
+                // requireAuth: true
+                },
+                component: TransferAgreement
+                
+            },
+            {
+                path: 'Transferdetail',
+                name: 'Transferdetail',
+                meta: {
+                    title: '转让产品',
+                // requireAuth: true
+                },
+                component: Transferdetail
+                
+            },
+            {
+                path: 'Transfersuccess',
+                name: 'Transfersuccess',
+                meta: {
+                    title: '转让成功',
+                // requireAuth: true
+                },
+                component: Transfersuccess
+                
+            },
+            {
+                path: 'assetdetail',
+                name: 'assetdetail',
+                meta: {
+                    title: '产品详情',
+                // requireAuth: true
+                },
+                component: AssetDetail
+                
             },
 
             //侧边菜单
@@ -309,7 +323,16 @@ const routes = [
                     // requireAuth: true
                 },
                 component: AboutUs
-            }, 
+            },
+            {
+                path: 'userset',
+                name: 'userset',
+                meta: {
+                    title: '用户设置',
+                    // requireAuth: true
+                },
+                component: Userset
+            },
             {
                 path: 'service',
                 name: 'service',
@@ -350,6 +373,7 @@ const routes = [
                 component: Invite
 
             },
+
             {
                 path: 'friendList',
                 name: 'friendList',
@@ -370,6 +394,7 @@ const routes = [
                 component: AssetDetail
                 
             },
+
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',
