@@ -94,6 +94,7 @@ export default {
             this.isshow = false
             this.$router.push({ path: '/page/pay' })
             _this.time = '6'
+            _this.percent = '0'
           }
       },
       tost(){

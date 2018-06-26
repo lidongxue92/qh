@@ -61,7 +61,7 @@
         left: 1rem;
         top: .4rem;
         img{
-            width: 100%;
+            width: 100%;cursor: pointer;
         }
     }
 }

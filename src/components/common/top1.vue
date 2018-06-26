@@ -59,8 +59,9 @@
         position: relative;
         left: 1rem;
         top: .4rem;
+        cursor: pointer;
         img{
-            width: 100%;
+            width: 100%;cursor: pointer;
         }
     }
     .right{float: right;font-size: 0.8rem;color: #fff;position: absolute;right: 0.5rem;top: 0;}

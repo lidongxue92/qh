@@ -32,7 +32,7 @@ const Transfer = r => require.ensure([], () => r(require('@/pages/asset/Transfer
 const TransferAgreement = r => require.ensure([], () => r(require('@/pages/asset/TransferAgreement')), 'TransferAgreement')
 const Transferdetail = r => require.ensure([], () => r(require('@/pages/asset/Transferdetail')), 'Transferdetail')
 const Transfersuccess = r => require.ensure([], () => r(require('@/pages/asset/Transfersuccess')), 'Transfersuccess')
-const Userset = r => require.ensure([], () => r(require('@/pages/asset/userset')), 'userset')
+
 
 
 // 侧栏
@@ -41,7 +41,12 @@ const Service = r => require.ensure([], () => r(require('@/pages/slider/service'
 const Address = r => require.ensure([], () => r(require('@/pages/slider/address')), 'address')
 const CommonProblem = r => require.ensure([], () => r(require('@/pages/slider/commonProblem')), 'commonProblem')
 const Invite = r => require.ensure([], () => r(require('@/pages/slider/invite')), 'invite')
-
+const Userset = r => require.ensure([], () => r(require('@/pages/slider/userset')), 'userset')
+const Security = r => require.ensure([], () => r(require('@/pages/slider/security')), 'security')
+const Loginpassword = r => require.ensure([], () => r(require('@/pages/slider/loginpassword')), 'loginpassword')
+const Nameset = r => require.ensure([], () => r(require('@/pages/slider/nameset')), 'nameset')
+const Phone = r => require.ensure([], () => r(require('@/pages/slider/phone')), 'phone')
+const Changephone = r => require.ensure([], () => r(require('@/pages/slider/changephone')), 'changephone')
 
 
 
@@ -307,6 +312,51 @@ const routes = [
                     // requireAuth: true
                 },
                 component: Userset
+            },
+            {
+                path: 'security',
+                name: 'security',
+                meta: {
+                    title: '安全设置',
+                    // requireAuth: true
+                },
+                component: Security
+            },
+            {
+                path: 'loginpassword',
+                name: 'loginpassword',
+                meta: {
+                    title: '登录密码设置',
+                    // requireAuth: true
+                },
+                component: Loginpassword
+            },
+            {
+                path: 'nameset',
+                name: 'nameset',
+                meta: {
+                    title: '实名认证',
+                    // requireAuth: true
+                },
+                component: Nameset
+            },
+            {
+                path: 'phone',
+                name: 'phone',
+                meta: {
+                    title: '手机号',
+                    // requireAuth: true
+                },
+                component: Phone
+            },
+            {
+                path: 'changephone',
+                name: 'changephone',
+                meta: {
+                    title: '更改手机号',
+                    // requireAuth: true
+                },
+                component: Changephone
             },
             {
                 path: 'service',

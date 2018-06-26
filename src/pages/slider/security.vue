@@ -3,11 +3,7 @@
         <top v-bind:title="title"></top>
         <div class="middle">
             <ul class="list">
-                <li>预计到期收益 <span class="c-FFA303">42.65元</span></li>
-                <li>预计到期日 <span class="c-2B9AFF">2017.12.30</span></li>
-                <li>收益方式 <span>到期还本付息</span></li>
-                <li>转让日期 <span>2017.12.30</span></li>
-                <li>转让人 <span>江苏  李先生</span></li>
+                <li @click="loginpassword">登录密码 <img src="~@/assets/img/right.png"><span v-if="isshow" class="c-FFA303" >修改 &emsp;</span></li>
             </ul>
         </div>
     </div>
@@ -28,7 +24,8 @@ export default {
         return {
             product: null,
             money:'1000',
-            title:'账户设置'
+            title:'安全设置',
+            isshow:true
         }
     },
     computed: {
@@ -40,8 +37,8 @@ export default {
         // this.getALLProducts()
     },
     methods: {
-        linkTodetail1() {
-            this.$router.push({ path: '/page/detail1' })
+        loginpassword() {
+            this.$router.push({ path: '/page/loginpassword' })
         },
     },
     components: {
@@ -80,6 +77,7 @@ export default {
             li{
                 list-style: none;font-size: 0.7rem;border-bottom: 1px solid #eee;padding: 0.5rem 0;
                 span{float: right;color: #333;font-size: 0.7rem;}
+                img{float: right;width: 0.5rem;height: 0.8rem;position: relative;top: 0.2rem;}
                 .c-FFA303{color: #FFA303}
                 .c-2B9AFF{color: #2B9AFF}
             }
