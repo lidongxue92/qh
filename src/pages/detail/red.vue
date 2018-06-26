@@ -173,6 +173,11 @@ export default {
             this.$router.push({ path: '/page/data' })
         },
         red(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".red").addClass('active')
             $('.add').removeClass('active')
             this.isshow2 = true
@@ -182,6 +187,11 @@ export default {
             this.isshow6 = false
         },
         add(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".add").addClass('active')
             $('.red').removeClass('active')
             this.isshow2 = false
@@ -199,6 +209,11 @@ export default {
             $(".toast").css('display',"block")
         },
         history(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             this.isshow2 = false
             this.isshow3 = true
             this.isshow4 = false
@@ -206,6 +221,11 @@ export default {
             this.isshow6 = false
         },
         history1(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             this.isshow2 = false
             this.isshow3 = false
             this.isshow4 = false
@@ -272,7 +292,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top: 0.5rem;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1rem;
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;}
                     }
                 }
@@ -310,7 +330,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 0.5rem;
+                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
                     }
                 }
@@ -386,7 +406,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 0.5rem;
+                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
                     }
                 }

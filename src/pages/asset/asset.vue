@@ -138,7 +138,7 @@
             <img src="../../assets/img/sliderBox/slider1.png">
             <span>托管账户<b>(未开通)</b></span>
           </li>
-          <li>
+          <li @click="userset">
             <img src="../../assets/img/sliderBox/slider2.png">
             <span>账户设置</span>
           </li>
@@ -146,11 +146,11 @@
             <img src="../../assets/img/sliderBox/slider3.png">
             <span>邀请好友</span>
           </li>
-          <li>
+          <li @click="linkToProblem">
             <img src="../../assets/img/sliderBox/slider4.png">
             <span>常见问题</span>
           </li>
-          <li>
+          <li @click="linkToAddress">
             <img src="../../assets/img/sliderBox/slider5.png">
             <span>联系地址</span>
           </li>
@@ -238,7 +238,7 @@ export default {
       this.$router.push({path:'/page/message'})
     },
     linkToPlatfrom(){
-      this.$router.push({path:'/page/platform'})
+      this.$router.push({path:'/page/red'})
     },
     linkToBiling(){
       this.$router.push({path:'/page/billingDetails'})
@@ -257,11 +257,20 @@ export default {
     },
 
     // 侧栏
-    linkToAboutUs(){
-      this.$router.push({path:'/page/aboutUs'})
+    userset(){
+      this.$router.push({path:'/page/userset'})
+    },
+    linkToProblem(){
+      this.$router.push({path:'/page/commonProblem'})
+    },
+    linkToAddress(){
+      this.$router.push({path:'/page/address'})
     },
     linkToService(){
       this.$router.push({path:'/page/service'})
+    },
+    linkToAboutUs(){
+      this.$router.push({path:'/page/aboutUs'})
     },
     linkToLogin(){
       this.$router.push({path:'/login'})

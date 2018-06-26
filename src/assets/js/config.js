@@ -11,7 +11,7 @@ const config = {
   developAppId: 'wxb7146031bd5bbc93 ',
 
   //测试环境
-  testUrl:`http://public.weifenvip.com`,
+  testUrl:`http://10.0.0.73:8080/ interface`,
   testWsUrl: ``,
   testAppId: 'wxb7146031bd5bbc93 ',
 }

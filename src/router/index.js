@@ -32,12 +32,14 @@ const Transfer = r => require.ensure([], () => r(require('@/pages/asset/Transfer
 const TransferAgreement = r => require.ensure([], () => r(require('@/pages/asset/TransferAgreement')), 'TransferAgreement')
 const Transferdetail = r => require.ensure([], () => r(require('@/pages/asset/Transferdetail')), 'Transferdetail')
 const Transfersuccess = r => require.ensure([], () => r(require('@/pages/asset/Transfersuccess')), 'Transfersuccess')
+const Userset = r => require.ensure([], () => r(require('@/pages/asset/userset')), 'userset')
 
 
 // 侧栏
 const AboutUs = r => require.ensure([], () => r(require('@/pages/slider/aboutUs')), 'aboutUs')
 const Service = r => require.ensure([], () => r(require('@/pages/slider/service')), 'service')
-
+const Address = r => require.ensure([], () => r(require('@/pages/slider/address')), 'address')
+const CommonProblem = r => require.ensure([], () => r(require('@/pages/slider/commonProblem')), 'commonProblem')
 
 
 
@@ -127,6 +129,15 @@ const routes = [
                     // requireAuth: true
                 },
                 component: Detail
+            },
+            {
+                path: 'detailto',
+                name: 'detailto',
+                meta: {
+                    title: '转让产品详情',
+                    // requireAuth: true
+                },
+                component: Detailto
             },
             {
                 path: 'detailProduct',
@@ -228,16 +239,6 @@ const routes = [
                 
             },
             {
-                path: 'assetdetail',
-                name: 'assetdetail',
-                meta: {
-                    title: '产品详情',
-                // requireAuth: true
-                },
-                component: AssetDetail
-                
-            },
-            {
                 path: 'Transfer',
                 name: 'Transfer',
                 meta: {
@@ -277,6 +278,68 @@ const routes = [
                 component: Transfersuccess
                 
             },
+            {
+                path: 'assetdetail',
+                name: 'assetdetail',
+                meta: {
+                    title: '产品详情',
+                // requireAuth: true
+                },
+                component: AssetDetail
+                
+            },
+
+            //侧边菜单
+            {
+                path: 'aboutUs',
+                name: 'aboutUs',
+                meta: {
+                    title: '关于我们',
+                    // requireAuth: true
+                },
+                component: AboutUs
+            },
+            {
+                path: 'userset',
+                name: 'userset',
+                meta: {
+                    title: '用户设置',
+                    // requireAuth: true
+                },
+                component: Userset
+            },
+            {
+                path: 'service',
+                name: 'service',
+                meta: {
+                    title: '客服与反馈',
+                    // requireAuth: true
+                },
+                component: Service
+
+            },
+            {
+                path: 'address',
+                name: 'address',
+                meta: {
+                    title: '联系地址',
+                    // requireAuth: true
+                },
+                component: Address
+
+            },
+            {
+                path: 'commonProblem',
+                name: 'commonProblem',
+                meta: {
+                    title: '常见问题',
+                    // requireAuth: true
+                },
+                component: CommonProblem
+
+            },
+            
+            
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',

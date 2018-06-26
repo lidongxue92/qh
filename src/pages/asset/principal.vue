@@ -94,16 +94,31 @@ export default {
             this.$router.push({ path: '/page/Transfer' })
         },
         has(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
         },
         going(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".going").addClass('active')
             $(".has").removeClass('active')
             $(".had").removeClass('active')
         },
         had(){
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
             $(".had").addClass('active')
             $(".has").removeClass('active')
             $(".going").removeClass('active')

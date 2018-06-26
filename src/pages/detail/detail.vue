@@ -23,7 +23,7 @@
                 <h5>购买金额</h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model="money" @change="change"/>元
+                    <input class="money" v-model="money"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red">
@@ -120,6 +120,7 @@ export default {
             const value = num.val()
             this.money = parseFloat(this.money)+1000
             console.log (this.money)
+            $(".leftimg").attr('src',"~@/assets/img/add1.png")
         },
         cont(){
             const _this = this
@@ -128,11 +129,8 @@ export default {
             if (value>'1000') {
                 this.money = parseFloat(this.money)-1000
                 console.log (this.money)
-            }
-        },
-        change(){
-            if (value>'1000') {
-                $(".leftimg").attr('src',"../../assets/img/add1.png")
+            }else{
+                $(".leftimg").attr('src',"~@/assets/img/cont.png")
             }
         },
         timer() {

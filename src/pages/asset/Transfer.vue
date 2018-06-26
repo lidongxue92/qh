@@ -89,12 +89,22 @@ export default {
             this.$router.push({ path: '/page/TransferAgreement' })
         },
         Transferable(){
-            this.is_show2 = false
-            this.is_show = true
+            const _this = this
+            _this.is_show2 = false
+            _this.is_show = true
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
         },
         Notransferable(){
-            this.is_show2 = true
-            this.is_show = false
+            const _this = this
+            _this.$loading.show();//显示
+            setTimeout(function(){  //模拟请求
+                  _this.$loading.hide(); //隐藏
+            },2000)
+            _this.is_show2 = true
+            _this.is_show = false
         }
     },
     components: {

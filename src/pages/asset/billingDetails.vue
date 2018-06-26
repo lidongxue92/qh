@@ -1,6 +1,7 @@
 <template>
     <div class="detail page">
         <top v-bind:title="title"></top>
+        <span class="right_title" @click="rightTitle">筛选</span>
         <div class="middle">
             <ul class="list">
                 <li>
@@ -59,6 +60,19 @@
                 </li>
             </ul>
         </div>
+        <div class="bg"></div>
+        <div class="toast">
+            <ul>
+                <li class="active" @click="close">全部</li>
+                <li>充值</li>
+                <li>提现</li>
+                <li>投资</li>
+                <li>兑付</li>
+                <li>加息兑付</li>
+                <li>转让到账</li>
+                <li>手续费</li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -92,6 +106,14 @@ export default {
         linkTodetail1() {
             this.$router.push({ path: '/page/detail1' })
         },
+        rightTitle(){
+            $(".bg").css('display','block')
+            $(".toast").css('display','block')
+        },
+        close(){
+            $(".bg").css('display','none')
+            $(".toast").css('display','none')
+        }
     },
     components: {
         PopupPicker,
@@ -121,7 +143,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;height:100%;
+    background: #f7f7f7;height:100%;position: relative;
     .middle{
         margin-top: 1rem;
         .list{
@@ -132,6 +154,24 @@ export default {
                 .c-2773FF{color: #2773FF}
             }
             li:first-child{background: #eee;border-top: 0;}
+            @media screen and (max-width: 320px) {
+                li{
+                    span{width: 23%}
+                }
+            }
+        }
+    }
+    .right_title{position: absolute;top: 0.8rem;right: 0.8rem;color: #fff;font-size: 0.8rem;}
+    .bg{position: absolute;background: rgba(0,0,0,.5);left: 0;top: 0;width: 100%;height: 100%;display: none;}
+    .toast{
+        background: #fff;position: absolute;top: 2.8rem;left: 0;padding: 1rem;display: none;
+        li{display: inline-block;width: 4.2rem;margin-right: 1rem;border: 1px solid #333;color: #333;font-size: 0.7rem;text-align: center;line-height: 2rem;height: 2rem;border-radius: 30px;margin-top: 0.8rem;}
+        .active{color: #fff;border: 1px solid #fff;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF) }
+        li:nth-child(4n){margin-right: 0;}
+        @media screen and (max-width: 320px) {
+            li{
+                width: 3.7rem;margin-right: 0.5rem;
+            }
         }
     }
 }
