@@ -38,7 +38,7 @@
             <img src="../../assets/img/sliderBox/slider1.png">
             <span>托管账户<b>(未开通)</b></span>
           </li>
-          <li>
+          <li  @click="userset">
             <img src="../../assets/img/sliderBox/slider2.png">
             <span>账户设置</span>
           </li>
@@ -98,8 +98,11 @@ export default {
     },
     methods:{
         // 侧栏
+        userset(){
+          this.$router.push({path:'/page/userset'})
+        },
         linkToInvite(){
-        this.$router.push({path:'/page/invite'})
+          this.$router.push({path:'/page/invite'})
         },
         linkToProblem(){
         this.$router.push({path:'/page/commonProblem'})

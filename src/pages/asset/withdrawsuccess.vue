@@ -2,17 +2,10 @@
     <div class="detail page">
         <top v-bind:title="title"></top>
         <div class="middle">
-            <div class="noset" v-if = 'isshow'>
-                <ul class="list">
-                    <li>提现金额&ensp;<input type="type" >元</li>
-                </ul>
-                <p>您当前可提现金额<span>￥1000.36</span> <span class="right">全部提现</span></p>
-                <button class="button" @click="withdrawsuccess">下一步</button>
-                <p class="title">提现规则：</p>
-                <p>1. 您每月拥有三次免费提现的机会，超过三次收取2元/笔；</p>
-                <p>2. 免费提现次数不累计到下月；</p>
-                <p>3. 账户余额（或提现后）< 100元时，须一次性提完；</p>
-                <p>4. 新用户充值成功而未做投资的，如需提现，需承担提现金额0.3%的手续费，最低每笔2元。因银行存管处理T+1日限制，当日充值的额度，24小时内不支持发起提现，具体可咨询平台客服。</p>
+            <div class="noset" >
+                <img src="~@/assets/img/put.png">
+                <p>恭喜您！提现成功！</p>
+                <button class="button" @click="back">返回</button>
             </div>
         </div>
     </div>
@@ -41,7 +34,7 @@ export default {
             LUserPsd:'',
             picLyanzhengma:'',
             checkCode:'',
-            title:'提现',
+            title:'提现成功',
             isshow:true        }
     },
     computed: {
@@ -53,8 +46,8 @@ export default {
         // this.getALLProducts()
     },
     methods: {
-        withdrawsuccess() {
-            this.$router.push({ path: '/page/withdrawsuccess' })
+        back() {
+            this.$router.push({ path: '/page/asset' })
         },
     },
     components: {
@@ -89,18 +82,9 @@ export default {
     .middle{
         margin-top: 1rem;
         .noset{
-             .list{
-                margin-top: 0.5rem;background: #fff;border-radius: 3px;color: #bdbdbd;
-                li{
-                    list-style: none;font-size: 0.7rem;border-bottom: 1px solid #eee;padding: 0.8rem;position: relative;margin-bottom: 0.5rem;
-                    input{width: 75%;border: 0;color: #bdbdbd;text-align: right;}
-                }
-                li:last-child{border-bottom: 0;}
-            }
+             img{width: 8rem;height: 7rem;margin-left: 8rem;margin-top: 4rem;}
             p{
-                padding:0.2rem 0.5rem;font-size: 0.6rem;color: #999;
-                span{color: #333;}
-                .right{float: right;color: #FFA303}
+                padding:0.2rem 0.5rem;font-size: 0.9rem;color: #FFA303;text-align: center;
             }
             .title{color: #333;font-size: 0.7rem;margin-top: 1rem;}
             .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}

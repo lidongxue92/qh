@@ -158,53 +158,50 @@ export default {
       this.$router.push({path:'/page/principal'})
     },
     linkToIncome(){
-      this.$router.push({path:'/page/income'})
-
-  },
-
-  mounted() {
+      this.$router.push({path:'/page/income'})},
+    },
+     mounted() {
     /*ECharts图表*/
-    var myChart = echarts.init(document.getElementById('main'));
-    myChart.setOption({
-            tooltip : { //提示框组件
-              show:false,
-            },
-            color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
-            series : [ //系列列表
-                {
-                    // name:'设备状态',  //系列名称
-                    type:'pie',   //类型 pie表示饼图
-                    radius : ['56%', '70%'],  //饼图的半径,第一项是内半径,第二项是外半径,内半径为0就是真的饼,不是环形
-                    hoverAnimation:false,
-                    legendHoverLink:false,
-                    itemStyle : {  //图形样式
-                        normal : { //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                            label : {  //饼图图形上的文本标签
-                                show : false  //平常不显示
-                            },
-                            labelLine : {     //标签的视觉引导线样式
-                                show : false  //平常不显示
-                            }
+      var myChart = echarts.init(document.getElementById('main'));
+      myChart.setOption({
+        tooltip : { //提示框组件
+          show:false,
+        },
+        color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+        series : [ //系列列表
+            {
+                // name:'设备状态',  //系列名称
+                type:'pie',   //类型 pie表示饼图
+                radius : ['56%', '70%'],  //饼图的半径,第一项是内半径,第二项是外半径,内半径为0就是真的饼,不是环形
+                hoverAnimation:false,
+                legendHoverLink:false,
+                itemStyle : {  //图形样式
+                    normal : { //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
+                        label : {  //饼图图形上的文本标签
+                            show : false  //平常不显示
                         },
-                        emphasis : {   //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                            label : {  //饼图图形上的文本标签
-                                show : false,
-                            }
+                        labelLine : {     //标签的视觉引导线样式
+                            show : false  //平常不显示
                         }
                     },
-                    data:[
-                        {value:80, name:'待收本金'},
-                        {value:10, name:'待收收益'},
-                        {value:30, name:'转让金额'},
-                        {value:20, name:'账户余额'},
-                        {value:25, name:'冻结金额'}
-                    ]
-                }
-            ]
-    });
-    /*ECharts图表*/
-  }
-}
+                    emphasis : {   //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
+                        label : {  //饼图图形上的文本标签
+                            show : false,
+                        }
+                    }
+                },
+                data:[
+                    {value:80, name:'待收本金'},
+                    {value:10, name:'待收收益'},
+                    {value:30, name:'转让金额'},
+                    {value:20, name:'账户余额'},
+                    {value:25, name:'冻结金额'}
+                ]
+            }
+        ]
+      });
+      /*ECharts图表*/
+    }
 }
 </script>
 

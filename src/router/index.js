@@ -24,6 +24,7 @@ const Platform = r => require.ensure([], () => r(require('@/pages/asset/platform
 const BillingDetails = r => require.ensure([], () => r(require('@/pages/asset/billingDetails')), 'billingDetails')
 const Recharge = r => require.ensure([], () => r(require('@/pages/asset/recharge')), 'recharge')
 const Withdraw = r => require.ensure([], () => r(require('@/pages/asset/withdraw')), 'withdraw')
+const Withdrawsuccess = r => require.ensure([], () => r(require('@/pages/asset/withdrawsuccess')), 'withdrawsuccess')
 const Principal = r => require.ensure([], () => r(require('@/pages/asset/principal')), 'principal')
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
@@ -212,7 +213,8 @@ const routes = [
                     // requireAuth: true
                 },
                 component: Recharge
-            }, {
+            }, 
+            {
                 path: 'withdraw',
                 name: 'withdraw',
                 meta: {
@@ -220,6 +222,15 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Withdraw
+            },
+            {
+                path: 'withdrawsuccess',
+                name: 'withdrawsuccess',
+                meta: {
+                    title: '提现成功',
+                // requireAuth: true
+                },
+                component: Withdrawsuccess
             }, 
             {
                 path: 'principal',
