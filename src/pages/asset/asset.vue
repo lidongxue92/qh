@@ -92,9 +92,9 @@
           </div>
         </div>
       </div>
-    </div>      
-
-
+    </div>
+    <div class="zhezhao" @click="zhezhaoHide"></div>
+    <slider> </slider>
 
   </div>
 </template>
@@ -114,7 +114,6 @@ export default {
         imgSrc:"../../../static/img/openEyes.png",
         totalMoney:1888800.01,
         numberChange: 10000.08,
-        
 　　　}
 　},
 

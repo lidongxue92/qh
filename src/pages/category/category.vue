@@ -10,7 +10,7 @@
                 <h5>{{item.Title}}<span>{{item.Data}}</span></h5>
                 <p class="Profit">{{item.Profit}}</p>
                 <p><span>剩余金额 &emsp; <b>{{item.Quota}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.Day}}</b> </span></p>
-                <button class="button">立即投资</button>
+                <button class="button" @click="linktoDetail()">立即投资</button>
             </div>
             <div class="middle">
              <ul class="productlist">
