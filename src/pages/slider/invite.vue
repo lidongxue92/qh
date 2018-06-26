@@ -2,6 +2,7 @@
     <div class="container">
         <topComponent title='邀请好友' :showLeft='false'>
             <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+            <span class="right" @click='linkToFrienfList' slot="right">好友列表</span>
         </topComponent>
         <div class="banner"><img src="../../assets/img/invite/bg.png"></div>
 
@@ -49,6 +50,9 @@ export default {
                 });
             }, false);
             
+        },
+        linkToFrienfList(){
+            this.$router.push({path:'/page/friendList'})
         }
     }
 }
@@ -57,7 +61,6 @@ export default {
 <style>
 .soshm-pop{
     background: none;
-    
 }
 .soshm-pop-sites{
     top: 94%;
@@ -67,6 +70,13 @@ export default {
 
 <style lang="less" scoped>
 .container{
+    .right{
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        font-size: .7rem /* 26/40 */;
+        line-height: 2.8rem;
+    }
     background: #F6F6F6;
     width: 100%;
     height: 100%;

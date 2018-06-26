@@ -28,10 +28,13 @@ const Principal = r => require.ensure([], () => r(require('@/pages/asset/princip
 const Income = r => require.ensure([], () => r(require('@/pages/asset/income')), 'income')
 const Message = r => require.ensure([], () => r(require('@/pages/asset/message')), 'message')
 const AssetDetail = r => require.ensure([], () => r(require('@/pages/asset/assetdetail')), 'assetdetail')
+const MsgDetail = r => require.ensure([], () => r(require('@/pages/asset/msgDetail')), 'msgDetail')
+const MsgDetail1 = r => require.ensure([], () => r(require('@/pages/asset/msgDetail1')), 'msgDetail1')
 const Transfer = r => require.ensure([], () => r(require('@/pages/asset/Transfer')), 'Transfer')
 const TransferAgreement = r => require.ensure([], () => r(require('@/pages/asset/TransferAgreement')), 'TransferAgreement')
 const Transferdetail = r => require.ensure([], () => r(require('@/pages/asset/Transferdetail')), 'Transferdetail')
 const Transfersuccess = r => require.ensure([], () => r(require('@/pages/asset/Transfersuccess')), 'Transfersuccess')
+
 
 
 
@@ -47,6 +50,9 @@ const Loginpassword = r => require.ensure([], () => r(require('@/pages/slider/lo
 const Nameset = r => require.ensure([], () => r(require('@/pages/slider/nameset')), 'nameset')
 const Phone = r => require.ensure([], () => r(require('@/pages/slider/phone')), 'phone')
 const Changephone = r => require.ensure([], () => r(require('@/pages/slider/changephone')), 'changephone')
+const FriendList = r => require.ensure([], () => r(require('@/pages/slider/friendList')), 'friendList')
+
+
 
 
 
@@ -244,6 +250,25 @@ const routes = [
                 
             },
             {
+
+                path: 'msgDetail',
+                name: 'msgDetail',
+                meta: {
+                    title: '消息详情',
+                    // requireAuth: true
+                },
+                component: MsgDetail
+            },
+            {
+                path: 'msgDetail1',
+                name: 'msgDetail1',
+                meta: {
+                    title: '公告详情',
+                    // requireAuth: true
+                },
+                component: MsgDetail1
+            },
+            {
                 path: 'Transfer',
                 name: 'Transfer',
                 meta: {
@@ -398,6 +423,28 @@ const routes = [
                 component: Invite
 
             },
+
+            {
+                path: 'friendList',
+                name: 'friendList',
+                meta: {
+                    title: '我的好友',
+                    // requireAuth: true
+                },
+                component: FriendList
+            },
+            
+            {
+                path: 'assetdetail',
+                name: 'assetdetail',
+                meta: {
+                    title: '产品详情',
+                // requireAuth: true
+                },
+                component: AssetDetail
+                
+            },
+
             // {
             //     path: 'storeInfo',
             //     name: 'storeInfo',
