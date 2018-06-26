@@ -2,19 +2,10 @@
     <div class="detail page">
         <top v-bind:title="title"></top>
         <div class="middle">
-            <div class="noset" v-if = 'isshow'>
-                <ul class="list">
-                    <li>充值金额&ensp;<input type="type" placeholder="充值金额最小为100">元</li>
-                </ul>
-
-                <button class="button" @click="card">确定</button>
-                <p class="title">充值规则：</p>
-                <p>1. 用户充值不收取任何手续费；</p>
-                <p>2. 最低充值金额应 >= 100 元；</p>
-                <p>3. 充值/提现必须为银行借记卡，不支持存折、信用卡充值；</p>
-                <p>4. 严禁利用充值功能进行信用卡套现、转账、洗钱等行为，一经发现，将封停账号；</p>
-                <p>5. 充值需开通银行卡网上支付功能；如有疑问请咨询开户行客服；</p>
-                <p>6. 如需帮助，请点击右侧在线客服或拨打客服热线：400-821-6328。</p>
+            <div class="noset" >
+                <img src="~@/assets/img/put.png">
+                <p>恭喜！新卡绑定成功！</p>
+                <button class="button" @click="back">返回充值</button>
             </div>
         </div>
     </div>
@@ -43,7 +34,7 @@ export default {
             LUserPsd:'',
             picLyanzhengma:'',
             checkCode:'',
-            title:'充值',
+            title:'绑卡成功',
             isshow:true        }
     },
     computed: {
@@ -55,9 +46,8 @@ export default {
         // this.getALLProducts()
     },
     methods: {
-        //开通账户但未绑卡是进行跳转
-        card() {
-            this.$router.push({ path: '/page/card' })
+        back() {
+            this.$router.push({ path: '/page/recharge' })
         },
     },
     components: {
@@ -92,18 +82,9 @@ export default {
     .middle{
         margin-top: 1rem;
         .noset{
-             .list{
-                margin-top: 0.5rem;background: #fff;border-radius: 3px;color: #bdbdbd;
-                li{
-                    list-style: none;font-size: 0.7rem;border-bottom: 1px solid #eee;padding: 0.8rem;position: relative;margin-bottom: 0.5rem;
-                    input{width: 75%;border: 0;color: #bdbdbd;text-align: right;}
-                }
-                li:last-child{border-bottom: 0;}
-            }
+             img{width: 8rem;height: 7rem;margin-left: 8rem;margin-top: 4rem;}
             p{
-                padding:0.2rem 0.5rem;font-size: 0.6rem;color: #999;
-                span{color: #333;}
-                .right{float: right;color: #FFA303}
+                padding:0.2rem 0.5rem;font-size: 0.9rem;color: #FFA303;text-align: center;
             }
             .title{color: #333;font-size: 0.7rem;margin-top: 1rem;}
             .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}

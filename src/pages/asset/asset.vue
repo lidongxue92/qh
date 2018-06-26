@@ -31,8 +31,9 @@
 
     <!-- 充值提现 -->
     <div class="recharge">
-      <div @click="linkToRecharge"><p>充值</p></div>
-      <div @click="linkToWithdraw"><p class="withdraw">提现</p></div>
+      <div @click="linkToWithdraw"><p>提现</p></div>
+      <div @click="linkToRecharge"><p class="withdraw">充值</p></div>
+      
     </div>
     <!-- 充值提现 -->
     <div class="grayLine"></div>

@@ -36,7 +36,9 @@ const TransferAgreement = r => require.ensure([], () => r(require('@/pages/asset
 const Transferdetail = r => require.ensure([], () => r(require('@/pages/asset/Transferdetail')), 'Transferdetail')
 const Transfersuccess = r => require.ensure([], () => r(require('@/pages/asset/Transfersuccess')), 'Transfersuccess')
 
-
+const Card = r => require.ensure([], () => r(require('@/pages/asset/card')), 'card')
+const CardSuccess = r => require.ensure([], () => r(require('@/pages/asset/cardSuccess')), 'cardSuccess')
+// const Recharge = r => require.ensure([], () => r(require('@/pages/asset/recharge')), 'recharge')
 
 
 // 侧栏
@@ -455,6 +457,30 @@ const routes = [
                 component: AssetDetail
                 
             },
+            // 绑卡
+            {
+                path: 'card',
+                name: 'card',
+                meta: {
+                    title: '新卡绑定',
+                    // requireAuth: true
+                },
+                component: Card
+            },
+
+            {
+                path: 'cardSuccess',
+                name: 'cardSuccess',
+                meta: {
+                    title: '绑定成功',
+                    // requireAuth: true
+                },
+                component: CardSuccess
+
+            },
+
+
+
 
             // {
             //     path: 'storeInfo',
