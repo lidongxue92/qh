@@ -96,7 +96,7 @@
     </div>
 
     <div class="zhezhao" @click="zhezhaoHide"></div>
-    <slider> </slider>
+    <div class="slider"><slider> </slider></div>
 
   </div>
 </template>
@@ -463,6 +463,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 600;
+  display: none;
 }
 
 </style>

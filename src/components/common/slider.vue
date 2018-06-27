@@ -130,7 +130,7 @@ export default {
 .slider{
   position: fixed;
   top: 0;
-  left: 0;
+  left: -75%;
   width: 72%;
   height: 100%;
   background: #fff;
