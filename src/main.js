@@ -30,7 +30,8 @@ import Loading from 'wc-loading'
 import 'wc-loading/style.css'
 Vue.use(Loading);
 
-
+// 引入base64
+let Base64 = require('js-base64').Base64;
 
 
 // 微信授权插件初始化
