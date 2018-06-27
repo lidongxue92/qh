@@ -27,14 +27,15 @@
               <label>
                   <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
+                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
               <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-                    <span class="tishixiaoxi disappear">请输入验证码。</span>
+                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+                    <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
                 <group>
                     <x-input type="text"
-                             placeholder="请输入验证码"
+                             placeholder="请输入短信验证码"
                              v-model="verifyCode"
                            >
 
@@ -49,7 +50,7 @@
                 </group>
             </div>
         </div>
-        
+
         <button class="login" @click="Login" v-if="isshow">登录</button>
         <!-- 短信登陆 -->
         <button class="login" @click="msgLogin" v-if="isshow1">登录</button>
@@ -204,48 +205,27 @@ export default {
         },
         // 手机号验证码
         sendCode() {
-            console.log('点击验证码触发')
-            // const reg = /^1[34578]\d{9}$/ // 手机号正则校验
-            // if (!this.phoneNumber) {
-            //     this.$vux.toast.text('请输入手机号~', 'middle')
-            //     return
-            // }
-            // if (!reg.test(this.phoneNumber)) {
-            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
-            //     return
-            // }
+            // console.log('点击验证码触发')
             this.time = 90
             this.disabled = true
             this.timer()
                 // 获取验证
-                //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
-                //  var params = new URLSearchParams();
-                //  params.append('mobile',this.phoneNumber);
-                //  params.append('token',localStorage.currentUser_token);
-                //  params.append('type','1');
-                //  if(!localStorage.sessionid){
-                //    console.log(params)
-                // }else{
-                //    params.append('session_id',localStorage.sessionid);
-                // }
-                //  axios.post(url,params).then(response => {
-                //    // const currentUser_token = response.data.data //获取token
-                //        console.log(response)
-                //        const sessionid = response.data.sessionid
-                //        console.log(sessionid)
-                //        localStorage.setItem('sessionid',sessionid);
-                //        let smsCode = response.data.data.verifCode
-                //        this.smsCode = smsCode
-                //        this.$vux.alert.show({
-                //            title: '验证码',
-                //            content: `验证码已发送,【${smsCode}】,10分钟有效`
-                //        })
-                //        setTimeout(() => {
-                //            this.$vux.alert.hide()
-                //        }, 3000)
-                //  }).catch((err) => {
-                //    console.log(err)
-                //  })
+              const url = myPub.URL+`/three/getSmsCode` ;
+              var params = new URLSearchParams();
+              params.append('phone',this.userPhone);
+              params.append('msgType','1');
+              axios.post(url,params).then(res => {
+                    console.log(res);
+                    // this.$vux.alert.show({
+                    //     title: '验证码',
+                    //     content: `验证码已发送,【${smsCode}】,10分钟有效`
+                    // })
+                    // setTimeout(() => {
+                    //     this.$vux.alert.hide()
+                    // }, 3000)
+              }).catch((err) => {
+                console.log(err)
+              })
         },
         timer() {
             if (this.time > 0) {
@@ -350,8 +330,8 @@ export default {
 
                 var params = new URLSearchParams();
                 params.append('phone',this.userPhone);
-                params.append('password',pwd);
-                params.append('loginType',1);
+                params.append('smsCode',this.verifyCode);
+                params.append('loginType',2);
                 params.append('clientType','h5');
                 axios.post(url,params).then(res => {
                     console.log(res.data);
@@ -371,15 +351,7 @@ export default {
 
                     }else{
                         // 弹框
-                        if (res.data.resultMsg == "账号或密码错误") {
-                            this.$vux.alert.show({
-                                // title: '',
-                                content: res.data.resultMsg
-                            })
-                            setTimeout(() => {
-                                this.$vux.alert.hide()
-                            }, 3000)
-                        } else if (res.data.resultMsg == "该账号不存在") {
+                        if (res.data.resultMsg == "短信验证码错误或已超时") {
                             this.$vux.alert.show({
                                 // title: '',
                                 content: res.data.resultMsg
@@ -390,17 +362,6 @@ export default {
                         }
                     }
 
-                    
-
-                    
-                    
-                    
-                    
-
-
-
-
-                    
                 }).catch((err) => {
                 console.log(err)
                 })
