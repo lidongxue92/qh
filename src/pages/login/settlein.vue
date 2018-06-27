@@ -8,14 +8,14 @@
       </div>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
+          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "phoneNumber" @blur="checkLPhone">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
           <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
-        <a class="user_login" @click="Login">下一步</a>
+        <a class="user_login" @click="next">下一步</a>
         <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
@@ -57,6 +57,7 @@
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
+import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
 var code ; //在全局定义验证码
 export default {
@@ -68,13 +69,13 @@ export default {
         verifyCode: '',
         userPhone:'',
         dialog: false,
-        LUserPhone:'',
+        phoneNumber:'15146105546',
         LUserPsd:'',
         picLyanzhengma:'',
         checkCode:'',
         isshow:true,
         isshow1:false,
-        tel:'',
+        tel:'15146105546',
         items: [
           {state: true}
         ],
@@ -106,11 +107,11 @@ export default {
       },
       // 验证登陆手机号格式
       checkLPhone(){
-          if(this.LUserPhone == ''){
+          if(this.phoneNumber == ''){
               $(".login_content1 span:eq(0)").removeClass("disappear");
               $(".login_content1 span:eq(0)").text("请输入手机号。")
 
-          }else if(this.LUserPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
+          }else if(this.phoneNumber.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
               $(".login_content1 span:eq(0)").addClass("disappear")
               return true;
           }else{
@@ -154,7 +155,7 @@ export default {
               return true;
           } 
       },
-      Login(){
+      next(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
           const _this = this
           _this.isshow1 =true
@@ -169,47 +170,26 @@ export default {
       // 手机号验证码
       sendCode() {
             console.log('点击验证码触发')
-            // const reg = /^1[34578]\d{9}$/ // 手机号正则校验
-            // if (!this.phoneNumber) {
-            //     this.$vux.toast.text('请输入手机号~', 'middle')
-            //     return
-            // }
-            // if (!reg.test(this.phoneNumber)) {
-            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
-            //     return
-            // }
             this.time = 90
             this.disabled = true
             this.timer()
              // 获取验证
-             //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
-             //  var params = new URLSearchParams();
-             //  params.append('mobile',this.phoneNumber);
-             //  params.append('token',localStorage.currentUser_token);
-             //  params.append('type','1');
-             //  if(!localStorage.sessionid){
-             //    console.log(params)
-             // }else{
-             //    params.append('session_id',localStorage.sessionid);
-             // }
-             //  axios.post(url,params).then(response => {
-             //    // const currentUser_token = response.data.data //获取token
-             //        console.log(response)
-             //        const sessionid = response.data.sessionid
-             //        console.log(sessionid)
-             //        localStorage.setItem('sessionid',sessionid);
-             //        let smsCode = response.data.data.verifCode
-             //        this.smsCode = smsCode
-             //        this.$vux.alert.show({
-             //            title: '验证码',
-             //            content: `验证码已发送,【${smsCode}】,10分钟有效`
-             //        })
-             //        setTimeout(() => {
-             //            this.$vux.alert.hide()
-             //        }, 3000)
-             //  }).catch((err) => {
-             //    console.log(err)
-             //  })
+              const url = myPub.URL+`/three/getSmsCode` ;
+              var params = new URLSearchParams();
+              params.append('phone',this.phoneNumber);
+              params.append('msgType','1');
+              axios.post(url,params).then(response => {
+                    console.log(response)
+                    // this.$vux.alert.show({
+                    //     title: '验证码',
+                    //     content: `验证码已发送,【${smsCode}】,10分钟有效`
+                    // })
+                    // setTimeout(() => {
+                    //     this.$vux.alert.hide()
+                    // }, 3000)
+              }).catch((err) => {
+                console.log(err)
+              })
         },
 
         timer() {
@@ -245,6 +225,7 @@ export default {
 },
   created(){
       this.createCode();
+      console.log(myPub.URL)
   },
   components: {
       XInput,

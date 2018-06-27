@@ -12,7 +12,7 @@ export function newNonce() {
 // 3. SY(sy.yueneng.pro)，正式上线运营环境。
 // 4. test Test
 
-window.ENV = "DEVELOP";
+window.ENV = "TEST";
 
 let URL, wsURL, appId;
 

@@ -6,12 +6,12 @@
 const config = {
 
   //开发环境
-  developUrl: `https://www.easy-mock.com`, //开发环境
+  developUrl: `https://api.qihangjf.com/interface/`, //开发环境
   developWsUrl: ``,
   developAppId: 'wxb7146031bd5bbc93 ',
 
   //测试环境
-  testUrl:`http://10.0.0.73:8080/ interface`,
+  testUrl:`http://test.qihangjf.com:29083/interface`,
   testWsUrl: ``,
   testAppId: 'wxb7146031bd5bbc93 ',
 }
