@@ -61,8 +61,24 @@
         <div class="toast">
             <img class="right" src="~@/assets/img/close1.png" @click="close"/>
             <img src="../../assets/img/active.png">
-            <button class="button">开户使用新手礼包</button>
+            <button class="button" @click="kaiHu">开户使用新手礼包</button>
         </div>
+
+        <!-- 开户 -->
+<div class="box" style="display:none;">
+        <form  name="regSubmit" method="post" :action="this.chinaPnrServer"> 
+             <input type='text' name='Version' :value='this.version'>
+             <input type='text' name='CmdId' :value='this.cmdId'>
+             <input type='text' name='MerCustId' :value='this.MerCustId'>
+             <input type='text' name='RetUrl' :value='this.RetUrl'>
+             <input type='text' name='BgRetUrl' :value='this.BgRetUrl'>
+             <input type='text' name='UsrId' :value='this.userId'>
+             <input type='text' name='UsrMp' :value='this.usrmap'>
+             <input type='text' name='PageType' :value='this.pageType'>
+             <input type='text' name='ChkValue' :value='this.chkValue'>     
+        </form>
+    </div>
+
   </div>
 </template>
 <script>
@@ -95,7 +111,21 @@ export default {
         ],
         isshow2:'true',
         imgSrc:"../../../static/img/closeEyes.png",
-        type:"password"
+        type:"password",
+
+
+        // 三方开户数据
+        chinaPnrServer : "", 
+        version : "",
+        cmdId : "",
+        MerCustId : "",
+        RetUrl : "",
+        BgRetUrl :"",
+        MerPriv : "",
+        userId : "",
+        usrmap : "",
+        pageType : "",
+        chkValue : "",
       }
     },
     methods:{
@@ -215,14 +245,8 @@ export default {
               params.append('phone',this.userPhone);
               params.append('msgType','1');
               axios.post(url,params).then(res => {
-                    console.log(res);
-                    // this.$vux.alert.show({
-                    //     title: '验证码',
-                    //     content: `验证码已发送,【${smsCode}】,10分钟有效`
-                    // })
-                    // setTimeout(() => {
-                    //     this.$vux.alert.hide()
-                    // }, 3000)
+                    // console.log(res);
+
               }).catch((err) => {
                 console.log(err)
               })
@@ -281,7 +305,7 @@ export default {
                             this.$router.push({path:"/page/home"})
                         }else{
                             $(".bg").show();
-                            $(".toast").show()  
+                            $(".toast").show();
                         }
 
                     }else{
@@ -304,17 +328,6 @@ export default {
                             }, 3000)
                         }
                     }
-
-                    
-
-                    
-                    
-                    
-                    
-
-
-
-
                     
                 }).catch((err) => {
                 console.log(err)
@@ -323,7 +336,7 @@ export default {
         },
         // 短信登陆
         msgLogin(){
-            if((this.checkLPhone() ==true && this.checkLPsd() == true)){
+            if((this.checkLPhone() ==true)){
                 //登陆
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
@@ -366,8 +379,40 @@ export default {
                 console.log(err)
                 })
             }
-        }
+        },
 
+        // 三方开户
+        kaiHu(){
+            const url = myPub.URL+`/chinaPnr/userRegister`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('clientType','h5');
+            
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                this.chinaPnrServer = res.data.chinaPnrServer;
+                this.version = res.data.Version; //版本号
+                this.cmdId = res.data.CmdId; //消息信息
+                this.MerCustId = res.data.MerCustId; //商户客户号
+                this.RetUrl = res.data.RetUrl; //页面返回的URL
+                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                this.MerPriv = res.data.MerPriv; //商户私有域
+                this.userId = res.data.UsrId; //用户号
+                this.usrmap = res.data.UsrMp; //手机号
+                this.pageType = res.data.PageType; //页面类型
+                this.chkValue = res.data.ChkValue; //签名
+
+                // 判断
+                if(res.data.result == 200){
+                    //注册提交from表单
+                    // console.log(this.chinaPnrServer);
+                    document.regSubmit.submit();
+                    // location.href=this.chinaPnrServer;
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        }
     },
     created(){
         this.createCode();
