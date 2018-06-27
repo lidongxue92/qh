@@ -43,7 +43,7 @@
       <label>
           <input type="password" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
       </label>
-      <label class="Agreement"  v-for="item of items">
+      <label class="Agreement"  v-for="item of items" :key="item">
         <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>

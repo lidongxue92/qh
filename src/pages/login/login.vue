@@ -10,18 +10,22 @@
             </ul>
             <div class="login_content1 " v-if="isshow">
                 <label>
-                    <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
+                    <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
                     <span class="tishixiaoxi disappear">请输入手机号。</span>
+                    <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
                 <label>
-                    <input type="password" placeholder="请输登录入密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
+                    <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC"><br>
                     <span class="tishixiaoxi disappear">请输入密码。</span>
+                    <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
             </div>
+
+            <!-- 短信登陆 -->
             <div class="list" v-if="isshow1">
               <label>
-                  <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
+                  <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
                 </label>
               <label class="clearfix" style="margin-top: 30px;">
@@ -45,16 +49,21 @@
                 </group>
             </div>
         </div>
-        <a class="user_login" @click="Login" style="background: #2B9AFF">登录</a>
+        <button class="login" @click="Login">登录</button>
         <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
   </div>
 </template>
 <script>
+let Base64 = require('js-base64').Base64;
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
+import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
 var code ; //在全局定义验证码
 export default {
+    components:{
+        base64
+    },
     data () {
       return {
         btnText: '发送验证码',
@@ -63,8 +72,7 @@ export default {
         verifyCode: '',
         userPhone:'',
         dialog: false,
-        LUserPhone:'',
-        LUserPsd:'',
+        userPwd:'',
         picLyanzhengma:'',
         checkCode:'',
         isshow:true,
@@ -73,13 +81,30 @@ export default {
         items: [
           {state: true}
         ],
-        isshow2:'true'
+        isshow2:'true',
+        imgSrc:"../../../static/img/closeEyes.png",
+        type:"password"
       }
     },
     methods:{
+        // 清空
+        clear(){
+            this.userPhone = ""
+        },
+        // 眼睛切换
+        eyesTab(){     
+            if (this.imgSrc == "../../../static/img/loginEyes.png") {
+                this.imgSrc = "../../../static/img/closeEyes.png";
+                this.type = "password"
+                
+            }else{
+                this.imgSrc = "../../../static/img/loginEyes.png";
+                this.type = "text"
+            }
+        },
+
       settlein(){
         this.$router.push({path:"/settlein"})
-        
       },
       findpassword(){
         this.$router.push({path:"/findpassword"})
@@ -87,7 +112,7 @@ export default {
       },
       checkUserPhone(){
         if(this.userPhone == ''){
-          console.log(111)
+        //   console.log(111)
           $(".hiddenTanchuang").removeClass('hiddenTanchuang')
         }
       },
@@ -96,12 +121,12 @@ export default {
       },
       // 验证登陆手机号格式
       checkLPhone(){
-          if(this.LUserPhone == ''){
+          if(this.userPhone == ''){
               $(".middle span:eq(0)").removeClass("disappear");
               $(".middle span:eq(0)").text("请输入手机号。")
 
-          }else if(this.LUserPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
-              $(".middle span:eq(0)").addClass("disappear")
+          }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
+              $(".middle span:eq(0)").addClass("disappear")              
               return true;
           }else{
               $(".middle span:eq(0)").removeClass("disappear");
@@ -110,17 +135,29 @@ export default {
       },
       // 验证登录密码
       checkLPsd(){
-          if(this.LUserPsd == ''){
+          if(this.userPwd == ''){
               $(".login_content1  span:eq(1)").text("请输入密码");
               $(".login_content1  span:eq(1)").removeClass("disappear")
-          }else if(this.LUserPsd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
-              $(".login_content1  span:eq(1)").addClass("disappear")
+          }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
+              $(".login_content1  span:eq(1)").addClass("disappear");
               return true;
           }else{
               $(".login_content1  span:eq(1)").removeClass("disappear");
               $(".login_content1  span:eq(1)").text("密码必须6-20位，包含字母与数字")
           }
       },
+        // 判断登陆背景色
+        changBGC(){
+            var pwdLen = $(".pwd").val().length;
+            console.log(pwdLen);
+            if (pwdLen >= 6) {
+                console.log(pwdLen);
+                $(".login").css("opacity","1");
+            }else{
+                $(".login").css("opacity",".5");
+            }
+        },
+
       // 图片验证码
       createCode(){
           code = "";    
@@ -229,6 +266,32 @@ export default {
     },
      Login(){
         if((this.checkLPhone() ==true && this.checkLPsd() == true)){
+           //登陆
+            const url = myPub.URL+`/login`;
+            const pwd = Base64.encode(this.userPwd,'utf-8');
+
+            var params = new URLSearchParams();
+            params.append('phone',this.userPhone);
+            params.append('password',pwd);
+            params.append('loginType',1);
+            params.append('clientType','h5');
+            axios.post(url,params).then(res => {
+                // console.log(res);
+                var user = res.data.User;
+                console.log(res.data)
+                // console.log(user);
+                sessionStorage.setItem("token",res.data.token)
+                // console.log(res.data.token);
+                
+                
+
+
+
+
+                
+            }).catch((err) => {
+            console.log(err)
+            })
         }
       }
 
@@ -530,6 +593,27 @@ export default {
         }
         .user_login{margin-top: 30px;background: #ed711f}
       }
+  }
+
+  .LoginImg{
+      width: 1rem /* 34/40 */;
+      position: absolute;
+      right: .8rem;
+      top: 1rem;
+  }
+  .login{
+      display: block;
+      width: 100%;
+      height: 40px;
+      font-size: 0.9rem;
+      text-align: center;
+      line-height: 40px;
+      color: #fff;
+      border-radius: 30px;
+      margin-top: 20px;
+      border: none;
+      background: #2773FF;
+    //   opacity: .5;
   }
 }
 </style>
