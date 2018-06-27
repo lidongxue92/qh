@@ -73,7 +73,7 @@
           <div class="loginOut" v-if="isShow">
             <p>安全退出</p>
           </div>
-          <div v-else class="loginReg">
+          <div v-else class="loginReg" v-if ="!isShow" >
             <p class="login" @click="linkToLogin">登陆</p>
             <p @click="linkToRegister">注册</p>
           </div>
@@ -122,6 +122,11 @@ export default {
         linkToRegister(){
         this.$router.push({path:'/settlein'})
         },
+        res(){
+          if (localStorage.token) {
+            this.isShow = true
+          }
+        }
     }
 }
 </script>

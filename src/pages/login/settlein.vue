@@ -2,13 +2,12 @@
   <div class="settlein">
     <div class="phone" v-if='isshow'>
       <div class="bg-img">
-        <h5><img src="~@/assets/img/icon_register_close@2x.png">
-        注册</h5>
+        <h5><img src="~@/assets/img/icon_register_close@2x.png">注册</h5>
         <img src="~@/assets/img/logo@2x.png">
       </div>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "phoneNumber" @blur="checkLPhone">
+          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone"><img @click="emipy" class="img" src="~@/assets/img/emipy.png">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
@@ -38,21 +37,25 @@
           </x-input>
         </group>
         <label style="margin-top: 10px;">
-          <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
+          <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><img @click="emipy" class="img" src="~@/assets/img/closeEyes.png">
           <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
       <label>
-          <input type="password" placeholder="请输入邀请码(选填)" class="register_content_input"><br>
+          <input type="password" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
       </label>
       <label class="Agreement"  v-for="item of items">
         <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>
-      <a class="user_login" @click="sub">提交注册</a>
+      <a class="user_login" @click="register">提交注册</a>
+    </div>
+    <div class="bg"></div>
+    <div class="toast">
+      <img class="right" src="~@/assets/img/close1.png" @click="close"/>
+      <img src="~@/assets/img/active.png">
+      <button class="button">开户使用新手礼包</button>
     </div>
   </div>
-  
-  
 </template>
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
@@ -60,6 +63,7 @@ import axios from 'axios'
 import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
 var code ; //在全局定义验证码
+let Base64 = require('js-base64').Base64;
 export default {
     data () {
       return {
@@ -69,13 +73,14 @@ export default {
         verifyCode: '',
         userPhone:'',
         dialog: false,
-        phoneNumber:'15146105546',
+        phoneNumber:'',
         LUserPsd:'',
         picLyanzhengma:'',
         checkCode:'',
+        invitationCode:'',
         isshow:true,
         isshow1:false,
-        tel:'15146105546',
+        tel:'',
         items: [
           {state: true}
         ],
@@ -85,7 +90,12 @@ export default {
     methods:{
       login(){
         this.$router.push({path:"/login"})
-        
+      },
+      close(){
+        this.$router.push({path:"/page/home"})
+      },
+      emipy(){
+        $('.phone').val("")
       },
       check(){
         if ($('.Agreement .check').is(':checked')) {
@@ -192,17 +202,17 @@ export default {
               })
         },
 
-        timer() {
-            if (this.time > 0) {
-                this.time--
-                this.btnText = this.time + 's'
-                setTimeout(this.timer, 1000)
-            } else {
-                this.time = 0
-                this.btnText = '获取验证码'
-                this.disabled = false
-            }
-        },
+      timer() {
+          if (this.time > 0) {
+              this.time--
+              this.btnText = this.time + 's'
+              setTimeout(this.timer, 1000)
+          } else {
+              this.time = 0
+              this.btnText = '获取验证码'
+              this.disabled = false
+          }
+      },
       // 验证登录密码
       checkLPsd(){
           if(this.LUserPsd == ''){
@@ -216,9 +226,48 @@ export default {
               $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
           }
       },
-      sub(){
-        if( this.checkLPsd() == true && this.check == true){
-            alert('1')
+      register(){
+        if( this.checkLPsd() == true && this.check() == true){
+            console.log('1')
+            const url = myPub.URL+`/reg/register`;
+            const pwd = Base64.encode(this.LUserPsd,'utf-8')
+            var params = new URLSearchParams();
+            params.append('phone',this.phoneNumber);
+            params.append('smsCode',this.verifyCode);
+            params.append('clientType','h5');
+            params.append('regChannel','h5');
+            params.append('reqPwd',pwd);
+            params.append('invitationCode',this.invitationCode);
+            axios.post(url,params).then(response => {
+                  console.log(response.data)
+                  const data = response.data
+                  if (data.result == '200') {
+                    $(".bg").css('display',"block")
+                    $(".toast").css('display',"block")
+                    const token = data.token
+                    localStorage.setItem('token',token);
+                  }else{
+                    if (data.result == '300') {
+                      this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                      })
+                      setTimeout(() => {
+                          this.$vux.alert.hide()
+                          this.$router.push({path:"/login"})
+                      }, 3000)
+                    }
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                  }
+            }).catch((err) => {
+              console.log(err)
+            })
           }
       }
 
@@ -232,6 +281,7 @@ export default {
       XButton,
       Group,
       Cell,
+      base64,
       Toast
   }
 }
@@ -370,6 +420,7 @@ export default {
       margin-top: 2rem;
   }
   .login_content1 label{width: 100%;display: block;position: relative;}
+  .login_content1 label .img{position: absolute;right: 0;top:0.8rem;width: 1rem;height: 1rem;}
   .user_login{
       display: block;
       width: 100%;
@@ -489,7 +540,7 @@ export default {
 </style>
 <style scoped lang="less">
 .settlein{
-  padding: 1rem;
+  padding: 1rem;position: relative;height: 100%;
   .bg-img{
     text-align: center;
     h5{
@@ -501,7 +552,10 @@ export default {
   .list{
     padding: 1rem;
     h5{font-weight: normal;font-size: 1rem;}
-    label{display: block;}
+    label{
+      display: block;position: relative;
+      img{position: absolute;right: 0;top: 0.9rem;width: 1rem;height: 0.6rem;}
+    }
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
       input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11;}
@@ -514,5 +568,12 @@ export default {
     .user_login{margin-top: 30px;background: #2B9AFF}
   }
   .c-2395FF{color: #2395FF}
+  .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
+  .toast{
+    position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
+    img{width: 100%;}
+    .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
+    .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+  }
 }
 </style>

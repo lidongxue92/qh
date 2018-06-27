@@ -1,8 +1,9 @@
 <template>
     <div class="home">
-        <!-- 临时新建进入商品详情的入口-->
         <div class="index_banner" >
+            <img @click="zhezhaoShow" class="imgright" src="../../assets/img/icon_head@2x.png">
             <swiper :list="demo02_list" style="width:85%;margin:0 auto;" :aspect-ratio="300/800" dots-position="center"></swiper>
+            <span @click="linkToMsg" class="imgleft"><img  src="../../assets/img/icon_xiaoxi@2x.png"></span>
             <!-- 新手 -->
             <div class="set" v-if="!isshow">
                 <div class="left">
@@ -37,10 +38,7 @@
        <div class="middle">
            <ul class="productlist">
                 <li v-for="(item,index) in datalist" :key="index">
-                    <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
-                <!-- <li v-for="(item,index) in datalist" @click="linkToDetail" :key="index">
-                    <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5> -->
-
+                   <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.Profit}}<b v-if="isshow2">{{item.profit}}</b></span>
@@ -55,14 +53,18 @@
            </ul>
        </div>
        <p class="note">预期收益不代表对投资人实际收益的承诺 理财有风险，投资需谨慎 </p>
+       <div class="zhezhao" @click="zhezhaoHide"></div>
+        <div class="slider"><slider> </slider></div>
     </div>
 </template>
 
 <script>
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
+import slider from '../../components/common/slider'
 import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
+import $ from 'jquery'
 const baseList = [{
   url: 'javascript:',
   img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
@@ -108,8 +110,18 @@ export default {
         },
         settlein(){
             this.$router.push({path:"/settlein"})
-            
-          },
+        },
+        linkToMsg(){
+          this.$router.push({path:'/page/message'})
+        },
+        zhezhaoShow(){
+            $(".zhezhao").fadeIn(400);
+            $(".slider").animate({left:"0"},400);      
+        },
+        zhezhaoHide(){
+           $(".zhezhao").fadeOut(400);
+           $(".slider").animate({left:"-75%"},400);
+        },
         // 首页数据接口
         // indeData(){
         //   const _this = this
@@ -134,7 +146,8 @@ export default {
         products,
         ButtonTab,
         ButtonTabItem,
-        Divider
+        Divider,
+        slider
     },
     //页面加载后执行
     // mounted(){
@@ -150,6 +163,8 @@ export default {
     background: #f7f7f7;padding-bottom:10px;color: #333;height: 100%;
     .index_banner{
         width:100%;position: relative;
+        .imgright{position: absolute;left: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;}
+        .imgleft{position: absolute;right: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;display: inline-block;background: rgba(0,0,0,.5);border-radius: 50%;text-align:center;line-height:2rem;img{width: 0.8rem;height: 1rem}}
         .set{
             position: relative;bottom: 1rem;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;padding: 1rem 0;
             .left{
@@ -223,5 +238,6 @@ export default {
         }
     }
     .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
+    .zhezhao{background: rgba(0, 0, 0, .3);position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 600;display: none}
 }
 </style>
