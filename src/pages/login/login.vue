@@ -293,7 +293,7 @@ export default {
                 params.append('loginType',1);
                 params.append('clientType','h5');
                 axios.post(url,params).then(res => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     var user = res.data.User;
                     
                     if (res.data.result == 200) {
@@ -389,7 +389,7 @@ export default {
             params.append('clientType','h5');
             
             axios.post(url,params).then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.chinaPnrServer = res.data.chinaPnrServer;
                 this.version = res.data.Version; //版本号
                 this.cmdId = res.data.CmdId; //消息信息
@@ -405,9 +405,8 @@ export default {
                 // 判断
                 if(res.data.result == 200){
                     //注册提交from表单
-                    // console.log(this.chinaPnrServer);
                     document.regSubmit.submit();
-                    // location.href=this.chinaPnrServer;
+                    location.href = this.chinaPnrServer;
                 }
             }).catch((err) => {
                 console.log(err)
