@@ -96,6 +96,9 @@ export default {
             isShow: false,
         }
     },
+    created() {
+        this.res()
+    },
     methods:{
         // 侧栏
         userset(){
@@ -124,6 +127,7 @@ export default {
         },
         res(){
           if (localStorage.token) {
+            console.log(localStorage.token)
             this.isShow = true
           }
         }

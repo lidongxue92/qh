@@ -37,16 +37,42 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in datalist" :key="index">
-                   <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                <li v-for="(item,index) in newlist" :key="index">
+                   <h5>{{item.productName}} <span></span><img src="../../assets/img/icon_biao1@2x.png"></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.Profit}}<b v-if="isshow2">{{item.profit}}</b></span>
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">新手福利高预期收益</b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.Day}}</b> 个月</span><span class="status">可加入</span>
-                            <span class="Quota">剩余金额 <b>{{item.Quota}}</b></span>
+                            <span class="day"><b>{{item.period}}</b> 个月</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}</b></span>
+                        </p>
+                    </div>
+                </li>
+                <li v-for="(item,index) in hotlist" :key="index">
+                   <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                    <div>
+                        <p class="left">
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">热销火爆 高收益</b></span>
+                            <span>历史年化收益率</span>
+                        </p>
+                        <p class="right">
+                            <span class="day"><b>{{item.period}}</b> 个月</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}</b></span>
+                        </p>
+                    </div>
+                </li>
+                <li v-for="(item,index) in productlist" :key="index">
+                   <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                    <div>
+                        <p class="left">
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">热销火爆 高收益</b></span>
+                            <span>历史年化收益率</span>
+                        </p>
+                        <p class="right">
+                            <span class="day"><b>{{item.period}}</b> 个月</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}</b></span>
                         </p>
                     </div>
                 </li>
@@ -87,10 +113,9 @@ export default {
             imgList: [],
             themeList: [],
             recentList: [],
-            datalist:[
-                {Title:'热卖产品',Data:'新手福利高预期收益',Label:'热卖',Profit:'12%',Day:'3',Quota:'1000',img:'../../assets/img/icon_biao1@2x.png'},
-                {Title:'火爆产品',Data:'热销火爆 高收益',Label:'',Profit:'10%',Day:'2',Quota:'3000',img:'../../assets/img/icon_biao1@2x.png',profit:'+5%'}
-            ],
+            newlist:'',
+            hotlist:'',
+            producrlist:'',
             demo02_list: baseList,
             num:'',
             isshow:true,
@@ -99,10 +124,8 @@ export default {
         }
     },
     created() {
-        // this.getBanner()
-        // this.getTheme()
-        // this.getRecent()
-        // this.indeData()
+        this.index_banner(),
+        this.index_product()
     },
     methods: {
         linkToDetail(id) {
@@ -122,22 +145,52 @@ export default {
            $(".zhezhao").fadeOut(400);
            $(".slider").animate({left:"-75%"},400);
         },
-        // 首页数据接口
-        // indeData(){
-        //   const _this = this
-        //   const url ='http://public.weifenvip.com/index/Shop/index';
-        //   const params = new URLSearchParams();
-        //   params.append('token',localStorage.currentUser_token);
-        //   params.append('open_id','oo1Fj0rhEG6wJ7UvjJUpR_97g3v0');
-        //   axios.post(url,params).then(response => {
-        //     const data = response.data.data
-        //     this.num = data
-        //     this.datalist = data.category_list
-        //     console.log(data.category_list)
-        //   }).catch((err) => {
-        //     console.log(err)
-        //   })
-        // }
+        // 首页banner接口
+        index_banner(){
+          const _this = this
+          const url = myPub.URL+`/front/getAdvList` ;
+          const params = new URLSearchParams();
+          params.append('adType','1');
+          params.append('adPosition','1');
+          params.append('adPort','h5');
+          params.append('adCanal','0');
+          axios.post(url,params).then(response => {
+            const data = response.data
+            console.log(data)
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
+        // 产品推荐
+        index_product(){
+            const _this = this
+            const url = myPub.URL+`/index/getIndexPickProduct` ;
+            const params = new URLSearchParams();
+            params.append('clientType','h5');
+            if (localStorage.token) {
+                params.append('token',localStorage.token);
+            }
+            axios.post(url,params).then(response => {
+                const data = response.data
+                console.log(data)
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login"})
+                    }, 3000)
+                }
+                _this.newlist = data.GsInfo
+                _this.hotlist = data.HotInfo
+                _this.productlist = data.XsInfo
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     },
 
     components: {
