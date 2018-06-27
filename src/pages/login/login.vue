@@ -49,8 +49,19 @@
                 </group>
             </div>
         </div>
-        <button class="login" @click="Login">登录</button>
+        
+        <button class="login" @click="Login" v-if="isshow">登录</button>
+        <!-- 短信登陆 -->
+        <button class="login" @click="msgLogin" v-if="isshow1">登录</button>
         <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
+
+        <!-- 弹框 -->
+        <div class="bg"></div>
+        <div class="toast">
+            <img class="right" src="~@/assets/img/close1.png" @click="close"/>
+            <img src="../../assets/img/active.png">
+            <button class="button">开户使用新手礼包</button>
+        </div>
   </div>
 </template>
 <script>
@@ -96,106 +107,103 @@ export default {
             if (this.imgSrc == "../../../static/img/loginEyes.png") {
                 this.imgSrc = "../../../static/img/closeEyes.png";
                 this.type = "password"
-                
             }else{
                 this.imgSrc = "../../../static/img/loginEyes.png";
                 this.type = "text"
             }
         },
+        settlein(){
+            this.$router.push({path:"/settlein"})
+        },
+        findpassword(){
+            this.$router.push({path:"/findpassword"})
+            
+        },
+        checkUserPhone(){
+            if(this.userPhone == ''){
+            //   console.log(111)
+            $(".hiddenTanchuang").removeClass('hiddenTanchuang')
+            }
+        },
+        hiddenTanchuang(){
+            $(".tanchuang").addClass("hiddenTanchuang")
+        },
+        // 验证登陆手机号格式
+        checkLPhone(){
+            if(this.userPhone == ''){
+                $(".middle span:eq(0)").removeClass("disappear");
+                $(".middle span:eq(0)").text("请输入手机号。")
 
-      settlein(){
-        this.$router.push({path:"/settlein"})
-      },
-      findpassword(){
-        this.$router.push({path:"/findpassword"})
-        
-      },
-      checkUserPhone(){
-        if(this.userPhone == ''){
-        //   console.log(111)
-          $(".hiddenTanchuang").removeClass('hiddenTanchuang')
-        }
-      },
-      hiddenTanchuang(){
-        $(".tanchuang").addClass("hiddenTanchuang")
-      },
-      // 验证登陆手机号格式
-      checkLPhone(){
-          if(this.userPhone == ''){
-              $(".middle span:eq(0)").removeClass("disappear");
-              $(".middle span:eq(0)").text("请输入手机号。")
-
-          }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
-              $(".middle span:eq(0)").addClass("disappear")              
-              return true;
-          }else{
-              $(".middle span:eq(0)").removeClass("disappear");
-              $(".middle span:eq(0)").text("请输入正确手机号。")
-          }
-      },
-      // 验证登录密码
-      checkLPsd(){
-          if(this.userPwd == ''){
-              $(".login_content1  span:eq(1)").text("请输入密码");
-              $(".login_content1  span:eq(1)").removeClass("disappear")
-          }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
-              $(".login_content1  span:eq(1)").addClass("disappear");
-              return true;
-          }else{
-              $(".login_content1  span:eq(1)").removeClass("disappear");
-              $(".login_content1  span:eq(1)").text("密码必须6-20位，包含字母与数字")
-          }
-      },
+            }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
+                $(".middle span:eq(0)").addClass("disappear")              
+                return true;
+            }else{
+                $(".middle span:eq(0)").removeClass("disappear");
+                $(".middle span:eq(0)").text("请输入正确手机号。")
+            }
+        },
+        // 验证登录密码
+        checkLPsd(){
+            if(this.userPwd == ''){
+                $(".login_content1  span:eq(1)").text("请输入密码");
+                $(".login_content1  span:eq(1)").removeClass("disappear")
+            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
+                $(".login_content1  span:eq(1)").addClass("disappear");
+                return true;
+            }else{
+                $(".login_content1  span:eq(1)").removeClass("disappear");
+                $(".login_content1  span:eq(1)").text("密码必须6-20位，包含字母与数字")
+            }
+        },
         // 判断登陆背景色
         changBGC(){
             var pwdLen = $(".pwd").val().length;
-            console.log(pwdLen);
             if (pwdLen >= 6) {
-                console.log(pwdLen);
+                // console.log(pwdLen);
                 $(".login").css("opacity","1");
             }else{
                 $(".login").css("opacity",".5");
             }
         },
 
-      // 图片验证码
-      createCode(){
-          code = "";    
-          var codeLength = 4;//验证码的长度   
-          var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',   
-           'S','T','U','V','W','X','Y','Z');//随机数   
-          for(var i = 0; i < codeLength; i++) {//循环操作   
-              var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）   
-              code += random[index];//根据索引取得随机数加到code上   
-          }   
-              this.checkCode = code;//把code值赋给验证码   
-      },
-      // 失焦验证图和密码
-      checkLpicma(){
-          this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写         
-          if(this.picLyanzhengma == '') {
-              $(".list span:eq(1)").text("请输入验证码")
-              $(".list span:eq(1)").removeClass("disappear");
-          }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时    
-              console.log( this.picLyanzhengma.toUpperCase())
-              console.log(code)           
-              $(".list span:eq(1)").text("验证码不正确")
-              $(".list span:eq(1)").removeClass("disappear");
-              this.createCode();//刷新验证码   
-              this.picLyanzhengma = '';
-          }else { //输入正确时   
-              $(".list span:eq(1)").addClass("disappear");
-              $(".list span:eq(1)").text("请输入验证码")
-              if (this.checkLPhone() ==true) {
+        // 图片验证码
+        createCode(){
+            code = "";    
+            var codeLength = 4;//验证码的长度   
+            var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',   
+            'S','T','U','V','W','X','Y','Z');//随机数   
+            for(var i = 0; i < codeLength; i++) {//循环操作   
+                var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）   
+                code += random[index];//根据索引取得随机数加到code上   
+            }   
+                this.checkCode = code;//把code值赋给验证码   
+        },
+        // 失焦验证图和密码
+        checkLpicma(){
+            this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写         
+            if(this.picLyanzhengma == '') {
+                $(".list span:eq(1)").text("请输入验证码")
+                $(".list span:eq(1)").removeClass("disappear");
+            }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时    
+                console.log( this.picLyanzhengma.toUpperCase())
+                console.log(code)           
+                $(".list span:eq(1)").text("验证码不正确")
+                $(".list span:eq(1)").removeClass("disappear");
+                this.createCode();//刷新验证码   
+                this.picLyanzhengma = '';
+            }else { //输入正确时   
+                $(".list span:eq(1)").addClass("disappear");
+                $(".list span:eq(1)").text("请输入验证码")
+                if (this.checkLPhone() ==true) {
                 $('.user_login').addClass('bg-ed711f')
-              }else{
+                }else{
                 $('.user_login').removeClass('bg-ed711f')
-              }
-              return true;
-          } 
-      },
-      // 手机号验证码
-      sendCode() {
+                }
+                return true;
+            } 
+        },
+        // 手机号验证码
+        sendCode() {
             console.log('点击验证码触发')
             // const reg = /^1[34578]\d{9}$/ // 手机号正则校验
             // if (!this.phoneNumber) {
@@ -209,103 +217,210 @@ export default {
             this.time = 90
             this.disabled = true
             this.timer()
-             // 获取验证
-             //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
-             //  var params = new URLSearchParams();
-             //  params.append('mobile',this.phoneNumber);
-             //  params.append('token',localStorage.currentUser_token);
-             //  params.append('type','1');
-             //  if(!localStorage.sessionid){
-             //    console.log(params)
-             // }else{
-             //    params.append('session_id',localStorage.sessionid);
-             // }
-             //  axios.post(url,params).then(response => {
-             //    // const currentUser_token = response.data.data //获取token
-             //        console.log(response)
-             //        const sessionid = response.data.sessionid
-             //        console.log(sessionid)
-             //        localStorage.setItem('sessionid',sessionid);
-             //        let smsCode = response.data.data.verifCode
-             //        this.smsCode = smsCode
-             //        this.$vux.alert.show({
-             //            title: '验证码',
-             //            content: `验证码已发送,【${smsCode}】,10分钟有效`
-             //        })
-             //        setTimeout(() => {
-             //            this.$vux.alert.hide()
-             //        }, 3000)
-             //  }).catch((err) => {
-             //    console.log(err)
-             //  })
-    },
-    timer() {
-        if (this.time > 0) {
-            this.time--
-            this.btnText = this.time + 's后重新获取'
-            setTimeout(this.timer, 1000)
-        } else {
-            this.time = 0
-            this.btnText = '获取验证码'
-            this.disabled = false
+                // 获取验证
+                //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
+                //  var params = new URLSearchParams();
+                //  params.append('mobile',this.phoneNumber);
+                //  params.append('token',localStorage.currentUser_token);
+                //  params.append('type','1');
+                //  if(!localStorage.sessionid){
+                //    console.log(params)
+                // }else{
+                //    params.append('session_id',localStorage.sessionid);
+                // }
+                //  axios.post(url,params).then(response => {
+                //    // const currentUser_token = response.data.data //获取token
+                //        console.log(response)
+                //        const sessionid = response.data.sessionid
+                //        console.log(sessionid)
+                //        localStorage.setItem('sessionid',sessionid);
+                //        let smsCode = response.data.data.verifCode
+                //        this.smsCode = smsCode
+                //        this.$vux.alert.show({
+                //            title: '验证码',
+                //            content: `验证码已发送,【${smsCode}】,10分钟有效`
+                //        })
+                //        setTimeout(() => {
+                //            this.$vux.alert.hide()
+                //        }, 3000)
+                //  }).catch((err) => {
+                //    console.log(err)
+                //  })
+        },
+        timer() {
+            if (this.time > 0) {
+                this.time--
+                this.btnText = this.time + 's后重新获取'
+                setTimeout(this.timer, 1000)
+            } else {
+                this.time = 0
+                this.btnText = '获取验证码'
+                this.disabled = false
+            }
+        },
+        tab1(){
+            const _this =this
+            _this.isshow = false
+            _this.isshow1 = true
+            $(".message").addClass('active')
+            $(".password").removeClass('active')
+        },
+        tab(){
+            const _this =this
+            _this.isshow = true
+            _this.isshow1 = false
+            $(".password").addClass('active')
+            $(".message").removeClass('active')
+        },
+        // 关闭弹框
+        close(){
+            this.$router.push({path:"/page/home"})
+        },
+        // 密码登陆
+        Login(){
+            if((this.checkLPhone() ==true && this.checkLPsd() == true)){
+                //登陆
+                const url = myPub.URL+`/login`;
+                const pwd = Base64.encode(this.userPwd,'utf-8');
+
+                var params = new URLSearchParams();
+                params.append('phone',this.userPhone);
+                params.append('password',pwd);
+                params.append('loginType',1);
+                params.append('clientType','h5');
+                axios.post(url,params).then(res => {
+                    console.log(res.data);
+                    var user = res.data.User;
+                    
+                    if (res.data.result == 200) {
+                        sessionStorage.setItem("token",res.data.token);
+                        sessionStorage.setItem("userPhoneBlack",user.userPhone1);
+                        if (user.realName != "") {
+                            sessionStorage.setItem("realName",user.realName);
+                            // console.log(user.realName);
+                            this.$router.push({path:"/page/home"})
+                        }else{
+                            $(".bg").show();
+                            $(".toast").show()  
+                        }
+
+                    }else{
+                        // 弹框
+                        if (res.data.resultMsg == "账号或密码错误") {
+                            this.$vux.alert.show({
+                                // title: '',
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        } else if (res.data.resultMsg == "该账号不存在") {
+                            this.$vux.alert.show({
+                                // title: '',
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }
+                    }
+
+                    
+
+                    
+                    
+                    
+                    
+
+
+
+
+                    
+                }).catch((err) => {
+                console.log(err)
+                })
+            }
+        },
+        // 短信登陆
+        msgLogin(){
+            if((this.checkLPhone() ==true && this.checkLPsd() == true)){
+                //登陆
+                const url = myPub.URL+`/login`;
+                const pwd = Base64.encode(this.userPwd,'utf-8');
+
+                var params = new URLSearchParams();
+                params.append('phone',this.userPhone);
+                params.append('password',pwd);
+                params.append('loginType',1);
+                params.append('clientType','h5');
+                axios.post(url,params).then(res => {
+                    console.log(res.data);
+                    var user = res.data.User;
+                    
+                    if (res.data.result == 200) {
+                        sessionStorage.setItem("token",res.data.token);
+                        sessionStorage.setItem("userPhoneBlack",user.userPhone1);
+                        if (user.realName != "") {
+                            sessionStorage.setItem("realName",user.realName);
+                            // console.log(user.realName);
+                            this.$router.push({path:"/page/home"})
+                        }else{
+                            $(".bg").show();
+                            $(".toast").show()  
+                        }
+
+                    }else{
+                        // 弹框
+                        if (res.data.resultMsg == "账号或密码错误") {
+                            this.$vux.alert.show({
+                                // title: '',
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        } else if (res.data.resultMsg == "该账号不存在") {
+                            this.$vux.alert.show({
+                                // title: '',
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }
+                    }
+
+                    
+
+                    
+                    
+                    
+                    
+
+
+
+
+                    
+                }).catch((err) => {
+                console.log(err)
+                })
+            }
         }
+
     },
-    tab1(){
-        const _this =this
-        _this.isshow = false
-        _this.isshow1 = true
-        $(".message").addClass('active')
-        $(".password").removeClass('active')
+    created(){
+        this.createCode();
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("userPhoneBlack");
+        sessionStorage.removeItem("realName");
     },
-    tab(){
-        const _this =this
-        _this.isshow = true
-        _this.isshow1 = false
-        $(".password").addClass('active')
-        $(".message").removeClass('active')
-    },
-     Login(){
-        if((this.checkLPhone() ==true && this.checkLPsd() == true)){
-           //登陆
-            const url = myPub.URL+`/login`;
-            const pwd = Base64.encode(this.userPwd,'utf-8');
-
-            var params = new URLSearchParams();
-            params.append('phone',this.userPhone);
-            params.append('password',pwd);
-            params.append('loginType',1);
-            params.append('clientType','h5');
-            axios.post(url,params).then(res => {
-                // console.log(res);
-                var user = res.data.User;
-                console.log(res.data)
-                // console.log(user);
-                sessionStorage.setItem("token",res.data.token)
-                // console.log(res.data.token);
-                
-                
-
-
-
-
-                
-            }).catch((err) => {
-            console.log(err)
-            })
-        }
-      }
-
-},
-  created(){
-      this.createCode();
-  },
-  components: {
-      XInput,
-      XButton,
-      Group,
-      Cell,
-      Toast
-  }
+    components: {
+        XInput,
+        XButton,
+        Group,
+        Cell,
+        Toast
+    }
 }
 </script>
 
@@ -615,5 +730,13 @@ export default {
       background: #2773FF;
     //   opacity: .5;
   }
+
+   .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
+    .toast{
+        position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
+        img{width: 100%;}
+        .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
+        .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+    }
 }
 </style>
