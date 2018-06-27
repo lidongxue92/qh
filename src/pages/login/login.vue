@@ -19,6 +19,8 @@
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
             </div>
+
+            <!-- 短信登陆 -->
             <div class="list" v-if="isshow1">
               <label>
                   <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
@@ -52,6 +54,7 @@
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
+import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
 var code ; //在全局定义验证码
 export default {
@@ -87,7 +90,7 @@ export default {
       },
       checkUserPhone(){
         if(this.userPhone == ''){
-          console.log(111)
+        //   console.log(111)
           $(".hiddenTanchuang").removeClass('hiddenTanchuang')
         }
       },
@@ -229,6 +232,7 @@ export default {
     },
      Login(){
         if((this.checkLPhone() ==true && this.checkLPsd() == true)){
+           
         }
       }
 
