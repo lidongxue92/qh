@@ -66,29 +66,17 @@
 
         <!-- 开户 -->
     <div class="box" style="display:none;">
-        <!-- <form  name="regSubmit" method="post" :action="this.chinaPnrServer"> 
-             <input type='text' name='Version' :value='this.version'>
-             <input type='text' name='CmdId' :value='this.cmdId'>
-             <input type='text' name='MerCustId' :value='this.MerCustId'>
-             <input type='text' name='RetUrl' :value='this.RetUrl'> 
-             <input type='text' name='BgRetUrl' :value='this.BgRetUrl'>
-             <input type='text' name='UsrId' :value='this.userId'>
-             <input type='text' name='UsrMp' :value='this.usrmap'>
-             <input type='text' name='PageType' :value='this.pageType'>
-             <input type='text' name='ChkValue' :value='this.chkValue'>    
-             <input type='text' name='MerPriv' :value='this.MerPriv'> 
-        </form> -->
-        <form class="regSubmit" method="post" :action="chinaPnrServer"> 
-             <input type='text' name='Version' v-model='version'>
-             <input type='text' name='CmdId' v-model='cmdId'>
-             <input type='text' name='MerCustId' v-model='MerCustId'>
-             <input type='text' name='RetUrl' v-model='RetUrl'> 
-             <input type='text' name='BgRetUrl' v-model='BgRetUrl'>
-             <input type='text' name='UsrId' v-model='userId'>
-             <input type='text' name='UsrMp' v-model='usrmap'>
-             <input type='text' name='PageType' v-model='pageType'>
-             <input type='text' name='ChkValue' v-model='chkValue'>    
-             <input type='text' name='MerPriv' v-model='MerPriv'> 
+        <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+             <input type='text' name='Version'  :value='Version'>
+             <input type='text' name='CmdId'  :value='CmdId'>
+             <input type='text' name='MerCustId' :value='MerCustId'>
+             <input type='text' name='RetUrl'  :value='RetUrl'> 
+             <input type='text' name='BgRetUrl' :value='BgRetUrl'>
+             <input type='text' name='UsrId'  :value='UsrId'>
+             <input type='text' name='UsrMp' :value='UsrMp'>
+             <input type='text' name='PageType'  :value='PageType'>
+             <input type='text' name='ChkValue'  :value='ChkValue'>    
+             <input type='text' name='MerPriv' :value='MerPriv'> 
         </form>
     </div>
 
@@ -128,17 +116,17 @@ export default {
 
 
         // 三方开户数据
-        chinaPnrServer : "", 
-        version : "",
-        cmdId : "",
+        ChinaPnrServer : "", 
+        Version : "",
+        CmdId : "",
         MerCustId : "",
         RetUrl : "",
         BgRetUrl :"",
         MerPriv : "",
-        userId : "",
-        usrmap : "",
-        pageType : "",
-        chkValue : "",
+        UsrId : "",
+        UsrMp : "",
+        PageType : "",
+        ChkValue : "",
       }
     },
     methods:{
@@ -318,6 +306,29 @@ export default {
                         }else{
                             $(".bg").show();
                             $(".toast").show();
+                            // 三坊开户
+                            const url = myPub.URL+`/chinaPnr/userRegister`;
+                            var params = new URLSearchParams();
+                            params.append('token',sessionStorage.getItem("token"));
+                            params.append('clientType','h5');
+                            
+                            axios.post(url,params).then(res => {
+                                console.log(res.data);
+                                this.ChinaPnrServer = res.data.chinaPnrServer;
+                                this.Versions = res.data.Version; //版本号
+                                this.CmdId = res.data.CmdId; //消息信息
+                                this.MerCustId = res.data.MerCustId; //商户客户号
+                                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                                this.UsrId = res.data.UsrId; //用户号
+                                this.UsrMp = res.data.UsrMp; //手机号
+                                this.PageType = res.data.PageType; //页面类型
+                                this.ChkValue = res.data.ChkValue; //签名
+
+                            }).catch((err) => {
+                                console.log(err);
+                            });
                         }
 
                     }else{
@@ -402,39 +413,22 @@ export default {
             
             axios.post(url,params).then(res => {
                 console.log(res.data);
-                this.chinaPnrServer = res.data.chinaPnrServer;
-                this.version = res.data.Version; //版本号
-                this.cmdId = res.data.CmdId; //消息信息
-                this.MerCustId = res.data.MerCustId; //商户客户号
-                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
-                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
-                this.userId = res.data.UsrId; //用户号
-                this.usrmap = res.data.UsrMp; //手机号
-                this.pageType = res.data.PageType; //页面类型
-                this.chkValue = res.data.ChkValue; //签名
-                console.log(
-                    this.chinaPnrServer,
-                    // this.version,
-                    // this.cmdId,
-                    // this.MerCustId,
-                    // this.RetUrl,
-                    // this.BgRetUrl,
-                    // this.MerPriv,
-                    // this.userId,
-                    // this.usrmap,
-                    // this.pageType,
-                    // this.chkValue
-                );
-                
-                // 判断
+                    this.ChinaPnrServer = res.data.chinaPnrServer;
+                    this.Versions = res.data.Version; //版本号
+                    this.CmdId = res.data.CmdId; //消息信息
+                    this.MerCustId = res.data.MerCustId; //商户客户号
+                    this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                    this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                    this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                    this.UsrId = res.data.UsrId; //用户号
+                    this.UsrMp = res.data.UsrMp; //手机号
+                    this.PageType = res.data.PageType; //页面类型
+                    this.ChkValue = res.data.ChkValue; //签名
+
                 if(res.data.result == 200){
-                    // console.log(this.version,);
                     
                     //提交from表单
-                    $(".regSubmit").submit();
-                    // document.regSubmit.submit();
-                    // location.href = this.chinaPnrServer;
+                    document.regSubmit.submit();
                 }
             }).catch((err) => {
                 console.log(err);
