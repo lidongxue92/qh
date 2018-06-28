@@ -60,14 +60,14 @@ export default {
                 this.adLink = res.data.Advertise[0].adLink;
                 this.imgSrc = res.data.Advertise[0].adImg;
             }
-            
+
         }).catch((err) => {
             console.log(err);
         });
     },
     mounted() {
-        
-    },  
+
+    },
     methods:{
         goBack(){
             this.$router.back()
@@ -135,7 +135,7 @@ export default {
             }
 
         }
-        
+
     }
 }
 
