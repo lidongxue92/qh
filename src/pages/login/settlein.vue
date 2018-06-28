@@ -245,7 +245,7 @@ export default {
                     $(".bg").css('display',"block")
                     $(".toast").css('display',"block")
                     const token = data.token
-                    localStorage.setItem('token',token);
+                    sessionStorage.setItem('token',token);
                   }else{
                     if (data.result == '300') {
                       this.$vux.alert.show({

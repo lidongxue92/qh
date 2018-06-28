@@ -60,7 +60,7 @@
         <div class="toast">
             <img class="right" src="~@/assets/img/close1.png" @click="close"/>
             <img src="../../assets/img/active.png">
-            <button class="button">开户使用新手礼包</button>
+            <button class="button" @click="three">开户使用新手礼包</button>
         </div>
   </div>
 </template>
@@ -274,7 +274,8 @@ export default {
         },
         // 关闭弹框
         close(){
-            this.$router.push({path:"/page/home"})
+            // this.$router.push({path:"/page/home"})
+            this.$router.go(-1)
         },
         // 密码登陆
         Login(){
@@ -282,7 +283,6 @@ export default {
                 //登陆
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
-
                 var params = new URLSearchParams();
                 params.append('phone',this.userPhone);
                 params.append('password',pwd);
@@ -291,7 +291,6 @@ export default {
                 axios.post(url,params).then(res => {
                     console.log(res.data);
                     var user = res.data.User;
-                    
                     if (res.data.result == 200) {
                         sessionStorage.setItem("token",res.data.token);
                         sessionStorage.setItem("userPhoneBlack",user.userPhone1);
@@ -299,6 +298,7 @@ export default {
                             sessionStorage.setItem("realName",user.realName);
                             // console.log(user.realName);
                             this.$router.push({path:"/page/home"})
+                            this.$router.go(-1)
                         }else{
                             $(".bg").show();
                             $(".toast").show()  
@@ -324,17 +324,6 @@ export default {
                             }, 3000)
                         }
                     }
-
-                    
-
-                    
-                    
-                    
-                    
-
-
-
-
                     
                 }).catch((err) => {
                 console.log(err)
@@ -389,24 +378,11 @@ export default {
                             }, 3000)
                         }
                     }
-
-                    
-
-                    
-                    
-                    
-                    
-
-
-
-
-                    
                 }).catch((err) => {
                 console.log(err)
                 })
             }
-        }
-
+        },
     },
     created(){
         this.createCode();

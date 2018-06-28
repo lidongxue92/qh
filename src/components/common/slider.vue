@@ -126,8 +126,8 @@ export default {
         this.$router.push({path:'/settlein'})
         },
         res(){
-          if (localStorage.token) {
-            console.log(localStorage.token)
+          if (sessionStorage.token) {
+            console.log(sessionStorage.token)
             this.isShow = true
           }
         }
