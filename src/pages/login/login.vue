@@ -66,31 +66,6 @@
 
         <!-- 开户 -->
     <div class="box" style="display:none;">
-<<<<<<< HEAD
-        <!-- <form  name="regSubmit" method="post" :action="this.chinaPnrServer"> 
-             <input type='text' name='Version' :value='this.version'>
-             <input type='text' name='CmdId' :value='this.cmdId'>
-             <input type='text' name='MerCustId' :value='this.MerCustId'>
-             <input type='text' name='RetUrl' :value='this.RetUrl'> 
-             <input type='text' name='BgRetUrl' :value='this.BgRetUrl'>
-             <input type='text' name='UsrId' :value='this.userId'>
-             <input type='text' name='UsrMp' :value='this.usrmap'>
-             <input type='text' name='PageType' :value='this.pageType'>
-             <input type='text' name='ChkValue' :value='this.chkValue'>    
-             <input type='text' name='MerPriv' :value='this.MerPriv'> 
-        </form> -->
-        <form class="regSubmit" method="post" name="from1" action="chinaPnrServer" id="regAction"> 
-             <input type='text' name='Version' v-model='version'>
-             <input type='text' name='CmdId' v-model='cmdId'>
-             <input type='text' name='MerCustId' v-model='MerCustId'>
-             <input type='text' name='RetUrl' v-model='RetUrl'> 
-             <input type='text' name='BgRetUrl' v-model='BgRetUrl'>
-             <input type='text' name='UsrId' v-model='userId'>
-             <input type='text' name='UsrMp' v-model='usrmap'>
-             <input type='text' name='PageType' v-model='pageType'>
-             <input type='text' name='ChkValue' v-model='chkValue'>    
-             <input type='text' name='MerPriv' v-model='MerPriv'> 
-=======
         <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
              <input type='text' name='Version'  :value='Version'>
              <input type='text' name='CmdId'  :value='CmdId'>
@@ -102,7 +77,6 @@
              <input type='text' name='PageType'  :value='PageType'>
              <input type='text' name='ChkValue'  :value='ChkValue'>    
              <input type='text' name='MerPriv' :value='MerPriv'> 
->>>>>>> 3504b4c51f81d2943e35daaee31b8bb488f26bd1
         </form>
     </div>
 
@@ -437,35 +411,6 @@ export default {
             params.append('clientType','h5');
             axios.post(url,params).then(res => {
                 console.log(res.data);
-<<<<<<< HEAD
-                this.chinaPnrServer = res.data.chinaPnrServer;
-                this.version = res.data.Version; //版本号
-                this.cmdId = res.data.CmdId; //消息信息
-                this.MerCustId = res.data.MerCustId; //商户客户号
-                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
-                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
-                this.userId = res.data.UsrId; //用户号
-                this.usrmap = res.data.UsrMp; //手机号
-                this.pageType = res.data.PageType; //页面类型
-                this.chkValue = res.data.ChkValue; //签名
-                console.log(
-                    // this.chinaPnrServer,
-                    // this.version,
-                    // this.cmdId,
-                    // this.MerCustId,
-                    // this.RetUrl,
-                    // this.BgRetUrl,
-                    // this.MerPriv,
-                    // this.userId,
-                    // this.usrmap,
-                    // this.pageType,
-                    // this.chkValue
-                );
-                
-                // 判断
-                if(res.data.result == 200){
-=======
                     this.ChinaPnrServer = res.data.chinaPnrServer;
                     this.Versions = res.data.Version; //版本号
                     this.CmdId = res.data.CmdId; //消息信息
@@ -479,8 +424,6 @@ export default {
                     this.ChkValue = res.data.ChkValue; //签名
 
                 if(res.data.result == 200){
-                    
->>>>>>> 3504b4c51f81d2943e35daaee31b8bb488f26bd1
                     //提交from表单
                     document.regSubmit.submit();
                 }
