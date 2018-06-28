@@ -412,7 +412,7 @@ export default {
             axios.post(url,params).then(res => {
                 console.log(res.data);
                     this.ChinaPnrServer = res.data.chinaPnrServer;
-                    this.Versions = res.data.Version; //版本号
+                    this.Version = res.data.Version; //版本号
                     this.CmdId = res.data.CmdId; //消息信息
                     this.MerCustId = res.data.MerCustId; //商户客户号
                     this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
@@ -425,7 +425,11 @@ export default {
 
                 if(res.data.result == 200){
                     //提交from表单
-                    document.regSubmit.submit();
+                    console.log(this.Version)
+                    setTimeout(() => {
+                        document.regSubmit.submit();
+                    }, 1000)
+                    
                 }
             }).catch((err) => {
                 console.log(err);
