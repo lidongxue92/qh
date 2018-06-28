@@ -11,20 +11,27 @@
                 <li>是否实名</li>
                 <li>是否投资</li>
             </ul>
-            <div class="data">
-                <ul>
-                    <li>2018.08.08</li>
-                    <li>135****4111</li>
-                    <li>是</li>
-                    <li>否</li>
+            <!-- <div class="data" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
+                <ul v-for="(item,index) in friendList" :key="index">
+                    <li>{{item.inviteTime}}</li>
+                    <li>{{item.userPhone}}</li>
+                    <li v-if="item.realNameStatus == 0">否</li>
+                    <li v-else>是</li>
+                    <li v-if="item.isInvest == 0">否</li>
+                    <li v-else>是</li>
                 </ul>
-                <ul>
-                    <li>2018.08.08</li>
-                    <li>135****4111</li>
-                    <li>是</li>
-                    <li>否</li>
+            </div> -->
+
+            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" class="data">
+                <ul v-for="(item,index) in friendList" :key="index">
+                    <li>{{item.inviteTime}}</li>
+                    <li>{{item.userPhone}}</li>
+                    <li v-if="item.realNameStatus == 0">否</li>
+                    <li v-else>是</li>
+                    <li v-if="item.isInvest == 0">否</li>
+                    <li v-else>是</li>
                 </ul>
-            </div>
+            </mt-loadmore>
         </div>
     </div>
 
@@ -35,6 +42,7 @@
 import topComponent from '../../components/common/top';
 import $ from 'jquery';
 import axios from 'axios';
+import * as myPub from '../../assets/js/public.js'
 export default {
     name:'friendList',
     components: {
@@ -42,12 +50,38 @@ export default {
     },
     data(){
         return{
-
+            friendList:[]
         }
+    },
+    created() {
+        // 邀请列表
+        const url = myPub.URL+`/invite/getMyInviteList`;
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+        params.append('curPage',1);
+        params.append('pageSize',1);
+
+        axios.post(url,params).then(res => {
+            // console.log(res.data.User);
+            this.friendList = res.data.User;
+
+        }).catch((err) => {
+            console.log(err);
+        });
     },
     methods:{
         goBack(){
             this.$router.back()
+        },
+
+        // 加载更多数据(下拉刷新)
+        loadTop() {
+            this.$refs.loadmore.onTopLoaded();
+        },
+        // 加载更多数据(上拉刷新)
+        loadBottom() {
+            this.allLoaded = true;// 若数据已全部获取完毕
+            this.$refs.loadmore.onBottomLoaded();
         }
     }
 }

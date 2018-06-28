@@ -1,16 +1,15 @@
 <template>
     <div class="container">
         <topComponent title='邀请好友' :showLeft='false'>
-            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+            <span class="back" @click='goBack' slot="left"><img src="../../../static/img/left.png"></span>
             <span class="right" @click='linkToFrienfList' slot="right">好友列表</span>
         </topComponent>
-        <div class="banner"><img src="../../assets/img/invite/bg.png"></div>
-
+        <div class="banner"> <a :href="adLink"><img :src="imgSrc"></a></div>
         <div class="inviteTop">
             <div class="pTop">
-                <p>启航金控累计为<span>100000</span>人赚取收益超过</p>
-                <p class="shouYi">1000000元</p>
-                <div @click="share"  class="img"><img src="../../assets/img/invite/ewm.png"></div>
+                <p>启航金控累计为<span>{{regTotal}}</span>人赚取收益超过</p>
+                <p class="shouYi">{{totalProfit}}</p>
+                <div class="img"><img src="../../assets/img/invite/ewm.png"></div>
             </div>
         </div>
     </div>
@@ -21,6 +20,7 @@
 import topComponent from '../../components/common/top';
 import $ from 'jquery';
 import axios from 'axios';
+import * as myPub from '../../assets/js/public.js'
 import soshm from 'soshm'
 export default {
     name:'invite',
@@ -29,8 +29,41 @@ export default {
     },
     data(){
         return{
-
+            imgSrc:"../../../static/img/bg.png",
+            adLink:"javaScript:;",
+            regTotal:0,
+            totalProfit:0.00,
         }
+    },
+    created() {
+        // 运营报告
+        const url = myPub.URL+`/index/getOperationReport`;
+        var params = new URLSearchParams();
+        // params.append('','');
+        axios.post(url,params).then(res => {
+            // console.log(res);
+            this.regTotal = res.data.ReportInfo.regTotal;
+            this.totalProfit = res.data.ReportInfo.totalProfit;
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        // 邀请图片
+        const url1 = myPub.URL+`/front/getAdvList`;
+        var params1 = new URLSearchParams();
+        params1.append('adType','1');
+        params1.append('adPosition','11');
+        params1.append('adPort','h5');
+        axios.post(url1,params1).then(res => {
+            console.log(res);
+            if (res.data.Advertise[0] != "") {
+                this.adLink = res.data.Advertise[0].adLink;
+                this.imgSrc = res.data.Advertise[0].adImg;
+            }
+            
+        }).catch((err) => {
+            console.log(err);
+        });
     },
     mounted() {
         
@@ -38,18 +71,6 @@ export default {
     methods:{
         goBack(){
             this.$router.back()
-        },
-        share(){
-            var token = "123456798";
-        // ;touchstart
-            addEventListener('click', function() {      
-                // console.log("123456");      
-                soshm.popIn({
-                    url: 'http://test.qihangjf.com:29084/register.html?token=' + token,
-                    sites: ['weixin', 'weixintimeline', 'qq']
-                });
-            }, false);
-            
         },
         linkToFrienfList(){
             this.$router.push({path:'/page/friendList'})
