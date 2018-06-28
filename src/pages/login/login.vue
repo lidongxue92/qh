@@ -61,11 +61,7 @@
         <div class="toast">
             <img class="right" src="~@/assets/img/close1.png" @click="close"/>
             <img src="../../assets/img/active.png">
-<<<<<<< HEAD
-            <button class="button" @click="three">开户使用新手礼包</button>
-=======
             <button class="button" @click="kaiHu">开户使用新手礼包</button>
->>>>>>> dae1f119ab623f5a6ff8a82a3129bc1bbc46e018
         </div>
 
         <!-- 开户 -->
