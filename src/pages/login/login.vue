@@ -61,11 +61,7 @@
         <div class="toast">
             <img class="right" src="~@/assets/img/close1.png" @click="close"/>
             <img src="../../assets/img/active.png">
-<<<<<<< HEAD
-            <button class="button" @click="three">开户使用新手礼包</button>
-=======
             <button class="button" @click="kaiHu">开户使用新手礼包</button>
->>>>>>> dae1f119ab623f5a6ff8a82a3129bc1bbc46e018
         </div>
 
         <!-- 开户 -->
@@ -82,7 +78,7 @@
              <input type='text' name='ChkValue' :value='this.chkValue'>    
              <input type='text' name='MerPriv' :value='this.MerPriv'> 
         </form> -->
-        <form class="regSubmit" method="post" :action="chinaPnrServer"> 
+        <form class="regSubmit" method="post" name="from1" action="chinaPnrServer" id="regAction"> 
              <input type='text' name='Version' v-model='version'>
              <input type='text' name='CmdId' v-model='cmdId'>
              <input type='text' name='MerCustId' v-model='MerCustId'>
@@ -402,7 +398,6 @@ export default {
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('clientType','h5');
-            
             axios.post(url,params).then(res => {
                 console.log(res.data);
                 this.chinaPnrServer = res.data.chinaPnrServer;
@@ -417,7 +412,7 @@ export default {
                 this.pageType = res.data.PageType; //页面类型
                 this.chkValue = res.data.ChkValue; //签名
                 console.log(
-                    this.chinaPnrServer,
+                    // this.chinaPnrServer,
                     // this.version,
                     // this.cmdId,
                     // this.MerCustId,
@@ -432,8 +427,6 @@ export default {
                 
                 // 判断
                 if(res.data.result == 200){
-                    // console.log(this.version,);
-                    
                     //提交from表单
                     $(".regSubmit").submit();
                     // document.regSubmit.submit();
