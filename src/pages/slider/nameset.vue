@@ -2,19 +2,11 @@
     <div class="detail page">
         <top v-bind:title="title"></top>
         <div class="middle">
-            <div class="noset" v-if = 'isshow'>
+            <div class="set">
                 <ul class="list">
-                    <li><input type="type" placeholder="请输入姓名" class="register_content_input" v-model="LUsername" @blur="checkname"><span class="tishixiaoxi disappear">请输入姓名。</span></li>
-                    <li><input type="type" placeholder="请输入身份证" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><span class="tishixiaoxi disappear">请输入身份证。</span></li>
-                </ul>
-                <p>密码长度为8~32位，须包含数字、字母、符号至少2种或以上元素</p>
-                <button class="button" @click="sub">确认</button>
-            </div>
-            <div class="set" v-if = '!isshow'>
-                <ul class="list">
-                    <li>姓名<span v-if="isshow" class="c-2B9AFF" >张三 &emsp;</span></li>
-                    <li>身份证号<span v-if="isshow" class="c-2B9AFF" >320145198603175698 &emsp;</span></li>
-                    <li>认证状态<span v-if="isshow" class="c-2B9AFF" >已认证 &emsp;</span></li>
+                    <li>姓名<span class="c-2B9AFF" >{{userRealname}} &emsp;</span></li>
+                    <li>身份证号<span class="c-2B9AFF" >{{idCardNo}} &emsp;</span></li>
+                    <li>认证状态<span class="c-2B9AFF" >已认证 &emsp;</span></li>
                 </ul>
             </div>
         </div>
@@ -26,6 +18,7 @@ import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, 
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
 import $ from 'jquery'
+import axios from 'axios';
 import top from '../../components/common/top1'
 export default {
     name: 'detail',
@@ -37,16 +30,27 @@ export default {
             product: null,
             money:'1000',
             title:'实名认证',
-            isshow:true,
-            LUsername:'',
-            LUserPsd:''
+            userRealname:"",
+            idCardNo:""
         }
     },
     computed: {
     },
     mounted () {
     },
-    created() {},
+    created() {
+        const url = myPub.URL+`/user/getUserInfo` ;
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+        axios.post(url,params).then(res => {
+            // console.log(res);
+            this.userRealname = res.data.User.userRealname;
+            this.idCardNo = res.data.User.idCardNo;
+
+        }).catch((err) => {
+            console.log(err)
+        })
+    },
     activated() {
         // this.getALLProducts()
     },

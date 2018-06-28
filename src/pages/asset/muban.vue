@@ -9,8 +9,9 @@
 
 <script>
 import topComponent from '../../components/common/top'
-import $ from 'jquery';
 import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import $ from 'jquery'
 export default {
     name:'recharge',
     components: {
@@ -18,7 +19,7 @@ export default {
     },
     data(){
         return{
-            isShowTabbar:false
+
         }
     },
     methods:{
