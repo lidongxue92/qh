@@ -37,11 +37,11 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in newlist" :key="index">
-                   <h5>{{item.productName}} <span></span><img src="../../assets/img/icon_biao1@2x.png"></h5>
+                <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId)">
+                   <h5>{{item.productName}}<span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">新手福利高预期收益</b></span>
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -50,11 +50,11 @@
                         </p>
                     </div>
                 </li>
-                <li v-for="(item,index) in hotlist" :key="index">
-                   <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId)">
+                   <h5>{{item.Title}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">热销火爆 高收益</b></span>
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -63,11 +63,11 @@
                         </p>
                     </div>
                 </li>
-                <li v-for="(item,index) in productlist" :key="index">
-                   <h5>{{item.Title}} <span>{{item.Data}}</span><img :src="item.img"></h5>
+                <li v-for="(item,index) in list"  @click="linkToDetail(item.productId)">
+                   <h5>{{item.Title}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">热销火爆 高收益</b></span>
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -115,7 +115,7 @@ export default {
             recentList: [],
             newlist:'',
             hotlist:'',
-            producrlist:'',
+            list:'',
             demo02_list: baseList,
             num:'',
             isshow:true,
@@ -124,6 +124,10 @@ export default {
         }
     },
     created() {
+        this.index_banner(),
+        this.index_product()
+    },
+    activated: function() {
         this.index_banner(),
         this.index_product()
     },
@@ -164,13 +168,15 @@ export default {
         // 产品推荐
         index_product(){
             const _this = this
+            _this.$loading.show();
             const url = myPub.URL+`/index/getIndexPickProduct` ;
             const params = new URLSearchParams();
             params.append('clientType','h5');
-            if (localStorage.token) {
-                params.append('token',localStorage.token);
+            if (sessionStorage.token) {
+                params.append('token',sessionStorage.token); 
             }
             axios.post(url,params).then(response => {
+                _this.$loading.hide();
                 const data = response.data
                 console.log(data)
                 if (data.result == '400') {
@@ -180,19 +186,20 @@ export default {
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
-                        this.$router.push({path:"/login"})
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
                     }, 3000)
                 }
-                _this.newlist = data.GsInfo
-                _this.hotlist = data.HotInfo
-                _this.productlist = data.XsInfo
+                if (data.result == '200') {
+                    _this.newlist = data.GsInfo
+                    _this.hotlist = data.HotInfo
+                    _this.list = data.XsInfo
+                }
 
             }).catch((err) => {
                 console.log(err)
             })
         }
     },
-
     components: {
         Swiper,
         SwiperItem,
@@ -202,10 +209,6 @@ export default {
         Divider,
         slider
     },
-    //页面加载后执行
-    // mounted(){
-    //   console.log(num.)
-    // }
 }
 </script>
 <style type="text/css">
@@ -213,7 +216,7 @@ export default {
 </style>
 <style scoped lang="less">
 .home {
-    background: #f7f7f7;padding-bottom:10px;color: #333;height: 100%;
+    background: #f7f7f7;color: #333;height: 100%;
     .index_banner{
         width:100%;position: relative;
         .imgright{position: absolute;left: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;}
@@ -257,7 +260,7 @@ export default {
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
                         float: right;
-                        // display: inline-block;
+                        display: inline-block;
                         width: 5rem;
                         height:1.8rem;
                         color: #fff;
@@ -290,7 +293,7 @@ export default {
             }
         }
     }
-    .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
+    .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;margin-bottom: 4rem;background: #f7f7f7;}
     .zhezhao{background: rgba(0, 0, 0, .3);position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 600;display: none}
 }
 </style>

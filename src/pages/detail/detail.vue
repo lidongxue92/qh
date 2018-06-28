@@ -3,18 +3,18 @@
         <div class="product">
             <top v-bind:title="title"></top>
             <div class="left">
-                <span class="interest">10<b>&ensp;%</b></span>
+                <span class="interest">{{product.baseAnnualYield}}<b>&ensp;%</b></span>
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
-                <p>理财期限&emsp;<span>1个月</span></p>
-                <p>开发额度&emsp;<span>100万</span></p>
+                <p>理财期限&emsp;<span>{{product.period}}</span></p>
+                <p>开发额度&emsp;<span>{{product.openLimit}}</span></p>
                 <span class="status">可转让</span>
             </div>
-            <p class="line"></p>&emsp;<span class="Percentage">已售64%</span>
+            <p class="line"></p>&emsp;<span class="Percentage">已售{{product.xmjd}}</span>
             <p class="note">
-                <span class="left1">剩余额度&emsp;<b>100万</b></span>
-                <span class="right1">起投金额&emsp;<b>100元</b></span>
+                <span class="left1">剩余额度&emsp;<b>{{product.residueMoney}}</b></span>
+                <span class="right1">起投金额&emsp;<b>{{product.amountMin}}</b></span>
             </p>
         </div>
         <div class="middle">
@@ -23,7 +23,7 @@
                 <h5>购买金额</h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model="money"/>元
+                    <input class="money" v-model= "money"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red">
@@ -35,22 +35,22 @@
                 <p class="bottomimg" v-if="isshow4">
                     <span class="fl">
                         起息日
-                        <b>2018-04-12</b>
+                        <b>{{product.qxr}}</b>
                     </span>
                     <span>
                         到期日
-                        <b>2018-04-12</b>
+                        <b>{{product.dqr}}</b>
                     </span>
                     <span class="fr">
                         到帐日
-                        <b>2018-04-12</b>
+                        <b>{{product.period}}</b>
                     </span>
                 </p>
                 <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
             </div>
             <!-- 项目介绍 -->
             <ul class="list">
-                <li @click="linkTodetail1">项目介绍 <img src="~@/assets/img/right.png"></li>
+                <li @click="linkTodetail1(product.productId)">项目介绍 <img src="~@/assets/img/right.png"></li>
                 <li @click="log">投资记录 <img src="~@/assets/img/right.png"></li>
             </ul>
         </div>
@@ -76,8 +76,9 @@
 <script>
 import { PopupPicker, Tab, TabItem, Swiper,XCircle, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
-import * as myPub from '@/assets/js/public.js'
 import top from '../../components/common/top1'
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import $ from 'jquery'
 export default {
     name: 'detail',
@@ -86,8 +87,9 @@ export default {
     },
     data() {
         return {
-            product: null,
-            money:'1000',
+            product: '',
+            money:'',
+            Money:'',
             title:'启航新手礼',
             isshow:false,
             isshow3:false,
@@ -99,14 +101,16 @@ export default {
     computed: {
     },
     mounted () {
+        this.productdata()
     },
     created() {
     },
-    activated() {
+    activated: function() {
+        this.productdata()
     },
     methods: {
-        linkTodetail1() {
-            this.$router.push({ path: '/page/detailProduct' })
+        linkTodetail1(id) {
+            this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
         log() {
             this.$router.push({ path: '/page/log' })
@@ -118,7 +122,7 @@ export default {
             const _this = this
             const num = $(".money")
             const value = num.val()
-            this.money = parseFloat(this.money)+1000
+            this.money = (parseFloat(this.money)+parseFloat(this.Money))+'.00'
             console.log (this.money)
             $(".leftimg").attr('src',"~@/assets/img/add1.png")
         },
@@ -126,9 +130,9 @@ export default {
             const _this = this
             const num = $(".money")
             const value = num.val()
-            if (value>'1000') {
-                this.money = parseFloat(this.money)-1000
-                console.log (this.money)
+            if (value>parseFloat(this.Money)) {
+                this.money = (parseFloat(this.money)-parseFloat(this.Money))+'.00'
+                console.log (this.money+'00')
             }else{
                 $(".leftimg").attr('src',"~@/assets/img/cont.png")
             }
@@ -150,7 +154,41 @@ export default {
       tost(){
         this.isshow = true
         this.timer()
-      }
+      },
+      // 产品数据
+      productdata(){
+          const _this = this
+          _this.$loading.show();
+          const id = this.$route.query.id
+          const url = myPub.URL+`/product/getProductDetail` ;
+          const params = new URLSearchParams();
+          params.append('productId',id);
+          params.append('token',sessionStorage.token); 
+          axios.post(url,params).then(response => {
+            _this.$loading.hide();
+            const data = response.data
+            console.log(data)
+            if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login"})
+                }, 3000)
+            }
+            if (data.result == '200') {
+                
+                this.product = data.ProductInfo
+                this.title = data.ProductInfo.productName
+                this.money = data.ProductInfo.amountMin
+                this.Money = data.ProductInfo.amountMin
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+        }
     },
     components: {
         PopupPicker,
@@ -225,7 +263,7 @@ export default {
             p{
                 padding:1rem;text-align: center;font-size: 0.6rem;
                 .leftimg{width: 2.4rem;height: 2.4rem;float: left;}
-                input{border: 0;text-align: center;font-size: 1.1rem;width: 15%;margin-top: 0.8rem;}
+                input{border: 0;text-align: center;font-size: 1.1rem;width: 20%;margin-top: 0.8rem;}
                 .rightimg{width: 2.4rem;height: 2.4rem;float: right;}
             }
             .word{

@@ -5,26 +5,26 @@
             <!-- 产品介绍 -->
             <div class="product">
                 <h5>产品介绍</h5>
-                <p>本标的为个人资金周转借款，借款人以车辆为抵押物。投资人通过道道金控投资此标获得对应收益。每个借款人经过微贷实体门店风控人员多层严格筛选。通过车辆抵质押保障还款来源，稳健可靠。</p>
+                <p>{{product.productDetail}}</p>
                 <span>《投资风险说明》</span>
             </div>
             <ul class="list">
                 <li>借款人信息</li>
-                <li>姓名 <span>张三</span></li>
-                <li>身份证号 <span>身份证号</span></li>
-                <li>性别 <span>男</span></li>
-                <li>借款用途 <span>车贷还款</span></li>
-                <li>年龄 <span>30</span></li>
-                <li>婚姻状况 <span>已婚</span></li>
-                <li>籍贯 <span>中国 上海</span></li>
+                <li>姓名 <span>{{user.creditorName}}</span></li>
+                <li>身份证号 <span>{{user.creditorIdCard}}</span></li>
+                <li>性别 <span>{{user.creditorSex}}</span></li>
+                <li>借款用途 <span>{{user.assetFundsUse}}</span></li>
+                <li>年龄 <span>{{user.creditorAge}}</span></li>
+                <li>婚姻状况 <span v-if="isshow1">未婚</span><span v-if="isshow2">已婚</span><span v-if="isshow3">离异</span></li>
+                <li>籍贯 <span>{{user.creditorNativePlace}}</span></li>
             </ul>
             <ul class="list">
                 <li>抵押车辆信息</li>
-                <li>车辆型号<span>通用五菱</span></li>
-                <li>车牌号 <span>苏****GY</span></li>
-                <li>新车价格 <span>10万元</span></li>
-                <li>行驶里程 <span>20000公里</span></li>
-                <li>抵押估价 <span>5万元</span></li>
+                <li>车辆型号<span>{{user.vehicleType}}</span></li>
+                <li>车牌号 <span>{{user.vehicleNumberPlate}}</span></li>
+                <li>新车价格 <span>{{user.vehiclePrice}}</span></li>
+                <li>行驶里程 <span>{{user.vehicleRoalHaul}}</span></li>
+                <li>抵押估价 <span>{{user.vehicleMortgageValuation}}</span></li>
             </ul>
             <table class="tablelist">
                 <tbody>
@@ -32,73 +32,47 @@
                         <th>审核资料</th>
                         <th>审核结果</th>
                     </tr>
-                    <tr>
-                        <td>车辆外观前照</td>
-                        <td class="yes">通过</td>
+                    <tr class="child1">
+                        <td >{{asset.creditorIdCard}}</td>
                     </tr>
-                    <tr>
-                        <td>车辆外观后照</td>
-                        <td class="yes">通过</td>
+                    <tr class="child2">
+                        <td>{{asset.vehicleDrivingLicencePic}}</td>
                     </tr>
-                    <tr>
-                        <td>里程表照片</td>
-                        <td class="yes">通过</td>
+                    <tr class="child3">
+                        <td>{{asset.vehicleIdCardPic}}</td>
                     </tr>
-                    <tr>
-                        <td>铭牌照片</td>
-                        <td class="yes">通过</td>
+                    <tr class="child4">
+                        <td>{{asset.vehicleApplyPic}}</td>
                     </tr>
-                    <tr>
-                        <td>车辆后备箱照片</td>
-                        <td class="yes">通过</td>
+                    <tr class="child5">
+                        <td>{{asset.vehicleReceiptPic}}</td>
                     </tr>
-                    <tr>
-                        <td>二代身份证</td>
-                        <td class="yes">通过</td>
+                    <tr class="child6">
+                        <td>{{asset.vehicleTravelLicensePic}}</td>
                     </tr>
-                    <tr>
-                        <td>驾驶证</td>
-                        <td class="yes">通过</td>
+                    <tr class="child7">
+                        <td>{{asset.vehicleWarrantyPic}}</td>
                     </tr>
-                    <tr>
-                        <td>身份证验证图</td>
-                        <td class="yes">通过</td>
+                    <tr class="child8">
+                        <td>{{asset.vehiclePeccancyPic}}</td>
                     </tr>
-                    <tr>
-                        <td>申请表</td>
-                        <td class="yes">通过</td>
+                    <tr class="child9">
+                        <td>{{asset.vehiclePersonPic}}</td>
                     </tr>
-                    <tr>
-                        <td>登记证书</td>
-                        <td class="yes">通过</td>
+                    <tr class="child10">
+                        <td>{{asset.vehicleAppearanceBeforePic}}</td>
                     </tr>
-                    <tr>
-                        <td>行驶证</td>
-                        <td class="yes">通过</td>
+                    <tr class="child11">
+                        <td>{{asset.vehicleAppearanceAfterPic}}</td>
                     </tr>
-                    <tr>
-                        <td>保单</td>
-                        <td class="yes">通过</td>
+                    <tr class="child12">
+                        <td>{{asset.vehicleOdometerPic}} </td>
                     </tr>
-                    <tr>
-                        <td>违章信息</td>
-                        <td class="yes">通过</td>
+                    <tr class="child13">
+                        <td>{{asset.vehicleTrunkPic}}</td>
                     </tr>
-                    <tr>
-                        <td>人车合照</td>
-                        <td class="yes">通过</td>
-                    </tr>
-                    <tr>
-                        <td>借条</td>
-                        <td class="yes">通过</td>
-                    </tr>
-                    <tr>
-                        <td>合同资料</td>
-                        <td class="going">审核中</td>
-                    </tr>
-                    <tr>
-                        <td>其他资料</td>
-                        <td>未通过</td>
+                    <tr class="child14">
+                        <td>{{asset.vehicleNameplatePic}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -110,9 +84,10 @@
 <script>
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
-import * as myPub from '@/assets/js/public.js'
 import $ from 'jquery'
 import top from '../../components/common/top1'
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 export default {
     name: 'detail',
     directives: {
@@ -120,9 +95,15 @@ export default {
     },
     data() {
         return {
-            product: null,
+            product:'',
+            user:'',
+            asset:'',
             money:'1000',
-            title:'详情介绍'
+            title:'详情介绍',
+            isshow1:false,
+            isshow2:false,
+            isshow3:false,
+            isshow4:false
         }
     },
     computed: {
@@ -130,13 +111,101 @@ export default {
     mounted () {
     },
     created() {},
-    activated() {
-        // this.getALLProducts()
+    activated: function() {
+        this.productdata()
     },
     methods: {
-        linkTodetail1() {
-            this.$router.push({ path: '/page/detail1' })
-        },
+    // 产品数据
+        productdata(){
+            const _this = this
+            _this.$loading.show();
+            const id = this.$route.query.id
+            const url = myPub.URL+`/product/getProjectIntroduction` ;
+            const params = new URLSearchParams();
+            params.append('productId',id);
+            params.append('token',sessionStorage.token); 
+            axios.post(url,params).then(response => {
+                 _this.$loading.hide();
+                const data = response.data
+                console.log(data)
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login"})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                    this.product = data
+                    this.user = data.User
+                    this.asset =data.asset
+                    if (data.User.creditorMaritalStatus == '0') {
+                        this.isshow1 = true
+                        this.isshow2 = false
+                        this.isshow3 = false
+                    }
+                    if (data.User.creditorMaritalStatus == '1') {
+                        this.isshow1 = false
+                        this.isshow2 = true
+                        this.isshow3 = false
+                    }
+                    if (data.User.creditorMaritalStatus == '2') {
+                        this.isshow1 = false
+                        this.isshow2 = false
+                        this.isshow3 = true
+                    }
+                    // 判断asset数据是否存在
+                    const pro = '<td style="width: 50%;text-align: center;color: #999;font-size: 0.7rem;line-height: 2.2rem;color:#FFA303;text-align:center">通过</td>'
+                    if (data.asset.creditorIdCard) {
+                        $('.child1').append(pro)
+                    }
+                    if (data.asset.vehicleDrivingLicencePic) {
+                        $('.child2').append(pro)
+                    }
+                    if (data.asset.vehicleIdCardPic) {
+                        $('.child3').append(pro)
+                    }
+                    if (data.asset.vehicleApplyPic) {
+                        $('.child4').append(pro)
+                    }
+                    if (data.asset.vehicleReceiptPic) {
+                        $('.child5').append(pro)
+                    }
+                    if (data.asset.vehicleTravelLicensePic) {
+                        $('.child6').append(pro)
+                    }
+                    if (data.asset.vehicleWarrantyPic) {
+                        $('.child7').append(pro)
+                    }
+                    if (data.asset.vehicleWarrantyPic) {
+                        $('.child8').append(pro)
+                    }
+                    if (data.asset.vehiclePersonPic) {
+                        $('.child9').append(pro)
+                    }
+                    if (data.asset.vehicleAppearanceBeforePic) {
+                        $('.child10').append(pro)
+                    }
+                    if (data.asset.vehicleAppearanceAfterPic) {
+                        $('.child11').append(pro)
+                    }
+                    if (data.asset.vehicleOdometerPicc) {
+                        $('.child12').append(pro)
+                    }
+                    if (data.asset.vehicleTrunkPic) {
+                        $('.child13').append(pro)
+                    }
+                    if (data.asset.vehicleNameplatePic) {
+                        $('.child14').append(pro)
+                    }
+                }
+          }).catch((err) => {
+            console.log(err)
+          })
+        }
     },
     components: {
         PopupPicker,
