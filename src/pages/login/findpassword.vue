@@ -266,21 +266,19 @@ export default {
             const url = myPub.URL+`/pwd/findPwd` ;
             var params = new URLSearchParams();
             params.append('phone',this.userPhone);
-            params.append('password',this.newUserPwd1);
+            params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
             params.append('smsCode',this.verifyCode);
             axios.post(url,params).then(res => {
                 console.log(res);
                 if (res.data.result == 200) {
-                    // if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
                         this.$vux.alert.show({
                             // title: '',
                             content: res.data.resultMsg
                         })
                         setTimeout(() => {
                             // this.$vux.alert.hide()
-                            // this.$router.push({path:"/login"});
+                            this.$router.push({path:"/login"});
                         }, 3000)
-                    // }
                 }
 
             }).catch((err) => {

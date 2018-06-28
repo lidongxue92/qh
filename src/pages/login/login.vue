@@ -306,7 +306,7 @@ export default {
                         }else{
                             $(".bg").show();
                             $(".toast").show();
-                            // 三坊开户
+                            // 开户
                             const url = myPub.URL+`/chinaPnr/userRegister`;
                             var params = new URLSearchParams();
                             params.append('token',sessionStorage.getItem("token"));
@@ -382,7 +382,30 @@ export default {
                             this.$router.push({path:"/page/home"})
                         }else{
                             $(".bg").show();
-                            $(".toast").show()  
+                            $(".toast").show();
+                            //开户
+                            const url = myPub.URL+`/chinaPnr/userRegister`;
+                            var params = new URLSearchParams();
+                            params.append('token',sessionStorage.getItem("token"));
+                            params.append('clientType','h5');
+                            
+                            axios.post(url,params).then(res => {
+                                console.log(res.data);
+                                this.ChinaPnrServer = res.data.chinaPnrServer;
+                                this.Versions = res.data.Version; //版本号
+                                this.CmdId = res.data.CmdId; //消息信息
+                                this.MerCustId = res.data.MerCustId; //商户客户号
+                                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                                this.UsrId = res.data.UsrId; //用户号
+                                this.UsrMp = res.data.UsrMp; //手机号
+                                this.PageType = res.data.PageType; //页面类型
+                                this.ChkValue = res.data.ChkValue; //签名
+
+                            }).catch((err) => {
+                                console.log(err);
+                            });  
                         }
 
                     }else{
