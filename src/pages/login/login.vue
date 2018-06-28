@@ -65,26 +65,39 @@
         </div>
 
         <!-- 开户 -->
-<div class="box" style="display:none;">
-        <form  name="regSubmit" method="post" :action="this.chinaPnrServer"> 
+    <div class="box" style="display:none;">
+        <!-- <form  name="regSubmit" method="post" :action="this.chinaPnrServer"> 
              <input type='text' name='Version' :value='this.version'>
              <input type='text' name='CmdId' :value='this.cmdId'>
              <input type='text' name='MerCustId' :value='this.MerCustId'>
-             <input type='text' name='RetUrl' :value='this.RetUrl'>
+             <input type='text' name='RetUrl' :value='this.RetUrl'> 
              <input type='text' name='BgRetUrl' :value='this.BgRetUrl'>
              <input type='text' name='UsrId' :value='this.userId'>
              <input type='text' name='UsrMp' :value='this.usrmap'>
              <input type='text' name='PageType' :value='this.pageType'>
-             <input type='text' name='ChkValue' :value='this.chkValue'>     
+             <input type='text' name='ChkValue' :value='this.chkValue'>    
+             <input type='text' name='MerPriv' :value='this.MerPriv'> 
+        </form> -->
+        <form class="regSubmit" method="post" :action="chinaPnrServer"> 
+             <input type='text' name='Version' v-model='version'>
+             <input type='text' name='CmdId' v-model='cmdId'>
+             <input type='text' name='MerCustId' v-model='MerCustId'>
+             <input type='text' name='RetUrl' v-model='RetUrl'> 
+             <input type='text' name='BgRetUrl' v-model='BgRetUrl'>
+             <input type='text' name='UsrId' v-model='userId'>
+             <input type='text' name='UsrMp' v-model='usrmap'>
+             <input type='text' name='PageType' v-model='pageType'>
+             <input type='text' name='ChkValue' v-model='chkValue'>    
+             <input type='text' name='MerPriv' v-model='MerPriv'> 
         </form>
     </div>
 
   </div>
 </template>
 <script>
-let Base64 = require('js-base64').Base64;
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
+let Base64 = require('js-base64').Base64;
 import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
 var code ; //在全局定义验证码
@@ -147,8 +160,7 @@ export default {
             this.$router.push({path:"/settlein"})
         },
         findpassword(){
-            this.$router.push({path:"/findpassword"})
-            
+            this.$router.push({path:"/findpassword"});
         },
         checkUserPhone(){
             if(this.userPhone == ''){
@@ -293,7 +305,7 @@ export default {
                 params.append('loginType',1);
                 params.append('clientType','h5');
                 axios.post(url,params).then(res => {
-                    // console.log(res.data);
+                    console.log(res.data);
                     var user = res.data.User;
                     
                     if (res.data.result == 200) {
@@ -389,27 +401,43 @@ export default {
             params.append('clientType','h5');
             
             axios.post(url,params).then(res => {
-                // console.log(res.data);
+                console.log(res.data);
                 this.chinaPnrServer = res.data.chinaPnrServer;
                 this.version = res.data.Version; //版本号
                 this.cmdId = res.data.CmdId; //消息信息
                 this.MerCustId = res.data.MerCustId; //商户客户号
-                this.RetUrl = res.data.RetUrl; //页面返回的URL
+                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
                 this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                this.MerPriv = res.data.MerPriv; //商户私有域
+                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
                 this.userId = res.data.UsrId; //用户号
                 this.usrmap = res.data.UsrMp; //手机号
                 this.pageType = res.data.PageType; //页面类型
                 this.chkValue = res.data.ChkValue; //签名
-
+                console.log(
+                    this.chinaPnrServer,
+                    // this.version,
+                    // this.cmdId,
+                    // this.MerCustId,
+                    // this.RetUrl,
+                    // this.BgRetUrl,
+                    // this.MerPriv,
+                    // this.userId,
+                    // this.usrmap,
+                    // this.pageType,
+                    // this.chkValue
+                );
+                
                 // 判断
                 if(res.data.result == 200){
-                    //注册提交from表单
-                    document.regSubmit.submit();
-                    location.href = this.chinaPnrServer;
+                    // console.log(this.version,);
+                    
+                    //提交from表单
+                    $(".regSubmit").submit();
+                    // document.regSubmit.submit();
+                    // location.href = this.chinaPnrServer;
                 }
             }).catch((err) => {
-                console.log(err)
+                console.log(err);
             });
         }
     },
