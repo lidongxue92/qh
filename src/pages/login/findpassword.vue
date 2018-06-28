@@ -1,16 +1,17 @@
 <template>
   <div class="settlein">
+      <top v-bind:title="title"></top>
     <div class="phone" v-if='isshow'>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "LUserPhone" @blur="checkLPhone">
+          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
           <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
-        <a class="user_login" @click="Login">下一步</a>
+        <a class="user_login" @click="next">下一步</a>
         <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
@@ -32,41 +33,42 @@
                  </x-button>
           </x-input>
         </group>
+        
+        <label style="margin-top: 10px; position: relative;">
+            <input :type="type" placeholder="请输入新密码" class="register_content_input" v-model="newUserPwd" @blur="checkLPsd"><br>
+            <span class="tishixiaoxi disappear">请输入新密码。</span>
+            <img :src="imgSrc" class="LoginImg" @click="eyesTab">
+        </label>
         <label style="margin-top: 10px;">
-          <input type="password" placeholder="请输入新密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><br>
-          <span class="tishixiaoxi disappear">请输入新密码。</span>
-      </label>
-      <label style="margin-top: 10px;">
-          <input type="password" placeholder="确认新密码" class="register_content_input" v-model="LUserPsd1" @blur="checkLPsd1"><br>
-          <span class="tishixiaoxi disappear">请输入密码。</span>
-      </label>
-      <label class="Agreement"  v-for="item of items">
-        <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
-        <span v-if='!isshow2'>请同意注册协议</span>
-      </label>
-      <a class="user_login" @click="sub">确认提交</a>
+            <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1"><br>
+            <span class="tishixiaoxi disappear1">请输入密码。</span>
+        </label>
+
+        <a class="user_login" @click="sub">确认提交</a>
     </div>
   </div>
-  
   
 </template>
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
+let Base64 = require('js-base64').Base64;
+import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
+import top from '../../components/common/top1'
 var code ; //在全局定义验证码
 export default {
     data () {
       return {
+          title:'找回密码',
         btnText: '发送验证码',
         disabled: false,
         time: 0,
         verifyCode: '',
         userPhone:'',
         dialog: false,
-        LUserPhone:'',
-        LUserPsd:'',
-        LUserPsd1:'',
+        newUserPwd:'',
+        newUserPwd1:'',
         picLyanzhengma:'',
         checkCode:'',
         isshow:true,
@@ -75,13 +77,27 @@ export default {
         items: [
           {state: true}
         ],
-        isshow2:'true'
+        isshow2:'true',
+        imgSrc:"../../../static/img/closeEyes.png",
+        type:"password",
       }
     },
     methods:{
+        goBack(){
+            this.$router.back()
+        },
+        // 眼睛切换
+        eyesTab(){     
+            if (this.imgSrc == "../../../static/img/loginEyes.png") {
+                this.imgSrc = "../../../static/img/closeEyes.png";
+                this.type = "password"
+            }else{
+                this.imgSrc = "../../../static/img/loginEyes.png";
+                this.type = "text"
+            }
+        },
       login(){
         this.$router.push({path:"/login"})
-        
       },
       checkUserPhone(){
         if(this.userPhone == ''){
@@ -94,11 +110,11 @@ export default {
       },
       // 验证登陆手机号格式
       checkLPhone(){
-          if(this.LUserPhone == ''){
+          if(this.userPhone == ''){
               $(".login_content1 span:eq(0)").removeClass("disappear");
               $(".login_content1 span:eq(0)").text("请输入手机号。")
 
-          }else if(this.LUserPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
+          }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
               $(".login_content1 span:eq(0)").addClass("disappear")
               return true;
           }else{
@@ -142,7 +158,7 @@ export default {
               return true;
           } 
       },
-      Login(){
+      next(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
           const _this = this
           _this.isshow1 =true
@@ -151,53 +167,58 @@ export default {
           const tel = $('.register_content_input').val()  
           const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
           console.log(mtel)
-          _this.tel = mtel 
+          _this.tel = mtel;
+
+            this.time = 90
+            this.disabled = true
+            this.timer()
+            const url = myPub.URL+`/three/getSmsCode` ;
+            var params = new URLSearchParams();
+            params.append('phone',this.userPhone);
+            params.append('msgType',3);
+            axios.post(url,params).then(res => {
+                console.log(res);
+                if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                    this.$vux.alert.show({
+                        // title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
+
+            }).catch((err) => {
+            console.log(err)
+            })
         }
       },
       // 手机号验证码
       sendCode() {
-            console.log('点击验证码触发')
-            // const reg = /^1[34578]\d{9}$/ // 手机号正则校验
-            // if (!this.phoneNumber) {
-            //     this.$vux.toast.text('请输入手机号~', 'middle')
-            //     return
-            // }
-            // if (!reg.test(this.phoneNumber)) {
-            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
-            //     return
-            // }
+            // console.log('点击验证码触发')
             this.time = 90
             this.disabled = true
             this.timer()
-             // 获取验证
-             //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
-             //  var params = new URLSearchParams();
-             //  params.append('mobile',this.phoneNumber);
-             //  params.append('token',localStorage.currentUser_token);
-             //  params.append('type','1');
-             //  if(!localStorage.sessionid){
-             //    console.log(params)
-             // }else{
-             //    params.append('session_id',localStorage.sessionid);
-             // }
-             //  axios.post(url,params).then(response => {
-             //    // const currentUser_token = response.data.data //获取token
-             //        console.log(response)
-             //        const sessionid = response.data.sessionid
-             //        console.log(sessionid)
-             //        localStorage.setItem('sessionid',sessionid);
-             //        let smsCode = response.data.data.verifCode
-             //        this.smsCode = smsCode
-             //        this.$vux.alert.show({
-             //            title: '验证码',
-             //            content: `验证码已发送,【${smsCode}】,10分钟有效`
-             //        })
-             //        setTimeout(() => {
-             //            this.$vux.alert.hide()
-             //        }, 3000)
-             //  }).catch((err) => {
-             //    console.log(err)
-             //  })
+            const url = myPub.URL+`/three/getSmsCode` ;
+            var params = new URLSearchParams();
+            params.append('phone',this.userPhone);
+            params.append('msgType',3);
+            axios.post(url,params).then(res => {
+                console.log(res);
+                if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                    this.$vux.alert.show({
+                        // title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
+                
+
+            }).catch((err) => {
+            console.log(err)
+            })
         },
 
         timer() {
@@ -213,10 +234,10 @@ export default {
         },
       // 验证登录密码
       checkLPsd(){
-          if(this.LUserPsd == ''){
+          if(this.newUserPwd == ''){
               $(".list span:eq(1)").text("请输入密码");
               $(".list span:eq(1)").removeClass("disappear")
-          }else if(this.LUserPsd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
+          }else if(this.newUserPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
               $(".list span:eq(1)").addClass("disappear")
               return true;
           }else{
@@ -225,42 +246,67 @@ export default {
           }
       },
       checkLPsd1(){
-          if(this.LUserPsd == ''){
-              $(".list span:eq(1)").text("请输入密码");
-              $(".list span:eq(1)").removeClass("disappear")
-          }else if(this.LUserPsd == this.LUserPsd1){
-              $(".list span:eq(1)").addClass("disappear")
+          if(this.newUserPwd == ''){
+              $(".list span:eq(2)").text("请输入密码");
+              $(".list span:eq(2)").removeClass("disappear1")
+          }else if(this.newUserPwd == this.newUserPwd1){
+              $(".list span:eq(2)").addClass("disappear1")
               return true;
           }else{
-              $(".list span:eq(1)").removeClass("disappear");
-              $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
+              $(".list span:eq(2)").removeClass("disappear1");
+              $(".list span:eq(2)").text("两次输入的密码不一致")
           }
       },
-      check(){
-        if ($('.Agreement .check').is(':checked')) {
-            $('.Agreement .img').removeClass('img1').addClass('img2')
-            return true
-        }else{
-            $('.Agreement .img').removeClass('img2').addClass('img1')
-            return false
-        }
-      },
       sub(){
-        if( this.checkLPsd() == true && this.checkLPsd1() == true&& this.check() == true){
-            alert('1')
+        if( this.checkLPsd() == true && this.checkLPsd1() == true){
+            
+            this.time = 90
+            this.disabled = true
+            this.timer()
+            const url = myPub.URL+`/pwd/findPwd` ;
+            var params = new URLSearchParams();
+            params.append('phone',this.userPhone);
+            params.append('password',this.newUserPwd1);
+            params.append('smsCode',this.verifyCode);
+            axios.post(url,params).then(res => {
+                console.log(res);
+                if (res.data.result == 200) {
+                    // if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                        this.$vux.alert.show({
+                            // title: '',
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            // this.$vux.alert.hide()
+                            // this.$router.push({path:"/login"});
+                        }, 3000)
+                    // }
+                }
+
+            }).catch((err) => {
+            console.log(err)
+            })
           }
       }
 
-},
-  created(){
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }
+    },
+
+    created(){
       this.createCode();
+      
   },
   components: {
       XInput,
       XButton,
       Group,
       Cell,
-      Toast
+      Toast,
+      top
   }
 }
 </script>
@@ -320,7 +366,7 @@ export default {
   .yanzhengma_input{
     width: 60%;
   }
-  .disappear{
+  .disappear,.disappear1{
        visibility:hidden;
   }
   .register_content p{
@@ -410,7 +456,7 @@ export default {
       color: #fff;
       background-color: #2B9AFF;
       border-radius: 30px;
-      margin-top:1rem;
+      margin-top:2rem;
       cursor:pointer;
   }
   .bg-ed711f{
@@ -532,7 +578,7 @@ export default {
     label{display: block;}
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
-      input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11;}
+      input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11; outline: none}
       .img{position: absolute;width: 0.8rem;height: 0.8rem;left: 0;top: 0.4rem;display: inline-block;}
       .img1{background: url(~@/assets/img/noagree.png);background-size: 100%;background-repeat: no-repeat;}
       .img2{background: url(~@/assets/img/agree_blue.png);background-size: 100%;background-repeat: no-repeat;}
@@ -542,5 +588,11 @@ export default {
     .user_login{margin-top: 30px;background: #2B9AFF}
   }
   .c-2395FF{color: #2395FF}
+  .LoginImg{
+      width: 1rem /* 34/40 */;
+      position: absolute;
+      right: .8rem;
+      top: 1rem;
+  }
 }
 </style>

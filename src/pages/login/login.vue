@@ -27,14 +27,15 @@
               <label>
                   <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
+                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
               <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-                    <span class="tishixiaoxi disappear">请输入验证码。</span>
+                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+                    <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
                 <group>
                     <x-input type="text"
-                             placeholder="请输入验证码"
+                             placeholder="请输入短信验证码"
                              v-model="verifyCode"
                            >
 
@@ -49,7 +50,7 @@
                 </group>
             </div>
         </div>
-        
+
         <button class="login" @click="Login" v-if="isshow">登录</button>
         <!-- 短信登陆 -->
         <button class="login" @click="msgLogin" v-if="isshow1">登录</button>
@@ -60,14 +61,47 @@
         <div class="toast">
             <img class="right" src="~@/assets/img/close1.png" @click="close"/>
             <img src="../../assets/img/active.png">
+<<<<<<< HEAD
             <button class="button" @click="three">开户使用新手礼包</button>
+=======
+            <button class="button" @click="kaiHu">开户使用新手礼包</button>
+>>>>>>> dae1f119ab623f5a6ff8a82a3129bc1bbc46e018
         </div>
+
+        <!-- 开户 -->
+    <div class="box" style="display:none;">
+        <!-- <form  name="regSubmit" method="post" :action="this.chinaPnrServer"> 
+             <input type='text' name='Version' :value='this.version'>
+             <input type='text' name='CmdId' :value='this.cmdId'>
+             <input type='text' name='MerCustId' :value='this.MerCustId'>
+             <input type='text' name='RetUrl' :value='this.RetUrl'> 
+             <input type='text' name='BgRetUrl' :value='this.BgRetUrl'>
+             <input type='text' name='UsrId' :value='this.userId'>
+             <input type='text' name='UsrMp' :value='this.usrmap'>
+             <input type='text' name='PageType' :value='this.pageType'>
+             <input type='text' name='ChkValue' :value='this.chkValue'>    
+             <input type='text' name='MerPriv' :value='this.MerPriv'> 
+        </form> -->
+        <form class="regSubmit" method="post" :action="chinaPnrServer"> 
+             <input type='text' name='Version' v-model='version'>
+             <input type='text' name='CmdId' v-model='cmdId'>
+             <input type='text' name='MerCustId' v-model='MerCustId'>
+             <input type='text' name='RetUrl' v-model='RetUrl'> 
+             <input type='text' name='BgRetUrl' v-model='BgRetUrl'>
+             <input type='text' name='UsrId' v-model='userId'>
+             <input type='text' name='UsrMp' v-model='usrmap'>
+             <input type='text' name='PageType' v-model='pageType'>
+             <input type='text' name='ChkValue' v-model='chkValue'>    
+             <input type='text' name='MerPriv' v-model='MerPriv'> 
+        </form>
+    </div>
+
   </div>
 </template>
 <script>
-let Base64 = require('js-base64').Base64;
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
+let Base64 = require('js-base64').Base64;
 import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
 var code ; //在全局定义验证码
@@ -94,7 +128,21 @@ export default {
         ],
         isshow2:'true',
         imgSrc:"../../../static/img/closeEyes.png",
-        type:"password"
+        type:"password",
+
+
+        // 三方开户数据
+        chinaPnrServer : "", 
+        version : "",
+        cmdId : "",
+        MerCustId : "",
+        RetUrl : "",
+        BgRetUrl :"",
+        MerPriv : "",
+        userId : "",
+        usrmap : "",
+        pageType : "",
+        chkValue : "",
       }
     },
     methods:{
@@ -116,8 +164,7 @@ export default {
             this.$router.push({path:"/settlein"})
         },
         findpassword(){
-            this.$router.push({path:"/findpassword"})
-            
+            this.$router.push({path:"/findpassword"});
         },
         checkUserPhone(){
             if(this.userPhone == ''){
@@ -204,48 +251,21 @@ export default {
         },
         // 手机号验证码
         sendCode() {
-            console.log('点击验证码触发')
-            // const reg = /^1[34578]\d{9}$/ // 手机号正则校验
-            // if (!this.phoneNumber) {
-            //     this.$vux.toast.text('请输入手机号~', 'middle')
-            //     return
-            // }
-            // if (!reg.test(this.phoneNumber)) {
-            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
-            //     return
-            // }
+            // console.log('点击验证码触发')
             this.time = 90
             this.disabled = true
             this.timer()
                 // 获取验证
-                //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
-                //  var params = new URLSearchParams();
-                //  params.append('mobile',this.phoneNumber);
-                //  params.append('token',localStorage.currentUser_token);
-                //  params.append('type','1');
-                //  if(!localStorage.sessionid){
-                //    console.log(params)
-                // }else{
-                //    params.append('session_id',localStorage.sessionid);
-                // }
-                //  axios.post(url,params).then(response => {
-                //    // const currentUser_token = response.data.data //获取token
-                //        console.log(response)
-                //        const sessionid = response.data.sessionid
-                //        console.log(sessionid)
-                //        localStorage.setItem('sessionid',sessionid);
-                //        let smsCode = response.data.data.verifCode
-                //        this.smsCode = smsCode
-                //        this.$vux.alert.show({
-                //            title: '验证码',
-                //            content: `验证码已发送,【${smsCode}】,10分钟有效`
-                //        })
-                //        setTimeout(() => {
-                //            this.$vux.alert.hide()
-                //        }, 3000)
-                //  }).catch((err) => {
-                //    console.log(err)
-                //  })
+              const url = myPub.URL+`/three/getSmsCode` ;
+              var params = new URLSearchParams();
+              params.append('phone',this.userPhone);
+              params.append('msgType','1');
+              axios.post(url,params).then(res => {
+                    // console.log(res);
+
+              }).catch((err) => {
+                console.log(err)
+              })
         },
         timer() {
             if (this.time > 0) {
@@ -301,7 +321,7 @@ export default {
                             this.$router.go(-1)
                         }else{
                             $(".bg").show();
-                            $(".toast").show()  
+                            $(".toast").show();
                         }
 
                     }else{
@@ -332,15 +352,15 @@ export default {
         },
         // 短信登陆
         msgLogin(){
-            if((this.checkLPhone() ==true && this.checkLPsd() == true)){
+            if((this.checkLPhone() ==true)){
                 //登陆
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
 
                 var params = new URLSearchParams();
                 params.append('phone',this.userPhone);
-                params.append('password',pwd);
-                params.append('loginType',1);
+                params.append('smsCode',this.verifyCode);
+                params.append('loginType',2);
                 params.append('clientType','h5');
                 axios.post(url,params).then(res => {
                     console.log(res.data);
@@ -360,15 +380,7 @@ export default {
 
                     }else{
                         // 弹框
-                        if (res.data.resultMsg == "账号或密码错误") {
-                            this.$vux.alert.show({
-                                // title: '',
-                                content: res.data.resultMsg
-                            })
-                            setTimeout(() => {
-                                this.$vux.alert.hide()
-                            }, 3000)
-                        } else if (res.data.resultMsg == "该账号不存在") {
+                        if (res.data.resultMsg == "短信验证码错误或已超时") {
                             this.$vux.alert.show({
                                 // title: '',
                                 content: res.data.resultMsg
@@ -383,6 +395,54 @@ export default {
                 })
             }
         },
+
+        // 三方开户
+        kaiHu(){
+            const url = myPub.URL+`/chinaPnr/userRegister`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('clientType','h5');
+            
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                this.chinaPnrServer = res.data.chinaPnrServer;
+                this.version = res.data.Version; //版本号
+                this.cmdId = res.data.CmdId; //消息信息
+                this.MerCustId = res.data.MerCustId; //商户客户号
+                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                this.userId = res.data.UsrId; //用户号
+                this.usrmap = res.data.UsrMp; //手机号
+                this.pageType = res.data.PageType; //页面类型
+                this.chkValue = res.data.ChkValue; //签名
+                console.log(
+                    this.chinaPnrServer,
+                    // this.version,
+                    // this.cmdId,
+                    // this.MerCustId,
+                    // this.RetUrl,
+                    // this.BgRetUrl,
+                    // this.MerPriv,
+                    // this.userId,
+                    // this.usrmap,
+                    // this.pageType,
+                    // this.chkValue
+                );
+                
+                // 判断
+                if(res.data.result == 200){
+                    // console.log(this.version,);
+                    
+                    //提交from表单
+                    $(".regSubmit").submit();
+                    // document.regSubmit.submit();
+                    // location.href = this.chinaPnrServer;
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     },
     created(){
         this.createCode();

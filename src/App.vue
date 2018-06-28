@@ -14,6 +14,16 @@ import { Loading, TransferDom } from 'vux'
 import { mapState } from 'vuex'
 export default {
     name: 'app',
+    data(){
+        return{
+           
+        }
+    },
+    methods:{
+        reload () {
+            
+        }
+    },
     directives: {
         TransferDom
     },
