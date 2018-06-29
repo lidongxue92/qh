@@ -9,7 +9,7 @@
             <div class="right">
                 <p>理财期限&emsp;<span>{{product.period}}</span></p>
                 <p>开发额度&emsp;<span>{{product.openLimit}}</span></p>
-                <span class="status">可转让</span>
+                <span class="status">{{product.productType}}</span>
             </div>
             <p class="line"></p>&emsp;<span class="Percentage">已售{{product.xmjd}}</span>
             <p class="note">
@@ -23,11 +23,11 @@
                 <h5>购买金额</h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model= "money"/>元
+                    <input class="money" v-model= "money" @blur="red"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red">
-                    <span class="fl">红包卡券</span><span class="fr">0个可用&emsp;<img src="~@/assets/img/right.png"></span>
+                    <span class="fl">红包卡券</span><span class="fr">{{free.totalCount}}个可用&emsp;<img src="~@/assets/img/right.png"></span>
                 </p>
                 <p class="word">
                     <span class="fl">预期收益</span><span class="fr c-FFA303"><b>20</b>&ensp;元</span>
@@ -43,7 +43,7 @@
                     </span>
                     <span class="fr">
                         到帐日
-                        <b>{{product.period}}</b>
+                        <b>{{dz}}</b>
                     </span>
                 </p>
                 <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
@@ -51,7 +51,7 @@
             <!-- 项目介绍 -->
             <ul class="list">
                 <li @click="linkTodetail1(product.productId)">项目介绍 <img src="~@/assets/img/right.png"></li>
-                <li @click="log">投资记录 <img src="~@/assets/img/right.png"></li>
+                <li @click="log(product.productId)">投资记录 <img src="~@/assets/img/right.png"></li>
             </ul>
         </div>
         <button class="button" @click="tost">立即投资</button>
@@ -95,7 +95,11 @@ export default {
             isshow3:false,
             isshow4:true,
             percent: 0,
-            time:6
+            time:6,
+            id:'',
+            day:'',
+            free:'',
+            dz:''
         }
     },
     computed: {
@@ -104,16 +108,22 @@ export default {
         this.productdata()
     },
     created() {
+        const dz = this.$route.query.dz
+        this.dz = dz
+        console.log(this.dz)
     },
     activated: function() {
         this.productdata()
+        setTimeout(() => {
+            this.welfare()
+        }, 300)
     },
     methods: {
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
-        log() {
-            this.$router.push({ path: '/page/log' })
+        log(id) {
+            this.$router.push({ path: '/page/log',query: { id: id } })
         },
         red() {
             this.$router.push({ path: '/page/red' })
@@ -125,6 +135,7 @@ export default {
             this.money = (parseFloat(this.money)+parseFloat(this.Money))+'.00'
             console.log (this.money)
             $(".leftimg").attr('src',"~@/assets/img/add1.png")
+            this.welfare()
         },
         cont(){
             const _this = this
@@ -133,6 +144,7 @@ export default {
             if (value>parseFloat(this.Money)) {
                 this.money = (parseFloat(this.money)-parseFloat(this.Money))+'.00'
                 console.log (this.money+'00')
+                this.welfare()
             }else{
                 $(".leftimg").attr('src',"~@/assets/img/cont.png")
             }
@@ -146,7 +158,9 @@ export default {
               console.log()
           }else{
             this.isshow = false
-            this.$router.push({ path: '/page/pay' })
+            const id = this.id
+            const money = this.money
+            this.$router.push({ path: '/page/pay' ,query: { id: id, money: money }})
             _this.time = '6'
             _this.percent = '0'
           }
@@ -179,15 +193,47 @@ export default {
                 }, 3000)
             }
             if (data.result == '200') {
-                
                 this.product = data.ProductInfo
                 this.title = data.ProductInfo.productName
                 this.money = data.ProductInfo.amountMin
                 this.Money = data.ProductInfo.amountMin
+                this.id = data.ProductInfo.productId
+                this.day = data.ProductInfo.period
+                if (this.product.productType == '19') {
+                    $(".status").text("可转让")
+                }
+                if (this.product.productType == '22') {
+                    $(".status").text("不可转让")
+                }
+                if (this.product.productType == '3') {
+                    $(".status").text("不可转让")
+                }
+                if (this.product.productType == '18') {
+                    $(".status").text("不可转让")
+                }
             }
           }).catch((err) => {
             console.log(err)
           })
+        },
+        // 红包福利
+        welfare(){
+            const url = myPub.URL+`/welfare/getAvailableWelfareCount`;
+            const id = this.id
+            const orderMoney = this.money
+            const proPeriod = this.day
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('proPeriod',id);
+            params.append('transMoney',orderMoney);
+            params.append('type','1');
+            axios.post(url,params).then(res => {
+                console.log(res.data)
+                const data = res.data
+                this.free= data
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
     components: {
@@ -211,7 +257,12 @@ export default {
         XButton,
         top,
         XCircle
-    }
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
 }
 </script>
 <style scoped lang="less">

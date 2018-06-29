@@ -79,6 +79,11 @@ export default {
     },
     activated() {
     },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
     methods: {
         linkTodetail1() {
             this.$router.push({ path: '/page/detailProduct' })

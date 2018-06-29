@@ -8,25 +8,10 @@
                     <span>金额(元)</span>
                     <span class="tr">时间</span>
                 </li>
-                <li>
-                    <span class="tl">135****2451</span>
-                    <span>5,000.00</span>
-                    <span class="tr">今天13:51:41</span>
-                </li>
-                <li>
-                    <span class="tl">135****2451</span>
-                    <span>5,000.00</span>
-                    <span class="tr">今天13:51:41</span>
-                </li>
-                <li>
-                    <span class="tl">135****2451</span>
-                    <span>5,000.00</span>
-                    <span class="tr">今天13:51:41</span>
-                </li>
-                <li>
-                    <span class="tl">135****2451</span>
-                    <span>5,000.00</span>
-                    <span class="tr">今天13:51:41</span>
+                <li v-for="(item,index) in Log">
+                    <span class="tl">{{item.tranName}}</span>
+                    <span>{{item.tranAmount}}</span>
+                    <span class="tr">{{item.tranTime}}</span>
                 </li>
             </ul>
         </div>
@@ -37,6 +22,7 @@
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import $ from 'jquery'
 import top from '../../components/common/top1'
 export default {
@@ -46,7 +32,7 @@ export default {
     },
     data() {
         return {
-            product: null,
+            Log: '',
             money:'1000',
             title:'投资记录'
         }
@@ -57,12 +43,30 @@ export default {
     },
     created() {},
     activated() {
-        // this.getALLProducts()
+        this.log()
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
     },
     methods: {
         linkTodetail1() {
             this.$router.push({ path: '/page/detail1' })
         },
+        log(){
+            const url = myPub.URL+`/product/getProductBuyRecords`;
+            var params = new URLSearchParams();
+            const id = this.$route.query.id
+            params.append('productId',id);
+            params.append('curPage','1');
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                this.Log =res.data.Record
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     },
     components: {
         PopupPicker,

@@ -27,14 +27,14 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
                     </li>
-                    <li>
-                        <p class="title">新手红包</p>
-                        <p class="left">¥<b>1000</b></p>
+                    <li v-for="(item,index) in product">
+                        <p class="title">{{product.redPacketName}}</p>
+                        <p class="left">¥<b>{{product.redPacketMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满10000元可使用</span>
-                            <span>投资满10000元可使用</span>
+                            <span>使用条件：投资满{{product.investMoney}}元可使用</span>
+                            <span>投资满{{product.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：2017.12.12 00:00
+                        <p class="note">有效期至：{{product.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -53,15 +53,15 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">已使用</span></p>
                     </li>
-                    <li>
-                        <p class="title">新手红包</p>
-                        <p class="left">¥<b>1000</b></p>
+                   <li v-for="(item,index) in product">
+                        <p class="title">{{product.redPacketName}}</p>
+                        <p class="left">¥<b>{{product.redPacketMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满10000元可使用</span>
-                            <span>投资满10000元可使用</span>
+                            <span>使用条件：投资满{{product.investMoney}}元可使用</span>
+                            <span>投资满{{product.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：2017.12.12 00:00
-                        <span class="button">已过期</span></p>
+                        <p class="note">有效期至：{{product.endDate}}
+                        <span class="button">立即使用</span></p>
                     </li>
                 </ul>
             </div>
@@ -79,14 +79,14 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
                     </li>
-                    <li>
-                        <p class="title">新手红包</p>
-                        <p class="left">¥<b>1000</b></p>
+                    <li v-for="(item,index) in addpro">
+                        <p class="title">{{addpro.incrName}}</p>
+                        <p class="left">¥<b>{{addpro.cashMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满10000元可使用</span>
-                            <span>投资满10000元可使用</span>
+                            <span>使用条件：投资满{{addpro.incrName}}元可使用</span>
+                            <span>投资满{{addpro.incrName}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：2017.12.12 00:00
+                        <p class="note">有效期至：{{addpro.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -105,14 +105,14 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
                     </li>
-                    <li>
-                        <p class="title">新手红包</p>
-                        <p class="left">¥<b>1000</b></p>
+                     <li v-for="(item,index) in product">
+                        <p class="title">{{product.redPacketName}}</p>
+                        <p class="left">¥<b>{{product.redPacketMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满10000元可使用</span>
-                            <span>投资满10000元可使用</span>
+                            <span>使用条件：投资满{{product.investMoney}}元可使用</span>
+                            <span>投资满{{product.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：2017.12.12 00:00
+                        <p class="note">有效期至：{{product.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -139,6 +139,7 @@
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import $ from 'jquery'
 import top from '../../components/common/top1'
 export default {
@@ -148,7 +149,8 @@ export default {
     },
     data() {
         return {
-            product: null,
+            product: '',
+            addpro:'',
             money:'1000',
             title:'平台福利',
             righttitle:'使用说明',
@@ -166,7 +168,8 @@ export default {
     },
     created() {},
     activated() {
-        // this.getALLProducts()
+        const status = '3'
+        this.welfare(status)
     },
     methods: {
         data() {
@@ -174,10 +177,6 @@ export default {
         },
         red(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             $(".red").addClass('active')
             $('.add').removeClass('active')
             this.isshow2 = true
@@ -185,20 +184,18 @@ export default {
             this.isshow4 = false
             this.isshow5 = false
             this.isshow6 = false
+            this.welfare('3')
         },
         add(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             $(".add").addClass('active')
             $('.red').removeClass('active')
             this.isshow2 = false
             this.isshow3 = false
             this.isshow4 = false
             this.isshow5 = true
-            this.isshow6 = false
+            this.isshow6 = false,
+            this.addwelfare('3')
         },
         close(){
             $(".bg").css('display',"none")
@@ -210,27 +207,82 @@ export default {
         },
         history(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             this.isshow2 = false
             this.isshow3 = true
             this.isshow4 = false
             this.isshow5 = false
             this.isshow6 = false
+            this.welfare('2')
         },
         history1(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             this.isshow2 = false
             this.isshow3 = false
             this.isshow4 = false
             this.isshow5 = false
-            this.isshow6 = true
+            this.isshow6 = true,
+            this.addwelfare('2')
+        },
+        // 红包数据
+        welfare(status){
+            const _this = this
+            _this.$loading.show();
+            const url = myPub.URL+`/welfare/getMyRedPacketList`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('status',status);
+            params.append('curPage','1');
+            params.append('pageSize','10');
+            axios.post(url,params).then(res => {
+                console.log(res.data)
+                const data = res.data
+                _this.$loading.hide();
+                    if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login"})
+                    }, 3000)
+                }
+                if(res.data.result == 200){
+                    this.product = res.data.RedPacket
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        addwelfare(status){
+            const _this = this
+            _this.$loading.show();
+            const url = myPub.URL+`/welfare/getMyIncreaseList`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('status',status);
+            params.append('curPage','1');
+            params.append('pageSize','10');
+            axios.post(url,params).then(res => {
+                console.log(res.data)
+                const data = res.data
+                _this.$loading.hide();
+                    if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login"})
+                    }, 3000)
+                }
+                if(res.data.result == 200){
+                    this.addpro = res.data.Increase
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
     components: {
