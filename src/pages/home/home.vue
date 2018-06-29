@@ -124,12 +124,19 @@ export default {
         }
     },
     created() {
+
+
         this.index_banner(),
         this.index_product()
     },
     activated: function() {
         this.index_banner(),
         this.index_product()
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
     },
     methods: {
         linkToDetail(id) {

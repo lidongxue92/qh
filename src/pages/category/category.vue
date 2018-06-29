@@ -7,25 +7,27 @@
         <!-- 理财专区 -->
         <div class="Conduct" v-if='isshow'>
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0">
-                <h5>{{item.Title}}<span>{{item.Data}}</span></h5>
-                <p class="Profit">{{item.Profit}}</p>
-                <p><span>剩余金额 &emsp; <b>{{item.Quota}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.Day}}</b> </span></p>
+                <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
+                <p class="Profit">{{item.annualYield}}</p>
+                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.openLimit}}</b> </span></p>
                 <button class="button" @click="linktoDetail()">立即投资</button>
             </div>
             <div class="middle">
              <ul class="productlist">
-                  <li v-for="(item,index) in datalist" @click="linktoDetail()">
-                      <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5>
-                      <div>
-                          <p class="left">
-                              <span class="Profit">{{item.Profit}}<b v-if="isshow2">{{item.profit}}</b></span>
-                              <span>历史年化收益率</span>
-                          </p>
-                          <p class="right">
-                              <span class="day"><b>{{item.Day}}</b> 个月</span><span class="status">可加入</span>
-                              <span class="Quota">剩余金额 <b>{{item.Quota}}</b></span>
-                          </p>
-                      </div>
+                  <li v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)">
+                    <h5>{{item.productName}}<span>热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
+                    <div>
+                        <p class="left">
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
+                            <span>历史年化收益率</span>
+                        </p>
+                        <p class="right">
+                            <span class="day"><b>{{item.daysLimit}}</b> 个月</span><span class="status">{{item.status}}</span>
+                            <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
+                        </p>
+                    </div>
+                    <img class="bg-img" src="~@/assets/img/full.png">
+                    <div class="bg"></div>
                   </li>
              </ul>
              <p class="note">理财有风险投资需谨慎 </p>
@@ -35,18 +37,20 @@
         <div class="Transfer" v-if='isshow1'>
             <div class="middle">
              <ul class="productlist">
-                  <li v-for="(item,index) in datalist" @click="linktoDetailto()">
-                      <h5>{{item.Title}} <span>{{item.Data}}</span><p class="img img1">新人专享</p></h5>
-                      <div>
-                          <p class="left">
-                              <span class="Profit">{{item.Profit}}<b v-if="isshow2">{{item.profit}}</b></span>
-                              <span>历史年化收益率</span>
-                          </p>
-                          <p class="right">
-                              <span class="day"><b>{{item.Day}}</b> 个月</span><span class="status">可加入</span>
-                              <span class="Quota">剩余金额 <b>{{item.Quota}}</b></span>
-                          </p>
-                      </div>
+                  <li v-for="(item,index) in datalist" @click="linktoDetail(item.productId)">
+                    <h5>{{item.productName}}<span>热销火爆 高收益</span></h5>
+                    <div>
+                        <p class="left">
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
+                            <span>历史年化收益率</span>
+                        </p>
+                        <p class="right">
+                            <span class="day"><b>{{item.daysLimit}}</b> 个月</span><span class="status">{{item.status}}</span>
+                            <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
+                        </p>
+                    </div>
+                    <img class="bg-img" src="~@/assets/img/full.png">
+                    <div class="bg"></div>
                   </li>
              </ul>
              <p class="note">理财有风险投资需谨慎 </p>
@@ -57,6 +61,7 @@
 
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
+import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
 import Vue from 'vue'
@@ -64,23 +69,28 @@ export default {
     name: 'category',
     data(){
 　　　　　　return {
-　　　　　　　　datalist:[
-                    {Title:'热卖产品',Data:'新手福利高预期收益',Label:'热卖',Profit:'12%',Day:'15天',Quota:'1000'},
-                    {Title:'火爆产品',Data:'',Label:'',Profit:'10%',Day:'30天',Quota:'3000',profit:'+.5%'}
-                ],
+　　　　　　　　datalist:'',
                 isshow1:false,
                 isshow:true,
-                isshow2:true
+                isshow2:true,
+                isshow3:false,
+                isshow4:false,
+                isshow5:false,
 　　　　　　}
 　　　　},
     created() {
+    },
+    activated() {
+      const status = '1'
+      const a = ''
+        this.pro(status,a)
     },
     computed: {
     },
     methods: {
       // 跳转详情页
-        linktoDetail() {
-            this.$router.push({ path: '/page/detail'})
+        linktoDetail(id,dz) {
+            this.$router.push({ path: '/page/detail',query: { id: id,dz:dz }})
         },
         linktoDetailto() {
             this.$router.push({ path: '/page/detailto'})
@@ -92,10 +102,7 @@ export default {
             _this.isshow1 = false
             $(".Conducttab").addClass('active')
             $(".Transfertab").removeClass('active')
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
+            this.pro('1','18')
         },
         // 转让专区
         Transfertab(){
@@ -104,11 +111,80 @@ export default {
             _this.isshow1 = true 
             $(".Transfertab").addClass('active')
             $(".Conducttab").removeClass('active')
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
+            this.pro('2','19')
+        },
+        pro(status,a){
+          const _this = this
+          const url = myPub.URL+`/product/getProductList`;
+          var params = new URLSearchParams();
+          _this.$loading.show();
+          params.append('productType','14');
+          params.append('productSubType',a);
+          params.append('productProperty',status);
+          params.append('clientType','h5');
+          params.append('token',sessionStorage.token)
+          params.append('pageSize','10');
+          params.append('curPage','1');
+          axios.post(url,params).then(res => {
+            _this.$loading.hide();
+              console.log(res.data);
+              this.datalist =res.data.Product
+              setTimeout(() => {
+                $(".img").each(function (i,n) {
+                  if ($(".img").eq(i).text() == '1') {
+                    $(".img").eq(i).css("opacity","1")
+                    $(".img").eq(i).addClass('img2')
+                    $(".img").eq(i).text('热销产品')
+                  }
+                  if ($(".img").eq(i).text() == '0') {
+                    $(".img").eq(i).css("opacity","1")
+                    $(".img").eq(i).addClass('img3')
+                    $(".img").eq(i).text('固收产品')
+                  }
+                })
+                $(".status").each(function (i,n) {
+                  if ($(".status").eq(i).text() == '3') {
+                    $(".status").eq(i).css({"opacity":"1"})
+                    $(".status").eq(i).text('可加入')
+                    $(".bg-img").eq(i).css("display","none")
+                    $(".bg").eq(i).css("display","none")
+                  }
+                  if ($(".status").eq(i).text() == '4') {
+                    $(".status").eq(i).css({"opacity":"1","color":"#999"})
+                    $(".status").eq(i).text('不可加入')
+                    $(".bg-img").eq(i).css("display","block")
+                    $(".bg").eq(i).css("display","block")
+                  }
+                })
+                $(".Property").each(function (i,n) {
+                  if ($(".Property").eq(i).text() == '18') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('不可转让')
+                  }
+                  if ($(".Property").eq(i).text() == '3') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('不可转让')
+                  }
+                  if ($(".Property").eq(i).text() == '22') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('不可转让')
+                  }
+                  if ($(".Property").eq(i).text() == '19') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('可转让')
+                  }
+                })
+            }, 500)
+          }).catch((err) => {
+              console.log(err);
+          });
         }
+
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
     }
 }
 </script>
@@ -151,12 +227,14 @@ export default {
     .middle{
         .productlist{
           li{
-              background: #fff;margin-top: 10px;padding:1rem;
+              background: #fff;margin-top: 10px;padding:1rem;position: relative;
+              .status{position: absolute;opacity: 0;}
               h5{
-                  border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;
+                  border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;padding-left: 0;
                   span{color: #999;margin-left: 10px;font-size: 0.6rem;}
+                  .Property{line-height: 1rem;padding:0 0.2rem;border: 1px solid #FFA303;border-radius: 30px;color:#FFA303;opacity: 0;position: absolute;right: 5.5rem;top: 0.3rem;}
                   .img{
-                      float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;
+                      float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;position: absolute;opacity: 0;right: 0;
                   }
                   .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                   .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}
@@ -175,12 +253,14 @@ export default {
                       font-size: 0.6rem;border-right: 1px solid #eee;padding: 0 0.8rem;
                       b{font-size: 0.8rem;font-weight: normal;}
                   }
-                  .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;}
+                  .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;opacity: 0}
                   .Quota{
                       display: inline-block;width: 100%;font-size: 0.6rem;padding: 0 0.8rem;color: #999;
                       b{font-weight: normal;color: #333;font-size: 0.9rem;}
                   }
               }
+              .bg-img{position: absolute;width: 4rem;height: 4rem;right: 1rem;top: 5rem;}
+              .bg{position: absolute;width: 100%;height: 100%;background: rgba(255,255,255,.3);left: 0;top: 0;}
           }
       }
       .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
