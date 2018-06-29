@@ -1,39 +1,33 @@
 <template>
     <div class="container">
-        <topComponent title='好友列表' :showLeft='false'>
-            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
-        </topComponent>
+        <div class="topTitle">
+            <topComponent title='好友列表' :showLeft='false'>
+                <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+            </topComponent>
+        </div>
 
         <div class="main">
-            <ul class="title">
-                <li>注册时间</li>
-                <li>手机号</li>
-                <li>是否实名</li>
-                <li>是否投资</li>
-            </ul>
-            <!-- <div class="data" v-infinite-scroll="loadMore" infinite-scroll-disabled="loading" infinite-scroll-distance="10">
-                <ul v-for="(item,index) in friendList" :key="index">
-                    <li>{{item.inviteTime}}</li>
-                    <li>{{item.userPhone}}</li>
-                    <li v-if="item.realNameStatus == 0">否</li>
-                    <li v-else>是</li>
-                    <li v-if="item.isInvest == 0">否</li>
-                    <li v-else>是</li>
+            <div class="mainTitle">
+                <ul class="title">
+                    <li>注册时间</li>
+                    <li>手机号</li>
+                    <li>是否实名</li>
+                    <li>是否投资</li>
                 </ul>
-            </div> -->
-        <div :style="{'-webkit-overflow-scrolling': scrollMode}">
-            <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
-                <div v-for="(item,index) in friendList" :key="index" class="data">
-                    <ul >
-                        <li>{{item.inviteTime}}</li>
-                        <li>{{item.userPhone}}</li>
-                        <li v-if="item.realNameStatus == 0">否</li>
-                        <li v-else>是</li>
-                        <li v-if="item.isInvest == 0">否</li>
-                        <li v-else>是</li>
-                    </ul>
-                </div>
-            </mt-loadmore>
+            </div>
+            <div :style="{'-webkit-overflow-scrolling': scrollMode}">
+                <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
+                    <div v-for="(item,index) in friendList" :key="index" class="data">
+                        <ul >
+                            <li>{{item.inviteTime}}</li>
+                            <li>{{item.userPhone}}</li>
+                            <li v-if="item.realNameStatus == 0">否</li>
+                            <li v-else>是</li>
+                            <li v-if="item.isInvest == 0">否</li>
+                            <li v-else>是</li>
+                        </ul>
+                    </div>
+                </mt-loadmore>
             </div>
         </div>
     </div>
@@ -54,8 +48,9 @@ export default {
     data(){
         return{
             friendList:[],
+            Data:[],
             currPage:1,//页码
-            pageSize:10,//每页条数
+            pageSize:1,//每页条数
             totalPage: "",//总页数
             allLoaded: false, //是否可以上拉属性，false可以上拉，true为禁止上拉，就是不让往上划加载数据了
             scrollMode:"auto" //移动端弹性滚动效果，touch为弹性滚动，auto是非弹性滚动
@@ -69,6 +64,7 @@ export default {
         goBack(){
             this.$router.back()
         },
+    //   分页加载数据
       loadTop() { //组件提供的下拉触发方法
         //下拉加载
         this.loadPageList();
@@ -92,6 +88,11 @@ export default {
             console.log(res.data);
             this.friendList = res.data.User;
             this.currPage = res.data.currPage;
+            // 将数据添加到Data中
+            let len = this.friendList.length;
+            for(let i=0;i<len;i++){
+            　　this.Data.push(this.friendList[i]);　　//将新数据push到Data中
+        　　 }
 
             // 总条数：用来判断-是否还有下一页，加个方法判断，没有下一页要禁止上拉
             this.totalPage = res.data.totalPage;
@@ -127,10 +128,13 @@ export default {
         axios.post(url,params).then(res => {
             // console.log(res.data);
             this.friendList = res.data.User;
-            console.log(this.currPage);
-            console.log(this.totalPage);
-
-
+            // console.log(this.currPage);
+            // console.log(this.totalPage);
+            // 将数据添加到Data中
+            let len = this.friendList.length;
+            for(let i=0;i<len;i++){
+            　　this.Data.push(this.friendList[i]);　　//将新数据push到Data中
+        　　 }
         }).catch((err) => {
             console.log(err);
         });
@@ -140,7 +144,8 @@ export default {
         if(this.currPage === this.totalPage){
             this.allLoaded = true; //true为禁止
         }
-      }
+      },
+    //   分页加载数据
     }
   }
 </script>
@@ -160,22 +165,33 @@ export default {
     background: #f6f6f6;
     width: 100%;
     height: 100%;
+    .topTitle{
+        position: relative;
+        z-index: 1;
+    }
     .main{
         text-align: center;
-        .title{
-            display: flex;
-            flex: 1;
-            padding: 1rem 0;
-            background: #eee;
-            color: #666;
-            font-size: .8rem /* 26/40 */;
-            margin-top: .5rem;
-
-            li{
-                width: 25%;
+        .mainTitle{
+            position: relative;
+            z-index: 1;
+            height: auto;
+            padding-top: .5rem;
+            background: #f6f6f6;
+            .title{
+                display: flex;
+                flex: 1;
+                padding: 1rem 0;
+                background: #eee;
+                color: #666;
+                font-size: .8rem /* 26/40 */;
+                li{
+                    width: 25%;
+                }
             }
         }
-        .data,#data{
+
+
+        .data{
             background: #fff;
             ul{
                 display: flex;
