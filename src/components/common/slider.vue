@@ -5,8 +5,9 @@
         <div class="atHead">
           <img src="../../assets/img/sliderBox/sliderHead.png">
           <div v-if="isShow">
-            <p>张** / 请实名</p>
-            <p>157******98</p>
+            <p v-if="isName" @click="linkToRealName">{{name}}</p>
+            <p v-else @click="linkToKaiHu">请实名</p>
+            <p>{{userPhoneBlack}}</p>
           </div>
           <div v-else>
             <h5 @click="linkToLogin">去登录</h5>
@@ -34,10 +35,16 @@
       <!-- 侧栏菜单项 -->
       <div class="sliderMain">
         <ul>
-          <li>
+          <li @click="linkToKaiHu" v-if="isReg">
             <img src="../../assets/img/sliderBox/slider1.png">
             <span>托管账户<b>(未开通)</b></span>
           </li>
+
+          <li @click="linkToMsg" v-else>
+            <img src="../../assets/img/sliderBox/slider1.png">
+            <span>托管账户<b>(已开通)</b></span>
+          </li>
+
           <li  @click="userset">
             <img src="../../assets/img/sliderBox/slider2.png">
             <span>账户设置</span>
@@ -73,7 +80,7 @@
           <div class="loginOut" v-if="isShow">
             <p>安全退出</p>
           </div>
-          <div v-else class="loginReg" v-if ="!isShow" >
+          <div class="loginReg" v-if ="!isShow" >
             <p class="login" @click="linkToLogin">登陆</p>
             <p @click="linkToRegister">注册</p>
           </div>
@@ -81,23 +88,98 @@
         </div>
       </div>
       <!-- 侧栏菜单项 -->
-    </div>     
 
+
+<!-- 开户 -->
+    <div class="box" style="display:none;">
+        <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+             <input type='text' name='Version'  :value='Version'>
+             <input type='text' name='CmdId'  :value='CmdId'>
+             <input type='text' name='MerCustId' :value='MerCustId'>
+             <input type='text' name='RetUrl'  :value='RetUrl'> 
+             <input type='text' name='BgRetUrl' :value='BgRetUrl'>
+             <input type='text' name='UsrId'  :value='UsrId'>
+             <input type='text' name='UsrMp' :value='UsrMp'>
+             <input type='text' name='PageType'  :value='PageType'>
+             <input type='text' name='ChkValue'  :value='ChkValue'>    
+             <input type='text' name='MerPriv' :value='MerPriv'> 
+        </form>
+    </div>
+
+
+
+    </div>     
+    
 
 </template>
 
 <script>
-import $ from 'jquery';
+import * as myPub from '../../assets/js/public.js'
+import $ from 'jquery'
 import axios from 'axios';
 export default {
     name:'slider',
     data(){
         return{
             isShow: false,
+            isName:false,
+            isReg:true,
+            name:"未实名",
+            userPhoneBlack: sessionStorage.getItem("userPhoneBlack"),
+
+            // 三方开户数据
+            ChinaPnrServer : "", 
+            Version : "",
+            CmdId : "",
+            MerCustId : "",
+            RetUrl : "",
+            BgRetUrl :"",
+            MerPriv : "",
+            UsrId : "",
+            UsrMp : "",
+            PageType : "",
+            ChkValue : "",
+
+            // 三方账户信息
         }
     },
     created() {
-        this.res()
+        this.res();
+        // 开户
+        const url = myPub.URL+`/chinaPnr/userRegister`;
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+        params.append('clientType','h5');
+        
+        axios.post(url,params).then(res => {
+            console.log(res.data);
+            this.ChinaPnrServer = res.data.chinaPnrServer;
+            this.Version = res.data.Version; //版本号
+            this.CmdId = res.data.CmdId; //消息信息
+            this.MerCustId = res.data.MerCustId; //商户客户号
+            this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+            this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+            this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+            this.UsrId = res.data.UsrId; //用户号
+            this.UsrMp = res.data.UsrMp; //手机号
+            this.PageType = res.data.PageType; //页面类型
+            this.ChkValue = res.data.ChkValue; //签名
+
+        }).catch((err) => {
+            console.log(err);
+        });
+    },
+    mounted() {
+      var realName = sessionStorage.getItem("realName");
+      // console.log(realName);
+      
+      if (realName != null) {
+        this.name = realName;
+        this.isReg = false;
+        this.isName = true;
+      }else{
+        this.isName = false;
+      }
     },
     methods:{
         // 侧栏
@@ -130,8 +212,50 @@ export default {
             console.log(sessionStorage.token)
             this.isShow = true
           }
-        }
-    }
+        },
+
+        // 开户
+        linkToKaiHu(){
+            const url = myPub.URL+`/chinaPnr/userRegister`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('clientType','h5');
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                    this.ChinaPnrServer = res.data.chinaPnrServer;
+                    this.Version = res.data.Version; //版本号
+                    this.CmdId = res.data.CmdId; //消息信息
+                    this.MerCustId = res.data.MerCustId; //商户客户号
+                    this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                    this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                    this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                    this.UsrId = res.data.UsrId; //用户号
+                    this.UsrMp = res.data.UsrMp; //手机号
+                    this.PageType = res.data.PageType; //页面类型
+                    this.ChkValue = res.data.ChkValue; //签名
+
+                if(res.data.result == 200){
+                    //提交from表单
+                    console.log(this.Version)
+                    setTimeout(() => {
+                        document.regSubmit.submit();
+                    }, 1000)
+                    
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        // 三方账户信息
+        linkToMsg(){
+          this.$router.push({path:'/page/accountHf'})
+        },
+        // 实名认证页面
+        linkToRealName(){
+          this.$router.push({path:'/page/userset'})
+        },
+    },
+    
 }
 </script>
 

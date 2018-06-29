@@ -54,6 +54,9 @@ const Nameset = r => require.ensure([], () => r(require('@/pages/slider/nameset'
 const Phone = r => require.ensure([], () => r(require('@/pages/slider/phone')), 'phone')
 const Changephone = r => require.ensure([], () => r(require('@/pages/slider/changephone')), 'changephone')
 const FriendList = r => require.ensure([], () => r(require('@/pages/slider/friendList')), 'friendList')
+const AccountHf = r => require.ensure([], () => r(require('@/pages/slider/accountHf')), 'accountHf')
+
+
 
 
 
@@ -457,6 +460,17 @@ const routes = [
                 component: AssetDetail
                 
             },
+            {
+                path: 'accountHf',
+                name: 'accountHf',
+                meta: {
+                    title: '托管账户信息',
+                    // requireAuth: true
+                },
+                component: AccountHf,
+
+            },
+            
             // 绑卡
             {
                 path: 'card',
@@ -533,39 +547,6 @@ const routes = [
             //     },
             //     component: shopinfo
             // },
-            // {
-            //     path: 'changephone',
-            //     name: 'changephone',
-            //     meta: {
-            //         title: '修改手机号'
-            //     },
-            //     component: changephone
-            // },
-            // {
-            //     path: 'phone',
-            //     name: 'phone',
-            //     meta: {
-            //         title: '修改手机号'
-            //     },
-            //     component: phone
-            // },
-            // {
-            //     path: 'newphone',
-            //     name: 'newphone',
-            //     meta: {
-            //         title: '修改手机号'
-            //     },
-            //     component: newphone
-            // }
-            // ,
-            // {
-            //     path: 'phonesuccess',
-            //     name: 'phonesuccess',
-            //     meta: {
-            //         title: '修改手机号成功'
-            //     },
-            //     component: phonesuccess
-            // }
             // ,
             // {
             //     path: 'storeer',

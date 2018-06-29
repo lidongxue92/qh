@@ -12,6 +12,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+import Mint from 'mint-ui';
+Vue.use(Mint);
+
 // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'
 import WechatAuth from 'vue-wechat-auth'

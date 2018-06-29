@@ -278,8 +278,8 @@ export default {
         },
         // 关闭弹框
         close(){
-            // this.$router.push({path:"/page/home"})
-            this.$router.go(-1)
+            this.$router.push({path:"/page/home"})
+            // this.$router.go(-1)
         },
         // 密码登陆
         Login(){
@@ -299,14 +299,18 @@ export default {
                         sessionStorage.setItem("token",res.data.token);
                         sessionStorage.setItem("userPhoneBlack",user.userPhone1);
                         if (user.realName != "") {
-                            sessionStorage.setItem("realName",user.realName);
+                            
+                            var realName = user.realName.substr(0,1) + '**';
+
+
+                            sessionStorage.setItem("realName",realName);
                             // console.log(user.realName);
                             this.$router.push({path:"/page/home"})
-                            this.$router.go(-1)
+                            // this.$router.go(-1)
                         }else{
                             $(".bg").show();
                             $(".toast").show();
-                            // 三坊开户
+                            // 开户
                             const url = myPub.URL+`/chinaPnr/userRegister`;
                             var params = new URLSearchParams();
                             params.append('token',sessionStorage.getItem("token"));
@@ -315,7 +319,7 @@ export default {
                             axios.post(url,params).then(res => {
                                 console.log(res.data);
                                 this.ChinaPnrServer = res.data.chinaPnrServer;
-                                this.Versions = res.data.Version; //版本号
+                                this.Version = res.data.Version; //版本号
                                 this.CmdId = res.data.CmdId; //消息信息
                                 this.MerCustId = res.data.MerCustId; //商户客户号
                                 this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
@@ -382,7 +386,30 @@ export default {
                             this.$router.push({path:"/page/home"})
                         }else{
                             $(".bg").show();
-                            $(".toast").show()  
+                            $(".toast").show();
+                            //开户
+                            const url = myPub.URL+`/chinaPnr/userRegister`;
+                            var params = new URLSearchParams();
+                            params.append('token',sessionStorage.getItem("token"));
+                            params.append('clientType','h5');
+                            
+                            axios.post(url,params).then(res => {
+                                console.log(res.data);
+                                this.ChinaPnrServer = res.data.chinaPnrServer;
+                                this.Version = res.data.Version; //版本号
+                                this.CmdId = res.data.CmdId; //消息信息
+                                this.MerCustId = res.data.MerCustId; //商户客户号
+                                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                                this.UsrId = res.data.UsrId; //用户号
+                                this.UsrMp = res.data.UsrMp; //手机号
+                                this.PageType = res.data.PageType; //页面类型
+                                this.ChkValue = res.data.ChkValue; //签名
+
+                            }).catch((err) => {
+                                console.log(err);
+                            });  
                         }
 
                     }else{
@@ -453,7 +480,12 @@ export default {
         Group,
         Cell,
         Toast
-    }
+    },
+    watch: {
+      '$route' (to, from) {
+          this.$router.go(0);
+      }//回退上一级页面并刷新
+    },
 }
 </script>
 

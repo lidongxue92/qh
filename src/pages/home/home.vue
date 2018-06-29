@@ -37,7 +37,7 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId)">
+                <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId)" :key="index">
                    <h5>{{item.productName}}<span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
@@ -50,7 +50,7 @@
                         </p>
                     </div>
                 </li>
-                <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId)">
+                <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId)" :key="index">
                    <h5>{{item.Title}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
@@ -63,7 +63,7 @@
                         </p>
                     </div>
                 </li>
-                <li v-for="(item,index) in list"  @click="linkToDetail(item.productId)">
+                <li v-for="(item,index) in list"  @click="linkToDetail(item.productId)" :key="index">
                    <h5>{{item.Title}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
@@ -267,7 +267,7 @@ export default {
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
                         float: right;
-                        display: inline-block;
+                        // display: inline-block;
                         width: 5rem;
                         height:1.8rem;
                         color: #fff;
