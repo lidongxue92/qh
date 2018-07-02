@@ -67,7 +67,6 @@ export default {
         return{
             index:0,
             disQuestionList:[],//每次加载出来的新数据
-<<<<<<< HEAD
 　　　　　　Data:[],　　//每次加载累加后的总数据
             currPage:1,//页码
             pageSize:10,//每页条数
@@ -75,18 +74,6 @@ export default {
             num:0,　　//num为0时表示刷新或第一次加载，每加载一次增加1，刷新时默认为0
             allLoaded: false, //是否可以上拉属性，false可以上拉，true为禁止上拉，就是不让往上划加载数据了
             scrollMode:"auto" //移动端弹性滚动效果，touch为弹性滚动，auto是非弹性滚动
-=======
-　　　　　　 Data:[],　　//每次加载累加后的总数据
-            // currPage:1,//页码
-            // pageSize:10,//每页条数
-            // totalPage: "",//总页数
-            // num:0,　　//num为0时表示刷新或第一次加载，每加载一次增加1，刷新时默认为0
-            // allLoaded: false, //是否可以上拉属性，false可以上拉，true为禁止上拉，就是不让往上划加载数据了
-            // scrollMode:"auto", //移动端弹性滚动效果，touch为弹性滚动，auto是非弹性滚动
-            busy: false,
-
-
->>>>>>> 87ebf6319b049b2ada83e1924ac9cf17f8a921f4
         }
     },
     mounted(){
@@ -103,7 +90,6 @@ export default {
         linkToProDetail(){
             console.log("123");
         },
-<<<<<<< HEAD
       //分页加载数据
         // loadTop() { //组件提供的下拉触发方法
         //     //下拉加载
@@ -182,7 +168,6 @@ export default {
         //     }
         // },
       //分页加载数据
-=======
         loadMore: function() {
             this.busy = true;
 
@@ -271,7 +256,6 @@ export default {
     //         }
     //     },
     //   //分页加载数据
->>>>>>> 87ebf6319b049b2ada83e1924ac9cf17f8a921f4
     }
 }
 </script>
