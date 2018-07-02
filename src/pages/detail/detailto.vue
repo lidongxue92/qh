@@ -3,30 +3,34 @@
         <div class="product">
             <top v-bind:title="title"></top>
             <div class="left">
-                <span class="interest">10<b>&ensp;%</b></span>
+                <span class="interest">{{product.actAnnualYield}}<b>&ensp;%</b></span>
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
-                <p>理财期限&emsp;<span>1个月</span></p>
-                <p>开发额度&emsp;<span>100万</span></p>
+                <p>理财期限&emsp;<span>{{product.period}}</span></p>
+                <p>开发额度&emsp;<span>{{product.openLimit}}</span></p>
                 <span class="status">可转让</span>
             </div>
-            <p class="line"></p>&emsp;<span class="Percentage">已售64%</span>
+            <p class="line">
+                <span class="before">
+                    <b class="after"></b>
+                </span>
+            </p>&emsp;<span class="Percentage">已售{{product.xmjd}}</span>
             <p class="note">
-                <span class="left1">剩余额度&emsp;<b>100万</b></span>
-                <span class="right1">起投金额&emsp;<b>100元</b></span>
+                <span class="left1">剩余额度&emsp;<b>{{product.residueMoney}}</b></span>
+                <span class="right1">起投金额&emsp;<b>{{product.amountMin}}</b></span>
             </p>
         </div>
         <div class="middle">
             <!-- 项目介绍 -->
             <ul class="list">
-                <li>预计到期收益 <span class="c-FFA303">42.65元</span></li>
-                <li>预计到期日 <span class="c-2B9AFF">2017.12.30</span></li>
-                <li>收益方式 <span>到期还本付息</span></li>
-                <li>转让日期 <span>2017.12.30</span></li>
-                <li>转让人 <span>江苏  李先生</span></li>
+                <li>预计到期收益 <span class="c-FFA303">{{product.progress}}</span></li>
+                <li>预计到期日 <span class="c-2B9AFF">{{product.dqr}}</span></li>
+                <li>收益方式 <span class="type">{{product.yieldDistribType}}</span></li>
+                <li>转让日期 <span>{{product.orderZrDate}}</span></li>
+                <li>转让人 <span>{{product.alienator}}</span></li>
             </ul>
-            <p class="big">投资182天  预计收益<span class="c-FFA303">42.65元</span></p>
+            <p class="big">投资{{product.period}}天  预计收益<span class="c-FFA303">{{product.progress}}</span></p>
             <p>收益说明：本产品为用户转让产品，投资成功后即起息，产品到期还本付息，实际收益按照剩余持有天数计算</p>
         </div>
         <button class="button" @click="tost">立即投资</button>
@@ -52,6 +56,7 @@
 import { PopupPicker, Tab, TabItem, Swiper,XCircle, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import top from '../../components/common/top1'
 import $ from 'jquery'
 export default {
@@ -61,7 +66,7 @@ export default {
     },
     data() {
         return {
-            product: null,
+            product: "",
             money:'1000',
             title:'启航新手礼',
             isshow:false,
@@ -78,6 +83,7 @@ export default {
     created() {
     },
     activated() {
+        this.productdata()
     },
     watch: {
         '$route' (to, from) {
@@ -105,7 +111,49 @@ export default {
       tost(){
         this.isshow = true
         this.timer()
-      }
+      },
+      productdata(){
+          const _this = this
+          _this.$loading.show();
+          const id = this.$route.query.id
+          const url = myPub.URL+`/product/getProductDetail` ;
+          const params = new URLSearchParams();
+          params.append('productId',id);
+          params.append('token',sessionStorage.token); 
+          axios.post(url,params).then(response => {
+            _this.$loading.hide();
+            const data = response.data
+            console.log(data)
+            if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login"})
+                }, 3000)
+            }
+            if (data.result == '200') {
+                this.product = data.ProductInfo
+                this.title = this.product.productName
+                const jd = Math.round(this.product.xmjd)
+                console.log(jd)
+                $(".after").css("width",jd+'%')
+                if (this.product.yieldDistribType == '1') {
+                    $(".type").text('到期兑付本金收益')
+                }
+                if (this.product.yieldDistribType == '2') {
+                    $(".type").text('先息后本')
+                }
+                if (this.product.yieldDistribType == '3') {
+                    $(".type").text('等额本息')
+                }
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
     },
     components: {
         PopupPicker,
@@ -158,8 +206,8 @@ export default {
         }
         .line{width: 55%;position: relative;margin-left: 15%;margin-top: 1rem;font-size: 0.6rem;display: inline-block;}
         .Percentage{font-size: 0.6rem;display: inline-block;position: relative;top: 0.2rem;}
-        .line:before{height: 0.1rem;width: 100%;background:#7AAFFB;position: absolute;left: 0;top: 0;content:'';}
-        .line:after{content: '';position: absolute;width: 50%;left: 0;top: 0;height: 0.1rem;background: #fefefe}
+        .before{height: 0.1rem;width: 100%;background:#7AAFFB;position: absolute;left: 0;top: 0;}
+        .after{position: absolute;width: 0;left: 0;top: 0;height: 0.1rem;background: #fefefe}
         .note{
             background: #3F93FF;height:2.2rem;margin-top: 1rem;padding: 0 1rem;
             .left1{

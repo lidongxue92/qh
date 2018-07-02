@@ -186,17 +186,18 @@ export default {
                     this.PageType = pay.PageType;
                     this.ChkValue = pay.ChkValue;
                     this.ReqExt = " ";
-                    // if (pay.ReqExt != "{}" && pay.ReqExt.length >= 2) {
-                    //     this.ReqExt = JSON.stringify(pay.ReqExt);
-                    // }
+                    if (pay.ReqExt != " " && pay.ReqExt.length >= 2) {
+                        this.ReqExt = JSON.stringify(pay.ReqExt);
+                    }
                     for (var i in  _this.brow) {
                         var obj = _this.brow[i]
-                        this.BorrowerDetails = '['+'{'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'"}'+'{'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'"}'+'{'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'"}'+'{'+'"ProId":'+'"'+obj.ProId+'"}'+']'
+                        this.BorrowerDetails = '[{'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
                         console.log(this.BorrowerDetails)
                     }
                 if(res.data.result == 200){
                     //提交from表单
                     setTimeout(() => {
+                        console.log(this.PageType)
                         document.regSubmit.submit();
                     }, 500)
                     

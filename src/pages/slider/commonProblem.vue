@@ -34,19 +34,21 @@
 
 <script>
 import topComponent from '../../components/common/top';
+import { InfiniteScroll } from 'mint-ui';
 import $ from 'jquery';
 import axios from 'axios';
 import * as myPub from '../../assets/js/public.js'
 export default {
     name:'commonProblem',
     components: {
-        topComponent
+        topComponent,
+        InfiniteScroll
     },
     data(){
         return{
             index:0,
             disQuestionList:[],//每次加载出来的新数据
-　　　　　　 Data:[],　　//每次加载累加后的总数据
+　　　　　　Data:[],　　//每次加载累加后的总数据
             currPage:1,//页码
             pageSize:10,//每页条数
             totalPage: "",//总页数
@@ -70,82 +72,82 @@ export default {
             console.log("123");
         },
       //分页加载数据
-        loadTop() { //组件提供的下拉触发方法
-            //下拉加载
-            this.loadPageList();
-            this.$refs.loadmore.onTopLoaded();// 固定方法，查询完要调用一次，用于重新定位
-        },
-        loadBottom() {
-            this.isHaveMore();
-            // 上拉加载
-            this.more();// 上拉触发的分页查询
-            this.$refs.loadmore.onBottomLoaded();// 固定方法，查询完要调用一次，用于重新定位
-        },
-        loadPageList(){
-            // 常见问题
-            const url = myPub.URL+`/question/getQuestionList`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('curPage',this.currPage);
-            params.append('pageSize',this.pageSize);
+        // loadTop() { //组件提供的下拉触发方法
+        //     //下拉加载
+        //     this.loadPageList();
+        //     this.$refs.loadmore.onTopLoaded();// 固定方法，查询完要调用一次，用于重新定位
+        // },
+        // loadBottom() {
+        //     this.isHaveMore();
+        //     // 上拉加载
+        //     this.more();// 上拉触发的分页查询
+        //     this.$refs.loadmore.onBottomLoaded();// 固定方法，查询完要调用一次，用于重新定位
+        // },
+        // loadPageList(){
+        //     // 常见问题
+        //     const url = myPub.URL+`/question/getQuestionList`;
+        //     var params = new URLSearchParams();
+        //     params.append('token',sessionStorage.getItem("token"));
+        //     params.append('curPage',this.currPage);
+        //     params.append('pageSize',this.pageSize);
 
-            axios.post(url,params).then(res => {
-                console.log(res);
-                this.disQuestionList = res.data.DisQuestion;
-                this.currPage = res.data.currPage;
-                let len = this.disQuestionList.length;
-                for(let i=0;i<len;i++){
-                　　this.Data.push(this.disQuestionList[i]);　　//将新数据push到Data中
-            　　 }
+        //     axios.post(url,params).then(res => {
+        //         console.log(res);
+        //         this.disQuestionList = res.data.DisQuestion;
+        //         this.currPage = res.data.currPage;
+        //         let len = this.disQuestionList.length;
+        //         for(let i=0;i<len;i++){
+        //         　　this.Data.push(this.disQuestionList[i]);　　//将新数据push到Data中
+        //     　　 }
 
-                // 总条数：用来判断-是否还有下一页，加个方法判断，没有下一页要禁止上拉
-                this.totalPage = res.data.totalPage;
-                if(this.totalPage == 1){
-                    this.allLoaded = true;
-                }
-                this.$nextTick(function () {
-                    this.scrollMode = "touch";
-                    this.isHaveMore();
-                });
+        //         // 总条数：用来判断-是否还有下一页，加个方法判断，没有下一页要禁止上拉
+        //         this.totalPage = res.data.totalPage;
+        //         if(this.totalPage == 1){
+        //             this.allLoaded = true;
+        //         }
+        //         this.$nextTick(function () {
+        //             this.scrollMode = "touch";
+        //             this.isHaveMore();
+        //         });
 
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
-        more:function (){
-            // 分页查询
-            if(this.totalPage == 1 || this.currPage == this.totalPage){
-                this.currPage = 1;
-                this.allLoaded = true;
-            }else{
-                this.currPage = parseInt(this.currPage) + 1;
-                this.allLoaded = false;
-            }
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
+        // },
+        // more:function (){
+        //     // 分页查询
+        //     if(this.totalPage == 1 || this.currPage == this.totalPage){
+        //         this.currPage = 1;
+        //         this.allLoaded = true;
+        //     }else{
+        //         this.currPage = parseInt(this.currPage) + 1;
+        //         this.allLoaded = false;
+        //     }
 
-            // 常见问题
-            const url = myPub.URL+`/question/getQuestionList`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('curPage',this.currPage);
-            params.append('pageSize',this.pageSize);
-            axios.post(url,params).then(res => {
-                console.log(res);
-                this.disQuestionList = res.data.DisQuestion;
-                let len = this.disQuestionList.length;
-                for(let i=0;i<len;i++){
-                　　this.Data.push(this.disQuestionList[i]);　　//将新数据push到Data中
-            　　 }
+        //     // 常见问题
+        //     const url = myPub.URL+`/question/getQuestionList`;
+        //     var params = new URLSearchParams();
+        //     params.append('token',sessionStorage.getItem("token"));
+        //     params.append('curPage',this.currPage);
+        //     params.append('pageSize',this.pageSize);
+        //     axios.post(url,params).then(res => {
+        //         console.log(res);
+        //         this.disQuestionList = res.data.DisQuestion;
+        //         let len = this.disQuestionList.length;
+        //         for(let i=0;i<len;i++){
+        //         　　this.Data.push(this.disQuestionList[i]);　　//将新数据push到Data中
+        //     　　 }
 
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
-        isHaveMore(){
-            // 是否还有下一页，如果没有就禁止上拉刷新
-            if(this.currPage === this.totalPage){
-                this.allLoaded = true; //true为禁止
-            }
-        },
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
+        // },
+        // isHaveMore(){
+        //     // 是否还有下一页，如果没有就禁止上拉刷新
+        //     if(this.currPage === this.totalPage){
+        //         this.allLoaded = true; //true为禁止
+        //     }
+        // },
       //分页加载数据
     }
 }

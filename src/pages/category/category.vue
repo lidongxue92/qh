@@ -10,26 +10,26 @@
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
                 <p class="Profit">{{item.annualYield}}</p>
                 <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.openLimit}}</b> </span></p>
-                <button class="button" @click="linktoDetail()">立即投资</button>
+                <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
-             <ul class="productlist">
-                  <li v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)">
-                    <h5>{{item.productName}}<span>热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
-                    <div>
-                        <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
-                            <span>历史年化收益率</span>
-                        </p>
-                        <p class="right">
-                            <span class="day"><b>{{item.daysLimit}}</b> 个月</span><span class="status">{{item.status}}</span>
-                            <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
-                        </p>
-                    </div>
-                    <img class="bg-img" src="~@/assets/img/full.png">
-                    <div class="bg"></div>
-                  </li>
-             </ul>
+               <ul class="productlist">
+                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy>
+                      <h5>{{item.productName}}<span>热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
+                      <div>
+                          <p class="left">
+                              <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
+                              <span>历史年化收益率</span>
+                          </p>
+                          <p class="right">
+                              <span class="day"><b>{{item.daysLimit}}</b> 个月</span><span class="status">{{item.status}}</span>
+                              <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
+                          </p>
+                      </div>
+                      <img class="bg-img" src="~@/assets/img/full.png">
+                      <div class="bg"></div>
+                    </li>
+               </ul>
              <p class="note">理财有风险投资需谨慎 </p>
          </div>
         </div>
@@ -37,7 +37,7 @@
         <div class="Transfer" v-if='isshow1'>
             <div class="middle">
              <ul class="productlist">
-                  <li v-for="(item,index) in datalist" @click="linktoDetail(item.productId)">
+                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy>
                     <h5>{{item.productName}}<span>热销火爆 高收益</span></h5>
                     <div>
                         <p class="left">
@@ -65,19 +65,21 @@ import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
 import Vue from 'vue'
+import infiniteScroll from 'mint-ui'
 export default {
     name: 'category',
     data(){
-　　　　　　return {
-　　　　　　　　datalist:'',
-                isshow1:false,
-                isshow:true,
-                isshow2:true,
-                isshow3:false,
-                isshow4:false,
-                isshow5:false,
-　　　　　　}
-　　　　},
+　　　return {
+　　　　datalist:'',
+        isshow1:false,
+        isshow:true,
+        isshow2:true,
+        isshow3:false,
+        isshow4:false,
+        isshow5:false,
+        loadingShow: false 
+　　　}
+　　},
     created() {
     },
     activated() {
@@ -86,14 +88,21 @@ export default {
         this.pro(status,a)
     },
     computed: {
+     params() {
+      return{
+       //这里先定义要传递给后台的数据
+       //然后将每次请求20条的参数一起提交给后台
+       pageSize: this.pageSize
+       }
+     }
     },
     methods: {
       // 跳转详情页
         linktoDetail(id,dz) {
             this.$router.push({ path: '/page/detail',query: { id: id,dz:dz }})
         },
-        linktoDetailto() {
-            this.$router.push({ path: '/page/detailto'})
+        linktoDetailto(id,dz) {
+            this.$router.push({ path: '/page/detailto',query: { id: id,dz:dz }})
         },
         // 理财专区
         Conducttab(){
@@ -178,13 +187,19 @@ export default {
           }).catch((err) => {
               console.log(err);
           });
-        }
-
+        },
+        getAjaxContent(event,datalist){
+            event.innerText = datalist
+        },
     },
     watch: {
         '$route' (to, from) {
             this.$router.go(0);
         }//回退上一级页面并刷新
+    },
+    components: {
+      infiniteScroll,
+        top
     }
 }
 </script>
@@ -226,7 +241,7 @@ export default {
     }
     .middle{
         .productlist{
-          li{
+          .list{
               background: #fff;margin-top: 10px;padding:1rem;position: relative;
               .status{position: absolute;opacity: 0;}
               h5{

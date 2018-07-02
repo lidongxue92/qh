@@ -1,55 +1,30 @@
 <template>
-  <div class="vux-circle-demo">
-    <div style='width:100px;height:100px;'>
-      <x-circle
-        :percent="percent"
-        :stroke-width="6"
-        :trail-width="6"
-        :stroke-color="['#36D1DC', '#5B86E5']"
-        trail-color="#ececec">
-        <span style="color:#36D1DC">00.0{{time}}</span>
-      </x-circle>
+    <div>
+        <!--@model自定义事件是在该dom在第一次出现在视口内时触发的方法-->
+        <!--v-view-lazy='method' 或 v-view-lazy='(e)=>method(e,...arg)'-->
+        <div  class="cnt" v-for="(v,i) in msg" :key="i" v-view-lazy @model="(e)=>getAjaxContent(e,v.msg)">
+            loading...
+        </div>
+        <div  class="cnt" v-for="(v,i) in msg" :key="i" v-view-lazy @model="getAjaxContent()">
+            loading...
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import { XCircle } from 'vux'
-
-export default {
-  components: {
-    XCircle
-  },
-  data () {
-    return {
-      percent: 0,
-      time:'6'
+    export default {
+        data(){
+            return{
+                msg:[{"a":'1'},{"a":'1'},{"a":'1'},{"a":'1'},{"a":'1'},{"a":'1'},{"a":'1'},{"a":'1'},{"a":'1'},]
+            }
+        },
+        mounted(){
+            
+        },
+        methods:{
+            getAjaxContent(event,msg){
+                event.innerText = msg
+            },
+        }
     }
-  },
-  methods: {
-      timer() {
-          const _this =this
-          if (_this.time > 0) {
-              _this.time--
-              setTimeout(_this.timer, 1000)
-              _this.percent = parseFloat(_this.percent)+17
-              console.log()
-          }
-      }
-    },
-    activated() {
-       this.timer()
-    },
-}
 </script>
-
-<style scoped>
-.vux-circle-demo {
-  padding-top: 20px;
-  text-align: center;
-}
-.vux-circle-demo > div {
-  margin: 0 auto;
-}
-</style>
-
