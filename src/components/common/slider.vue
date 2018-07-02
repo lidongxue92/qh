@@ -77,14 +77,14 @@
 
         <!-- 侧栏底部 -->
         <div class="sliderBottom">
-          <div class="loginOut" v-if="isShow">
+          <div class="loginOut" v-if="isShow" @click="loginOut">
             <p>安全退出</p>
           </div>
           <div class="loginReg" v-if ="!isShow" >
             <p class="login" @click="linkToLogin">登陆</p>
             <p @click="linkToRegister">注册</p>
           </div>
-          
+
         </div>
       </div>
       <!-- 侧栏菜单项 -->
@@ -92,24 +92,24 @@
 
 <!-- 开户 -->
     <div class="box" style="display:none;">
-        <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+        <form  name="regSubmit" method="post" :action="ChinaPnrServer">
              <input type='text' name='Version'  :value='Version'>
              <input type='text' name='CmdId'  :value='CmdId'>
              <input type='text' name='MerCustId' :value='MerCustId'>
-             <input type='text' name='RetUrl'  :value='RetUrl'> 
+             <input type='text' name='RetUrl'  :value='RetUrl'>
              <input type='text' name='BgRetUrl' :value='BgRetUrl'>
              <input type='text' name='UsrId'  :value='UsrId'>
              <input type='text' name='UsrMp' :value='UsrMp'>
              <input type='text' name='PageType'  :value='PageType'>
-             <input type='text' name='ChkValue'  :value='ChkValue'>    
-             <input type='text' name='MerPriv' :value='MerPriv'> 
+             <input type='text' name='ChkValue'  :value='ChkValue'>
+             <input type='text' name='MerPriv' :value='MerPriv'>
         </form>
     </div>
 
 
 
-    </div>     
-    
+    </div>
+
 
 </template>
 
@@ -125,10 +125,10 @@ export default {
             isName:false,
             isReg:true,
             name:"未实名",
-            userPhoneBlack: sessionStorage.getItem("userPhoneBlack"),
+            userPhoneBlack: "",
 
             // 三方开户数据
-            ChinaPnrServer : "", 
+            ChinaPnrServer : "",
             Version : "",
             CmdId : "",
             MerCustId : "",
@@ -150,7 +150,7 @@ export default {
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
         params.append('clientType','h5');
-        
+
         axios.post(url,params).then(res => {
             console.log(res.data);
             this.ChinaPnrServer = res.data.chinaPnrServer;
@@ -170,16 +170,22 @@ export default {
         });
     },
     mounted() {
-      var realName = sessionStorage.getItem("realName");
-      // console.log(realName);
-      
-      if (realName != null) {
-        this.name = realName;
-        this.isReg = false;
-        this.isName = true;
-      }else{
-        this.isName = false;
-      }
+        const url = myPub.URL+`/user/getUserInfo`;
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+
+        axios.post(url,params).then(res => {
+            // console.log(res.data);
+            this.userPhoneBlack = res.data.User.userPhone;
+            if (res.data.User.userRealname != "") {
+                this.isName = true;
+                 this.isReg = false,
+                this.name = res.data.User.userRealname;
+            }
+
+        }).catch((err) => {
+            console.log(err);
+        });
     },
     methods:{
         // 侧栏
@@ -209,7 +215,7 @@ export default {
         },
         res(){
           if (sessionStorage.token) {
-            console.log(sessionStorage.token)
+            // console.log(sessionStorage.token)
             this.isShow = true
           }
         },
@@ -240,7 +246,7 @@ export default {
                     setTimeout(() => {
                         document.regSubmit.submit();
                     }, 1000)
-                    
+
                 }
             }).catch((err) => {
                 console.log(err);
@@ -254,8 +260,33 @@ export default {
         linkToRealName(){
           this.$router.push({path:'/page/userset'})
         },
+        // 登出
+        loginOut(){
+            const url = myPub.URL+`/logout`;
+            var params = new URLSearchParams();
+            params.append('userId',sessionStorage.getItem("userId"));
+
+            axios.post(url,params).then(res => {
+                // console.log(res.data);
+                if (res.data.result == 200) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
+                    });
+                    setTimeout(() => {
+                        sessionStorage.removeItem("token");
+                        sessionStorage.removeItem("userId");
+                        this.$vux.alert.hide();
+                        this.$router.push({path:'/login'})
+                    },2000)
+                }
+
+
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
     },
-    
+
 }
 </script>
 
@@ -330,7 +361,7 @@ export default {
         .st2Right img{
           margin-left: 0;
         }
-        
+
       }
     }
   /*侧栏头部*/
@@ -360,12 +391,12 @@ export default {
     }
 
   /*侧栏菜单*/
-  
+
   // 侧栏底部
   .sliderBottom{
     // background: #f6f6f6;
     text-align: center;
-   
+
     .loginOut{
       padding: 1.5rem;
       p{
@@ -377,7 +408,7 @@ export default {
         line-height: 2rem;
         font-size: 0.8rem;
         margin: 0 auto;
-        
+
       }
     }
 

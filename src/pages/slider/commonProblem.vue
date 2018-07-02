@@ -1,32 +1,32 @@
 <template>
-    <div class="container">
-        <div id="topTitle">
-            <topComponent title='常见问题' :showLeft='false'>
-                <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
-            </topComponent>
-        </div>
-        <div class="main">
-            <div class="menu">
-                <div :style="{'-webkit-overflow-scrolling': scrollMode}">
-                    <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
-                        <el-collapse accordion>
-                            <el-collapse-item v-for="(item,index) in Data" :key="'list'+index" @click="linkToProDetail(item)">
-                                <template slot="title">
-                                    <div class="questionTitle">
-                                    <span class="number">Q<b>{{index + 1}}</b></span>
-                                        <p>{{item.title}}</p>
-                                    </div>
-                                </template>
-                                <div class="answer">
-                                    <p>{{item.content}}</p>
+<div class="container">
+    <div id="topTitle">
+        <topComponent title='常见问题' :showLeft='false'>
+            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+        </topComponent>
+    </div>
+    <div :style="{'-webkit-overflow-scrolling': scrollMode}">
+        <mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" :auto-fill="false" ref="loadmore">
+            <div class="main">
+                <div class="menu" >
+                    <el-collapse accordion>
+                        <el-collapse-item v-for="(item,index) in Data" :key="'list'+index">
+                            <template slot="title">
+                                <div class="questionTitle">
+                                <span class="number">Q<b>{{index + 1}}</b></span>
+                                    <p>{{item.title}}</p>
                                 </div>
-                            </el-collapse-item>
-                        </el-collapse>
-                    </mt-loadmore>
+                            </template>
+                            <div class="answer">
+                                <p>{{item.content}}</p>
+                            </div>
+                        </el-collapse-item>
+                    </el-collapse>
                 </div>
             </div>
-        </div>
+        </mt-loadmore>
     </div>
+</div>
 </template>
 
 <script>
@@ -41,11 +41,18 @@ export default {
         topComponent,
         InfiniteScroll
     },
+    // filters: {
+    //     filter:function (html) {
+    //         return html
+    //         .replace(/</g, '&lt;')
+    //         .replace(/>/g, '&gt;');
+    //     }
+    // },
     data(){
         return{
             index:0,
             disQuestionList:[],//每次加载出来的新数据
-　　　　　　 Data:[],　　//每次加载累加后的总数据
+            Data:[],　　//每次加载累加后的总数据
             currPage:1,//页码
             pageSize:10,//每页条数
             totalPage: "",//总页数
@@ -61,9 +68,6 @@ export default {
     methods:{
         goBack(){
             this.$router.back()
-        },
-        linkToProDetail(){
-            console.log("123");
         },
       //分页加载数据
         loadTop() { //组件提供的下拉触发方法
@@ -89,7 +93,6 @@ export default {
                 console.log(res);
                 this.Data = res.data.DisQuestion;
                 this.currPage = res.data.currPage;
-
                 // 总条数：用来判断-是否还有下一页，加个方法判断，没有下一页要禁止上拉
                 this.totalPage = res.data.totalPage;
                 if(this.totalPage == 1){
@@ -146,12 +149,18 @@ export default {
 
 
 <style>
-.mint-loadmore-top,
+.mint-loadmore{
+    margin-top: -25px;
+    background: #Fff;
+}
 .mint-loadmore-bottom{
     text-align: center;
+
 }
 .mint-loadmore-top{
-    margin-top: -5%;
+    text-align: center;
+    position: relative;
+    z-index: -1;
 }
 .el-collapse-item__header{
     height: auto;
@@ -174,16 +183,16 @@ export default {
     width: 100%;
     height: 100%;
     background: #f6f6f6;
-
+    #topTitle{
+        position: relative;
+        z-index: 1;
+    }
     .main{
         background: #fff;
         margin-top: 0.5rem;
         padding-bottom: 1rem;
         width: 100%;
-        #topTitle{
-            position: relative;
-            z-index: 100;
-        }
+
         .menu{
              width: 92%;
              margin: 0 auto;
