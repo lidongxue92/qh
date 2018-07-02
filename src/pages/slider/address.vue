@@ -7,11 +7,11 @@
         <div v-if="isAddress" class="main">
             <div class="text">
                 <span>联系地址</span>
-                <span class="textMain">上海市长宁区延安西路</span>
+                <span class="textMain">{{address}}</span>
             </div>
             <div class="addressImg">
                 <img src="../../assets/img/sliderBox/address2.png">
-                <p>地址未设置</p>
+                <p>地址已经设置</p>
                 <button @click="addAddress">更换地址</button>
             </div>
         </div>
@@ -27,8 +27,8 @@
         <div class="zhezhao">
             <div class="addAddress">
                 <img src="../../assets/img/sliderBox/closeX.png" @click="close">
-                <textarea placeholder="请填写您的详细地址" @click="changeText" class="textarea"></textarea>
-                <input type="button" value="提交" class="submitAddress">
+                <textarea placeholder="请填写您的详细地址" @click="changeText" class="textarea" v-model="addressVal"></textarea>
+                <input type="button" value="提交" class="submitAddress" @click="submitAddress">
             </div>
         </div>
 
@@ -40,6 +40,7 @@
 import topComponent from '../../components/common/top';
 import $ from 'jquery';
 import axios from 'axios';
+import * as myPub from '../../assets/js/public.js'
 export default {
     name:'address',
     components: {
@@ -48,10 +49,25 @@ export default {
     data(){
         return{
             isAddress:false,
+            addressVal:"",
+            address:""
         }
     },
-    mounted() {
-        
+    created() {
+        const url = myPub.URL+`/user/getUserInfo`;
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+
+        axios.post(url,params).then(res => {
+            // console.log(res.data);
+            if (res.data.User.address != "") {
+                this.address = res.data.User.address;
+                this.isAddress = true;
+            }
+
+        }).catch((err) => {
+            console.log(err);
+        });
     },
     methods:{
         goBack(){
@@ -68,7 +84,27 @@ export default {
         addAddress(){
             $(".textarea").val("");
             $(".zhezhao").show();
+        },
+        submitAddress(){
+            const url = myPub.URL+`/user/saveAddress`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            // params.append('type',2);
+            params.append('address',this.addressVal);
+
+            axios.post(url,params).then(res => {
+                // console.log(res.data);
+                if (res.data.result == 200) {
+                    $(".zhezhao").hide();
+                    this.isAddress = true;
+                    this.address = this.addressVal
+                }
+
+            }).catch((err) => {
+                console.log(err);
+            });
         }
+
     }
 }
 </script>
@@ -120,7 +156,7 @@ export default {
                 border: none;
                 outline: none;
                 margin-top: 3.5rem /* 140/40 */;
-                
+
 
                  /*渐变*/
                 background: #2B9AFF;
@@ -132,7 +168,7 @@ export default {
                 background: linear-gradient(to right, #2B9AFF 0%, #2773FF 100%);
                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2B9AFF', endColorstr='#2773FF', GradientType=0);
             }
-            
+
         }
     }
     .main1{
@@ -155,7 +191,7 @@ export default {
                 border: none;
                 outline: none;
                 margin-top: 3.5rem /* 140/40 */;
-                
+
 
                  /*渐变*/
                 background: #2B9AFF;

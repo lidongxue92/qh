@@ -6,10 +6,10 @@
 
         <div class="main">
             <p>请在此留下您的意见与反馈，我们的客服人员会及时解答，谢谢您对启航金服的支持！</p>
-            <textarea maxlength="500" placeholder="请描述您遇到的问题和意见" class="shuRu" @click="addEventTest($event)"></textarea>
+            <textarea maxlength="500" placeholder="请描述您遇到的问题和意见" class="shuRu" @click="addEventTest($event)" v-model="content"></textarea>
 			<div class="limitNum"><span class="limitNum_word">0</span> / 500</div>
 
-            <button>提交</button>
+            <button @click="submit">提交</button>
 
             <div id="bottom">
                 <p class="tel">400-821-6328</p>
@@ -35,6 +35,7 @@
 import topComponent from '../../components/common/top';
 import $ from 'jquery';
 import axios from 'axios';
+import * as myPub from '../../assets/js/public.js'
 export default {
     name:'service',
     components: {
@@ -42,24 +43,71 @@ export default {
     },
     data(){
         return{
-
+            content:""
         }
+    },
+    created() {
+        this.content = "";
     },
     methods:{
         goBack(){
             this.$router.back()
         },
         addEventTest(ev){
-            addEventListener("keydown",function () {
+            addEventListener("keyup",function () {
                 var num = $(".shuRu").val().length; //获取输入的字数，注意textarea是通过val()来获取的
-                console.log(num);
+                // console.log(num);
                 if (num <= 500) {
                     num = num;
                 } //当字数小于50，数字不变
                 else {
                     $(num).substr(0, 500)
                 }
-                $(".limitNum_word").html(num + 1) //把最后获取到的字数，显示出来
+                $(".limitNum_word").html(num) //把最后获取到的字数，显示出来
+            });
+        },
+        submit(){
+            const url = myPub.URL+`/feed/feedback`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('content',this.content);
+
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                if (res.data.result == 200) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
+                    });
+                    setTimeout(() => {
+                        this.$vux.alert.hide();
+                        this.content = "";
+                    },3000);
+                }else if (res.data.result == 300) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    },3000)
+                }else if (res.data.result == 301) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    },3000)
+                }else if (res.data.result == 302) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    },3000)
+                }
+
+
+            }).catch((err) => {
+                console.log(err);
             });
         }
     }
@@ -104,7 +152,7 @@ export default {
             padding-top: .8rem;
             padding-bottom: .8rem;
             font-size: 1rem;
-            margin-top: 1rem; 
+            margin-top: 1rem;
             border:none;
             outline: none;
             color: #fff;

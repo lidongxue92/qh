@@ -66,17 +66,17 @@
 
         <!-- 开户 -->
     <div class="box" style="display:none;">
-        <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+        <form  name="regSubmit" method="post" :action="ChinaPnrServer">
              <input type='text' name='Version'  :value='Version'>
              <input type='text' name='CmdId'  :value='CmdId'>
              <input type='text' name='MerCustId' :value='MerCustId'>
-             <input type='text' name='RetUrl'  :value='RetUrl'> 
+             <input type='text' name='RetUrl'  :value='RetUrl'>
              <input type='text' name='BgRetUrl' :value='BgRetUrl'>
              <input type='text' name='UsrId'  :value='UsrId'>
              <input type='text' name='UsrMp' :value='UsrMp'>
              <input type='text' name='PageType'  :value='PageType'>
-             <input type='text' name='ChkValue'  :value='ChkValue'>    
-             <input type='text' name='MerPriv' :value='MerPriv'> 
+             <input type='text' name='ChkValue'  :value='ChkValue'>
+             <input type='text' name='MerPriv' :value='MerPriv'>
         </form>
     </div>
 
@@ -116,7 +116,7 @@ export default {
 
 
         // 三方开户数据
-        ChinaPnrServer : "", 
+        ChinaPnrServer : "",
         Version : "",
         CmdId : "",
         MerCustId : "",
@@ -135,7 +135,7 @@ export default {
             this.userPhone = ""
         },
         // 眼睛切换
-        eyesTab(){     
+        eyesTab(){
             if (this.imgSrc == "../../../static/img/loginEyes.png") {
                 this.imgSrc = "../../../static/img/closeEyes.png";
                 this.type = "password"
@@ -166,7 +166,7 @@ export default {
                 $(".middle span:eq(0)").text("请输入手机号。")
 
             }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
-                $(".middle span:eq(0)").addClass("disappear")              
+                $(".middle span:eq(0)").addClass("disappear")
                 return true;
             }else{
                 $(".middle span:eq(0)").removeClass("disappear");
@@ -199,30 +199,30 @@ export default {
 
         // 图片验证码
         createCode(){
-            code = "";    
-            var codeLength = 4;//验证码的长度   
-            var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',   
-            'S','T','U','V','W','X','Y','Z');//随机数   
-            for(var i = 0; i < codeLength; i++) {//循环操作   
-                var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）   
-                code += random[index];//根据索引取得随机数加到code上   
-            }   
-                this.checkCode = code;//把code值赋给验证码   
+            code = "";
+            var codeLength = 4;//验证码的长度
+            var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+            'S','T','U','V','W','X','Y','Z');//随机数
+            for(var i = 0; i < codeLength; i++) {//循环操作
+                var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）
+                code += random[index];//根据索引取得随机数加到code上
+            }
+                this.checkCode = code;//把code值赋给验证码
         },
         // 失焦验证图和密码
         checkLpicma(){
-            this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写         
+            this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写
             if(this.picLyanzhengma == '') {
                 $(".list span:eq(1)").text("请输入验证码")
                 $(".list span:eq(1)").removeClass("disappear");
-            }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时    
+            }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时
                 console.log( this.picLyanzhengma.toUpperCase())
-                console.log(code)           
+                console.log(code)
                 $(".list span:eq(1)").text("验证码不正确")
                 $(".list span:eq(1)").removeClass("disappear");
-                this.createCode();//刷新验证码   
+                this.createCode();//刷新验证码
                 this.picLyanzhengma = '';
-            }else { //输入正确时   
+            }else { //输入正确时
                 $(".list span:eq(1)").addClass("disappear");
                 $(".list span:eq(1)").text("请输入验证码")
                 if (this.checkLPhone() ==true) {
@@ -231,7 +231,7 @@ export default {
                 $('.user_login').removeClass('bg-ed711f')
                 }
                 return true;
-            } 
+            }
         },
         // 手机号验证码
         sendCode() {
@@ -297,16 +297,9 @@ export default {
                     var user = res.data.User;
                     if (res.data.result == 200) {
                         sessionStorage.setItem("token",res.data.token);
-                        sessionStorage.setItem("userPhoneBlack",user.userPhone1);
+                        sessionStorage.setItem("userId",user.id);
                         if (user.realName != "") {
-                            
-                            var realName = user.realName.substr(0,1) + '**';
-
-
-                            sessionStorage.setItem("realName",realName);
-                            // console.log(user.realName);
                             this.$router.push({path:"/page/home"})
-                            // this.$router.go(-1)
                         }else{
                             $(".bg").show();
                             $(".toast").show();
@@ -315,7 +308,7 @@ export default {
                             var params = new URLSearchParams();
                             params.append('token',sessionStorage.getItem("token"));
                             params.append('clientType','h5');
-                            
+
                             axios.post(url,params).then(res => {
                                 console.log(res.data);
                                 this.ChinaPnrServer = res.data.chinaPnrServer;
@@ -355,7 +348,7 @@ export default {
                             }, 3000)
                         }
                     }
-                    
+
                 }).catch((err) => {
                 console.log(err)
                 })
@@ -376,13 +369,12 @@ export default {
                 axios.post(url,params).then(res => {
                     console.log(res.data);
                     var user = res.data.User;
-                    
+
                     if (res.data.result == 200) {
                         sessionStorage.setItem("token",res.data.token);
-                        sessionStorage.setItem("userPhoneBlack",user.userPhone1);
+                        sessionStorage.setItem("userId",user.id);
+
                         if (user.realName != "") {
-                            sessionStorage.setItem("realName",user.realName);
-                            // console.log(user.realName);
                             this.$router.push({path:"/page/home"})
                         }else{
                             $(".bg").show();
@@ -392,7 +384,7 @@ export default {
                             var params = new URLSearchParams();
                             params.append('token',sessionStorage.getItem("token"));
                             params.append('clientType','h5');
-                            
+
                             axios.post(url,params).then(res => {
                                 console.log(res.data);
                                 this.ChinaPnrServer = res.data.chinaPnrServer;
@@ -409,7 +401,7 @@ export default {
 
                             }).catch((err) => {
                                 console.log(err);
-                            });  
+                            });
                         }
 
                     }else{
@@ -456,7 +448,7 @@ export default {
                     setTimeout(() => {
                         document.regSubmit.submit();
                     }, 1000)
-                    
+
                 }
             }).catch((err) => {
                 console.log(err);
@@ -466,8 +458,6 @@ export default {
     created(){
         this.createCode();
         sessionStorage.removeItem("token");
-        sessionStorage.removeItem("userPhoneBlack");
-        sessionStorage.removeItem("realName");
     },
     watch: {
         '$route' (to, from) {
