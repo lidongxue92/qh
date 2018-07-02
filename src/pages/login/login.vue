@@ -34,11 +34,7 @@
                     <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
                 <group>
-                    <x-input type="text"
-                             placeholder="请输入短信验证码"
-                             v-model="verifyCode"
-                           >
-
+                    <x-input type="text" placeholder="请输入短信验证码" v-model="verifyCode" >
                               <x-button slot="right"
                                   type="primary"
                                   mini

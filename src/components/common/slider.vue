@@ -1,5 +1,5 @@
 <template>
-    <div class="slider">
+<div class="slider">
       <!-- 侧栏头部 -->
       <div class="sliderTop">
         <div class="atHead">
@@ -16,14 +16,22 @@
         <div class="sliderTop2">
           <div class="st2Left">
               <img src="../../assets/img/sliderBox/sliderCar.png" >
-              <div>
+              <div v-if="isCard" @click="linkToBangCard">
                 <h6>理财卡</h6>
                 <p>未绑卡</p>
+              </div>
+              <div v-else @click="linkToBankCard">
+                <h6>理财卡</h6>
+                <p>已绑卡</p>
               </div>
           </div>
           <div class="st2Right">
               <img src="../../assets/img/sliderBox/sliderRisk.png" >
-              <div>
+              <div v-if="isTest">
+                <h6>风险评估</h6>
+                <p>未评估</p>
+              </div>
+              <div v-else>
                 <h6>风险评估</h6>
                 <p>未评估</p>
               </div>
@@ -106,11 +114,7 @@
         </form>
     </div>
 
-
-
-    </div>
-
-
+</div>
 </template>
 
 <script>
@@ -124,6 +128,8 @@ export default {
             isShow: false,
             isName:false,
             isReg:true,
+            isCard:true,
+            isTest:true,
             name:"未实名",
             userPhoneBlack: "",
 
@@ -175,12 +181,17 @@ export default {
         params.append('token',sessionStorage.getItem("token"));
 
         axios.post(url,params).then(res => {
-            // console.log(res.data);
+            console.log(res.data);
             this.userPhoneBlack = res.data.User.userPhone;
+            sessionStorage.setItem("userPhone",res.data.User.userPhone)
+            sessionStorage.setItem("userPhonem",res.data.User.userPhonem)
             if (res.data.User.userRealname != "") {
                 this.isName = true;
                  this.isReg = false,
                 this.name = res.data.User.userRealname;
+            }
+            if (res.data.User.hasBankCard == 2) {
+                this.isCard = false
             }
 
         }).catch((err) => {
@@ -218,6 +229,12 @@ export default {
             // console.log(sessionStorage.token)
             this.isShow = true
           }
+        },
+        linkToBankCard(){
+            this.$router.push({path:'/page/bankCard'})
+        },
+        linkToBangCard(){
+            this.$router.push({path:'/page/bangCard'})
         },
 
         // 开户

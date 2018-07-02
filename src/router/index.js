@@ -55,6 +55,14 @@ const Phone = r => require.ensure([], () => r(require('@/pages/slider/phone')), 
 const Changephone = r => require.ensure([], () => r(require('@/pages/slider/changephone')), 'changephone')
 const FriendList = r => require.ensure([], () => r(require('@/pages/slider/friendList')), 'friendList')
 const AccountHf = r => require.ensure([], () => r(require('@/pages/slider/accountHf')), 'accountHf')
+const YanzhengPhone = r => require.ensure([], () => r(require('@/pages/slider/yanzhengPhone')), 'yanzhengPhone')
+const BankCard = r => require.ensure([], () => r(require('@/pages/slider/bankCard')), 'bankCard')
+const BangCard = r => require.ensure([], () => r(require('@/pages/slider/bangCard')), 'bangCard')
+
+
+
+
+
 
 
 
@@ -209,7 +217,7 @@ const routes = [
                     // requireAuth: true
                 },
                 component: BillingDetails
-            }, 
+            },
             {
                 path: 'recharge',
                 name: 'recharge',
@@ -218,7 +226,7 @@ const routes = [
                     // requireAuth: true
                 },
                 component: Recharge
-            }, 
+            },
             {
                 path: 'withdraw',
                 name: 'withdraw',
@@ -236,7 +244,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Withdrawsuccess
-            }, 
+            },
             {
                 path: 'principal',
                 name: 'principal',
@@ -245,7 +253,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Principal
-            }, 
+            },
             {
                 path: 'income',
                 name: 'income',
@@ -263,7 +271,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Message
-                
+
             },
             {
 
@@ -292,7 +300,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Transfer
-                
+
             },
             {
                 path: 'TransferAgreement',
@@ -302,7 +310,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: TransferAgreement
-                
+
             },
             {
                 path: 'Transferdetail',
@@ -312,7 +320,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Transferdetail
-                
+
             },
             {
                 path: 'Transfersuccess',
@@ -322,7 +330,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: Transfersuccess
-                
+
             },
             {
                 path: 'assetdetail',
@@ -332,7 +340,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: AssetDetail
-                
+
             },
 
             //侧边菜单
@@ -449,7 +457,7 @@ const routes = [
                 },
                 component: FriendList
             },
-            
+
             {
                 path: 'assetdetail',
                 name: 'assetdetail',
@@ -458,7 +466,7 @@ const routes = [
                 // requireAuth: true
                 },
                 component: AssetDetail
-                
+
             },
             {
                 path: 'accountHf',
@@ -470,7 +478,7 @@ const routes = [
                 component: AccountHf,
 
             },
-            
+
             // 绑卡
             {
                 path: 'card',
@@ -492,6 +500,38 @@ const routes = [
                 component: CardSuccess
 
             },
+            {
+                path: 'yanzhengPhone',
+                name: 'yanzhengPhone',
+                meta: {
+                    title: '手机号验证',
+                    // requireAuth: true
+                },
+                component: YanzhengPhone
+
+            },
+            {
+                path: 'bankCard',
+                name: 'bankCard',
+                meta: {
+                    title: '银行卡',
+                    // requireAuth: true
+                },
+                component: BankCard
+
+            },
+            //用户绑卡
+            {
+                path: 'bangCard',
+                name: 'bangCard',
+                meta: {
+                    title: '取现绑卡',
+                    // requireAuth: true
+                },
+                component: BangCard
+
+            },
+
 
 
 

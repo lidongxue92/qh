@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         loginpassword() {
-            this.$router.push({ path: '/page/loginpassword' })
+            this.$router.push({ path: '/page/YanzhengPhone' })
         },
     },
     components: {

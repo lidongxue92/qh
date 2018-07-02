@@ -5,12 +5,15 @@
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
                     <li>
-                        手机号&ensp;<input type="type" placeholder="请输入手机号"></li>
+                        手机号&ensp;<input type="type" placeholder="请输入新的手机号" v-model="userPhone" @blur="checkLPhone"></li>
                     <li>
-                        验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input" v-model="LUserPsd"><span class="sm" @click="sendCode">{{btnText}}</span></li>
+                        验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode"  @input="changBGC">
+                        <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
+                    </li>
                 </ul>
-                <button class="button">验证</button>
+                 <p>{{tishis}}</p>
             </div>
+            <button class="button" @click="sureChange">验证</button>
         </div>
     </div>
 </template>
@@ -20,6 +23,7 @@ import { PopupPicker, Tab, TabItem,XInput,  Swiper, SwiperItem,Qrcode, Divider,X
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
 import $ from 'jquery'
+import axios from 'axios';
 import top from '../../components/common/top1'
 export default {
     name: 'detail',
@@ -32,83 +36,150 @@ export default {
             disabled: false,
             time: 0,
             verifyCode: '',
-            userPhone:'',
             dialog: false,
-            LUserPhone:'',
-            LUserPsd:'',
+            userPhone:"",
+            smsCode:'',
             picLyanzhengma:'',
             checkCode:'',
             title:'更换手机号',
-            isshow:true        }
+            isshow:true,
+            tishis:"",
+        }
     },
     computed: {
     },
     mounted () {
     },
-    created() {},
+    created() {
+
+    },
     activated() {
         // this.getALLProducts()
     },
     methods: {
-        linkTodetail1() {
-            this.$router.push({ path: '/page/detail1' })
+        checkLPhone(){
+            if(this.userPhone == ''){
+                this.tishis = "请输入手机号"
+            }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
+                console.log(this.userPhone);
+                return true;
+            }else{
+                this.tishis = "请输入正确手机号"
+            }
         },
         // 手机号验证码
-      sendCode() {
-            console.log('点击验证码触发')
-            // const reg = /^1[34578]\d{9}$/ // 手机号正则校验
-            // if (!this.phoneNumber) {
-            //     this.$vux.toast.text('请输入手机号~', 'middle')
-            //     return
-            // }
-            // if (!reg.test(this.phoneNumber)) {
-            //     this.$vux.toast.text('手机号格式不正确~', 'middle')
-            //     return
-            // }
+        sendCode() {
             this.time = 90
-            this.disabled = true
+            this.disabled = true;
             this.timer()
-             // 获取验证
-             //  const url ='http://public.weifenvip.com/index/Sendcodes/sms';
-             //  var params = new URLSearchParams();
-             //  params.append('mobile',this.phoneNumber);
-             //  params.append('token',localStorage.currentUser_token);
-             //  params.append('type','1');
-             //  if(!localStorage.sessionid){
-             //    console.log(params)
-             // }else{
-             //    params.append('session_id',localStorage.sessionid);
-             // }
-             //  axios.post(url,params).then(response => {
-             //    // const currentUser_token = response.data.data //获取token
-             //        console.log(response)
-             //        const sessionid = response.data.sessionid
-             //        console.log(sessionid)
-             //        localStorage.setItem('sessionid',sessionid);
-             //        let smsCode = response.data.data.verifCode
-             //        this.smsCode = smsCode
-             //        this.$vux.alert.show({
-             //            title: '验证码',
-             //            content: `验证码已发送,【${smsCode}】,10分钟有效`
-             //        })
-             //        setTimeout(() => {
-             //            this.$vux.alert.hide()
-             //        }, 3000)
-             //  }).catch((err) => {
-             //    console.log(err)
-             //  })
-    },
+                // 获取验证
+              const url = myPub.URL+`/three/getSmsCode` ;
+              var params = new URLSearchParams();
+              params.append('phone',this.userPhone);
+              params.append('msgType',2);
+              axios.post(url,params).then(res => {
+                    console.log(res.data);
+                        if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }
+
+              }).catch((err) => {
+                console.log(err)
+              })
+        },
         timer() {
             if (this.time > 0) {
-                this.time--
-                this.btnText = this.time + 's后重新获取'
+                this.time--;
+                this.btnText = '重新获取' + this.time + 's';
                 setTimeout(this.timer, 1000)
             } else {
                 this.time = 0
-                this.btnText = '获取验证码'
+                this.btnText = '发送验证码'
                 this.disabled = false
             }
         },
+        // 判断验证背景色
+        changBGC(){
+            var pwdLen = $(".pwd").val().length;
+            if (pwdLen >= 6) {
+                // console.log(pwdLen);
+                $(".button").css("opacity","1");
+            }else{
+                $(".button").css("opacity",".5");
+            }
+        },
+        sureChange(){
+            console.log(this.checkLPhone());
+
+              if (this.checkLPhone() == true) {
+                const url = myPub.URL+`/user/updateUserPhone` ;
+                var params = new URLSearchParams();
+                params.append('token',sessionStorage.token);
+                params.append('phone',this.userPhone);
+                params.append('smsCode',this.smsCode);
+
+                axios.post(url,params).then(res => {
+                        console.log(res);
+
+                        if (res.data.result == 400) {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                            }, 3000)
+                        }else if (res.data.resultMsg == "短信验证码错误或已超时") {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }else if (res.data.result == 200) {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide();
+                                sessionStorage("userPhonem",this.userPhone);
+                                this.$router.push({path:"/home"})
+                            }, 3000)
+                        }if (res.data.result != 200) {
+                        if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }else if (res.data.resultMsg == "手机号已绑定") {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }else if (res.data.resultMsg == "请求参数[smsCode]不完整") {
+                            this.$vux.alert.show({
+                                content: "请输入验证码"
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }
+                    }
+
+                }).catch((err) => {
+                    console.log(err)
+                })
+              }
+        }
     },
     components: {
         PopupPicker,
@@ -138,23 +209,33 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;height:100%;position: relative;
+    background: #f7f7f7;height:100%;
+    // position: relative;
     .middle{
         margin-top: 1rem;
         .noset{
-             .list{
+            position: relative;
+            padding-bottom: 2rem;
+            .list{
                 margin-top: 0.5rem;background: #fff;border-radius: 3px;color: #bdbdbd;
                 li{
                     list-style: none;font-size: 0.7rem;border-bottom: 1px solid #eee;padding: 0.8rem;position: relative;
-                    input{width: 60%;border: 0;color: #bdbdbd}
+                    input{width: 55%;border: 0;color: #bdbdbd}
                     div{display: inline-block;}
-                    .sm{color: #FFA303;font-size: 0.8rem;padding-left: 3%;border-left: 1px solid #eee;}
+                    #sm{color: #FFA303;font-size: 0.8rem;padding-left: 3%;border-left: 1px solid #eee;width: 25%;}
                 }
                 li:last-child{border-bottom: 0;}
             }
-            p{padding: 0.5rem;font-size: 0.6rem;color: #999}
-            .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+            p{
+                position: absolute;
+                bottom: 0;
+                padding: 0.5rem;
+                font-size: 0.6rem;
+                color: #999;
+            }
+
         }
+        .button{border: 0;width: 90%;margin-left: 5%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;opacity: 0.5;margin-top: 2rem;}
     }
 }
 </style>

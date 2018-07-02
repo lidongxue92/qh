@@ -9,7 +9,10 @@ const instance = axios.create({
     timeout: 10000,
     withCredentials: true, // 是否允许带cookie这些
     headers: {
-        'X-Requested-With': 'XMLHttpRequest'
+        'X-Requested-With': 'XMLHttpRequest',
+        // 'Access-Control-Allow-Origin': '*',
+        // "Access-Control-Allow-Methods": "*",
+        // 'Access-Control-Allow-Headers':'x-requested-with,content-type'
     }
 })
 

@@ -4,7 +4,7 @@
         <div class="middle">
             <img src="~@/assets/img/phone.png">
             <p>已绑定</p>
-            <p>13525688456</p>
+            <p>{{userPhone}}</p>
             <button class="button" @click="changephone">更换绑定手机号</button>
         </div>
     </div>
@@ -26,7 +26,8 @@ export default {
             product: null,
             money:'1000',
             title:'手机号',
-            isshow:true
+            isshow:true,
+            userPhone: sessionStorage.userPhone,
         }
     },
     computed: {
@@ -73,8 +74,15 @@ export default {
     background: #f7f7f7;height:100%;position: relative;
     .middle{
         margin-top: 1rem;
-        img{width: 9rem;height: 6rem;margin-left: 7rem;margin-top: 4rem;}
-        p{color:#FFA303;font-size: 0.9rem;text-align: center;margin-top: 0.7rem;}
+        padding-top: 8.5rem;
+        img{
+            position: absolute;
+            width: 9rem;
+            top: 6rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        p{color:#FFA303;font-size: 0.9rem;text-align: center;margin-top: .7rem;}
         .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
     }
 }

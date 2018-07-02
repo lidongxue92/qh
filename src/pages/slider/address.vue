@@ -98,6 +98,15 @@ export default {
                     $(".zhezhao").hide();
                     this.isAddress = true;
                     this.address = this.addressVal
+                }else if (res.data.result == 400) {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
                 }
 
             }).catch((err) => {

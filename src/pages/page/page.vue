@@ -71,7 +71,7 @@ export default {
             }
         },
         isShowTabbar() {
-            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|principal|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs|address|invite|friendList|commonProblem|message|msgDetail|MsgDetail1|userset|phone|security|nameset|TransferAgreement|card|cardSuccess|withdrawsuccess|accountHf/.test(this.$route.path)) {
+            if (/detail|ceshi|storeer|store_users|addgoods|storeInfo|shop|order|commodityData|pay|log|red|principal|platform|message|income|recharge|principal|withdraw|billingDetails|service|aboutUs|address|invite|friendList|commonProblem|message|msgDetail|MsgDetail1|userset|phone|security|nameset|TransferAgreement|card|cardSuccess|withdrawsuccess|accountHf|YanzhengPhone|loginpassword|bankCard|bangCard/.test(this.$route.path)) {
                 return true
             }
             return false
@@ -105,7 +105,7 @@ export default {
 .page-view {
     height: 100%;
     .weui-tabbar__item {
-        background: #fff;        
+        background: #fff;
         padding-top: .8rem /* 20/40 */;
         padding-bottom: .3rem /* 10/40 */;
         .icon {

@@ -6,14 +6,14 @@
 
     <div class="main">
         <div class="mainTop">
-            <img src="../../assets/img/accountLogo.png"> 
+            <img src="../../assets/img/accountLogo.png">
             <span>汇付托管账户</span>
             <b>已开通</b>
         </div>
         <p>账户名称/编号<span>{{chinaPnrAcc}}</span></p>
         <p>开户人<span>{{userRealname}}</span></p>
     </div>
-    
+
 </div>
 </template>
 
@@ -38,9 +38,19 @@ export default {
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
         axios.post(url,params).then(res => {
-            console.log(res);
+            // console.log(res);
             this.userRealname = res.data.User.userRealname;
             this.chinaPnrAcc = res.data.User.chinaPnrAcc;
+            if (res.data.result == 400) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: res.data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+            }
 
         }).catch((err) => {
             console.log(err)
