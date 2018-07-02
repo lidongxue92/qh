@@ -51,7 +51,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId)" :key="index">
-                   <h5>{{item.Title}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
+                   <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
@@ -64,7 +64,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in list"  @click="linkToDetail(item.productId)" :key="index">
-                   <h5>{{item.Title}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
+                   <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
@@ -263,16 +263,16 @@ export default {
             li{
                 background: #fff;margin-top: 10px;padding:1rem;
                 h5{
-                    border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;
+                    border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
                         float: right;
-                        // display: inline-block;
+                        display: inline-block;
                         width: 5rem;
                         height:1.8rem;
                         color: #fff;
                         text-align: center;
-                        line-height:1.8rem;font-size: 0.6rem;
+                        line-height:1.8rem;font-size: 0.6rem;position: absolute;right:0rem;top:-0.2rem;
                     }
                     .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                     .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}

@@ -4,10 +4,10 @@
         <div class="middle">
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
-                    <li>充值金额&ensp;<input type="type" placeholder="充值金额最小为100">元</li>
+                    <li>充值金额&ensp;<input type="type" placeholder="充值金额最小为100" v-model= 'transMoney'>元</li>
                 </ul>
 
-                <button class="button" @click="card">确定</button>
+                <button class="button" @click="recharge">确定</button>
                 <p class="title">充值规则：</p>
                 <p>1. 用户充值不收取任何手续费；</p>
                 <p>2. 最低充值金额应 >= 100 元；</p>
@@ -17,6 +17,22 @@
                 <p>6. 如需帮助，请点击右侧在线客服或拨打客服热线：400-821-6328。</p>
             </div>
         </div>
+        <!-- 充值 -->
+        <div class="box" style="display:none;">
+            <form  name="regSubmit" method="post" :action="chinaPnrServer" class="regSubmit"> 
+                <input type='text' name='Version'  :value='Version'>
+                <input type='text' name='CmdId'  :value='CmdId'>
+                <input type='text' name='MerCustId' :value='MerCustId'>
+                <input type='text' name='UsrCustId' :value='UsrCustId'>
+                <input type='text' name='OrdId' :value='OrdId'>
+                <input type='text' name='OrdDate' :value='OrdDate'>
+                <input type='text' name='GateBusiId' :value='GateBusiId'>
+                <input type='text' name='BgRetUrl' :value='BgRetUrl'>
+                <input type='text' name='PageType'  :value='PageType'>
+                <input type='text' name='ChkValue'  :value='ChkValue'>    
+                <input type='text' name='TransAmt' :value='TransAmt'>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -24,6 +40,7 @@
 import { PopupPicker, Tab, TabItem,XInput,  Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import $ from 'jquery'
 import top from '../../components/common/top1'
 export default {
@@ -44,7 +61,27 @@ export default {
             picLyanzhengma:'',
             checkCode:'',
             title:'充值',
-            isshow:true        }
+            isshow:true ,
+            transMoney:'',
+
+            // 三方充值数据
+            chinaPnrServer:'',
+            Version:'',
+            CmdId:'',
+            MerCustId:'',
+            UsrCustId:'',
+            OrdId:'',
+            OrdDate:'',
+            GateBusiId:'',
+            OpenBankId:'',
+            OpenAcctId:'',
+            RetUrl:'',
+            BgRetUrl:'',
+            PageType:'',
+            ChkValue:'',
+            MerPriv:'',
+            TransAmt:''
+        }
     },
     computed: {
     },
@@ -59,6 +96,50 @@ export default {
         card() {
             this.$router.push({ path: '/page/card' })
         },
+        // 充值
+        recharge(){
+            const url = myPub.URL+`/chinaPnr/userNetSave`;
+            const transMoney = this.transMoney
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('clientType','h5');
+            params.append('transMoney',transMoney);
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                if (res.data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+                if(res.data.result == 200){
+                    this.chinaPnrServer = res.data.chinaPnrServer
+                    this.Version = res.data.Version
+                    this.CmdId = res.data.CmdId
+                    this.MerCustId = res.data.MerCustId
+                    this.UsrCustId = res.data.UsrCustId
+                    this.OrdId = res.data.OrdId
+                    this.OrdDate = res.data.OrdDate
+                    this.GateBusiId = res.data.GateBusiId
+                    this.BgRetUrl = res.data.BgRetUrl
+                    this.PageType = res.data.PageType
+                    this.ChkValue = res.data.ChkValue
+                    this.TransAmt = res.data.TransAmt
+                    //提交from表单
+                    setTimeout(() => {
+                        console.log(this.chinaPnrServer)
+                        $(".regSubmit").submit();
+                    }, 500)
+                    
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     },
     components: {
         PopupPicker,

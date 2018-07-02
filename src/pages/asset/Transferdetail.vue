@@ -55,8 +55,9 @@
 
 <script>
 var echarts = require('echarts');
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
 export default {
     name: 'asset',
     data(){
@@ -90,6 +91,41 @@ export default {
         close(){
           $(".bg").css("display","none")
           $(".tost").css("display","none")
+        },
+        Transfers(){
+           const _this = this
+          _this.$loading.show();
+          const url = myPub.URL+`/user/getUserAssetsInfo` ;
+          const params = new URLSearchParams();
+          params.append('curPage','1');
+          params.append('pageSize','10');
+          params.append('status',status);
+          params.append('token',sessionStorage.token);
+          params.append('productFullStatus','0,1');
+          params.append('czlx',cx);
+          params.append('orderType',order);
+          params.append('clientType','h5');
+          axios.post(url,params).then(response => {
+              _this.$loading.hide();
+              const data = response.data
+              console.log(response.data)
+              if (data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+              if (data.result == '200') {
+                // this.Product = data.Product
+              }
+
+          }).catch((err) => {
+              console.log(err)
+          })
         }
     },
     mounted() {

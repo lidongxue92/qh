@@ -9,16 +9,16 @@
       </div>
       <div class="assetTopMain">
         <h5>总资产(元) <span @click="eyesTab"><img :src="imgSrc"></span></h5>
-        <p class="totalMoney numberChange">{{totalMoney}}</p>
+        <p class="totalMoney numberChange">{{asset.totalMoney | numFilter}}</p>
       </div>
       <div class="assetTopBottom">
         <div class="atbLeft">
           <h6>可用余额(元)</h6>
-          <p class="numberChange">{{numberChange}}</p>
+          <p class="numberChange">{{asset.investMoney}}</p>
         </div>
         <div class="atbRight">
           <h6>累计收益(元)</h6>
-          <p class="numberChange">{{numberChange}}</p>
+          <p class="numberChange">{{asset.lssy | numFilter}}</p>
         </div>
       </div>
     </div>
@@ -44,18 +44,18 @@
         <div id="charts">
           <div id="main" :style="{width:'100%',height:'14rem'}"></div>
           <div class="title">
-            <h5 class="totalMoney numberChange">{{totalMoney}}</h5>
+            <h5 class="totalMoney numberChange">{{asset.totalMoney | numFilter}}</h5>
             <p>总资产(元)</p>
           </div>
         </div>
         
       </div>
       <div class="assetMainRight">
-        <div class="moneyName1" @click="linkToPrincipal">
+        <div class="moneyName1" @click="linkToPrincipal(asset.lczc)">
           <div>
             <b></b>
             <span>待收本金</span>
-            <p class="numberChange">{{numberChange}}</p>
+            <p class="numberChange">{{asset.lczc}}</p>
           </div>
           <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
         </div>
@@ -64,7 +64,7 @@
           <div>
             <b></b>
             <span>待收收益</span>
-            <p class="numberChange">{{numberChange}}</p>
+            <p class="numberChange">{{asset.dssy | numFilter}}</p>
           </div>
         </div>
 
@@ -72,7 +72,7 @@
           <div>
             <b></b>
             <span>转让金额</span>
-            <p class="numberChange">{{numberChange}}</p>
+            <p class="numberChange">{{asset.zrje}}</p>
           </div>
           <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
         </div>
@@ -81,7 +81,7 @@
           <div>
             <b></b>
             <span>账户余额</span>
-            <p class="numberChange">{{numberChange}}</p>
+            <p class="numberChange">{{asset.avlBalance}}</p>
           </div>
         </div>
 
@@ -89,7 +89,7 @@
           <div>
             <b></b>
             <span>冻结金额</span>
-            <p class="numberChange">{{numberChange}}</p>
+            <p class="numberChange">{{asset.totalMoney | numFilter}}</p>
           </div>
         </div>
       </div>
@@ -104,8 +104,9 @@
 <script>
 var echarts = require('echarts');
 import slider from '../../components/common/slider'
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
 export default {
   name: 'asset',
   components:{
@@ -116,6 +117,8 @@ export default {
         imgSrc:"../../../static/img/openEyes.png",
         totalMoney:1888800.01,
         numberChange: 10000.08,
+        asset:'{}',
+        totalMoney:''
 　　　}
 　},
 
@@ -155,13 +158,62 @@ export default {
     linkToWithdraw(){
       this.$router.push({path:'/page/withdraw'})
     },
-    linkToPrincipal(){
-      this.$router.push({path:'/page/principal'})
+    linkToPrincipal(money){
+      this.$router.push({path:'/page/principal' , query: { lazc : money}})
     },
     linkToIncome(){
       this.$router.push({path:'/page/income'})
+    },
+    product(){
+      const _this = this
+      _this.$loading.show();
+      const url = myPub.URL+`/user/getAccountOverview` ;
+      const params = new URLSearchParams();
+      params.append('token',sessionStorage.token); 
+      axios.post(url,params).then(response => {
+          _this.$loading.hide();
+          const data = response.data
+          console.log(response.data)
+          if (data.result == '400') {
+              this.$vux.alert.show({
+                  title: '',
+                  content: data.resultMsg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
+              }, 3000)
+          }
+          if (data.result == '200') {
+            this.asset = data.Account
+            this.lczc = this.asset.lczc
+          }
+
+      }).catch((err) => {
+          console.log(err)
+      })
     }
   },
+  filters: {
+    numFilter(value) {
+    // 截取当前数据到小数点后三位
+    let transformVal = Number(value).toFixed(3)
+    let realVal = transformVal.substring(0, transformVal.length - 1)
+    // num.toFixed(3)获取的是字符串
+    return Number(realVal)
+    }
+  },
+   created() {
+        // this.product()
+    },
+    activated: function() {
+        this.product()
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
   mounted() {
     /*ECharts图表*/
     var myChart = echarts.init(document.getElementById('main'));
@@ -363,6 +415,7 @@ export default {
   .assetMain{
     display: flex;
     flex: 1;
+    padding-bottom: 50px;
     .assetMainLeft{
       width: 50%;
       

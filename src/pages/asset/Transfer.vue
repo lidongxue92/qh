@@ -2,45 +2,33 @@
     <div class="detail page">
         <top v-bind:title="title"></top>
         <div class="middle">
-            <div class="nodata" v-if="isshow1">
-                <img src="~@/assets/img/no_data.png">
-                <p>您还没有持有理财产品哦</p>
-                <p>赶紧去产品中心挑选吧~</p>
-                <button class="button" @click="category">去理财</button>
-            </div>
             <div class="Datalist">
                 <ul class="tab">
                     <li v-bind:class="{ active: is_show}" @click="Transferable">可转让列表</li>
                     <li v-bind:class="{ active: is_show2}" @click="Notransferable">已转让列表</li>
                 </ul>
-                <ul class="list">
-                    <li>
-                        <h5>产品名称<span>到期时间 <b>2017.12.12</b></span></h5>
+                <div class="nodata" v-if="isshow1">
+                    <img src="~@/assets/img/no_data.png">
+                    <p>您还没有持有理财产品哦</p>
+                    <p>赶紧去产品中心挑选吧~</p>
+                    <button class="button" @click="category">去理财</button>
+                </div>
+                <ul class="list" v-if="isshow2">
+                    <li v-for="(item,index) in Product">
+                        <h5>{{item.productName}}<span>到期时间 <b>{{item.dueDate}}</b></span></h5>
                         <p>
-                            <span class="big">1000000</span>
+                            <span class="big">{{item.investMoney}}</span>
                             <span>投资金额</span>
                         </p>
                         <p>
-                            <span class="color">188.88</span>
+                            <span class="color">{{item.exceptedYield}}</span>
                             <span>预计到期收益</span>
                         </p>
                         <p>
-                            <span class="button" @click="TransferAgreement">转让</span>
+                            <span class="button">转让</span>
+                            <span class="status">{{item.status}}</span>
                         </p>
-                    </li>
-                    <li>
-                        <h5>产品名称<span>到期时间 <b>2017.12.12</b></span></h5>
-                        <p>
-                            <span class="big">1000000</span>
-                            <span>投资金额</span>
-                        </p>
-                        <p>
-                            <span class="color">188.88</span>
-                            <span>预计到期收益</span>
-                        </p>
-                        <p>
-                            <span class="button" @click="TransferAgreement">转让</span>
-                        </p>
+                        <span class="img1"></span>
                     </li>
                 </ul>
             </div>
@@ -52,6 +40,7 @@
 import { PopupPicker, Tab, TabItem, Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import $ from 'jquery'
 import top from '../../components/common/top1'
 export default {
@@ -61,11 +50,13 @@ export default {
     },
     data() {
         return {
-            product: null,
+            Product: '',
             money:'1000',
             title:'债权转让',
             is_show:true,
             isshow1:false,
+            isshow2:true,
+            isshow3:false,
             is_show2:false
         }
     },
@@ -82,29 +73,78 @@ export default {
         }
     },
     activated() {
-        // this.getALLProducts()
+        this.product('1,2','2','0')
     },
     methods: {
         TransferAgreement() {
             this.$router.push({ path: '/page/TransferAgreement' })
         },
+        category(){
+            this.$router.push({ path: '/page/category' })
+        },
         Transferable(){
             const _this = this
-            _this.is_show2 = false
-            _this.is_show = true
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
+            this.is_show2 = true
+            this.is_show = false
+            this.product('1,2','2','0')
         },
         Notransferable(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
-            _this.is_show2 = true
-            _this.is_show = false
+            this.product('4,5','1','1')
+            this.is_show2 = true
+            this.is_show = false
+        },
+        product(status,cx,order){
+            const _this = this
+          _this.$loading.show();
+          const url = myPub.URL+`/user/getUserAssetsList` ;
+          const params = new URLSearchParams();
+          params.append('curPage','1');
+          params.append('pageSize','10');
+          params.append('status',status);
+          params.append('token',sessionStorage.token);
+          params.append('productFullStatus','0,1');
+          params.append('czlx',cx);
+          params.append('orderType',order);
+          params.append('clientType','h5');
+          axios.post(url,params).then(response => {
+              _this.$loading.hide();
+              const data = response.data
+              console.log(response.data)
+              if (data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+              if (data.result == '200') {
+                this.Product = data.Product
+                if (data.Product.length <= 0){
+                    this.isshow1 = true
+                    this.isshow2 = false
+                }else{
+                    this.isshow1 = false
+                    this.isshow2 = true
+                }
+                setTimeout(() => {
+                    $(".status").each(function (i,n) {
+                        if ($(".status").eq(i).text() == '4') {
+                            $(".button").eq(i).text('转让中')
+                        }
+                        if ($(".status").eq(i).text() == '5') {
+                            $(".button").eq(i).text('已转让')
+                        }
+                    })
+                  }, 300)
+              }
+
+          }).catch((err) => {
+              console.log(err)
+          })
         }
     },
     components: {
@@ -158,11 +198,12 @@ export default {
                         span{float: right;color: #999;font-size: 0.6rem;b{color: #333;font-weight: normal;}}
                     }
                     p{
-                        display: inline-block;width: 32%;text-align: center;padding: 1rem 0 0.5rem 0;
+                        display: inline-block;width: 32%;text-align: center;padding: 1rem 0 0.5rem 0;position: relative;
                         span{display: inline-block;width: 100%;font-size: 0.6rem;color: #999}
                         .big{font-size: 0.9rem;color: #333;}
                         .color{font-size: 0.9rem;color: #FFA303}
                         .button{border: 0;width: 80%;margin-left: 10%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 30px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;line-height: 30px;position: relative;bottom: 0.8rem;}
+                        .status{position: absolute;opacity: 0;}
                     }
                     .tl{text-align: left;}
                     .tr{text-align: right;}

@@ -4,16 +4,37 @@
         <div class="middle">
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
-                    <li>提现金额&ensp;<input type="type" >元</li>
+                    <li>提现金额&ensp;<input type="type" v-model = 'transMoney'>元</li>
                 </ul>
                 <p>您当前可提现金额<span>￥1000.36</span> <span class="right">全部提现</span></p>
-                <button class="button" @click="withdrawsuccess">下一步</button>
+                <button class="button" @click="withdraw">下一步</button>
                 <p class="title">提现规则：</p>
                 <p>1. 您每月拥有三次免费提现的机会，超过三次收取2元/笔；</p>
                 <p>2. 免费提现次数不累计到下月；</p>
                 <p>3. 账户余额（或提现后）< 100元时，须一次性提完；</p>
                 <p>4. 新用户充值成功而未做投资的，如需提现，需承担提现金额0.3%的手续费，最低每笔2元。因银行存管处理T+1日限制，当日充值的额度，24小时内不支持发起提现，具体可咨询平台客服。</p>
             </div>
+        </div>
+        <!-- 提现 -->
+        <div class="box" style="display:none;">
+            <form  name="regSubmit" method="post" :action="chinaPnrServer" class="regSubmit"> 
+                <input type='text' name='Version'  :value='Version'>
+                <input type='text' name='CmdId'  :value='CmdId'>
+                <input type='text' name='MerCustId' :value='MerCustId'>
+                <input type='text' name='OrdId' :value='OrdId'>
+                <input type='text' name='UsrCustId' :value='UsrCustId'>
+                <input type='text' name='TransAmt' :value='TransAmt'>
+                <input type='text' name='ServFee' :value='ServFee'>
+                <input type='text' name='OpenAcctId' :value='OpenAcctId'>
+                <input type='text' name='BgRetUrl'  :value='BgRetUrl'>
+                <input type='text' name='Remark'  :value='Remark'>    
+                <input type='text' name='CharSet' :value='CharSet'>
+                <input type='text' name='PageType' :value='PageType'>
+                <input type='text' name='BgRetUrl'  :value='BgRetUrl'>
+                <input type='text' name='ChkValue'  :value='ChkValue'>    
+                <input type='text' name='ReqExt' :value='ReqExt'>
+                <input type='text' name='ServFeeAcctId' :value='ServFeeAcctId'>
+            </form>
         </div>
     </div>
 </template>
@@ -22,6 +43,7 @@
 import { PopupPicker, Tab, TabItem,XInput,  Swiper, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
 import $ from 'jquery'
 import top from '../../components/common/top1'
 export default {
@@ -42,7 +64,27 @@ export default {
             picLyanzhengma:'',
             checkCode:'',
             title:'提现',
-            isshow:true        }
+            isshow:true,
+            transMoney:'',
+
+            // 三方提现
+            BgRetUrl:'',
+            CharSet:'',
+            ChkValue:'',
+            CmdId:'',
+            MerCustId:'',
+            OpenAcctId:'',
+            OrdId:'',
+            PageType:'',
+            Remark:'',
+            ReqExt:'',
+            ServFee:'',
+            ServFeeAcctId:'',
+            TransAmt:'',
+            UsrCustId:'',
+            Version:'',
+            chinaPnrServer:'',
+        }
     },
     computed: {
     },
@@ -56,6 +98,59 @@ export default {
         withdrawsuccess() {
             this.$router.push({ path: '/page/withdrawsuccess' })
         },
+        withdraw(){
+            const url = myPub.URL+`/chinaPnr/userCash`;
+            const transMoney = this.transMoney
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('clientType','h5');
+            params.append('transMoney',transMoney);
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                if (res.data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+                if(res.data.result == 200){
+                    this.chinaPnrServer = res.data.chinaPnrServer
+                    this.Version = res.data.Version
+                    this.CmdId = res.data.CmdId
+                    this.MerCustId = res.data.MerCustId
+                    this.OrdId = res.data.OrdId
+                    this.UsrCustId = res.data.UsrCustId
+                    this.TransAmt = res.data.TransAmt
+                    this.ServFee = res.data.ServFee
+                    this.OpenAcctId = res.data.OpenAcctId
+                    this.BgRetUrl = res.data.BgRetUrl
+                    this.Remark = res.data.Remark
+                    this.CharSet = res.data.CharSet
+                    this.PageType = res.data.PageType
+                    this.BgRetUrl = res.data.BgRetUrl 
+                    this.ChkValue = res.data.ChkValue
+                    this.ReqExt = JSON.stringify(res.data.ReqExt);
+                    if (this.ReqExt == "{}") {
+                        this.ReqExt = "";
+                    } else {
+                        this.ReqExt = JSON.stringify(res.data.ReqExt);
+                    }
+                    this.ServFeeAcctId = res.data.ServFeeAcctId
+                    //提交from表单
+                    setTimeout(() => {
+                        console.log(this.ReqExt)
+                        $(".regSubmit").submit();
+                    }, 500)
+                    
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        }
     },
     components: {
         PopupPicker,

@@ -28,13 +28,13 @@
                         <span class="button">立即使用</span></p>
                     </li>
                     <li v-for="(item,index) in product">
-                        <p class="title">{{product.redPacketName}}</p>
-                        <p class="left">¥<b>{{product.redPacketMoney}}</b></p>
+                        <p class="title">{{item.redPacketName}}</p>
+                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满{{product.investMoney}}元可使用</span>
-                            <span>投资满{{product.investMoney}}元可使用</span>
+                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                            <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：{{product.endDate}}
+                        <p class="note">有效期至：{{item.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -54,13 +54,13 @@
                         <span class="button">已使用</span></p>
                     </li>
                    <li v-for="(item,index) in product">
-                        <p class="title">{{product.redPacketName}}</p>
-                        <p class="left">¥<b>{{product.redPacketMoney}}</b></p>
+                        <p class="title">{{item.redPacketName}}</p>
+                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满{{product.investMoney}}元可使用</span>
-                            <span>投资满{{product.investMoney}}元可使用</span>
+                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                            <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：{{product.endDate}}
+                        <p class="note">有效期至：{{item.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -80,13 +80,13 @@
                         <span class="button">立即使用</span></p>
                     </li>
                     <li v-for="(item,index) in addpro">
-                        <p class="title">{{addpro.incrName}}</p>
-                        <p class="left">¥<b>{{addpro.cashMoney}}</b></p>
+                        <p class="title">{{item.incrName}}</p>
+                        <p class="left">¥<b>{{item.cashMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满{{addpro.incrName}}元可使用</span>
-                            <span>投资满{{addpro.incrName}}元可使用</span>
+                            <span>使用条件：投资满{{item.incrName}}元可使用</span>
+                            <span>投资满{{item.incrName}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：{{addpro.endDate}}
+                        <p class="note">有效期至：{{item.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -105,14 +105,14 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
                     </li>
-                     <li v-for="(item,index) in product">
-                        <p class="title">{{product.redPacketName}}</p>
-                        <p class="left">¥<b>{{product.redPacketMoney}}</b></p>
+                     <li v-for="(item,index) in addpro">
+                        <p class="title">{{item.redPacketName}}</p>
+                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                         <p class="right">
-                            <span>使用条件：投资满{{product.investMoney}}元可使用</span>
-                            <span>投资满{{product.investMoney}}元可使用</span>
+                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                            <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：{{product.endDate}}
+                        <p class="note">有效期至：{{item.endDate}}
                         <span class="button">立即使用</span></p>
                     </li>
                 </ul>
@@ -221,7 +221,7 @@ export default {
             this.isshow4 = false
             this.isshow5 = false
             this.isshow6 = true,
-            this.addwelfare('2')
+            this.addwelfare('1')
         },
         // 红包数据
         welfare(status){
@@ -333,7 +333,7 @@ export default {
                 margin-top: 0.8rem;
                 li{
                     background: url(~@/assets/img/red.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
-                    .title{font-size: 0.8rem;color: #fff;}
+                    .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
                         color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
@@ -371,7 +371,7 @@ export default {
                 margin-top: 0.8rem;
                 li{
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
-                    .title{font-size: 0.8rem;color: #fff;}
+                    .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
                         color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
@@ -409,7 +409,7 @@ export default {
                 margin-top: 0.8rem;
                 li{
                     background: url(~@/assets/img/pageadd.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
-                    .title{font-size: 0.8rem;color: #fff;}
+                    .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
                         color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
@@ -447,7 +447,7 @@ export default {
                 margin-top: 0.8rem;
                 li{
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
-                    .title{font-size: 0.8rem;color: #fff;}
+                    .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
                         color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
