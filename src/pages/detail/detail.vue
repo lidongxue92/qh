@@ -11,7 +11,11 @@
                 <p>开发额度&emsp;<span>{{product.openLimit}}</span></p>
                 <span class="status">{{product.productType}}</span>
             </div>
-            <p class="line"></p>&emsp;<span class="Percentage">已售{{product.xmjd}}</span>
+            <p class="line">
+                <span class="before">
+                    <b class="after"></b>
+                </span>
+            </p>&emsp;<span class="Percentage">已售{{product.xmjd}}</span>
             <p class="note">
                 <span class="left1">剩余额度&emsp;<b>{{product.residueMoney}}</b></span>
                 <span class="right1">起投金额&emsp;<b>{{product.amountMin}}</b></span>
@@ -211,6 +215,9 @@ export default {
                 if (this.product.productType == '18') {
                     $(".status").text("不可转让")
                 }
+                const jd = Math.round(this.product.xmjd)
+                console.log(jd)
+                $(".after").css("width",jd+'%')
             }
           }).catch((err) => {
             console.log(err)
@@ -292,8 +299,8 @@ export default {
         }
         .line{width: 55%;position: relative;margin-left: 15%;margin-top: 1rem;font-size: 0.6rem;display: inline-block;}
         .Percentage{font-size: 0.6rem;display: inline-block;position: relative;top: 0.2rem;}
-        .line:before{height: 0.1rem;width: 100%;background:#7AAFFB;position: absolute;left: 0;top: 0;content:'';}
-        .line:after{content: '';position: absolute;width: 50%;left: 0;top: 0;height: 0.1rem;background: #fefefe}
+        .before{height: 0.1rem;width: 100%;background:#7AAFFB;position: absolute;left: 0;top: 0;}
+        .after{position: absolute;width: 0;left: 0;top: 0;height: 0.1rem;background: #fefefe}
         .note{
             background: #3F93FF;height:2.2rem;margin-top: 1rem;padding: 0 1rem;
             .left1{

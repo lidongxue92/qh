@@ -12,8 +12,10 @@
 
 <script>
 import topComponent from '../../components/common/top';
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
+import Vue from 'vue'
 export default {
     name:'msgDetail',
     components: {
@@ -24,15 +26,31 @@ export default {
 
         }
     },
-    created() {
-
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
     },
-    mounted() {
+    created() {},
+    activated() {
+        this.loadPageList('1')
     },
     methods:{
         goBack(){
             this.$router.back()
-        }
+        },
+        loadPageList(status){
+            const url = myPub.URL+`/index/getInfoManageList`;
+            var params = new URLSearchParams();
+            const id = this.$route.query.id
+            params.append('imId',id);
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                this.Log = res.data.InfoManage;
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
     }
 }
 </script>

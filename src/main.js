@@ -15,6 +15,12 @@ Vue.use(ElementUI);
 import Mint from 'mint-ui';
 Vue.use(Mint);
 
+import vView from 'vue-view-lazy'
+Vue.use(vView,{
+    error:'../../static/images/loading.png',
+    loading:'../../static/images/loading.gif',
+});
+
 // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'
 import WechatAuth from 'vue-wechat-auth'

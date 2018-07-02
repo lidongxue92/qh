@@ -11,15 +11,14 @@
     </div>
     
     <div class="msgList">
-        <div class="xiaoXi" @click="linkToMsgDetail">
-            <p class="msgTitle">登录密码修改成功</p>
-            <p class="content"><span>您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改</span></p>
+        <div class="xiaoXi" @click="linkToMsgDetail(item.imId)" v-for="(item,index) in Log">
+            <p class="msgTitle">{{item.imTitle}}</p>
+            <p class="content"><span>{{item.imAbstract}}</span></p>
         </div>
     </div>
-    <div class="msgList">
-        <div class="gongGao" @click="linkToMsgDetail1">
-            <p class="msgTitle">登录密码修改成功</p>
-            <p class="content"><span>2017.12.21</span><br/>您的登录密码修改请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改</p>
+    <div class="msgList" @click="note">
+        <div class="gongGao" @click="linkToMsgDetail1(item.imId)" v-for="(item,index) in Log">
+            <p class="content"><span>{{item.imDate}}</span><br/>{{item.imAbstract}}</p>
         </div>
     </div>
 
@@ -29,8 +28,10 @@
 
 <script>
 import topComponent from '../../components/common/top'
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
+import Vue from 'vue'
 export default {
     name:'message',
     components: {
@@ -38,7 +39,9 @@ export default {
     },
     data(){
         return{
-           
+           Log:'',
+           note:''
+
         }
     },
     mounted() {
@@ -50,17 +53,47 @@ export default {
             var i = $("#myMsgTab input").index(this);
             $(".msgList").eq(i).show().siblings(".msgList").hide();
         });
-    },  
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
+    created() {},
+    activated() {
+        this.loadPageList('1')
+    },
     methods:{
         goBack(){
             this.$router.back()
         },
+
         read(){},
-        linkToMsgDetail(){
-            this.$router.push({path:'/page/msgDetail'})
+        linkToMsgDetail(id){
+            this.$router.push({path:'/page/msgDetail',query: { id: id }})
         },
-        linkToMsgDetail1(){
-            this.$router.push({path:'/page/msgDetail1'})
+        linkToMsgDetail1(id){
+            this.$router.push({path:'/page/msgDetail1',query: { id: id }})
+        },
+        note(){
+            this.loadPageList('2')
+        },
+        log(){
+            this.loadPageList('1')
+        },
+        loadPageList(status){
+            const url = myPub.URL+`/index/getInfoManageList`;
+            var params = new URLSearchParams();
+            const id = this.$route.query.id
+            params.append('imType',status);
+            params.append('pageSize','1');
+            params.append('curPage','1');
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                this.Log = res.data.InfoManage;
+            }).catch((err) => {
+                console.log(err);
+            });
         },
     }
 }

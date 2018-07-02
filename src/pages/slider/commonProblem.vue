@@ -31,13 +31,15 @@
 
 <script>
 import topComponent from '../../components/common/top';
+import { InfiniteScroll } from 'mint-ui';
 import $ from 'jquery';
 import axios from 'axios';
 import * as myPub from '../../assets/js/public.js'
 export default {
     name:'commonProblem',
     components: {
-        topComponent
+        topComponent,
+        InfiniteScroll
     },
     data(){
         return{
