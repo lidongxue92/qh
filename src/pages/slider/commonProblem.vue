@@ -87,12 +87,8 @@ export default {
 
             axios.post(url,params).then(res => {
                 console.log(res);
-                this.disQuestionList = res.data.DisQuestion;
+                this.Data = res.data.DisQuestion;
                 this.currPage = res.data.currPage;
-                let len = this.disQuestionList.length;
-                for(let i=0;i<len;i++){
-                　　this.Data.push(this.disQuestionList[i]);　　//将新数据push到Data中
-            　　 }
 
                 // 总条数：用来判断-是否还有下一页，加个方法判断，没有下一页要禁止上拉
                 this.totalPage = res.data.totalPage;
@@ -140,6 +136,7 @@ export default {
             // 是否还有下一页，如果没有就禁止上拉刷新
             if(this.currPage === this.totalPage){
                 this.allLoaded = true; //true为禁止
+                $(".mint-loadmore-bottom .mint-loadmore-text").text("暂无更多数据");
             }
         },
       //分页加载数据
