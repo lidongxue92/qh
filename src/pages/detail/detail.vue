@@ -3,7 +3,7 @@
         <div class="product">
             <top v-bind:title="title"></top>
             <div class="left">
-                <span class="interest">{{product.baseAnnualYield}}<b>&ensp;%</b></span>
+                <span class="interest">{{product.baseAnnualYield}}<b>&ensp;+{{product.actAnnualYield}}%</b></span>
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
@@ -24,7 +24,7 @@
         <div class="middle">
             <!-- 购买金额 -->
             <div class="Amount">
-                <h5>购买金额</h5>
+                <h5>购买金额 <b class="Type" style="position: absolute;opacity: 0;">{{product.yieldDistribType}}</b></h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
                     <input class="money" v-model= "money" @blur="red"/>元
@@ -34,7 +34,7 @@
                     <span class="fl">红包卡券</span><span class="fr">{{free.totalCount}}个可用&emsp;<img src="~@/assets/img/right.png"></span>
                 </p>
                 <p class="word">
-                    <span class="fl">预期收益</span><span class="fr c-FFA303"><b>20</b>&ensp;元</span>
+                    <span class="fl">预期收益</span><span class="fr c-FFA303"><b class="rate1"></b>&ensp;元</span>
                 </p>
                 <p class="bottomimg" v-if="isshow4">
                     <span class="fl">
@@ -74,6 +74,29 @@
               </div>
               <button class="button bottom">确认支付</button>
         </div>
+         <div class="toast">
+          <span class="close" @click="close">&Chi;</span>
+          <p style="margin-top: 1.2rem;">您还未开通托管账户 </p>
+          <p>开通并充值后才可投资</p>
+          <p style="color: #666;font-size: 0.8rem;">是否去开户</p>
+          <span class="left" @click="leftclose">取消</span><span class="right" @click="rightclose">确定</span>
+        </div> 
+        <div class="bg"></div>
+         <!-- 开户 -->
+        <div class="box" style="display:none;">
+            <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+                 <input type='text' name='Version'  :value='Version'>
+                 <input type='text' name='CmdId'  :value='CmdId'>
+                 <input type='text' name='MerCustId' :value='MerCustId'>
+                 <input type='text' name='RetUrl'  :value='RetUrl'> 
+                 <input type='text' name='BgRetUrl' :value='BgRetUrl'>
+                 <input type='text' name='UsrId'  :value='UsrId'>
+                 <input type='text' name='UsrMp' :value='UsrMp'>
+                 <input type='text' name='PageType'  :value='PageType'>
+                 <input type='text' name='ChkValue'  :value='ChkValue'>    
+                 <input type='text' name='MerPriv' :value='MerPriv'> 
+            </form>
+        </div>
     </div>
 </template>
 
@@ -103,23 +126,39 @@ export default {
             id:'',
             day:'',
             free:'',
-            dz:''
+            dz:'',
+            Annual:'',
+            productType:'',
+            actAnnualYield:'',
+            // 三方开户数据
+            ChinaPnrServer : "", 
+            Version : "",
+            CmdId : "",
+            MerCustId : "",
+            RetUrl : "",
+            BgRetUrl :"",
+            MerPriv : "",
+            UsrId : "",
+            UsrMp : "",
+            PageType : "",
+            ChkValue : "",
         }
     },
     computed: {
     },
     mounted () {
-        this.productdata()
     },
     created() {
         const dz = this.$route.query.dz
         this.dz = dz
         console.log(this.dz)
+        this.productdata()
     },
     activated: function() {
         this.productdata()
         setTimeout(() => {
             this.welfare()
+            this.Interest()
         }, 300)
     },
     methods: {
@@ -132,6 +171,19 @@ export default {
         red() {
             this.$router.push({ path: '/page/red' })
         },
+        rightclose(){
+          $(".bg").css("display","none")
+          $(".toast").css("display","none")
+          this.go()
+        },
+        leftclose(){
+          $(".bg").css("display","none")
+          $(".toast").css("display","none")
+        },
+        close(){
+          $(".bg").css("display","none")
+          $(".toast").css("display","none")
+        },
         add(){
             const _this = this
             const num = $(".money")
@@ -140,6 +192,7 @@ export default {
             console.log (this.money)
             $(".leftimg").attr('src',"~@/assets/img/add1.png")
             this.welfare()
+            this.Interest()
         },
         cont(){
             const _this = this
@@ -149,6 +202,7 @@ export default {
                 this.money = (parseFloat(this.money)-parseFloat(this.Money))+'.00'
                 console.log (this.money+'00')
                 this.welfare()
+                this.Interest()
             }else{
                 $(".leftimg").attr('src',"~@/assets/img/cont.png")
             }
@@ -169,10 +223,122 @@ export default {
             _this.percent = '0'
           }
       },
-      tost(){
-        this.isshow = true
-        this.timer()
+      // 计息
+      Interest(){
+        var newAddMoney = this.money;//金额
+        var lilv = this.Annual / 100;//年利率
+        //求取预期到期收益             
+        var month = parseInt(this.day / 30); // 总共整月数 (还款月数)
+        var monthYuShu = this.day % 30; // 多余的天数
+        var lilvMouth = Math.floor((lilv / 12) * 1000000) / 1000000; // 月利率
+        var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000; // 日利率
+        if ($(".Type").text() == '2') {
+            var lilvMouth = Math.floor((lilv / 12)*1000000)/1000000; // 月利率
+            var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000;; // 日利率
+            var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000; // 总月数的收益
+            // 总收益 = 总月数的收益 + 剩余天数的收益;
+            var total = (Math.floor(totalMonth * 100) / 100);
+            $(".rate1").text(total)
+        }
+        if ($(".Type").text() == '3') {
+            // 总月数的收益
+            var totalMonth = 0;
+            for (var i = 1; i <= month; i++) {    
+                //收益计算公式 ：  
+                var jssy = Math.floor((newAddMoney * lilvMouth * (Math.pow(1 + lilvMouth, month) - Math.pow(1 + lilvMouth, i - 1)) / (Math.pow(1 + lilvMouth, month) - 1)) * 1000000) / 1000000;                    
+                // 每个月的收益：  
+            var monthly = jssy;
+                totalMonth = totalMonth + monthly;
+            }
+            // console.log(totalMonth);
+            // 剩余天数的收益
+            var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100; 
+            var total = (Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
+            // console.log(total);
+            $(".rate1").text(total)
+        }
+        if ($(".Type").text() == '1') {
+            if (this.productType == 19) {
+                var zrLilv = this.actAnnualYield / 100;    
+                var total = (Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
+                console.log(zrLilv);
+                $(".rate1").text(total)
+            }else{
+                var total = (Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
+                console.log(newAddMoney);
+                $(".rate1").text(total)
+            }
+        }
       },
+      tost(){
+        const _this = this
+        _this.$loading.show();
+        const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+        const id = this.id
+        const orderMoney = this.money
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+        params.append('productId',id);
+        params.append('clientType','h5');
+        params.append('orderMoney',orderMoney);
+        params.append('payType','1');
+        axios.post(url,params).then(res => {
+            console.log(res.data)
+            const data = res.data
+            _this.$loading.hide();
+                if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login"})
+                }, 3000)
+            }
+            if(res.data.result == 200){
+                this.isshow = true
+                this.timer()
+            }
+            if(res.data.result == 302){
+                $(".toast").css("display","block")
+                $(".bg").css("display","block")
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+      },
+      // 开户
+      go(){
+         const url = myPub.URL+`/chinaPnr/userRegister`;
+        var params = new URLSearchParams();
+        params.append('token',sessionStorage.getItem("token"));
+        params.append('clientType','h5');
+        axios.post(url,params).then(res => {
+            console.log(res.data);
+            if(res.data.result == 200){
+                this.ChinaPnrServer = res.data.chinaPnrServer;
+                this.Version = res.data.Version; //版本号
+                this.CmdId = res.data.CmdId; //消息信息
+                this.MerCustId = res.data.MerCustId; //商户客户号
+                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                this.UsrId = res.data.UsrId; //用户号
+                this.UsrMp = res.data.UsrMp; //手机号
+                this.PageType = res.data.PageType; //页面类型
+                this.ChkValue = res.data.ChkValue; //签名
+                //提交from表单
+                console.log(this.Version)
+                setTimeout(() => {
+                    document.regSubmit.submit();
+                }, 500)
+                
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    },
       // 产品数据
       productdata(){
           const _this = this
@@ -198,11 +364,14 @@ export default {
             }
             if (data.result == '200') {
                 this.product = data.ProductInfo
-                this.title = data.ProductInfo.productName
-                this.money = data.ProductInfo.amountMin
-                this.Money = data.ProductInfo.amountMin
-                this.id = data.ProductInfo.productId
-                this.day = data.ProductInfo.period
+                this.title = data.ProductInfo.productName //产品名称
+                this.money = data.ProductInfo.amountMin //最小投资额
+                this.Money = data.ProductInfo.amountMin //最小投资额
+                this.id = data.ProductInfo.productId //产品id
+                this.day = data.ProductInfo.period //理财期限
+                this.Annual = parseInt(data.ProductInfo.baseAnnualYield)+parseInt(data.ProductInfo.actAnnualYield) //年利率
+                this.productType = data.ProductInfo.productType
+                this.actAnnualYield = data.ProductInfo.actAnnualYield
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
                 }
@@ -317,7 +486,7 @@ export default {
         padding: 0 0.5rem;
         .Amount{
             margin-top: 0.5rem;background: #fff;border-radius: 3px;padding: 0.5rem;color: #333;
-            h5{font-size: 0.8rem;font-weight: normal;}
+            h5{font-size: 0.8rem;font-weight: normal;position: relative;}
             p{
                 padding:1rem;text-align: center;font-size: 0.6rem;
                 .leftimg{width: 2.4rem;height: 2.4rem;float: left;}
@@ -361,6 +530,14 @@ export default {
     .tost{
         position: absolute;width: 100%;height: 100%;z-index: 11;background: #f6f6f6;top: 0;text-align: center;
         .bottom{background: #80BFFF;position: fixed;bottom:2rem;left: 0;}
+    }
+    .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);top:0;left: 0;z-index: 11;display: none;}
+    .toast{
+      width: 60%;height: 8.3rem;border-radius: 5px;position: absolute;top: 40%;background: #fff;left: 20%;text-align: center;z-index: 111;overflow: hidden;display: none;
+      .close{color: #ccc;position: absolute;right: 1rem;top: 0.5rem;}
+      p{font-size: 0.8rem;color: #333;text-align: center;line-height: 1.3rem;color: #999}
+      .left{color: #2B9AFF;font-size: 0.9rem;width: 49%;display: inline-block;text-align: center;line-height: 2.2rem;height: 2.2rem;float: left;margin-top: 1.1rem;border-top: 1px solid #eee;}
+      .right{font-size: 0.9rem;width: 51%;display: inline-block;text-align: center;line-height: 2.2rem;height: 2.2rem;float: left;margin-top: 1.1rem;border-top: 1px solid #eee;color: #fff;background:#2B9AFF }
     }
 }
 </style>

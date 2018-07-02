@@ -8,10 +8,10 @@
       </div>
       <div class="assetTopMain">
         <h5>待收本息(元) <span><img :src="imgSrc"></span></h5>
-        <p class="totalMoney numberChange">{{totalMoney}}</p>
+        <p class="totalMoney">{{money.totalAccrualMoney}}</p>
       </div>
       <p class="assetBottom">
-          <span class="left">投资本金(元) <b>100,000.00</b></span>
+          <span class="left">投资本金(元) <b>{{money.totalInvestMoney}}</b></span>
           <span class="right" @click="Transfer">我要转让 >></span>
       </p>
     </div>
@@ -30,30 +30,20 @@
         </div>
         <div class="Data" v-if="isshow2">
             <ul class="datalist">
-                <li @click="assetdetail">
-                    <h5>产品名称 <span>2017.12.12</span></h5>
+                <li @click="assetdetail(item.productId)"  v-for="(item,index) in Product">
+                    <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
                     <p class="left">
-                        <span class="big">10000</span>
+                        <span class="big">{{item.investMoney}}</span>
                         <span>投资金额(元)</span>
                     </p>
                     <p class="right">
-                        <span class="color">888.88</span>
+                        <span class="color">{{item.exceptedYield}}</span>
                         <span>预计到期收益(元)</span>
                     </p>
-                    <img v-if="isshow3" src="~@/assets/img/lost.png">
-                    <img v-if="isshow4" src="~@/assets/img/lost.png">
+                    <span class="productStatus" style="position: absolute;opacity: 0;">{{item.productStatus}}</span>
+                    <img class="img1" src="~@/assets/img/lost.png">
+                    <img v-if="isshow4" src="~@/assets/img/had.png">
                     <img v-if="isshow5" src="~@/assets/img/lost.png">
-                </li>
-                <li @click="assetdetail">
-                    <h5>产品名称 <span>2017.12.12</span></h5>
-                    <p class="left">
-                        <span class="big">10000</span>
-                        <span>投资金额(元)</span>
-                    </p>
-                    <p class="right">
-                        <span class="color">888.88</span>
-                        <span>预计到期收益(元)</span>
-                    </p>
                 </li>
             </ul>
         </div>
@@ -63,21 +53,22 @@
 
 <script>
 var echarts = require('echarts');
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
 export default {
     name: 'asset',
     data(){
 　　  return {
+        Product:'',
         imgSrc:"../../../static/img/openEyes.png",
-        totalMoney:1888800.01,
-        numberChange: 10000.08,
         isShow: false,
         isshow1:false,
         isshow2:true,
         isshow3:false,
         isshow4:false,
-        isshow5:false
+        isshow5:false,
+        money:''
 　　  }
 　　},
     methods:{
@@ -87,45 +78,97 @@ export default {
         category(){
             this.$router.push({ path: '/page/category' })
         },
-        assetdetail(){
-            this.$router.push({ path: '/page/assetdetail' })
+        assetdetail(id){
+            this.$router.push({ path: '/page/assetdetail',query:{id:id} })
         },
         Transfer(){
             this.$router.push({ path: '/page/Transfer' })
         },
         has(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
+            this.product('1,2')
         },
         going(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             $(".going").addClass('active')
             $(".has").removeClass('active')
             $(".had").removeClass('active')
+            this.product('6')
         },
         had(){
             const _this = this
-            _this.$loading.show();//显示
-            setTimeout(function(){  //模拟请求
-                  _this.$loading.hide(); //隐藏
-            },2000)
             $(".had").addClass('active')
             $(".has").removeClass('active')
             $(".going").removeClass('active')
+            _this.isshow4 = true
+            this.product('3')
+        },
+        product(status){
+            const _this = this
+          _this.$loading.show();
+          const url = myPub.URL+`/user/getUserAssetsList` ;
+          const params = new URLSearchParams();
+          params.append('curPage','1');
+          params.append('pageSize','10');
+          params.append('status',status);
+          params.append('token',sessionStorage.token);
+          params.append('productFullStatus','0,1,2');
+          params.append('czlx','1');
+          params.append('orderType','0');
+          params.append('clientType','h5');
+          axios.post(url,params).then(response => {
+              _this.$loading.hide();
+              const data = response.data
+              console.log(response.data)
+              if (data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+              if (data.result == '200') {
+                console.log(sessionStorage.token)
+                this.Product = data.Product
+                this.money = data
+                if (data.Product.length <= 0){
+                  this.isshow1 = true
+                  this.isshow2 = false
+                }else{
+                    this.isshow1 = false
+                  this.isshow2 = true
+                }
+                $(".productStatus").each(function (i,n) {
+                    if ($(".productStatus").eq(i).text() == '6') {
+                        $(".img1").eq(i).css("display","inline-block")
+                    }
+                })
+              }
+
+          }).catch((err) => {
+              console.log(err)
+          })
         }
     },
     mounted() {
-    }
+    },
+    created() {
+        this.lczc = this.$route.query.lazc
+    },
+    activated: function() {
+        this.product()
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
 }
 </script>
 
@@ -193,6 +236,7 @@ export default {
             .active{color: #FFA303;border-bottom: 2px solid #FFA303}
         }
         .nodata{
+            text-align: center;
             img{margin-top: 3rem;width: 4.2rem;height: 4.5rem;}
             p{font-size: 0.8rem;color: #999;line-height:1rem;margin-top: 0.5rem;}
             .button{width: 10rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border: 0;border-radius: 30px;line-height: 2.2rem;height: 2.2rem;color: #fff;font-size: 0.9rem;margin-top: 1.2rem;}
@@ -210,6 +254,7 @@ export default {
                         span{display: inline-block;width: 100%;}
                     }
                     img{position: absolute;right: 0.8rem;width: 5rem;height: 5rem;top: 1.5rem;}
+                    .img1{display: none;}
                     .left{
                         .big{font-size: 1.25rem;color: #333;}
                     }

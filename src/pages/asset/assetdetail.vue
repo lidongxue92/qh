@@ -13,25 +13,25 @@
       <ul class="assetBottom">
           <li class="tl">
               <span>预计到期收益(元)</span>
-              <span class="big">1000000.36</span>
+              <span class="big">{{Product.exceptedYield}}</span>
           </li>
           <li class="middle">
               <span>产品期限(天)</span>
-              <span class="big">365</span>
+              <span class="big">{{Product.productPeriod}}</span>
           </li>
           <li class="tr">
               <span>平均历史年化收益</span>
-              <span class="big">8.8%+0.4%</span>
+              <span class="big">{{Product.annualYield}}</span>
           </li>
       </ul>
     </div>
     <!-- 标 -->
     <div class="list">
         <ul>
-            <li>到期日 <span>2017.12.30</span></li>
-            <li>起息日 <span>2017.12.12</span></li>
-            <li>投资日 <span>2017.12.12</span></li>
-            <li>收益方式 <span>到期还本付息</span></li>
+            <li>到期日 <span>{{Product.buyTime}}</span></li>
+            <li>起息日 <span>{{Product.interestDate}}</span></li>
+            <li>投资日 <span>{{Product.buyTime}}</span></li>
+            <li>收益方式 <span class="Profit">到期还本付息</span></li>
         </ul>
         <img v-if="isshow2" src="~@/assets/img/had.png">
         <div class="product" v-if="isshow3">
@@ -45,8 +45,9 @@
 
 <script>
 var echarts = require('echarts');
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
 export default {
     name: 'asset',
     data(){
@@ -58,14 +59,65 @@ export default {
         isshow1:false,
         isshow2:false,
         isshow3:true,
+        Product:''
 　　  }
 　　},
+    created() {
+        this.lczc = this.$route.query.lazc
+    },
+    activated: function() {
+        this.product()
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
     methods:{
         goBack() {
             this.$router.back()
         },
         category(){
             this.$router.push({ path: '/page/category' })
+        },
+        product(status){
+            const _this = this
+          _this.$loading.show();
+          const url = myPub.URL+`/user/getUserAssetsInfo` ;
+          const id = this.$route.query.id
+          const params = new URLSearchParams();
+          params.append('orderId',id);
+          params.append('token',sessionStorage.token);
+          axios.post(url,params).then(response => {
+              _this.$loading.hide();
+              const data = response.data
+              console.log(response.data)
+              if (data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+              if (data.result == '200') {
+                this.Product = data.Product
+                if (this.Product.yieldDistribType == '1') {
+                  $(".Profit").html('到期兑付本金收益')
+                }
+                if (this.Product.yieldDistribType == '2') {
+                  $(".Profit").html('先息后本')
+                }
+                if (this.Product.yieldDistribType == '3') {
+                  $(".Profit").html('等额本息')
+                }
+              }
+
+          }).catch((err) => {
+              console.log(err)
+          })
         }
     },
     mounted() {
