@@ -16,7 +16,7 @@
                 </div>
             </div>
             <!-- 非新手 -->
-            <div class="list" v-if="!isshow1">
+            <div class="list" v-if="isshow">
                 <p><img src="~@/assets/img/icon_lab@2x.png" />&ensp;热烈庆祝道道理财隆重上线，百万福利派送中……</p>
                 <ul>
                     <li>
@@ -38,7 +38,7 @@
        <div class="middle">
            <ul class="productlist">
                 <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId)" :key="index">
-                   <h5>{{item.productName}}<span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
+                    <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
@@ -124,19 +124,20 @@ export default {
         }
     },
     created() {
-
-
-        this.index_banner(),
-        this.index_product()
+        // this.token(),
+        // this.index_banner(),
+        // this.index_product()
     },
     activated: function() {
+        this.token(),
         this.index_banner(),
         this.index_product()
+        // this.flushCom()
     },
     watch: {
         '$route' (to, from) {
             this.$router.go(0);
-        }//回退上一级页面并刷新
+        },//回退上一级页面并刷新
     },
     methods: {
         linkToDetail(id) {
@@ -205,7 +206,20 @@ export default {
             }).catch((err) => {
                 console.log(err)
             })
-        }
+        },
+        // 判断token
+        token(){
+            if (!sessionStorage.token) {
+                this.isshow = false
+            }else{
+                this.isshow = true
+            }
+        },
+        flushCom:function(){
+　　　　　　this.$router.go(0);  
+　　　　}
+    },
+    mounted() { 
     },
     components: {
         Swiper,
@@ -261,9 +275,10 @@ export default {
     .middle{
         .productlist{
             li{
-                background: #fff;margin-top: 10px;padding:1rem;
+                background: #fff;margin-top: 10px;padding:1rem;min-height: 8rem;
                 h5{
                     border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;
+                    .prodecttitle{display: inline-block;max-width: 5.5rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;position: relative;top: 0.3rem;}
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
                         float: right;
@@ -272,7 +287,7 @@ export default {
                         height:1.8rem;
                         color: #fff;
                         text-align: center;
-                        line-height:1.8rem;font-size: 0.6rem;position: absolute;right:0rem;top:-0.2rem;
+                        line-height:1.8rem;font-size: 0.6rem;position: absolute;right:0rem;top:0rem;
                     }
                     .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                     .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}

@@ -15,7 +15,7 @@
             <div class="middle">
                <ul class="productlist">
                     <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy>
-                      <h5>{{item.productName}}<span>热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
+                      <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
                               <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
@@ -38,7 +38,7 @@
             <div class="middle">
              <ul class="productlist">
                   <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy>
-                    <h5>{{item.productName}}<span>热销火爆 高收益</span></h5>
+                  <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
@@ -81,6 +81,7 @@ export default {
 　　　}
 　　},
     created() {
+      this.token()
     },
     activated() {
       const status = '1'
@@ -137,7 +138,19 @@ export default {
           axios.post(url,params).then(res => {
             _this.$loading.hide();
               console.log(res.data);
-              this.datalist =res.data.Product
+              const data = res.data
+              if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+              }
+              if (data.result == '200') {
+                this.datalist =res.data.Product
               setTimeout(() => {
                 $(".img").each(function (i,n) {
                   if ($(".img").eq(i).text() == '1') {
@@ -184,6 +197,8 @@ export default {
                   }
                 })
             }, 500)
+              }
+              
           }).catch((err) => {
               console.log(err);
           });
@@ -191,6 +206,19 @@ export default {
         getAjaxContent(event,datalist){
             event.innerText = datalist
         },
+        // 判断token
+        token(){
+            if (!sessionStorage.token) {
+              this.$vux.alert.show({
+                  title: '',
+                  content: '请登录'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
+              }, 2000)
+            }
+        }
     },
     watch: {
         '$route' (to, from) {
@@ -246,8 +274,9 @@ export default {
               .status{position: absolute;opacity: 0;}
               h5{
                   border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;padding-left: 0;
-                  span{color: #999;margin-left: 10px;font-size: 0.6rem;}
-                  .Property{line-height: 1rem;padding:0 0.2rem;border: 1px solid #FFA303;border-radius: 30px;color:#FFA303;opacity: 0;position: absolute;right: 5.5rem;top: 0.3rem;}
+                  span{color: #999;margin-left: 0.5rem;font-size: 0.6rem;}
+                  .prodecttitle{display: inline-block;max-width: 5.5rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;position: relative;top: -0.1rem;margin-left: 0;}
+                  .Property{line-height: 1rem;padding:0 0.2rem;border: 1px solid #FFA303;border-radius: 30px;color:#FFA303;opacity: 0;position: absolute;right: 5.1rem;top: 0.3rem;}
                   .img{
                       float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;position: absolute;opacity: 0;right: 0;
                   }

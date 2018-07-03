@@ -2,7 +2,7 @@
   <div class="settlein">
     <div class="phone" v-if='isshow'>
       <div class="bg-img">
-        <h5><img src="~@/assets/img/icon_register_close@2x.png">注册</h5>
+        <h5><img @click="close" src="~@/assets/img/icon_register_close@2x.png">注册</h5>
         <img src="~@/assets/img/logo@2x.png">
       </div>
       <div class="login_content1 ">
@@ -120,6 +120,14 @@ export default {
       },
       close(){
         this.$router.push({path:"/page/home"})
+        // this.$router.replace({ name: 'home' })// 处理返回刷新问题
+        //   this.$router.push({
+        //    path: '/page/home',
+        //    query: {
+        //     sku: sku_str,
+        //     home: 'home'
+        //    }
+        //   })
       },
       emipy(){
         $('.phone').val("")

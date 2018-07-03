@@ -162,8 +162,21 @@ export default {
       this.$router.push({path:'/page/principal' , query: { lazc : money}})
     },
     linkToIncome(){
-      this.$router.push({path:'/page/income'})
+      this.$router.push({path:'/page/Transfer'})
     },
+  // 判断token
+      token(){
+          if (!sessionStorage.token) {
+            this.$vux.alert.show({
+                title: '',
+                content: '请登录'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            }, 2000)
+          }
+      },
     product(){
       const _this = this
       _this.$loading.show();
@@ -204,7 +217,7 @@ export default {
     }
   },
    created() {
-        // this.product()
+        this.token()
     },
     activated: function() {
         this.product()

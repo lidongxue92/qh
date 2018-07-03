@@ -84,8 +84,8 @@ export default {
         },
         Transferable(){
             const _this = this
-            this.is_show2 = true
-            this.is_show = false
+            this.is_show2 = false
+            this.is_show = true
             this.product('1,2','2','0')
         },
         Notransferable(){
@@ -134,10 +134,15 @@ export default {
                     $(".status").each(function (i,n) {
                         if ($(".status").eq(i).text() == '4') {
                             $(".button").eq(i).text('转让中')
-                        }
-                        if ($(".status").eq(i).text() == '5') {
+                        }else if ($(".status").eq(i).text() == '5') {
                             $(".button").eq(i).text('已转让')
+                        }else{
+                            $(".button").eq(i).text('转让')
+                            $(".button").eq(i).click(function () {
+                                this.$router.push({ path: '/page/TransferAgreement' })
+                            })
                         }
+                        
                     })
                   }, 300)
               }
