@@ -3,28 +3,24 @@
     <topComponent title='发现' :showLeft='false'></topComponent>
       <ul>
         <li >
-          <a :href="'http://test.qihangjf.com:29084/zhuCeSongLi.html?token=' + token + '&type=h5'">
-            <img src="../../../static/img/tt4633.png" alt="" srcset="">
+            <img src="../../assets/img/find/zhuCeSongLi.png" alt="" srcset="">
             <p>注册送礼</p>
-         </a>
         </li>
          <li >
-           <a :href="'http://test.qihangjf.com:29084/TenHaoLi.html?token=' + token + '&type=h5'">
-            <img src="../../../static/img/tt46333.png" alt="" srcset="">
-            <p>十大豪礼</p>
-           </a>
-        </li>
-         <li >
-           <a :href="'http://test.qihangjf.com:29084/fengKong.html?token=' + token + '&type=h5'">
-            <img src="../../../static/img/tt4642.png" alt="" srcset="">
+            <img src="../../assets/img/find/fengKong.png" alt="" srcset="">
             <p>风控</p>
-         </a>
+        </li>
+         <li >
+            <img src="../../assets/img/find/yaoQing.png">
+            <p>邀请好友</p>
         </li>
         <li>
-          <a :href="'http://test.qihangjf.com:29084/yaoQing.html?token=' + token + '&type=h5'">
-            <img src="../../../static/img/tt463.png">
-            <p>邀请好友</p>
-          </a>
+            <img src="../../assets/img/find/zhaoCha.png" >
+			<p>全民来找茬赢现金奖励</p>
+        </li>
+        <li>
+            <img src="../../assets/img/find/summer.png">
+			<p>缤纷夏日送清凉，好礼等您拿</p>
         </li>
       </ul>
   </div>
@@ -59,9 +55,12 @@ export default {
 }
 .container {
   width: 100%;
-  height: 100%;
+  height: auto;
   background: #F6F6F6;
   padding-bottom: 1.3rem;
+  ul{
+        padding-bottom: 3rem;
+  }
 
   li{
     list-style: none;
