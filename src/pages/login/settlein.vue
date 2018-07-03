@@ -11,13 +11,16 @@
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-            <span class="tishixiaoxi disappear">请输入验证码。</span>
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma">
+          <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+          <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
-        <a class="user_login" @click="next">下一步</a>
+        <a class="user_login" @click="next1">下一步</a>
         <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
+
+
     <div class="list" v-if="isshow1">
       <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;">注册</h5>
       <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
@@ -43,30 +46,34 @@
       <label>
           <input type="password" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
       </label>
-      <label class="Agreement"  v-for="item of items" :key="item">
+      <label class="Agreement"  v-for="(item,index) of items" :key="index">
         <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>
       <a class="user_login" @click="register">提交注册</a>
     </div>
+    <!-- 弹框 -->
     <div class="bg"></div>
     <div class="toast">
       <img class="right" src="~@/assets/img/close1.png" @click="close"/>
       <img src="~@/assets/img/active.png">
-      <button class="button" @click = "kaihu">开户使用新手礼包</button>
+      <button class="button" @click = "kaiHu">开户使用新手礼包</button>
     </div>
+
+
+<!-- 开户 -->
     <div class="box" style="display:none;">
-        <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+        <form  name="regSubmit" method="post" :action="ChinaPnrServer">
              <input type='text' name='Version'  :value='Version'>
              <input type='text' name='CmdId'  :value='CmdId'>
              <input type='text' name='MerCustId' :value='MerCustId'>
-             <input type='text' name='RetUrl'  :value='RetUrl'> 
+             <input type='text' name='RetUrl'  :value='RetUrl'>
              <input type='text' name='BgRetUrl' :value='BgRetUrl'>
              <input type='text' name='UsrId'  :value='UsrId'>
              <input type='text' name='UsrMp' :value='UsrMp'>
              <input type='text' name='PageType'  :value='PageType'>
-             <input type='text' name='ChkValue'  :value='ChkValue'>    
-             <input type='text' name='MerPriv' :value='MerPriv'> 
+             <input type='text' name='ChkValue'  :value='ChkValue'>
+             <input type='text' name='MerPriv' :value='MerPriv'>
         </form>
     </div>
   </div>
@@ -101,7 +108,7 @@ export default {
         isshow2:'true',
 
         // 三方开户数据
-        ChinaPnrServer : "", 
+        ChinaPnrServer : "",
         Version : "",
         CmdId : "",
         MerCustId : "",
@@ -114,20 +121,16 @@ export default {
         ChkValue : "",
       }
     },
+    created(){
+      this.createCode();
+    //   console.log(myPub.URL)
+  },
     methods:{
       login(){
         this.$router.push({path:"/login"})
       },
       close(){
         this.$router.push({path:"/page/home"})
-        // this.$router.replace({ name: 'home' })// 处理返回刷新问题
-        //   this.$router.push({
-        //    path: '/page/home',
-        //    query: {
-        //     sku: sku_str,
-        //     home: 'home'
-        //    }
-        //   })
       },
       emipy(){
         $('.phone').val("")
@@ -166,30 +169,30 @@ export default {
       },
       // 图片验证码
       createCode(){
-          code = "";    
-          var codeLength = 4;//验证码的长度   
-          var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',   
-           'S','T','U','V','W','X','Y','Z');//随机数   
-          for(var i = 0; i < codeLength; i++) {//循环操作   
-              var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）   
-              code += random[index];//根据索引取得随机数加到code上   
-          }   
-              this.checkCode = code;//把code值赋给验证码   
+          code = "";
+          var codeLength = 4;//验证码的长度
+          var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+           'S','T','U','V','W','X','Y','Z');//随机数
+          for(var i = 0; i < codeLength; i++) {//循环操作
+              var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）
+              code += random[index];//根据索引取得随机数加到code上
+          }
+              this.checkCode = code;//把code值赋给验证码
       },
       // 失焦验证图和密码
       checkLpicma(){
-          this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写         
+          this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写
           if(this.picLyanzhengma == '') {
               $(".login_content1 span:eq(1)").text("请输入验证码")
               $(".login_content1 span:eq(1)").removeClass("disappear");
-          }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时    
+          }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时
               console.log( this.picLyanzhengma.toUpperCase())
-              console.log(code)           
+              console.log(code)
               $(".login_content1 span:eq(1)").text("验证码不正确")
               $(".login_content1 span:eq(1)").removeClass("disappear");
-              this.createCode();//刷新验证码   
+              this.createCode();//刷新验证码
               this.picLyanzhengma = '';
-          }else { //输入正确时   
+          }else { //输入正确时
               $(".login_content1 span:eq(1)").addClass("disappear");
               $(".login_content1 span:eq(1)").text("请输入验证码")
               if (this.checkLPhone() ==true) {
@@ -198,18 +201,18 @@ export default {
                 $('.user_login').removeClass('bg-ed711f')
               }
               return true;
-          } 
+          }
       },
-      next(){
+      next1(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
-          const _this = this
-          _this.isshow1 =true
-          _this.isshow =false
+          this.isshow1 = true;
+          this.isshow = false;
+
           // 手机号脱敏
-          const tel = $('.register_content_input').val()  
+          const tel = $('.register_content_input').val()
           const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
           console.log(mtel)
-          _this.tel = mtel 
+          this.tel = mtel
         }
       },
       // 手机号验证码
@@ -263,7 +266,6 @@ export default {
       },
       register(){
         if( this.checkLPsd() == true && this.check() == true){
-            console.log('1')
             const url = myPub.URL+`/reg/register`;
             const pwd = Base64.encode(this.LUserPsd,'utf-8')
             var params = new URLSearchParams();
@@ -298,15 +300,6 @@ export default {
                             this.UsrMp = res.data.UsrMp; //手机号
                             this.PageType = res.data.PageType; //页面类型
                             this.ChkValue = res.data.ChkValue; //签名
-
-                        if(res.data.result == 200){
-                            //提交from表单
-                            console.log(this.Version)
-                            setTimeout(() => {
-                                document.regSubmit.submit();
-                            }, 1000)
-                            
-                        }
                     }).catch((err) => {
                         console.log(err);
                     });
@@ -360,7 +353,7 @@ export default {
                     setTimeout(() => {
                         document.regSubmit.submit();
                     }, 1000)
-                    
+
                 }
             }).catch((err) => {
                 console.log(err);
@@ -368,10 +361,7 @@ export default {
         }
 
 },
-  created(){
-      this.createCode();
-      console.log(myPub.URL)
-  },
+
   components: {
       XInput,
       XButton,
@@ -433,7 +423,7 @@ export default {
       color:#FFA303;
       display: block;
       line-height: 20px;
-     
+
   }
   .yanzhengma_input{
     width: 60%;
@@ -495,7 +485,7 @@ export default {
       margin-left: 10px;
       cursor: pointer;
   }
-  .next{
+  .next1{
       display: block;
       width: 287px;
       height: 50px;

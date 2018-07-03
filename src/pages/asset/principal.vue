@@ -7,11 +7,11 @@
         <span>理财详情</span>
       </div>
       <div class="assetTopMain">
-        <h5>待收本息(元) <span><img :src="imgSrc"></span></h5>
-        <p class="totalMoney">{{money.totalAccrualMoney}}</p>
+        <h5>待收本息(元)</h5>
+        <p class="totalMoney">{{Account.ddfbx | numFilter}}</p>
       </div>
       <p class="assetBottom">
-          <span class="left">投资本金(元) <b>{{money.totalInvestMoney}}</b></span>
+          <span class="left">投资本金(元) <b>{{Account.investMoney}}</b></span>
           <span class="right" @click="Transfer">我要转让 >></span>
       </p>
     </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="Data" v-if="isshow2">
             <ul class="datalist">
-                <li @click="assetdetail(item.productId)"  v-for="(item,index) in Product">
+                <li @click="assetdetail(item.productId)"  v-for="(item,index) in Product" :key="index">
                     <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
@@ -68,7 +68,8 @@ export default {
         isshow3:false,
         isshow4:false,
         isshow5:false,
-        money:''
+        money:'',
+        Account:{}
 　　  }
 　　},
     methods:{
@@ -89,14 +90,14 @@ export default {
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
-            this.product('1,2')
+            this.product('1,2','0,1,2',0);
         },
         going(){
             const _this = this
             $(".going").addClass('active')
             $(".has").removeClass('active')
             $(".had").removeClass('active')
-            this.product('6')
+            this.product(6,'0,2',0);
         },
         had(){
             const _this = this
@@ -104,65 +105,95 @@ export default {
             $(".has").removeClass('active')
             $(".going").removeClass('active')
             _this.isshow4 = true
-            this.product('3')
+            this.product(3,'0,1,2','0,1')
         },
-        product(status){
+        product(status,productFullStatus,orderType){
             const _this = this
-          _this.$loading.show();
-          const url = myPub.URL+`/user/getUserAssetsList` ;
+            _this.$loading.show();
+            const url = myPub.URL+`/user/getUserAssetsList` ;
+            const params = new URLSearchParams();
+            params.append('curPage','1');
+            params.append('pageSize','10');
+            params.append('status',status);
+            params.append('token',sessionStorage.token);
+            params.append('productFullStatus',productFullStatus);
+            params.append('czlx','1');
+            params.append('orderType',orderType);
+            params.append('clientType','pc');
+            axios.post(url,params).then(response => {
+                _this.$loading.hide();
+                const data = response.data
+                console.log(response)
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                    // console.log(sessionStorage.token)
+                    this.Product = data.Product
+                    this.money = data
+                    if (data.Product.length <= 0){
+                    this.isshow1 = true
+                    this.isshow2 = false
+                    }else{
+                        this.isshow1 = false
+                    this.isshow2 = true
+                    }
+                    $(".productStatus").each(function (i,n) {
+                        if ($(".productStatus").eq(i).text() == '6') {
+                            $(".img1").eq(i).css("display","inline-block")
+                        }
+                    })
+                }
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    },
+    mounted() {
+
+    },
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3)
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
+        }
+    },
+    created() {
+        this.lczc = this.$route.query.lazc;
+        this.product('1,2','0,1,2',0);
+        const url = myPub.URL+`/user/getAccountOverview` ;
           const params = new URLSearchParams();
-          params.append('curPage','1');
-          params.append('pageSize','10');
-          params.append('status',status);
           params.append('token',sessionStorage.token);
-          params.append('productFullStatus','0,1,2');
-          params.append('czlx','1');
-          params.append('orderType','0');
-          params.append('clientType','h5');
-          axios.post(url,params).then(response => {
-              _this.$loading.hide();
-              const data = response.data
-              console.log(response.data)
-              if (data.result == '400') {
+          axios.post(url,params).then(res => {
+               this.Account = res.data.Account;
+                // console.log(this.Account);
+                if (res.data.result == '400') {
                   this.$vux.alert.show({
                       title: '',
-                      content: data.resultMsg
+                      content: res.data.resultMsg
                   })
                   setTimeout(() => {
                       this.$vux.alert.hide()
                       this.$router.push({path:"/login",query: {redirect: 'your path'}})
                   }, 3000)
-              }
-              if (data.result == '200') {
-                console.log(sessionStorage.token)
-                this.Product = data.Product
-                this.money = data
-                if (data.Product.length <= 0){
-                  this.isshow1 = true
-                  this.isshow2 = false
-                }else{
-                    this.isshow1 = false
-                  this.isshow2 = true
                 }
-                $(".productStatus").each(function (i,n) {
-                    if ($(".productStatus").eq(i).text() == '6') {
-                        $(".img1").eq(i).css("display","inline-block")
-                    }
-                })
-              }
-
           }).catch((err) => {
               console.log(err)
           })
-        }
-    },
-    mounted() {
-    },
-    created() {
-        this.lczc = this.$route.query.lazc
     },
     activated: function() {
-        this.product()
+
     },
     watch: {
         '$route' (to, from) {

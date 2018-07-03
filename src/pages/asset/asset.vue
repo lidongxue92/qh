@@ -14,11 +14,11 @@
       <div class="assetTopBottom">
         <div class="atbLeft">
           <h6>可用余额(元)</h6>
-          <p class="numberChange">{{asset.investMoney}}</p>
+          <p class="numberChange avlBalance">{{asset.avlBalance}}</p>
         </div>
         <div class="atbRight">
           <h6>累计收益(元)</h6>
-          <p class="numberChange">{{asset.lssy | numFilter}}</p>
+          <p class="numberChange lssy">{{asset.lssy | numFilter}}</p>
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
     <div class="recharge">
       <div @click="linkToWithdraw"><p>提现</p></div>
       <div @click="linkToRecharge"><p class="withdraw">充值</p></div>
-      
+
     </div>
     <!-- 充值提现 -->
     <div class="grayLine"></div>
@@ -48,14 +48,14 @@
             <p>总资产(元)</p>
           </div>
         </div>
-        
+
       </div>
       <div class="assetMainRight">
         <div class="moneyName1" @click="linkToPrincipal(asset.lczc)">
           <div>
             <b></b>
             <span>待收本金</span>
-            <p class="numberChange">{{asset.lczc}}</p>
+            <p class="numberChange lczc">{{asset.lczc}}</p>
           </div>
           <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
         </div>
@@ -64,7 +64,7 @@
           <div>
             <b></b>
             <span>待收收益</span>
-            <p class="numberChange">{{asset.dssy | numFilter}}</p>
+            <p class="numberChange dssy">{{asset.dssy | numFilter}}</p>
           </div>
         </div>
 
@@ -72,7 +72,7 @@
           <div>
             <b></b>
             <span>转让金额</span>
-            <p class="numberChange">{{asset.zrje}}</p>
+            <p class="numberChange zrje">{{asset.zrje}}</p>
           </div>
           <div class="nameImg1"><img src="../../assets/img/rightGray.png"></div>
         </div>
@@ -81,7 +81,7 @@
           <div>
             <b></b>
             <span>账户余额</span>
-            <p class="numberChange">{{asset.avlBalance}}</p>
+            <p class="numberChange avlBalance">{{asset.avlBalance}}</p>
           </div>
         </div>
 
@@ -89,7 +89,7 @@
           <div>
             <b></b>
             <span>冻结金额</span>
-            <p class="numberChange">{{asset.totalMoney | numFilter}}</p>
+            <p class="numberChange">{{asset.frzBalance}}</p>
           </div>
         </div>
       </div>
@@ -115,28 +115,52 @@ export default {
   data(){
 　　return {
         imgSrc:"../../../static/img/openEyes.png",
-        totalMoney:1888800.01,
-        numberChange: 10000.08,
+        totalMoney:0.00,
+        numberChange: 0.00,
         asset:'{}',
         totalMoney:''
 　　　}
 　},
 
   methods:{
-    eyesTab(){     
+    eyesTab(){
       if (this.imgSrc == "../../../static/img/openEyes.png") {
         this.imgSrc = "../../../static/img/closeEyes.png";
         $(".numberChange").text("****")
-        
+
       }else{
         this.imgSrc = "../../../static/img/openEyes.png";
-         $(".numberChange").text(this.numberChange);
-         $(".totalMoney").text(this.totalMoney);
+        // 总额
+        const totalMoney = Math.floor((this.asset.totalMoney)*100)/100;
+        $(".totalMoney").text(totalMoney);
+        //可用余额
+        const investMoney = Math.floor((this.asset.investMoney)*100)/100;
+        $(".investMoney").text(investMoney);
+        //累计收益
+        const lssy = Math.floor((this.asset.lssy)*100)/100;
+        $(".lssy").text(lssy);
+
+        //待收本金
+        const lczc = Math.floor((this.asset.lczc)*100)/100;
+        $(".lczc").text(lczc);
+        //待收收益
+        const dssy = Math.floor((this.asset.dssy)*100)/100;
+        $(".dssy").text(dssy);
+        //转让金额
+        const zrje = Math.floor((this.asset.zrje)*100)/100;
+        $(".zrje").text(zrje);
+        //账户余额
+        const avlBalance = Math.floor((this.asset.avlBalance)*100)/100;
+        $(".avlBalance").text(avlBalance);
+        //冻结金额
+        const frzBalance = Math.floor((this.asset.frzBalance)*100)/100;
+        $(".frzBalance").text(frzBalance);
+
       }
     },
     zhezhaoShow(){
       $(".zhezhao").fadeIn(400);
-      $(".slider").animate({left:"0"},400);      
+      $(".slider").animate({left:"0"},400);
     },
     zhezhaoHide(){
        $(".zhezhao").fadeOut(400);
@@ -159,7 +183,7 @@ export default {
       this.$router.push({path:'/page/withdraw'})
     },
     linkToPrincipal(money){
-      this.$router.push({path:'/page/principal' , query: { lazc : money}})
+      this.$router.push({path:'/page/principal' , query: { lczc : money}})
     },
     linkToIncome(){
       this.$router.push({path:'/page/Transfer'})
@@ -182,7 +206,7 @@ export default {
       _this.$loading.show();
       const url = myPub.URL+`/user/getAccountOverview` ;
       const params = new URLSearchParams();
-      params.append('token',sessionStorage.token); 
+      params.append('token',sessionStorage.token);
       axios.post(url,params).then(response => {
           _this.$loading.hide();
           const data = response.data
@@ -402,7 +426,7 @@ export default {
         font-size: 1rem;
       }
     }
-    
+
     .withdraw{
       color: #fff;
       /*渐变*/
@@ -431,12 +455,12 @@ export default {
     padding-bottom: 50px;
     .assetMainLeft{
       width: 50%;
-      
+
        #charts{
         width: 100%;
         margin-top: 2rem /* 100/40 */;
         position: relative;
-        
+
       }
       .title{
         position: absolute;
@@ -484,11 +508,11 @@ export default {
         width: 100%;
         margin-bottom: .5rem /* 20/40 */;
         overflow: hidden;
-        
+
         div:first-child{
           float: left;
         }
-        
+
         span{
           color: #999;
           font-size: .8rem ;
@@ -509,9 +533,9 @@ export default {
       }
 
 
-      
 
-      
+
+
 
 
 

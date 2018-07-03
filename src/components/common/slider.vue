@@ -114,6 +114,21 @@
         </form>
     </div>
 
+    <!-- 绑卡 -->
+<div class="box" style="display:none;">
+	<form name="bangkaSubmit" method="post" :action='cardChinaPnrServer'>
+		<input type='text' name='Version' :value='cardVersion'>
+		<input type='text' name='CmdId' :value='cardCmdId'>
+		<input type='text' name='MerCustId' :value='cardMerCustId'>
+		<input type='text' name='UsrCustId' :value='cardUsrCustId'>
+		<input type='text' name='BgRetUrl' :value='cardBgRetUrl'>
+        <input type='text' name='MerPriv' :value='cardMerPriv'>
+		<input type='text' name='PageType' :value='cardPageType'>
+		<input type='text' name='ChkValue' :value='cardChkValue'>
+	</form>
+</div>
+
+
 </div>
 </template>
 
@@ -146,7 +161,16 @@ export default {
             PageType : "",
             ChkValue : "",
 
-            // 三方账户信息
+            // 三方绑卡
+            cardChinaPnrServer : "",
+            cardVersion : "",
+            cardCmdId : "",
+            cardMerCustId : "",
+            cardUsrCustId:"",
+            cardBgRetUrl :"",
+            cardMerPriv:"",
+            cardPageType : "",
+            cardChkValue : "",
         }
     },
     created() {
@@ -174,6 +198,28 @@ export default {
         }).catch((err) => {
             console.log(err);
         });
+
+
+        // 绑卡
+        const url1 = myPub.URL+`/chinaPnr/userBindCard`;
+        var params1 = new URLSearchParams();
+        params1.append('token',sessionStorage.token);
+        params1.append('clientType','h5');
+
+        axios.post(url1,params1).then(res => {
+            console.log(res.data);
+            this.cardChinaPnrServer = res.data.chinaPnrServer;
+            this.cardVersion = res.data.Version; //版本号
+            this.cardCmdId = res.data.CmdId; //消息信息
+            this.cardMerCustId = res.data.MerCustId; //商户客户号
+            this.cardBgRetUrl = res.data.BgRetUrl; //商户后台应地址
+            this.cardUsrId = res.data.UsrCustId; //用户客户号
+            this.cardMerPriv = res.data.MerPriv;//商户私有域
+            this.cardPageType = res.data.PageType; //页面类型
+            this.cardChkValue = res.data.ChkValue; //签名
+        }).catch((err) => {
+            console.log(err);
+        });
     },
     mounted() {
         const url = myPub.URL+`/user/getUserInfo`;
@@ -187,12 +233,15 @@ export default {
             sessionStorage.setItem("userPhonem",res.data.User.userPhonem)
             if (res.data.User.userRealname != "") {
                 this.isName = true;
-                 this.isReg = false,
                 this.name = res.data.User.userRealname;
             }
             if (res.data.User.hasBankCard == 2) {
                 this.isCard = false
             }
+            if (res.data.User.realNameStatus == 2) {
+                this.isReg = false
+            }
+
 
         }).catch((err) => {
             console.log(err);
@@ -234,7 +283,51 @@ export default {
             this.$router.push({path:'/page/bankCard'})
         },
         linkToBangCard(){
-            this.$router.push({path:'/page/bangCard'})
+            const url = myPub.URL+`/user/getUserInfo`;
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                if (res.data.User.realNameStatus != 2) {
+                    this.$router.push({path:'/page/bangCard'});
+                }else{
+                    if (res.data.User.hasBankCard != 2) {
+                        //用户绑卡
+                        const url = myPub.URL+`/chinaPnr/userBindCard`;
+                        var params = new URLSearchParams();
+                        params.append('token',sessionStorage.token);
+                        params.append('clientType','h5');
+
+                        axios.post(url,params).then(res => {
+                            console.log(res.data);
+                            this.cardChinaPnrServer = res.data.chinaPnrServer;
+                            this.cardVersion = res.data.Version; //版本号
+                            this.cardCmdId = res.data.CmdId; //消息信息
+                            this.cardMerCustId = res.data.MerCustId; //商户客户号
+                            this.cardBgRetUrl = res.data.BgRetUrl; //商户后台应地址
+                            this.cardUsrId = res.data.UsrCustId; //用户客户号
+                            this.cardMerPriv = res.data.MerPriv;//商户私有域
+                            this.cardPageType = res.data.PageType; //页面类型
+                            this.cardChkValue = res.data.ChkValue; //签名
+
+                            if(res.data.result == 200){
+                                //提交from表单
+                                setTimeout(() => {
+                                    document.bangkaSubmit.submit();
+                                }, 1000)
+
+                            }
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                    }
+                }
+
+            }).catch((err) => {
+                console.log(err);
+            });
+
         },
 
         // 开户
