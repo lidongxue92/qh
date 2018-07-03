@@ -4,26 +4,32 @@
       <ul>
         <li >
           <a  class="res" @click="res">
-            <img src="../../../static/img/tt4633.png" alt="" srcset="">
+            <img src="../../assets/img/find/zhuCeSongLi.png" alt="" srcset="">
             <p>注册送礼</p>
-         </a>
+          </a>
         </li>
          <li >
-           <a class="ten" @click="ten">
-            <img src="../../../static/img/tt46333.png" alt="" srcset="">
-            <p>十大豪礼</p>
-           </a>
-        </li>
-         <li >
-           <a class="fen" @click="fen">
-            <img src="../../../static/img/tt4642.png" alt="" srcset="">
+         <a  class="fen" @click="fen">
+            <img src="../../assets/img/find/fengKong.png" alt="" srcset="">
             <p>风控</p>
-         </a>
+          </a>
+        </li>
+         <li >
+         <a  class="yao" @click="yao">
+            <img src="../../assets/img/find/yaoQing.png">
+            <p>邀请好友</p>
+          </a>
         </li>
         <li>
-          <a class="yao" @click="yao">
-            <img src="../../../static/img/tt463.png">
-            <p>邀请好友</p>
+        <a  class="zhao" @click="zhao">
+            <img src="../../assets/img/find/zhaoCha.png" >
+			   <p>全民来找茬赢现金奖励</p>
+      </a>
+        </li>
+        <li>
+        <a  class="trip" @click="trip">
+            <img src="../../assets/img/find/summer.png">
+			       <p>缤纷夏日送清凉，好礼等您拿</p>
           </a>
         </li>
       </ul>
@@ -41,7 +47,7 @@ export default {
   },
   data() {
     return {
-    	
+    	token:sessionStorage.token
     };
   },
   methods:{
@@ -70,9 +76,13 @@ export default {
       const token = sessionStorage.token
       window.location.href='../active/TenHaoLi.html?token=' + token;
     },
-    res(){
+    trip(){
       const token = sessionStorage.token
-      window.location.href='../active/zhuCeSongLi.html?token=' + token;
+      window.location.href='../active/zhaocha?token=' + token;
+    },
+    zhao(){
+      const token = sessionStorage.token
+      window.location.href='../active/tripleGifts?token=' + token;
     }
   },
 
@@ -88,9 +98,12 @@ export default {
 }
 .container {
   width: 100%;
-  height: 100%;
+  height: auto;
   background: #F6F6F6;
   padding-bottom: 1.3rem;
+  ul{
+        padding-bottom: 3rem;
+  }
 
   li{
     list-style: none;
