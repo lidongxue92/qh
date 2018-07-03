@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+/>
+		<title>发现</title>
+		<script src="js/flexible.js"></script>
+	</head>
+	<body>
+		<div class="content">
+			<div class="div1">
+				<a href=""><img src="img/find/zhuCeSongLi.png"></a>
+				<p>注册送礼</p>
+			</div>
+			<div class="div2">
+				<a href=""><img src="img/find/fengKong.png"></a>
+				<p>风控</p>
+			</div>
+			<div class="div3">
+				<a href=""><img src="img/find/yaoQing.png"></a>
+				<p>邀请好友</p>
+			</div>
+			<div class="div4">
+				<a href=""><img src="img/zhacha/zhaochafaxian@2x.png" ></a>
+				<p>找茬</p>
+			</div>
+			<div class="div5">
+				<a href=""><img src="img/tripleGifts/faxian@2x.png"></a>
+				<p>三重好礼</p>
+			</div>
+		</div>
+	</body>
+</html>
+
+<style type="text/css">
+*{
+	padding: 0;
+	margin: 0;
+}
+body{
+	background: #f6f6f6;
+}
+	.content{
+		width: 93%;
+		margin: 0 auto;
+	}
+	.content>div{
+		width: 100%;
+		background: #fff;
+		margin: .266667rem /* 20/75 */ auto 0;
+		border: 1px solid #eee;
+	}
+ .content div p{
+	 width: 95%;
+	 margin: 0 auto;
+	 font-size: .373333rem /* 28/75 */;
+	 color: #999;
+	 height: .666667rem /* 50/75 */;
+	 line-height: .666667rem /* 50/75 */;
+	 overflow: hidden;
+	 white-space: nowrap;
+	 text-overflow: ellipsis;
+ }
+	.content img{
+		width: 100%;
+		height: auto;
+	}
+</style>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+	var url = location.href;
+    url = url.split("=");
+	token = url[1];
+	if (url.length>1 && url[1] != "" && url[1] !=null && url[1] != undefined) {
+        token = url[1];
+    }
+	// console.log(token);
+	
+	// $(".div1 a").attr("href","http://test.qihangjf.com:29084/zhuCeSongLi.html" + (token == "" || token == undefined ? "" : "?token="+ token));
+	// $(".div2 a").attr("href","http://test.qihangjf.com:29084/fengKong.html" + (token == "" || token == undefined ? "" : "?token="
+// + token));
+	// $(".div3 a").attr("href","http://test.qihangjf.com:29084/yaoQing.html" + (token == "" || token == undefined ? "" : "?token="
+// + token));
+	// $(".div4 a").attr("href","http://test.qihangjf.com:29084/zhaocha.html" + (token == "" || token == undefined ? "" : "?token="
+// + token));
+	// $(".div5 a").attr("href","http://test.qihangjf.com:29084/tripleGifts.html" + (token == "" || token == undefined ? "" : "?token="
+// + token));
+	
+	// 生产
+	$(".div1 a").attr("href","http://h5.qihangjf.com/zhuCeSongLi.html" + (token == "" || token == undefined ? "" : "?token="+ token));
+	$(".div2 a").attr("href","http://h5.qihangjf.com/fengKong.html" + (token == "" || token == undefined ? "" : "?token="
++ token));
+ 	$(".div3 a").attr("href","http://h5.qihangjf.com/yaoQing.html" + (token == "" || token == undefined ? "" : "?token="
++ token));
+ 	$(".div4 a").attr("href","http://h5.qihangjf.com/zhaocha.html" + (token == "" || token == undefined ? "" : "?token="
++ token));
+$(".div5 a").attr("href","http://test.qihangjf.com:29084/tripleGifts.html" + (token == "" || token == undefined ? "" : "?token="
++ token));
+
+</script>

@@ -7,7 +7,7 @@
                     <li>充值金额&ensp;<input type="type" placeholder="充值金额最小为100" v-model= 'transMoney'>元</li>
                 </ul>
 
-                <button class="button" @click="recharge">确定</button>
+                <button class="button">确定</button>
                 <p class="title">充值规则：</p>
                 <p>1. 用户充值不收取任何手续费；</p>
                 <p>2. 最低充值金额应 >= 100 元；</p>
@@ -89,7 +89,7 @@ export default {
     },
     created() {},
     activated() {
-        // this.getALLProducts()
+        this.user()
     },
     methods: {
         //开通账户但未绑卡是进行跳转
@@ -134,6 +134,46 @@ export default {
                         console.log(this.chinaPnrServer)
                         $(".regSubmit").submit();
                     }, 500)
+                    
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+        },
+        //基本信息
+        user(){
+            const url = myPub.URL+`/user/getUserInfo`;
+            const transMoney = this.transMoney
+            const _this = this
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                if (res.data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+                if(res.data.result == 200){
+                    if (res.data.hasBankCard == '1') {
+                        $(".button").click(function () {
+                            _this.$router.push({ path: '/page/card' })
+                        })
+                    }else{
+                        $(".button").click(function () {
+                            _this.recharge()
+                        })
+                    }
+                    //提交from表单
+                    // setTimeout(() => {
+                    //     console.log(this.chinaPnrServer)
+                    //     $(".regSubmit").submit();
+                    // }, 500)
                     
                 }
             }).catch((err) => {

@@ -130,6 +130,7 @@ export default {
             Annual:'',
             productType:'',
             actAnnualYield:'',
+            residueMoney:'',
             // 三方开户数据
             ChinaPnrServer : "", 
             Version : "",
@@ -188,11 +189,15 @@ export default {
             const _this = this
             const num = $(".money")
             const value = num.val()
-            this.money = (parseFloat(this.money)+parseFloat(this.Money))+'.00'
-            console.log (this.money)
-            $(".leftimg").attr('src',"~@/assets/img/add1.png")
-            this.welfare()
-            this.Interest()
+            if (value>=parseFloat(this.residueMoney)) {
+                $(".rightimg").attr('src',"~@/assets/img/add2.png")
+            }else{
+                this.money = (parseFloat(this.money)+parseFloat(this.Money))+'.00'
+                console.log (this.residueMoney)
+                $(".leftimg").attr('src',"~@/assets/img/add1.png")
+                this.welfare()
+                this.Interest()
+            }
         },
         cont(){
             const _this = this
@@ -372,6 +377,7 @@ export default {
                 this.Annual = parseInt(data.ProductInfo.baseAnnualYield)+parseInt(data.ProductInfo.actAnnualYield) //年利率
                 this.productType = data.ProductInfo.productType
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
+                this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
                 }

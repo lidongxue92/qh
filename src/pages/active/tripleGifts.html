@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>三重好礼</title>
+</head>
+
+<body>
+    <div class="one"><img src="img/tripleGifts/pic1.png" ></div>
+    <div class="two">
+        <img src="img/tripleGifts/pic2.png" >
+        <div class="pick" id="android">
+            <div class="btn1" onclick="callAndroidTZ"><img class="img1" src="../../assets/img/tripleGifts/btn.png"></div>
+            <div class="btn2" onclick="callAndroidTZ"><img class="img2" src="../../assets/img/tripleGifts/btn.png"></div>
+        </div>
+        <div class="pick" id="ios">
+            <div class="btn1" onclick="callIosTZ"><img class="img1" src="../../assets/img/tripleGifts/btn.png" ></div>
+            <div class="btn2" onclick="callIosTZ"><img class="img2" src="../../assets/img/tripleGifts/btn.png"></div>
+        </div>
+    </div>
+    <div class="three"><img src="../../assets/img/tripleGifts/pic3.png" ></div>
+    <div class="four"><img src="../../assets/img/tripleGifts/pic4.png" ></div>
+    <div class="five"><img src="../../assets/img/tripleGifts/pic5.png" ></div>
+</body>
+
+</html>
+<style>
+*{
+    padding: 0;
+    margin: 0;
+}
+.one,.two,.three,.four,.five{
+    width: 100%;
+    vertical-align: middle;
+}
+
+.one img,
+.two img,
+.three img,
+.four img,
+.five img{
+    width: 100%;
+    display:block;
+}
+.two{
+    position: relative;
+    top: -1px;
+    margin-bottom: -2px;
+}
+.pick{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 11%;
+    width: 90%;
+    /* display: flex;
+    flex: 1; */
+    float: left;
+}
+.btn1,.btn2{
+    display: inline-block;
+    width: 46%;
+    text-align: center;
+}
+.img1{
+    width: 2.14rem!important;
+    margin-left: 52%;
+    transform: translateX(-50%);
+}
+.img2{
+    width: 2.14rem!important;
+    margin-left: 54%;
+    transform: translateX(-50%);
+}
+
+
+
+#ios{
+    display: none;
+}
+
+</style>
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../assets/js/flexible.min.js"></script>
+<script src="../../assets/js/jquery.backstretch.min.js"></script>
+<script>
+    var u = navigator.userAgent;
+    if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { //安卓手机
+        $("#ios").hide(); 
+        $("#android").show();
+        function callAndroidTZ() {
+            window.risk.goManageMoney(); 
+        };
+    } else if (u.indexOf('iPhone') > -1) { //苹果手机
+        $("#android").hide(); 
+        $("#ios").show();
+        function callIosTZ() {
+            window.webkit.messageHandlers.goProduct.postMessage({});
+        };
+    }
+</script>

@@ -3,25 +3,25 @@
     <topComponent title='发现' :showLeft='false'></topComponent>
       <ul>
         <li >
-          <a :href="'http://test.qihangjf.com:29084/zhuCeSongLi.html?token=' + token">
+          <a  class="res" @click="res">
             <img src="../../../static/img/tt4633.png" alt="" srcset="">
             <p>注册送礼</p>
          </a>
         </li>
          <li >
-           <a :href="'http://test.qihangjf.com:29084/TenHaoLi.html?token=' + token">
+           <a class="ten" @click="ten">
             <img src="../../../static/img/tt46333.png" alt="" srcset="">
             <p>十大豪礼</p>
            </a>
         </li>
          <li >
-           <a :href="'http://test.qihangjf.com:29084/fengKong.html?token=' + token">
+           <a class="fen" @click="fen">
             <img src="../../../static/img/tt4642.png" alt="" srcset="">
             <p>风控</p>
          </a>
         </li>
         <li>
-          <a :href="'http://test.qihangjf.com:29084/yaoQing.html?token=' + token">
+          <a class="yao" @click="yao">
             <img src="../../../static/img/tt463.png">
             <p>邀请好友</p>
           </a>
@@ -57,6 +57,22 @@ export default {
               this.$router.push({path:"/login",query: {redirect: 'your path'}})
           }, 2000)
         }
+    },
+    yao(){
+      const token = sessionStorage.token
+      window.location.href='../active/yaoQing.html?token=' + token;
+    },
+    fen(){
+      const token = sessionStorage.token
+      window.location.href='../active/fengKong.html?token=' + token;
+    },
+    ten(){
+      const token = sessionStorage.token
+      window.location.href='../active/TenHaoLi.html?token=' + token;
+    },
+    res(){
+      const token = sessionStorage.token
+      window.location.href='../active/zhuCeSongLi.html?token=' + token;
     }
   },
 
