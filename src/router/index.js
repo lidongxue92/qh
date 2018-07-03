@@ -133,7 +133,8 @@ const routes = [
                 path: 'data',
                 name: 'data',
                 meta: {
-                    title: '发现'
+                    title: '发现',
+                    // requireAuth: true
                 },
                 component: data
             },
@@ -232,7 +233,7 @@ const routes = [
                 name: 'withdraw',
                 meta: {
                     title: '提现',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Withdraw
             },
@@ -241,7 +242,7 @@ const routes = [
                 name: 'withdrawsuccess',
                 meta: {
                     title: '提现成功',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Withdrawsuccess
             },
@@ -250,7 +251,7 @@ const routes = [
                 name: 'principal',
                 meta: {
                     title: '待收本金',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Principal
             },
@@ -259,7 +260,7 @@ const routes = [
                 name: 'income',
                 meta: {
                     title: '待收收益',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Income
             },
@@ -268,7 +269,7 @@ const routes = [
                 name: 'message',
                 meta: {
                     title: '消息公告',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Message
 
@@ -297,7 +298,7 @@ const routes = [
                 name: 'Transfer',
                 meta: {
                     title: '债权转让',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Transfer
 
@@ -307,7 +308,7 @@ const routes = [
                 name: 'TransferAgreement',
                 meta: {
                     title: '债权转让协议',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: TransferAgreement
 
@@ -317,7 +318,7 @@ const routes = [
                 name: 'Transferdetail',
                 meta: {
                     title: '转让产品',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Transferdetail
 
@@ -327,7 +328,7 @@ const routes = [
                 name: 'Transfersuccess',
                 meta: {
                     title: '转让成功',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: Transfersuccess
 
@@ -337,7 +338,7 @@ const routes = [
                 name: 'assetdetail',
                 meta: {
                     title: '产品详情',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: AssetDetail
 
@@ -463,7 +464,7 @@ const routes = [
                 name: 'assetdetail',
                 meta: {
                     title: '产品详情',
-                // requireAuth: true
+                    // requireAuth: true
                 },
                 component: AssetDetail
 
@@ -531,124 +532,6 @@ const routes = [
                 component: BangCard
 
             },
-
-
-
-
-
-            // {
-            //     path: 'storeInfo',
-            //     name: 'storeInfo',
-            //     meta: {
-            //         title: '店铺信息',
-            //         requireAuth: true
-            //     },
-            //     component: StoreInfo
-            // },
-            // {
-            //     path: 'store_users',
-            //     name: 'store_users',
-            //     meta: {
-            //         title: '店铺新增用户数据'
-            //     },
-            //     component: Store_users
-            // },
-            // {
-            //     path: 'shopCenter',
-            //     name: 'shopCenter',
-            //     meta: {
-            //         title: '店铺中心',
-            //         // requireAuth: true
-            //     },
-            //     component: ShopCenter
-            // },
-            // {
-            //     path: 'logo',
-            //     name: 'logo',
-            //     meta: {
-            //         title: '品牌名称'
-            //     },
-            //     component: logo
-            // },
-            // ,
-            // {
-            //     path: 'people',
-            //     name: 'people',
-            //     meta: {
-            //         title: '修改负责人'
-            //     },
-            //     component: people
-            // },
-            // {
-            //     path: 'shopinfo',
-            //     name: 'shopinfo',
-            //     meta: {
-            //         title: '店铺介绍'
-            //     },
-            //     component: shopinfo
-            // },
-            // ,
-            // {
-            //     path: 'storeer',
-            //     name: 'storeer',
-            //     meta: {
-            //         title: '店长管理'
-            //     },
-            //     component: storeer
-            // }
-            // ,
-            // {
-            //     path: 'changeshop',
-            //     name: 'changeshop',
-            //     meta: {
-            //         title: '添加新店长'
-            //     },
-            //     component: changeshop
-            // }
-            // ,
-            // {
-            //     path: 'shop',
-            //     name: 'shop',
-            //     meta: {
-            //         title: '店员管理'
-            //     },
-            //     component: shop
-            // }
-            // ,
-            // {
-            //     path: 'shopsuccess',
-            //     name: 'shopsuccess',
-            //     meta: {
-            //         title: '店长添加成功'
-            //     },
-            //     component: shopsuccess
-            // }
-            // ,
-            // {
-            //     path: 'changestore',
-            //     name: 'changestore',
-            //     meta: {
-            //         title: '更换店员'
-            //     },
-            //     component: changestore
-            // }
-            // ,
-            // {
-            //     path: 'storesuccess',
-            //     name: 'storesuccess',
-            //     meta: {
-            //         title: '店员添加成功'
-            //     },
-            //     component: storesuccess
-            // },
-            // {
-            //     path: 'newData',
-            //     name: 'newData',
-            //     meta: {
-            //         title: '邀新数据'
-            //     },
-            //     component: newData
-            // },
         ]
     },
     {

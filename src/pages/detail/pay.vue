@@ -155,18 +155,18 @@ export default {
                     this.OrdDate = Pay.OrdDate; 
                     this.TransAmt = Pay.TransAmt;
                     this.MaxTenderRate = Pay.MaxTenderRate; 
-                    // this.BorrowerDetails = this.BorrowerDetails
-                    // for (var i in  _this.brow) {
-                    //     var obj = _this.brow[i]
-                    //     this.BorrowerDetails = '[{'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
-                    // }
-                    // console.log(this.BorrowerDetails)
-                    this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);
-                    if (this.BorrowerDetails == "{}") {
-                        this.BorrowerDetails = "";
-                    } else {
-                        this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);
+                    this.BorrowerDetails = this.BorrowerDetails
+                    for (var i in  _this.brow) {
+                        var obj = _this.brow[i]
+                        this.BorrowerDetails = '[{'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
                     }
+                    // console.log(this.BorrowerDetails)
+                    // this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);
+                    // if (this.BorrowerDetails == "{}") {
+                    //     this.BorrowerDetails = "";
+                    // } else {
+                    //     this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);
+                    // }
                     this.IsFreeze = Pay.IsFreeze; //交易金额
                     this.MerCustId = Pay.MerCustId; //最大投资手续费率
                     this.UsrCustId = Pay.UsrCustId;
@@ -176,7 +176,7 @@ export default {
                     this.FreezeOrdId = Pay.FreezeOrdId;
                     this.ReqExt = JSON.stringify(Pay.ReqExt);
                     if (this.ReqExt == "{}") {
-                        this.ReqExt = "";
+                        this.ReqExt = " ";
                     } else {
                         this.ReqExt = JSON.stringify(Pay.ReqExt);
                     }
@@ -187,7 +187,6 @@ export default {
                     }, 500)
                     
                 }
-                
             }).catch((err) => {
                 console.log(err);
             });

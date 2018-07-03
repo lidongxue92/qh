@@ -45,10 +45,23 @@ export default {
     };
   },
   methods:{
-
+    // 判断token
+    token(){
+        if (!sessionStorage.token) {
+          this.$vux.alert.show({
+              title: '',
+              content: '请登录'
+          })
+          setTimeout(() => {
+              this.$vux.alert.hide()
+              this.$router.push({path:"/login",query: {redirect: 'your path'}})
+          }, 2000)
+        }
+    }
   },
 
   mounted(){
+    this.token()
   }
 }
 </script>

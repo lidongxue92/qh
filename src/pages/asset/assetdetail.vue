@@ -113,6 +113,9 @@ export default {
                 if (this.Product.yieldDistribType == '3') {
                   $(".Profit").html('等额本息')
                 }
+                if (this.Product.status == '7') {
+                  this.isshow = false
+                }
               }
 
           }).catch((err) => {
@@ -121,6 +124,11 @@ export default {
         }
     },
     mounted() {
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
     }
 }
 </script>
