@@ -80,21 +80,21 @@
           <p>开通并充值后才可投资</p>
           <p style="color: #666;font-size: 0.8rem;">是否去开户</p>
           <span class="left" @click="leftclose">取消</span><span class="right" @click="rightclose">确定</span>
-        </div> 
+        </div>
         <div class="bg"></div>
          <!-- 开户 -->
         <div class="box" style="display:none;">
-            <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+            <form  name="regSubmit" method="post" :action="ChinaPnrServer">
                  <input type='text' name='Version'  :value='Version'>
                  <input type='text' name='CmdId'  :value='CmdId'>
                  <input type='text' name='MerCustId' :value='MerCustId'>
-                 <input type='text' name='RetUrl'  :value='RetUrl'> 
+                 <input type='text' name='RetUrl'  :value='RetUrl'>
                  <input type='text' name='BgRetUrl' :value='BgRetUrl'>
                  <input type='text' name='UsrId'  :value='UsrId'>
                  <input type='text' name='UsrMp' :value='UsrMp'>
                  <input type='text' name='PageType'  :value='PageType'>
-                 <input type='text' name='ChkValue'  :value='ChkValue'>    
-                 <input type='text' name='MerPriv' :value='MerPriv'> 
+                 <input type='text' name='ChkValue'  :value='ChkValue'>
+                 <input type='text' name='MerPriv' :value='MerPriv'>
             </form>
         </div>
     </div>
@@ -132,7 +132,7 @@ export default {
             actAnnualYield:'',
             residueMoney:'',
             // 三方开户数据
-            ChinaPnrServer : "", 
+            ChinaPnrServer : "",
             Version : "",
             CmdId : "",
             MerCustId : "",
@@ -153,7 +153,8 @@ export default {
         const dz = this.$route.query.dz
         this.dz = dz
         console.log(this.dz)
-        this.productdata()
+        this.productdata();
+        this.token();
     },
     activated: function() {
         this.productdata()
@@ -163,6 +164,18 @@ export default {
         }, 300)
     },
     methods: {
+        token(){
+            if (!sessionStorage.token) {
+            this.$vux.alert.show({
+                title: '',
+                content: '请登录'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            }, 2000)
+            }
+        },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
@@ -232,7 +245,7 @@ export default {
       Interest(){
         var newAddMoney = this.money;//金额
         var lilv = this.Annual / 100;//年利率
-        //求取预期到期收益             
+        //求取预期到期收益
         var month = parseInt(this.day / 30); // 总共整月数 (还款月数)
         var monthYuShu = this.day % 30; // 多余的天数
         var lilvMouth = Math.floor((lilv / 12) * 1000000) / 1000000; // 月利率
@@ -248,23 +261,23 @@ export default {
         if ($(".Type").text() == '3') {
             // 总月数的收益
             var totalMonth = 0;
-            for (var i = 1; i <= month; i++) {    
-                //收益计算公式 ：  
-                var jssy = Math.floor((newAddMoney * lilvMouth * (Math.pow(1 + lilvMouth, month) - Math.pow(1 + lilvMouth, i - 1)) / (Math.pow(1 + lilvMouth, month) - 1)) * 1000000) / 1000000;                    
-                // 每个月的收益：  
+            for (var i = 1; i <= month; i++) {
+                //收益计算公式 ：
+                var jssy = Math.floor((newAddMoney * lilvMouth * (Math.pow(1 + lilvMouth, month) - Math.pow(1 + lilvMouth, i - 1)) / (Math.pow(1 + lilvMouth, month) - 1)) * 1000000) / 1000000;
+                // 每个月的收益：
             var monthly = jssy;
                 totalMonth = totalMonth + monthly;
             }
             // console.log(totalMonth);
             // 剩余天数的收益
-            var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100; 
+            var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100;
             var total = (Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
             // console.log(total);
             $(".rate1").text(total)
         }
         if ($(".Type").text() == '1') {
             if (this.productType == 19) {
-                var zrLilv = this.actAnnualYield / 100;    
+                var zrLilv = this.actAnnualYield / 100;
                 var total = (Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
                 console.log(zrLilv);
                 $(".rate1").text(total)
@@ -338,7 +351,7 @@ export default {
                 setTimeout(() => {
                     document.regSubmit.submit();
                 }, 500)
-                
+
             }
         }).catch((err) => {
             console.log(err);
@@ -352,7 +365,7 @@ export default {
           const url = myPub.URL+`/product/getProductDetail` ;
           const params = new URLSearchParams();
           params.append('productId',id);
-          params.append('token',sessionStorage.token); 
+          params.append('token',sessionStorage.token);
           axios.post(url,params).then(response => {
             _this.$loading.hide();
             const data = response.data

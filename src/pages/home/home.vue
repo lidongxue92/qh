@@ -141,17 +141,39 @@ export default {
     },
     methods: {
         linkToDetail(id) {
-            this.$router.push({ path: '/page/detail', query: { id: id } })
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({ path: '/page/detail', query: { id: id } })
+            }
         },
         settlein(){
             this.$router.push({path:"/settlein"})
         },
         linkToMsg(){
-          this.$router.push({path:'/page/message'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/message'})
+            }
         },
         zhezhaoShow(){
             $(".zhezhao").fadeIn(400);
-            $(".slider").animate({left:"0"},400);      
+            $(".slider").animate({left:"0"},400);
         },
         zhezhaoHide(){
            $(".zhezhao").fadeOut(400);
@@ -181,7 +203,7 @@ export default {
             const params = new URLSearchParams();
             params.append('clientType','h5');
             if (sessionStorage.token) {
-                params.append('token',sessionStorage.token); 
+                params.append('token',sessionStorage.token);
             }
             axios.post(url,params).then(response => {
                 _this.$loading.hide();
@@ -216,10 +238,10 @@ export default {
             }
         },
         flushCom:function(){
-　　　　　　this.$router.go(0);  
+　　　　　　this.$router.go(0);
 　　　　}
     },
-    mounted() { 
+    mounted() {
     },
     components: {
         Swiper,

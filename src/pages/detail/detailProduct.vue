@@ -89,7 +89,7 @@ import top from '../../components/common/top1'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 export default {
-    name: 'detail',
+    name: 'detailProduct',
     directives: {
         TransferDom
     },
@@ -111,6 +111,7 @@ export default {
     mounted () {
     },
     created() {
+        this.token();
     },
     activated: function() {
         this.productdata()
@@ -121,7 +122,19 @@ export default {
         }//回退上一级页面并刷新
     },
     methods: {
-    // 产品数据
+        token(){
+            if (!sessionStorage.token) {
+            this.$vux.alert.show({
+                title: '',
+                content: '请登录'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            }, 2000)
+            }
+        },
+        // 产品数据
         productdata(){
             const _this = this
             _this.$loading.show();
@@ -129,7 +142,7 @@ export default {
             const url = myPub.URL+`/product/getProjectIntroduction` ;
             const params = new URLSearchParams();
             params.append('productId',id);
-            params.append('token',sessionStorage.token); 
+            params.append('token',sessionStorage.token);
             axios.post(url,params).then(response => {
                  _this.$loading.hide();
                 const data = response.data

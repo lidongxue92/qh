@@ -3,21 +3,21 @@
     <topComponent :showLeft='false'>
         <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
         <span class="right" @click='read' slot="right">全部已读</span>
-    </topComponent>    
+    </topComponent>
 
     <div id="myMsgTab" class="title">
         <input type="button" value="消息" class="active">
         <input type="button" value="公告">
     </div>
-    
+
     <div class="msgList">
-        <div class="xiaoXi" @click="linkToMsgDetail(item.imId)" v-for="(item,index) in Log">
+        <div class="xiaoXi" @click="linkToMsgDetail(item.imId)" v-for="(item,index) in xiaoxi" :key="index">
             <p class="msgTitle">{{item.imTitle}}</p>
             <p class="content"><span>{{item.imAbstract}}</span></p>
         </div>
     </div>
     <div class="msgList" @click="note">
-        <div class="gongGao" @click="linkToMsgDetail1(item.imId)" v-for="(item,index) in Log">
+        <div class="gongGao" @click="linkToMsgDetail1(item.imId)" v-for="(item,index) in gonggao" :key="index">
             <p class="content"><span>{{item.imDate}}</span><br/>{{item.imAbstract}}</p>
         </div>
     </div>
@@ -39,8 +39,9 @@ export default {
     },
     data(){
         return{
-           Log:'',
-           note:''
+           xiaoxi:[],
+           gonggao:[],
+           note:[]
 
         }
     },
@@ -59,7 +60,8 @@ export default {
             this.$router.go(0);
         }//回退上一级页面并刷新
     },
-    created() {},
+    created() {
+    },
     activated() {
         this.loadPageList('1')
     },
@@ -68,7 +70,9 @@ export default {
             this.$router.back()
         },
 
-        read(){},
+        read(){
+
+        },
         linkToMsgDetail(id){
             this.$router.push({path:'/page/msgDetail',query: { id: id }})
         },
@@ -145,12 +149,12 @@ export default {
         margin: 0 auto;
         margin-top: 0.5rem;
         border-radius: 0 0 .2rem .2rem;
-        
+
         p{
             width: 100%;
             line-height: 1.8em;
-            box-sizing: border-box;    
-            background: #fff;       
+            box-sizing: border-box;
+            background: #fff;
         }
         .msgTitle{
             margin: 0 auto;
