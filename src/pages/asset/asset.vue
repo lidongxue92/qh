@@ -201,6 +201,7 @@ export default {
         }, 2000)
         }
     },
+    // 数据
     product(){
       const _this = this
       _this.$loading.show();
@@ -229,7 +230,37 @@ export default {
       }).catch((err) => {
           console.log(err)
       })
-    }
+    },
+    // 消息
+    msg(){
+      const _this = this
+      const url = myPub.URL+`/msg/getMessageList` ;
+      const params = new URLSearchParams();
+      params.append('token',sessionStorage.token);
+      params.append('pageSize','10');
+      params.append('curPagel','1');
+      axios.post(url,params).then(response => {
+        const data = response.data
+        if (data.result == '400') {
+            this.$vux.alert.show({
+                title: '',
+                content: data.resultMsg
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            }, 3000)
+        }
+        if (data.unReadNum == '0') {
+            $(".message img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
+        }else{
+            $(".message img").attr("src",'../../assets/img/Messages@2x.png')
+        }
+        console.log(data)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
   },
   filters: {
     numFilter(value) {
@@ -241,7 +272,8 @@ export default {
     }
   },
    created() {
-        this.token()
+        this.token(),
+        this.msg()
     },
     activated: function() {
         this.product()

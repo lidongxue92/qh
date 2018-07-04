@@ -4,8 +4,11 @@
             <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
         </topComponent>
         <div class="xiaoXi">
-            <p class="msgTitle">登录密码修改成功</p>
-            <p class="content"><span>您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改</span></p>
+            <p class="msgTitle">{{msg.msgTitle}}</p>
+            <p class="content">
+                <span>{{msg.sendTime.split(' ')[0]}}</span></br>
+                <span>{{msg.msgText}}</span>
+            </p>
         </div>
     </div>
 </template>
@@ -23,7 +26,7 @@ export default {
     },
     data(){
         return{
-
+            msg:''
         }
     },
     watch: {
@@ -33,23 +36,41 @@ export default {
     },
     created() {},
     activated() {
-        this.loadPageList('1')
+        this.loadPageList()
     },
     methods:{
         goBack(){
             this.$router.back()
         },
-        loadPageList(status){
-            const url = myPub.URL+`/index/getInfoManageList`;
-            var params = new URLSearchParams();
-            const id = this.$route.query.id
-            params.append('imId',id);
-            axios.post(url,params).then(res => {
-                console.log(res.data);
-                this.Log = res.data.InfoManage;
-            }).catch((err) => {
-                console.log(err);
-            });
+        loadPageList(){
+            const _this = this
+            _this.$loading.show();
+          const url = myPub.URL+`/msg/getMessageInfo` ;
+          const params = new URLSearchParams();
+          const msgTextId = this.$route.query.id
+          params.append('token',sessionStorage.token);
+          params.append('msgTextId',msgTextId);
+          axios.post(url,params).then(response => {
+            const data = response.data
+            console.log(data)
+            _this.$loading.hide();
+            if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+            }
+            if (data.result == '200') {
+                this.msg = data
+                console.log(this.msg)
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
         },
     }
 }

@@ -4,16 +4,20 @@
             <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
         </topComponent>
         <div class="gonggao">
-            <p class="msgTitle">登录密码修改成功</p>
-            <p class="content"><span>2017.12.21</span><br/>您的登录密码修改请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改您的登录密码修改成功，请注意查看您的登录密码修改</p>
+            <p class="msgTitle">{{title}}</p>
+            <p class="content">
+                <span>{{data}}</span></br>
+                {{content}}
+            </p>
         </div>
     </div>
 </template>
 
 <script>
 import topComponent from '../../components/common/top';
-import $ from 'jquery';
-import axios from 'axios';
+import * as myPub from '@/assets/js/public.js'
+import axios from 'axios'
+import $ from 'jquery'
 export default {
     name:'msgDetail1',
     components: {
@@ -21,11 +25,12 @@ export default {
     },
     data(){
         return{
-
+            title:sessionStorage.title,
+            content:sessionStorage.content,
+            data:sessionStorage.data
         }
     },
     created() {
-
     },
     mounted() {
     },
