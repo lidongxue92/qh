@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>十大豪礼</title>
+</head>
+
+<body>
+    <p class="clickGZ"></p>
+    <div class="img1"><img src="../../assets/img/HaoLi/img1.png"></div>
+    <div class="img2"><img src="../../assets/img/HaoLi/img2.png"></div>
+    <div class="img3"><img src="../../assets/img/HaoLi/img3.png"></div>
+    <!-- <div class="btn" onclick="callAndroid()"><img src="img/HaoLi/btn.png"></div> -->
+    <!-- <div class="btn" onclick="callAndroid()">立即投资</div> -->
+
+    <div class="zheZhao">
+        <div class="guiZe">
+            <div class="gzMain">
+                <img src="../../assets/img/HaoLi/guize.png">
+            </div>
+            <div class="close">
+                <img src="../../assets/img/HaoLi/close.png">
+            </div>
+        </div>
+    </div>
+
+    <div class="prizeZheZhao">
+        <div class="close1">
+                <img src="../../assets/img/HaoLi/close.png">
+            </div>
+        <div class="prizeMain">
+            <div class="zhongJiang">
+                <div class="title">
+                    <ul>
+                        <li>用户名称</li>
+                        <li>投资金额（万）</li>
+                        <li>奖品</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="zjMain">
+                <span class="noData">暂无数据</span>
+                <!-- 模板 -->
+                <script type="text/template" id="moban">
+                        <ul>
+                            <li>%userPhone%</li>
+                            <li>%orderAmount%</li>
+                            <li class="giver">--</li>
+                        </ul>
+                </script>
+                <!-- 模板 -->
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<style>
+    *{ padding: 0; margin: 0; }
+    li{list-style: none;}
+    body{
+        width: 100%;
+        height: auto;
+        background: url("../../assets/img/HaoLi/bg.png") no-repeat;
+        background-size: 100%;
+        background-color:#FEDE2D; 
+        position: relative;
+    }
+    p{
+        position: absolute;
+        right: 0;
+        top: -8%;
+        width: 2.4rem /* 180/75 */;
+        height: 1.066667rem /* 80/75 */;
+        background: rgba(255, 255, 255, 0);
+        /* background: rgba(255, 255, 255, 0.5); */
+        
+    }
+
+    .img1{
+        width: 100%;
+        margin: 54.4% auto 0;
+    }
+    .img2{
+        width: 4.666667rem /* 350/75 */;
+        margin: 0 auto;
+    }
+    .img3{
+        width: 94.8%;
+        margin: .106667rem /* 8/75 */ auto 1.973333rem /* 148/75 */;
+    }
+    .img1 img,
+    .img2 img,
+    .img3 img,
+    .btn img{
+        width: 100%;
+    }
+    .btn{
+        width: 5.333333rem /* 400/75 */;
+        height: 1.066667rem /* 80/75 */;
+        margin: .306667rem /* 23/75 */ auto .8rem /* 60/75 */;
+        background: #FF144A;
+        color: #fff;
+        text-align: center;
+        line-height: 1.066667rem /* 80/75 */;
+        border-radius: .666667rem /* 50/75 */; 
+        font-size: .4rem /* 30/75 */;
+        margin: -.666667rem /* 50/75 */ auto 1.066667rem /* 80/75 */;
+    }
+
+
+    /* 遮罩 */
+    .zheZhao,
+    .prizeZheZhao{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        display: none;
+    }
+    .prizeZheZhao{
+        padding-top: 5%;
+    }
+
+    /* 规则 */
+    .guiZe{
+        width: 90%;
+        height: auto;
+        margin: 0 auto;
+        position: relative;
+    }
+    .gzMain{
+        width: 100%;
+        margin: 1.866667rem /* 140/75 */ auto .933333rem /* 70/75 */;
+    }
+    .gzMain img{
+        width: 100%;
+    }
+    .close{
+        width: .8rem;
+        margin: 0 auto;
+    }
+    .close img{
+        width: 100%;
+    }
+
+    /* 获奖名单 */
+    .prize{
+        width: 100%;
+        height: auto;
+        margin: .533333rem /* 40/75 */ auto 0;
+        position: relative;
+    }
+    .close1{
+        width: .8rem /* 60/75 */;
+        position: absolute;
+        right: 5%;       
+    }
+    .close1 img{
+        width: 100%;
+    }
+
+    .prizeMain{
+        width: 100%;
+        height: auto;
+        background: url("../../assets/img/HaoLi/mingDan.png") no-repeat top;
+        background-size: 100% 100%;
+        padding-bottom: 1.333333rem /* 100/75 */;
+        box-sizing: border-box;
+    }
+    .zhongJiang{
+        width: 85%;
+        margin: 0 auto;
+        padding-top: 26%;
+    }
+    .title{
+        width: 100%;
+        border-bottom: .026667rem /* 2/75 */ solid #FFA1BA;
+        padding-bottom: .133333rem /* 10/75 */;
+    }
+    .title:after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .title ul li{
+        float: left;
+        font-size: .32rem /* 24/75 */;
+        color: #666;
+        width: 33.33%;
+        text-align: center;
+    }
+
+    .zjMain{
+        width: 85%;
+        margin: 0 auto;
+        height: 9.1rem;
+        overflow: scroll;
+        overflow-x: hidden;
+        /* background: #FEDE2D; */
+    }
+    .zjMain:after,
+    .zjMain ul:after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    /*自定义滑块*/
+    ::-webkit-scrollbar  
+    {  
+        width: .133333rem /* 10/75 */;  
+        height: .213333rem /* 16/75 */;  
+        background-color: #F5F5F5;  
+    }  
+    
+    /*定义滚动条轨道 内阴影+圆角*/  
+    /*定义滑块 内阴影+圆角*/
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-thumb  
+    {  
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+        border-radius: .133333rem /* 10/75 */;  
+        background-color: #F5F5F5;  
+    }  
+
+    .zjMain ul{
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+        border-bottom: .026667rem /* 2/75 */ solid #fff;
+        font-size: .24rem /* 18/75 */;
+        color: #666;
+    }
+    .zjMain ul li{
+        float: left;
+        width: 33.33%;
+        text-align: center;
+        line-height: 3em;
+    }
+
+    .noData{
+        width: 120px;
+        display: inline-block;
+        font-size: .4rem /* 30/75 */;
+        margin-top: .266667rem /* 20/75 */;
+        margin-left: 3.333333rem /* 250/75 */;
+        color: #999;
+    }
+
+
+
+</style>
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../assets/js/flexible.min.js"></script>
+<script src="../../assets/js/ajax.js"></script>
+<script>
+
+    //页面禁止滚动（有效）
+    $(".zheZhao").on('touchmove',function (e){
+        e.preventDefault();
+    });
+    $(".prizeZheZhao").on('touchmove',function (e){
+        e.preventDefault();
+    });
+
+
+    $(".clickGZ").click(function () {
+        $(".zheZhao").show();
+    });
+    $(".img2").click(function () {
+        $(".prizeZheZhao").show();
+    })
+
+
+    //关闭
+    $(".close").click(function () {
+        $(".zheZhao").hide();
+    });
+    $(".close1").click(function () {
+        $(".prizeZheZhao").hide();
+    });
+
+// // 投资排行榜
+var zjData;
+var moban = $("#moban").html();
+jsonAjax("/user/getGoldRankList",{
+    curPage  : 1,
+	pageSize : 50,
+},getGoldRankList);
+function getGoldRankList(data) {
+    console.log(data);
+ if (data.userOrderVo == 0) {
+        $(".noData").show();
+    }else{
+        $(".noData").hide();
+        $(".zjMain").children().not("#moban").remove();
+        $.each(zjData, function (i, item) {
+            var str = moban.replace(/%(\w+)%/ig, function (word, $1) {
+                return item[$1];
+            });
+            $(str).appendTo(".zjMain");
+
+        });
+    };
+}
+
+
+
+
+
+    // 判断手机系统--查看产品
+var u = navigator.userAgent;
+if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { //安卓手机
+    // console.log("安卓手机");
+    function callAndroid() {
+        window.risk.goManageMoney();
+    }
+    
+
+} else if (u.indexOf('iPhone') > -1) { //苹果手机
+    // console.log("苹果手机");
+    
+}
+</script>

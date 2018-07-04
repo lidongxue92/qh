@@ -59,6 +59,18 @@ const YanzhengPhone = r => require.ensure([], () => r(require('@/pages/slider/ya
 const BankCard = r => require.ensure([], () => r(require('@/pages/slider/bankCard')), 'bankCard')
 const BangCard = r => require.ensure([], () => r(require('@/pages/slider/bangCard')), 'bangCard')
 
+// 活动页
+// const Cooperation = r => require.ensure([], () => r(require('@/pages/active/Cooperation')), 'Cooperation')
+// const DuanWu = r => require.ensure([], () => r(require('@/pages/active/duanWu')), 'duanWu')
+// const FengKong = r => require.ensure([], () => r(require('@/pages/active/fengKong')), 'fengKong')
+// const Risk = r => require.ensure([], () => r(require('@/pages/active/risk')), 'risk')
+// const TenHaoLi = r => require.ensure([], () => r(require('@/pages/active/TenHaoLi')), 'TenHaoLi')
+// const TripleGifts = r => require.ensure([], () => r(require('@/pages/active/tripleGifts')), 'tripleGifts')
+// const YaoQing = r => require.ensure([], () => r(require('@/pages/active/yaoQing')), 'yaoQing')
+// const YingKe = r => require.ensure([], () => r(require('@/pages/active/yingKe')), 'yingKe')
+// const Zhaocha = r => require.ensure([], () => r(require('@/pages/active/zhaocha')), 'zhaocha')
+// const ZhuCeSongLi = r => require.ensure([], () => r(require('@/pages/active/zhuCeSongLi')), 'zhuCeSongLi')
+
 
 
 
@@ -531,7 +543,102 @@ const routes = [
                 },
                 component: BangCard
 
-            },
+            }
+
+            // 活动页
+            // {
+            //     path: 'Cooperation',
+            //     name: 'Cooperation',
+            //     meta: {
+            //         title: '战略合作',
+            //         // requireAuth: true
+            //     },
+            //     component: Cooperation
+
+            // },
+            // {
+            //     path: 'duanWu',
+            //     name: 'duanWu',
+            //     meta: {
+            //         title: '端午粽情购',
+            //         // requireAuth: true
+            //     },
+            //     component: DuanWu
+
+            // },
+            // {
+            //     path: 'fengKong',
+            //     name: 'fengKong',
+            //     meta: {
+            //         title: '风控',
+            //         // requireAuth: true
+            //     },
+            //     component: FengKong
+
+            // },
+            // {
+            //     path: 'risk',
+            //     name: 'risk',
+            //     meta: {
+            //         title: '风险测评',
+            //         // requireAuth: true
+            //     },
+            //     component: Risk
+            // },
+            // {
+            //     path: 'TenHaoLi',
+            //     name: 'TenHaoLi',
+            //     meta: {
+            //         title: '十大豪礼',
+            //         // requireAuth: true
+            //     },
+            //     component: TenHaoLi
+            // },
+            // {
+            //     path: 'tripleGifts',
+            //     name: 'tripleGifts',
+            //     meta: {
+            //         title: '三重好礼',
+            //         // requireAuth: true
+            //     },
+            //     component: TripleGifts
+            // },
+            // {
+            //     path: 'yaoQing',
+            //     name: 'yaoQing',
+            //     meta: {
+            //         title: '邀请',
+            //         // requireAuth: true
+            //     },
+            //     component: YaoQing
+            // },
+            // {
+            //     path: 'yingKe',
+            //     name: 'yingKe',
+            //     meta: {
+            //         title: '坚守初心',
+            //         // requireAuth: true
+            //     },
+            //     component: YingKe
+            // },
+            // {
+            //     path: 'zhaocha',
+            //     name: 'zhaocha',
+            //     meta: {
+            //         title: '找茬',
+            //         // requireAuth: true
+            //     },
+            //     component: Zhaocha
+            // },
+            // {
+            //     path: 'zhuCeSongLi',
+            //     name: 'zhuCeSongLi',
+            //     meta: {
+            //         title: '注册送礼',
+            //         // requireAuth: true
+            //     },
+            //     component: ZhuCeSongLi
+            // }
         ]
     },
     {

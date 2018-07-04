@@ -72,6 +72,29 @@ export default {
         Account:{}
 　　  }
 　　},
+    created() {
+        this.lczc = this.$route.query.lazc;
+        this.product('1,2','0,1,2',0);
+        const url = myPub.URL+`/user/getAccountOverview` ;
+          const params = new URLSearchParams();
+          params.append('token',sessionStorage.token);
+          axios.post(url,params).then(res => {
+               this.Account = res.data.Account;
+                // console.log(this.Account);
+                if (res.data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: res.data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+                }
+          }).catch((err) => {
+              console.log(err)
+          })
+    },
     methods:{
         goBack() {
             this.$router.back()
@@ -157,9 +180,6 @@ export default {
             })
         }
     },
-    mounted() {
-
-    },
     filters: {
         numFilter(value) {
             // 截取当前数据到小数点后三位
@@ -169,29 +189,7 @@ export default {
             return Number(realVal)
         }
     },
-    created() {
-        this.lczc = this.$route.query.lazc;
-        this.product('1,2','0,1,2',0);
-        const url = myPub.URL+`/user/getAccountOverview` ;
-          const params = new URLSearchParams();
-          params.append('token',sessionStorage.token);
-          axios.post(url,params).then(res => {
-               this.Account = res.data.Account;
-                // console.log(this.Account);
-                if (res.data.result == '400') {
-                  this.$vux.alert.show({
-                      title: '',
-                      content: res.data.resultMsg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                  }, 3000)
-                }
-          }).catch((err) => {
-              console.log(err)
-          })
-   },
+
     watch: {
         '$route' (to, from) {
             this.$router.go(0);

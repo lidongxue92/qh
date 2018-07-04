@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>注册送礼</title>
+</head>
+
+<body>
+    <div class="xinren">
+        <img src="../../assets/img/zhuCeSongLi/xinren.png" >
+        <a href="javascript:;" onclick="callAndroid()" class="android">立即注册</a>
+        <a href="javascript:;" onclick="callIos()" class="ios">立即注册</a>
+
+        <!-- 登陆后 -->
+        <!-- <a href="javascript:;" onclick="callAndroidTZ()" class="androidTZ">立即投资</a> -->
+        <a href="javascript:;" onclick="callIosTZ()" class="iosTZ">立即投资</a>
+    </div>
+    <div class="guiZe">
+        <img src="../../assets/img/zhuCeSongLi/guiZe.png" >
+    </div>
+</body>
+
+</html>
+<style>
+    *{ padding: 0; margin: 0; }
+    body{
+        width: 100%;  
+        height: auto;
+        background: url("../../assets/img/zhuCeSongLi/bg.png") no-repeat;
+        background-size: 100%;
+        background-color: #FF314D;
+    }
+    .xinren{
+        width: 92.8%;
+        margin: 10.386667rem /* 779/75 */ auto 0;
+        position: relative;
+    }
+    .xinren a{
+        position: absolute;
+        bottom: .8rem /* 60/75 */;
+        left: 50%;
+        transform: translateX(-50%);
+        width:4.173333rem /* 313/75 */;
+        height:1.066667rem /* 80/75 */;
+        background:#fff;
+        border-radius: .533333rem /* 40/75 */;
+        font-size: .453333rem /* 34/75 */;
+        color: #FE8238;
+        text-decoration: none;
+        text-align: center;
+        line-height: 1.066667rem /* 80/75 */;
+    }
+    .guiZe{
+        width: 92.8%;
+        margin: .2rem /* 15/75 */ auto .76rem /* 57/75 */;
+    }
+    .xinren img,
+    .guiZe img{
+        width: 100%;
+    }
+    .android,
+    .ios,
+    .androidTZ,
+    .iosTZ{
+        display: none;
+    }
+</style>
+<script src="../../assets/js/jquery-3.3.1.min.js"></script>
+<script src="../../assets/js/flexible.min.js"></script>
+<script src="../../assets/js/jquery.backstretch.min.js"></script>
+<script>
+    var url = location.href;
+    url = url.split("=");
+	token = url[1];
+	if (url.length>1 && url[1] != "" && url[1] !=null) {
+        token = url[1];
+    }
+
+    var u = navigator.userAgent;
+    if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) { //安卓手机
+        
+        // 有token时，注册隐藏，无token时，注册显示
+        if (token == "" || token == null || token == "null") {
+            $(".android").show();        
+            $(".ios").hide();  
+            
+        }else{
+            $(".android").hide();  
+        };
+
+        function callAndroidTZ() {
+            window.risk.goManageMoney(); 
+        };
+        function callAndroid() {
+            window.risk.goRegister(); 
+        };
+    } else if (u.indexOf('iPhone') > -1) { //苹果手机
+        $(".android").hide(); 
+        // 有token时，注册隐藏，无token时，注册显示
+        if (token == "" || token == null || token == "null") {
+            $(".ios").show();        
+            function callIos() {
+                window.webkit.messageHandlers.goRegister.postMessage({});
+            };
+        }else{
+            $(".iosTZ").show(); 
+            $(".ios").hide();  
+            function callIosTZ() {
+                // console.log("11111");
+                window.webkit.messageHandlers.goProduct.postMessage({});
+            };
+        };
+    }
+
+    
+
+</script>

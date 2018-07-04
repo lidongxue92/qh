@@ -46,8 +46,8 @@
       <label>
           <input type="password" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
       </label>
-      <label class="Agreement"  v-for="(item,index) of items" :key="index">
-        <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF">《启航金服平台注册服务协议》</b>
+      <label class="Agreement"  v-for="item of items" :key="item">
+        <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>
       <a class="user_login" @click="register">提交注册</a>
@@ -58,6 +58,61 @@
       <img class="right" src="~@/assets/img/close1.png" @click="close"/>
       <img src="~@/assets/img/active.png">
       <button class="button" @click = "kaiHu">开户使用新手礼包</button>
+    </div>
+    <div class="bg"></div>
+    <div class="toast1">
+        <h5>启航金服注册协议<span @click="close1">&Chi;</span></h5>
+        <div class="div">
+          <h6 style="color: #666">欢迎阅读启航金服注册服务协议(下称“本协议”或“服务协议”)。本协议双方为途粒（上海）金融信息服务有限公司（以下简称“途粒金融”或“本公司”、“我公司”）与启航金服用户（包括个人和企业客户，简称“用户”或“您”），本协议具有合同效力。本协议内容包括协议正文及所有已经发布的或将来可能发布的各类规则。所有规则为协议不可分割的一部分，与协议正文具有同等法律效力</h6>
+          <h6>1. 接受条款</h6>
+          <p>&emsp;&emsp;以任何方式进入启航金服网站即表示您同意自己已经与启航金服订立本协议，且您将受本协议条款的约束。启航金服有权随时自行更改本协议条款。如条款有任何变更，启航金服将在其网站上刊载公告，通知予您。如您不同意相关变更，必须停止使用服务。经修订的条款一经在启航金服网站公布后，立即自动生效。您应在本协议变更的第一次登录后仔细阅读修订后的条款，并有权选择停止或继续使用服务；一旦您继续使用服务，则表示您已接受经修订的条款，当您与启航金服发生争议时，应以最新的服务协议为准。除另行明确声明外，任何使服务范围扩大或功能增强的的新内容均受本协议约束。</p>
+          <h6>2. 接受条款</h6>
+          <p>&emsp;&emsp;2.1 用户及用户注册： 用户必须是具备完全民事行为能力的自然人，或者是依法成立、具有合法经营资格并有效存续的实体组织。无民事行为能力人、限制民事行为能力人以及无经营或特定经营资格的组织不应当注册为启航金服用户；超过其民事权利或行为能力范围从事信息发布、交易的，其与启航金服之间的服务协议自始无效，启航金服一经发现，有权立即注销该用户，并追究其使用启航金服服务的一切法律责任。用户注册是指用户登陆启航金服，并按要求填写相关信息并确认同意履行相关用户协议的过程。用户因进行信息发布、交易、获取有偿服务或接触启航金服服务器而发生的所有应纳税赋，以及一切硬件、软件、服务及其它方面的费用均由用户负责支付。</p>
+          <p>&emsp;&emsp;2.2 会员： 在启航金服平台上注册的用户成为启航金服会员。启航金服系为有借款需求客户（企业、个人）和资金提供方（出借人）的信息对接平台以及获取各类与借款相关的服务信息的信息撮合平台。启航金服会对注册用户的身份信息真实性进行审核但不能完全控制双方交易所涉及的服务的质量、安全或合法性，信息的真实性或准确性，以及交易方履行其在借款协议项下的各项义务的能力。启航金服仅作为双方信息提供、交易撮合的居间服务方，并不作为接受服务方或是提供服务方的身份参与交易行为的本身。启航金服提醒用户应该通过自己的谨慎判断确定服务及相关信息的真实性、合法性和有效性，并承担交易过程中的风险。</p>
+          <h6>3. 收费</h6>
+          <p>&emsp;&emsp;本公司保留在根据第1条通知您后，收取服务费用的权利。</p>
+          <p>&emsp;&emsp;本公司保留在无须发出书面通知，仅在启航金服网站公示的情况下，暂时或永久地更改或停止部分或全部服务的权利。</p>
+          <h6>4. 注册义务</h6>
+          <p>&emsp;&emsp;注册义务。您必须按照申请注册会员的表格，真实、准确、完整的填写您的资料；维持并及时更新资料，使其保持真实、准确、完整和反映当前情况。倘若您提供的资料不真实、准确和完整或我公司有合理理由怀疑该资料不真实、准确、完整的，我公司有权暂停或终止您的注册用户身份，并拒绝您在目前和将来对服务以任何形式使用。</p>
+          <p>&emsp;&emsp;注册名、密码和保密在登记过程中，将由您选择。注册名的选择应遵守法律法规及社会公德。您必须对您的密码保密，您将对您注册名和密码下发生的所有活动承担责任。如发现任何人未经您同意使用您的注册名跟密码，您须立即通知我公司；对该行为造成的损害，我公司不负任何责任。</p>
+          <h6>5. 您的权利和义务</h6>
+          <p>&emsp;&emsp;5.1 您有权利拥有在启航金服注册的会员名及登录密码，并有权利使用自己的会员名及密码随时登陆启航金服平台。您不得以任何形式擅自转让或授权他人使用自己的启航金服会员名及密码；</p>
+          <p>&emsp;&emsp;5.2 您有权根据本服务协议的规定以及启航金服上发布的相关规则，利用启航金服信息发布平台查询服务信息、提交借款项目信息、参加启航金服的有关活动以及有权享受启航金服提供的其它的有关服务；</p>
+          <p>&emsp;&emsp;5.3 您在启航金服进行交易的过程中，如与其他融资机构因交易产生纠纷，可以请求启航金服予以协调。如您发现其他机构有违法或违反本服务协议的行为，可以向启航金服进行反馈和要求处理。如您因网上交易与其他用户发生诉讼的，您有权通过司法部门要求启航金服提供相关资料；</p>
+          <p>&emsp;&emsp;5.4 您同意授权启航金服或者启航金服指定的第三方代为签署借款项目中涉及的抵押合同、质押合同等相关担保合同及债权转让协议，该等授权的有效期限为您作为启航金服会员期间；</p>
+          <p>&emsp;&emsp;5.5 您同意遵守启航金服的交易规则，接收来自启航金服或启航金服合作伙伴发出的邮件或信息；</p>
+          <p>&emsp;&emsp;5.6 您应当保证在使用启航金服平台进行信息发布过程中遵守诚实信用的原则，发布的信息中不得包含有反动、暴力、淫秽、毒品、赌博、教唆及有损社会公共道德的内容；不得发布各类违法或违规信息；；</p>
+          <p>&emsp;&emsp;5.7 您不应在启航金服平台上恶意评价其他用户，或采取不正当手段提高自身的信用度或降低其他用户的信用度；</p>
+          <p>&emsp;&emsp;5.8 您在启航金服平台上不得发布国家禁止或限制发布的包含有侵犯他人知识产权或其它合法权益的机密类、隐私类信息，也不得发布违背社会公共利益或公共道德的、或是启航金服认为不适合在启航金服上发布的信息；</p>
+          <p>&emsp;&emsp;5.9 您承诺在使用启航金服时实施的所有行为均遵守国家法律、法规和启航金服的相关规定以及各种社会公共利益或公共道德。如有违反上述承诺导致任何法律后果的发生，您独立承担所有相应的法律责任；</p>
+          <p>&emsp;&emsp;5.10 您同意，不对启航金服上任何数据作商业性利用，包括但不限于在未经启航金服事先书面批准的情况下，以复制、传播等方式使用在启航金服网站上展示的任何资料。</p>
+          <h6>6. 启航金服的权利义务</h6>
+          <p>&emsp;&emsp;6.1 启航金服有权通过自身或委托其认可的第三方机构为您提供除信息发布外的融资比较、“融资体检”和实现一站式融资实现等增值服务；</p>
+          <p>&emsp;&emsp;6.2 启航金服有义务在现有技术上维护整个网上平台的正常运行，并努力提升和改进技术。对于您在注册使用启航金服平台中所遇到的与信息发布或注册有关的问题及反映的情况，启航金服应及时作出回复；</p>
+          <p>&emsp;&emsp;6.3 对于您在启航金服平台上的不当行为或其它任何启航金服认为应当终止服务的情况，启航金服有权随时作出删除相关信息、终止服务提供等处理，而无须征得您的同意；</p>
+          <p>&emsp;&emsp;6.4 因网上平台的特殊性，启航金服没有义务对所有会员的注册资料、行为及其他事项进行事先审查；</p>
+          <p>&emsp;&emsp;6.5 您在启航金服进行交易过程中如与其它投资者产生纠纷，请求启航金服予以协调，经启航金服审核后，启航金服有权通过电子邮件联系纠纷双方了解情况，并将所了解的情况通过电子邮件互相通知对方；</p>
+          <p>&emsp;&emsp;6.6 您因在启航金服平台上进行借款或出借款项而与协议相对方发生诉讼的，您通过司法部门或行政部门依照法定程序要求启航金服提供相关数据，启航金服应积极配合并提供有关资料；</p>
+          <p>&emsp;&emsp;6.7 启航金服有权对您的注册数据及信息发布行为进行查阅，发现注册数据或信息发布行为中存在任何问题或怀疑，均有权向您发出询问及要求改正的通知或者直接作出删除等处理；</p>
+          <p>&emsp;&emsp;6.8 经国家生效法律文书或行政处罚决定确认您存在违法行为，或者启航金服有足够事实依据可以认定您存在违法或违反服务协议行为的，启航金服有权在启航金服平台及所在网站上以网络发布形式公布您的违法行为；</p>
+          <p>&emsp;&emsp;6.9 在您使用启航金服服务时，启航金服有权接收并记录您的个人信息，包括但不限于IP地址、网站Cookie中的资料及您要求取用的网页记录等；</p>
+          <p>&emsp;&emsp;6.10 启航金服有权根据您的授权自行或委托第三方代您签署抵押协议、质押协议等相关担保协议和债权转让协议。。</p>
+          <h6>7. 许可使用权</h6>
+          <p>&emsp;&emsp;许可使用权。您授予本公司永久的、免费的、完整的许可使用权利（并且有权对该权利进行再授权），使我公司有权使用、复制、修改、发布、翻译、分发您的资料或制作其派生作品，以已知或日后开发的任何形式、媒体或技术，将您的资料纳入其他作品里。</p>
+          <h6>8. 隐私权</h6>
+          <p>&emsp;&emsp;隐私权。我公司不公开您选择保密的注册信息及其他个人信息。但在下列情况下，我公司有权全部或部分披露您的保密信息。</p>
+          <p>&emsp;&emsp;8.1 根据法律规定，或应行政机关、司法机关要求，向第三人或行政机关、司法机关披露；</p>
+          <p>&emsp;&emsp;8.2 如您系权利人并针对他人在启航金服上侵犯您利益的行为提起投诉，应被投诉人要求，向被投诉人披露；</p>
+          <p>&emsp;&emsp;8.3权利人认为您在启航金服上的行为侵犯其合法权利并提出投诉的，可向权利人披露；</p>
+          <p>&emsp;&emsp;8.4 您出现违反启航金服网站规则，需要向第三方披露的；</p>
+          <p>&emsp;&emsp;8.5 根据法律和启航金服网站规则，其他我公司认为适合披露的；</p>
+          <h6>9. 其他</h6>
+          <p>&emsp;&emsp;9.1 免责声明。您将对您发布的信息及其他在启航金服上发生的任何行为承担责任，我公司对此不负任何责任；</p>
+          <p>&emsp;&emsp;9.2 不可抗力。对于因启航金服合理控制范围以外的原因，包括但不限于自然灾害、罢工或骚乱、物质短缺或定量配给、暴动、战争行为、政府行为、通讯或其他设施故障或严重伤亡事故等，致使启航金服延迟或未能履约的，启航金服不对您承担任何责任；</p>
+          <p>&emsp;&emsp;9.3 转让。启航金服转让本协议无需经您同意；</p>
+          <p>&emsp;&emsp;9.4 因本协议或本公司服务所引起的相关争议，应向启航金服经营所在地仲裁委员会,按照申请仲裁时该会现行有效的网络仲裁规则进行网络仲裁。</p>
+          <button class="button" @click="close1">我知道了</button>
+      </div>
     </div>
 
 
@@ -134,6 +189,14 @@ export default {
       },
       emipy(){
         $('.phone').val("")
+      },
+      close1(){
+        $(".bg").css("display","none")
+        $(".toast1").css("display","none")
+      },
+      toast1(){
+        $(".bg").css("display","block")
+        $(".toast1").css("display","block")
       },
       check(){
         if ($('.Agreement .check').is(':checked')) {
@@ -228,28 +291,21 @@ export default {
               params.append('msgType','1');
               axios.post(url,params).then(response => {
                     console.log(response)
-                    // this.$vux.alert.show({
-                    //     title: '验证码',
-                    //     content: `验证码已发送,【${smsCode}】,10分钟有效`
-                    // })
-                    // setTimeout(() => {
-                    //     this.$vux.alert.hide()
-                    // }, 3000)
               }).catch((err) => {
                 console.log(err)
               })
         },
 
       timer() {
-          if (this.time > 0) {
-              this.time--
-              this.btnText = this.time + 's'
-              setTimeout(this.timer, 1000)
-          } else {
-              this.time = 0
-              this.btnText = '获取验证码'
-              this.disabled = false
-          }
+        if (this.time > 0) {
+          this.time--
+          this.btnText = this.time + 's'
+          setTimeout(this.timer, 1000)
+        } else {
+          this.time = 0
+          this.btnText = '获取验证码'
+          this.disabled = false
+        }
       },
       // 验证登录密码
       checkLPsd(){
@@ -283,6 +339,8 @@ export default {
                     $(".toast").css('display',"block")
                     const token = data.token
                     sessionStorage.setItem('token',token);
+
+                    // 缓存开户数据
                     const url = myPub.URL+`/chinaPnr/userRegister`;
                     var params = new URLSearchParams();
                     params.append('token',sessionStorage.getItem("token"));
@@ -328,38 +386,37 @@ export default {
           }
       },
       // 三方开户
-        kaiHu(){
-            const url = myPub.URL+`/chinaPnr/userRegister`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('clientType','h5');
-            axios.post(url,params).then(res => {
-                console.log(res.data);
-                    this.ChinaPnrServer = res.data.chinaPnrServer;
-                    this.Version = res.data.Version; //版本号
-                    this.CmdId = res.data.CmdId; //消息信息
-                    this.MerCustId = res.data.MerCustId; //商户客户号
-                    this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
-                    this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                    this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
-                    this.UsrId = res.data.UsrId; //用户号
-                    this.UsrMp = res.data.UsrMp; //手机号
-                    this.PageType = res.data.PageType; //页面类型
-                    this.ChkValue = res.data.ChkValue; //签名
+       kaiHu(){
+          const url = myPub.URL+`/chinaPnr/userRegister`;
+          var params = new URLSearchParams();
+          params.append('token',sessionStorage.getItem("token"));
+          params.append('clientType','h5');
+          axios.post(url,params).then(res => {
+              console.log(res.data);
+                  this.ChinaPnrServer = res.data.chinaPnrServer;
+                  this.Version = res.data.Version; //版本号
+                  this.CmdId = res.data.CmdId; //消息信息
+                  this.MerCustId = res.data.MerCustId; //商户客户号
+                  this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                  this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                  this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                  this.UsrId = res.data.UsrId; //用户号
+                  this.UsrMp = res.data.UsrMp; //手机号
+                  this.PageType = res.data.PageType; //页面类型
+                  this.ChkValue = res.data.ChkValue; //签名
 
-                if(res.data.result == 200){
-                    //提交from表单
-                    console.log(this.Version)
-                    setTimeout(() => {
-                        document.regSubmit.submit();
-                    }, 1000)
+              if(res.data.result == 200){
+                  //提交from表单
+                  console.log(this.Version)
+                  setTimeout(() => {
+                      document.regSubmit.submit();
+                  }, 1000)
 
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        }
-
+              }
+          }).catch((err) => {
+              console.log(err);
+          });
+    }
 },
 
   components: {
@@ -661,5 +718,19 @@ export default {
     .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
     .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
   }
+  .toast1{
+      position: absolute;width: 80%;margin-left: 5%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 10%;max-height: 80%;overflow-y:auto;display: none;
+      h5{
+        font-size: 0.9rem;color: #666;text-align: center;font-weight:normal;padding: 0.5rem 0.8rem;
+        span{position: fixed;top: 11%;right: 14%;}
+      }
+      h6{
+          font-weight: normal;font-size: 0.8rem;color: #2773FF;padding: 0 0.8rem;margin-top: 1rem;
+          .c-FFC62E{display: inline-block;width: 0.6rem;height: 0.6rem;background: #FFC62E;border-radius: 50%;margin-right: 0.5rem;}
+          .c-A1CB46{display: inline-block;width: 0.6rem;height: 0.6rem;background: #A1CB46;border-radius: 50%;margin-right: 0.5rem;}
+      }
+      p{font-size: 0.7rem;color: #666;padding: 0.2rem 0.8rem;line-height: 1.5rem;}
+      .button{border: 0;width: 70%;margin-left: 15%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;margin-bottom: 1rem;}
+    }
 }
 </style>
