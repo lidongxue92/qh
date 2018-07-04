@@ -6,7 +6,7 @@
         </ul>
         <!-- 理财专区 -->
         <div class="Conduct" v-if='isshow'>
-            <div class="top" v-for="(item,index) in datalist" v-if="index == 0">
+            <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
                 <p class="Profit">{{item.annualYield}}</p>
                 <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.openLimit}}</b> </span></p>
@@ -14,7 +14,7 @@
             </div>
             <div class="middle">
                <ul class="productlist">
-                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy>
+                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy  :key="index">
                       <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
@@ -37,7 +37,7 @@
         <div class="Transfer" v-if='isshow1'>
             <div class="middle">
              <ul class="productlist">
-                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy>
+                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy :key="index">
                   <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span></h5>
                     <div>
                         <p class="left">
@@ -77,7 +77,7 @@ export default {
         isshow3:false,
         isshow4:false,
         isshow5:false,
-        loadingShow: false 
+        loadingShow: false
 　　　}
 　　},
     created() {
@@ -118,7 +118,7 @@ export default {
         Transfertab(){
             const _this = this
             _this.isshow = false
-            _this.isshow1 = true 
+            _this.isshow1 = true
             $(".Transfertab").addClass('active')
             $(".Conducttab").removeClass('active')
             this.pro('2','19')
@@ -198,7 +198,7 @@ export default {
                 })
             }, 500)
               }
-              
+
           }).catch((err) => {
               console.log(err);
           });
