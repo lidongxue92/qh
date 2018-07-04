@@ -7,8 +7,8 @@
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
-                <p>理财期限&emsp;<span>{{product.period}}</span></p>
-                <p>开发额度&emsp;<span>{{product.openLimit}}</span></p>
+                <p>理财期限&emsp;<span>{{product.period}}天</span></p>
+                <p>开发额度&emsp;<span>{{product.openLimit}}元</span></p>
                 <span class="status">可转让</span>
             </div>
             <p class="line">
