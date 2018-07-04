@@ -107,6 +107,7 @@ import slider from '../../components/common/slider'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
+
 export default {
     name: 'asset',
     components:{
@@ -137,24 +138,6 @@ export default {
         this.product()
     },
     methods:{
-        //强制保留2位小数，如：2，会在2后面补上00.即2.00
-        toDecimal2(x) {
-            var f = parseFloat(x);
-            if (isNaN(f)) {
-                return false;
-            }
-            var f = Math.round(x*100)/100;
-            var s = f.toString();
-            var rs = s.indexOf('.');
-            if (rs < 0) {
-                rs = s.length;
-                s += '.';
-            }
-            while (s.length <= rs + 2) {
-                s += '0';
-            }
-            return s;
-        },
         eyesTab(){
             if (this.imgSrc == "../../../static/img/openEyes.png") {
                 this.imgSrc = "../../../static/img/closeEyes.png";
@@ -175,19 +158,20 @@ export default {
                 $(".lssy").text(lssy);
 
                 //待收本金
-                const lczc = Math.floor((this.asset.lczc)*100)/100;
+                const lczc =  this.toDecimal2(Math.floor((this.asset.lczc)*100)/100);
                 $(".lczc").text(lczc);
+
                 //待收收益
-                const dssy = Math.floor((this.asset.dssy)*100)/100;
+                const dssy = this.toDecimal2(Math.floor((this.asset.dssy)*100)/100);
                 $(".dssy").text(dssy);
                 //转让金额
-                const zrje = Math.floor((this.asset.zrje)*100)/100;
+                const zrje = this.toDecimal2(Math.floor((this.asset.zrje)*100)/100);
                 $(".zrje").text(zrje);
                 //账户余额
-                const avlBalance = Math.floor((this.asset.avlBalance)*100)/100;
+                const avlBalance = this.toDecimal2(Math.floor((this.asset.avlBalance)*100)/100);
                 $(".avlBalance").text(avlBalance);
                 //冻结金额
-                const frzBalance = Math.floor((this.asset.frzBalance)*100)/100;
+                const frzBalance = this.toDecimal2(Math.floor((this.asset.frzBalance)*100)/100);
                 $(".frzBalance").text(frzBalance);
 
             }
