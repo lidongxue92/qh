@@ -460,6 +460,11 @@ export default {
     },
 }
 </script>
+<style>
+.weui-tab__panel{
+    background: #f6f6f6
+}
+</style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
@@ -502,7 +507,7 @@ export default {
         }
     }
     .middle{
-        padding: 0 0.5rem 3rem;
+        padding: 0 0.5rem 3.5rem;
         .Amount{
             margin-top: 0.5rem;background: #fff;border-radius: 3px;padding: 0.5rem;color: #333;
             h5{font-size: 0.8rem;font-weight: normal;position: relative;}
