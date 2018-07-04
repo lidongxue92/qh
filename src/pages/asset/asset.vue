@@ -107,161 +107,30 @@ import slider from '../../components/common/slider'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
+
 export default {
-  name: 'asset',
-  components:{
-    slider
-  },
-  data(){
-　　return {
-        imgSrc:"../../../static/img/openEyes.png",
-        totalMoney:0.00,
-        numberChange: 0.00,
-        asset:'{}',
-        totalMoney:''
-　　　}
-　},
-
-  methods:{
-    eyesTab(){
-      if (this.imgSrc == "../../../static/img/openEyes.png") {
-        this.imgSrc = "../../../static/img/closeEyes.png";
-        $(".numberChange").text("****")
-
-      }else{
-        this.imgSrc = "../../../static/img/openEyes.png";
-        // 总额
-        const totalMoney = Math.floor((this.asset.totalMoney)*100)/100;
-        $(".totalMoney").text(totalMoney);
-        //可用余额
-        const investMoney = Math.floor((this.asset.investMoney)*100)/100;
-        $(".investMoney").text(investMoney);
-        //累计收益
-        const lssy = Math.floor((this.asset.lssy)*100)/100;
-        $(".lssy").text(lssy);
-
-        //待收本金
-        const lczc = Math.floor((this.asset.lczc)*100)/100;
-        $(".lczc").text(lczc);
-        //待收收益
-        const dssy = Math.floor((this.asset.dssy)*100)/100;
-        $(".dssy").text(dssy);
-        //转让金额
-        const zrje = Math.floor((this.asset.zrje)*100)/100;
-        $(".zrje").text(zrje);
-        //账户余额
-        const avlBalance = Math.floor((this.asset.avlBalance)*100)/100;
-        $(".avlBalance").text(avlBalance);
-        //冻结金额
-        const frzBalance = Math.floor((this.asset.frzBalance)*100)/100;
-        $(".frzBalance").text(frzBalance);
-
-      }
+    name: 'asset',
+    components:{
+        slider
     },
-    zhezhaoShow(){
-      $(".zhezhao").fadeIn(400);
-      $(".slider").animate({left:"0"},400);
-    },
-    zhezhaoHide(){
-       $(".zhezhao").fadeOut(400);
-       $(".slider").animate({left:"-75%"},400);
-    },
-
-    linkToMsg(){
-      this.$router.push({path:'/page/message'})
-    },
-    linkToPlatfrom(){
-      this.$router.push({path:'/page/red'})
-    },
-    linkToBiling(){
-      this.$router.push({path:'/page/billingDetails'})
-    },
-    linkToRecharge(){
-      this.$router.push({path:'/page/recharge'})
-    },
-    linkToWithdraw(){
-      this.$router.push({path:'/page/withdraw'})
-    },
-    linkToPrincipal(money){
-      this.$router.push({path:'/page/principal' , query: { lczc : money}})
-    },
-    linkToIncome(){
-      this.$router.push({path:'/page/Transfer'})
-    },
-  // 判断token
-    token(){
-        if (!sessionStorage.token) {
-        this.$vux.alert.show({
-            title: '',
-            content: '请登录'
-        })
-        setTimeout(() => {
-            this.$vux.alert.hide()
-            this.$router.push({path:"/login",query: {redirect: 'your path'}})
-        }, 2000)
+    data(){
+    　　return {
+            imgSrc:"../../../static/img/openEyes.png",
+            totalMoney:0.00,
+            numberChange: 0.00,
+            asset:'{}',
+            totalMoney:''
+    　　　}
+    　},
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3)
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
         }
     },
-    // 数据
-    product(){
-      const _this = this
-      _this.$loading.show();
-      const url = myPub.URL+`/user/getAccountOverview` ;
-      const params = new URLSearchParams();
-      params.append('token',sessionStorage.token);
-      axios.post(url,params).then(response => {
-          _this.$loading.hide();
-          const data = response.data
-          console.log(response.data)
-          if (data.result == '400') {
-              this.$vux.alert.show({
-                  title: '',
-                  content: data.resultMsg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
-              }, 3000)
-          }
-          if (data.result == '200') {
-            this.asset = data.Account
-            this.lczc = this.asset.lczc
-          }
-
-      }).catch((err) => {
-          console.log(err)
-      })
-    },
-    // 消息
-    msg(){
-      const _this = this
-      const url = myPub.URL+`/msg/getMessageList` ;
-      const params = new URLSearchParams();
-      params.append('token',sessionStorage.token);
-      params.append('pageSize','10');
-      params.append('curPagel','1');
-      axios.post(url,params).then(response => {
-        const data = response.data
-        if (data.result == '400') {
-            this.$vux.alert.show({
-                title: '',
-                content: data.resultMsg
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-                this.$router.push({path:"/login",query: {redirect: 'your path'}})
-            }, 3000)
-        }
-        if (data.unReadNum == '0') {
-            $(".message img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
-        }else{
-            $(".message img").attr("src",'../../assets/img/Messages@2x.png')
-        }
-        console.log(data)
-      }).catch((err) => {
-        console.log(err)
-      })
-    },
-  },
   filters: {
     numFilter(value) {
     // 截取当前数据到小数点后三位
@@ -278,53 +147,196 @@ export default {
     activated: function() {
         this.product()
     },
+    methods:{
+        eyesTab(){
+            if (this.imgSrc == "../../../static/img/openEyes.png") {
+                this.imgSrc = "../../../static/img/closeEyes.png";
+                $(".numberChange").text("****")
+
+            }else{
+                this.imgSrc = "../../../static/img/openEyes.png";
+
+                // 总额
+                const totalMoney = Math.floor((this.asset.totalMoney)*100)/100;
+                $(".totalMoney").text(totalMoney);
+                //可用余额
+                const investMoney = Math.floor((this.asset.investMoney)*100)/100;
+                $(".investMoney").text(investMoney);
+
+                //累计收益
+                const lssy = Math.floor((this.asset.lssy)*100)/100;
+                $(".lssy").text(lssy);
+
+                //待收本金
+                const lczc =  this.toDecimal2(Math.floor((this.asset.lczc)*100)/100);
+                $(".lczc").text(lczc);
+
+                //待收收益
+                const dssy = this.toDecimal2(Math.floor((this.asset.dssy)*100)/100);
+                $(".dssy").text(dssy);
+                //转让金额
+                const zrje = this.toDecimal2(Math.floor((this.asset.zrje)*100)/100);
+                $(".zrje").text(zrje);
+                //账户余额
+                const avlBalance = this.toDecimal2(Math.floor((this.asset.avlBalance)*100)/100);
+                $(".avlBalance").text(avlBalance);
+                //冻结金额
+                const frzBalance = this.toDecimal2(Math.floor((this.asset.frzBalance)*100)/100);
+                $(".frzBalance").text(frzBalance);
+
+            }
+        },
+        zhezhaoShow(){
+        $(".zhezhao").fadeIn(400);
+        $(".slider").animate({left:"0"},400);
+        },
+        zhezhaoHide(){
+        $(".zhezhao").fadeOut(400);
+        $(".slider").animate({left:"-75%"},400);
+        },
+
+        linkToMsg(){
+        this.$router.push({path:'/page/message'})
+        },
+        linkToPlatfrom(){
+        this.$router.push({path:'/page/red'})
+        },
+        linkToBiling(){
+        this.$router.push({path:'/page/billingDetails'})
+        },
+        linkToRecharge(){
+        this.$router.push({path:'/page/recharge'})
+        },
+        linkToWithdraw(){
+        this.$router.push({path:'/page/withdraw'})
+        },
+        linkToPrincipal(money){
+        this.$router.push({path:'/page/principal' , query: { lczc : money}})
+        },
+        linkToIncome(){
+        this.$router.push({path:'/page/Transfer'})
+        },
+        // 判断token
+        token(){
+            if (!sessionStorage.token) {
+            this.$vux.alert.show({
+                title: '',
+                content: '请登录'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            }, 2000)
+            }
+        },
+        // 数据
+      product(){
+        const _this = this
+        _this.$loading.show();
+        const url = myPub.URL+`/user/getAccountOverview` ;
+        const params = new URLSearchParams();
+        params.append('token',sessionStorage.token);
+        axios.post(url,params).then(response => {
+            _this.$loading.hide();
+            const data = response.data
+            console.log(response.data)
+            if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+            }
+            if (data.result == '200') {
+              this.asset = data.Account
+              this.lczc = this.asset.lczc
+            }
+
+        }).catch((err) => {
+            console.log(err)
+        })
+      },
+      // 消息
+      msg(){
+        const _this = this
+        const url = myPub.URL+`/msg/getMessageList` ;
+        const params = new URLSearchParams();
+        params.append('token',sessionStorage.token);
+        params.append('pageSize','10');
+        params.append('curPagel','1');
+        axios.post(url,params).then(response => {
+          const data = response.data
+          if (data.result == '400') {
+              this.$vux.alert.show({
+                  title: '',
+                  content: data.resultMsg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
+              }, 3000)
+          }
+          if (data.unReadNum == '0') {
+              $(".message img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
+          }else{
+              $(".message img").attr("src",'../../assets/img/Messages@2x.png')
+          }
+          console.log(data)
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+    },
     watch: {
         '$route' (to, from) {
             this.$router.go(0);
         }//回退上一级页面并刷新
     },
-  mounted() {
-    /*ECharts图表*/
-    var myChart = echarts.init(document.getElementById('main'));
-    myChart.setOption({
-            tooltip : { //提示框组件
-              show:false,
-            },
-            color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
-            series : [ //系列列表
-                {
-                    // name:'设备状态',  //系列名称
-                    type:'pie',   //类型 pie表示饼图
-                    radius : ['56%', '70%'],  //饼图的半径,第一项是内半径,第二项是外半径,内半径为0就是真的饼,不是环形
-                    hoverAnimation:false,
-                    legendHoverLink:false,
-                    itemStyle : {  //图形样式
-                        normal : { //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                            label : {  //饼图图形上的文本标签
-                                show : false  //平常不显示
+    mounted() {
+        /*ECharts图表*/
+        var myChart = echarts.init(document.getElementById('main'));
+        myChart.setOption({
+                tooltip : { //提示框组件
+                show:false,
+                },
+                color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+                series : [ //系列列表
+                    {
+                        // name:'设备状态',  //系列名称
+                        type:'pie',   //类型 pie表示饼图
+                        radius : ['56%', '70%'],  //饼图的半径,第一项是内半径,第二项是外半径,内半径为0就是真的饼,不是环形
+                        hoverAnimation:false,
+                        legendHoverLink:false,
+                        itemStyle : {  //图形样式
+                            normal : { //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
+                                label : {  //饼图图形上的文本标签
+                                    show : false  //平常不显示
+                                },
+                                labelLine : {     //标签的视觉引导线样式
+                                    show : false  //平常不显示
+                                }
                             },
-                            labelLine : {     //标签的视觉引导线样式
-                                show : false  //平常不显示
+                            emphasis : {   //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
+                                label : {  //饼图图形上的文本标签
+                                    show : false,
+                                }
                             }
                         },
-                        emphasis : {   //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                            label : {  //饼图图形上的文本标签
-                                show : false,
-                            }
-                        }
-                    },
-                    data:[
-                        {value:80, name:'待收本金'},
-                        {value:10, name:'待收收益'},
-                        {value:30, name:'转让金额'},
-                        {value:20, name:'账户余额'},
-                        {value:25, name:'冻结金额'}
-                    ]
-                }
-            ]
-    });
-    /*ECharts图表*/
-  }
+                        data:[
+                            {value:80, name:'待收本金'},
+                            {value:10, name:'待收收益'},
+                            {value:30, name:'转让金额'},
+                            {value:20, name:'账户余额'},
+                            {value:25, name:'冻结金额'}
+                        ]
+                    }
+                ]
+        });
+        /*ECharts图表*/
+    }
 
 }
 </script>
