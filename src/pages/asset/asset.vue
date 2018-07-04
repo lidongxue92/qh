@@ -157,14 +157,14 @@ export default {
                 this.imgSrc = "../../../static/img/openEyes.png";
 
                 // 总额
-                const totalMoney = Math.floor((this.asset.totalMoney)*100)/100;
+                const totalMoney = this.toDecimal2(Math.floor((this.asset.totalMoney)*100)/100);
                 $(".totalMoney").text(totalMoney);
                 //可用余额
-                const investMoney = Math.floor((this.asset.investMoney)*100)/100;
+                const investMoney = this.toDecimal2(Math.floor((this.asset.investMoney)*100)/100);
                 $(".investMoney").text(investMoney);
 
                 //累计收益
-                const lssy = Math.floor((this.asset.lssy)*100)/100;
+                const lssy = this.toDecimal2(Math.floor((this.asset.lssy)*100)/100);
                 $(".lssy").text(lssy);
 
                 //待收本金

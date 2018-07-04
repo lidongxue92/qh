@@ -15,7 +15,7 @@
                 <span class="before">
                     <b class="after"></b>
                 </span>
-            </p>&emsp;<span class="Percentage">已售{{product.xmjd}}</span>
+            </p>&emsp;<span class="Percentage">已售{{product.xmjd}}%</span>
             <p class="note">
                 <span class="left1">剩余额度&emsp;<b>{{product.residueMoney}}</b></span>
                 <span class="right1">起投金额&emsp;<b>{{product.amountMin}}</b></span>
@@ -58,7 +58,7 @@
                 <li @click="log(product.productId)">投资记录 <img src="~@/assets/img/right.png"></li>
             </ul>
         </div>
-        <button class="button" @click="tost">立即投资</button>
+        <div class="tzBg"><button class="button" @click="tost">立即投资</button></div>
         <div class="tost" v-if="isshow">
             <div class="vux-circle-demo" style="margin-top: 9rem;margin-left: 7rem;">
                 <div style='width: 9.9rem;height:9.9rem;'>
@@ -255,7 +255,7 @@ export default {
             var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000;; // 日利率
             var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000; // 总月数的收益
             // 总收益 = 总月数的收益 + 剩余天数的收益;
-            var total = (Math.floor(totalMonth * 100) / 100);
+            var total = this.toDecimal2(Math.floor(totalMonth * 100) / 100);
             $(".rate1").text(total)
         }
         if ($(".Type").text() == '3') {
@@ -271,7 +271,7 @@ export default {
             // console.log(totalMonth);
             // 剩余天数的收益
             var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100;
-            var total = (Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
+            var total = this.toDecimal2(Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
             // console.log(total);
             $(".rate1").text(total)
         }
@@ -282,7 +282,7 @@ export default {
                 console.log(zrLilv);
                 $(".rate1").text(total)
             }else{
-                var total = (Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
+                var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
                 console.log(newAddMoney);
                 $(".rate1").text(total)
             }
@@ -460,11 +460,16 @@ export default {
     },
 }
 </script>
+<style>
+.weui-tab__panel{
+    background: #f6f6f6
+}
+</style>
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;position: relative;height: 100%;
+    background: #f6f6f6;position: relative;height: auto;
     .product{
         background: url(~@/assets/img/bg.png);color: #fefefe;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}
@@ -502,7 +507,7 @@ export default {
         }
     }
     .middle{
-        padding: 0 0.5rem;
+        padding: 0 0.5rem 3.5rem;
         .Amount{
             margin-top: 0.5rem;background: #fff;border-radius: 3px;padding: 0.5rem;color: #333;
             h5{font-size: 0.8rem;font-weight: normal;position: relative;}
@@ -545,7 +550,23 @@ export default {
             li:last-child{border-bottom: 0;}
         }
     }
-    .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+    .tzBg{
+        background: #f6f6f6;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+    .button{
+        border: 0;
+        width: 90%;
+        margin: .8rem 5%;
+        background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);
+        height: 40px;
+        text-align: center;
+        color: #fff;
+        font-size: 0.9rem;
+        border-radius: 30px;
+    }
     .tost{
         position: absolute;width: 100%;height: 100%;z-index: 11;background: #f6f6f6;top: 0;text-align: center;
         .bottom{background: #80BFFF;position: fixed;bottom:2rem;left: 0;}
