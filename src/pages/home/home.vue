@@ -3,7 +3,7 @@
         <div class="index_banner" >
             <img @click="zhezhaoShow" class="imgright" src="../../assets/img/icon_head@2x.png">
             <swiper :list="demo02_list" style="width:85%;margin:0 auto;" :aspect-ratio="300/800" dots-position="center"></swiper>
-            <span @click="linkToMsg" class="imgleft"><img  src="../../assets/img/icon_xiaoxi@2x.png"></span>
+            <span @click="linkToMsg" class="imgleft"><img src="../../assets/img/icon_xiaoxi@2x.png"></span>
             <!-- 新手 -->
             <div class="set" v-if="!isshow">
                 <div class="left">
@@ -83,7 +83,9 @@
         <div class="slider"><slider> </slider></div>
     </div>
 </template>
-
+<style type="text/css">
+    .vux-swiper{height: 11rem!important;}
+</style>
 <script>
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
 import slider from '../../components/common/slider'
@@ -116,7 +118,7 @@ export default {
             newlist:'',
             hotlist:'',
             list:'',
-            demo02_list: baseList,
+            demo02_list:'[]',
             num:'',
             isshow:true,
             isshow1:false,
@@ -126,7 +128,8 @@ export default {
     created() {
         this.token();
         this.index_banner();
-        this.index_product()
+        this.index_product(),
+        this.msg()
     },
     watch: {
         '$route' (to, from) {
@@ -191,6 +194,41 @@ export default {
            $(".zhezhao").fadeOut(400);
            $(".slider").animate({left:"-75%"},400);
         },
+        // 首页banner接口
+        index_banner(){
+          const _this = this
+          const url = myPub.URL+`/front/getAdvList` ;
+          const params = new URLSearchParams();
+          params.append('adType','1');
+          params.append('adPosition','1');
+          params.append('adPort','PC');
+          params.append('adCanal','0');
+          axios.post(url,params).then(response => {
+            const data = response.data
+            var str = [];
+            for (var i = 0; i < data.Advertise.length; i++) {
+                 var obj = {
+                     img: data.Advertise[i].adImg,
+                     Url: data.Advertise[i].adLink,
+                 };
+                 str.push(obj);
+                 // console.log(obj);
+             }
+             this.demo02_list = str
+            // for (var i = 0; i < data.Advertise.length; i++) {
+            //     const arry = []
+            //     const img = data.Advertise[i].adImg
+            //     const Url = data.Advertise[i].adLink
+            //     const list = '{'+'"img":'+'"'+img+'",'+'"Url":'+'"'+Url+'",'+'}'
+            //     console.log(list)
+            //     // arry.push(list)
+            //     console.log(arry)
+            // }
+            console.log(data)
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
         // 产品推荐
         index_product(){
             const _this = this
@@ -235,7 +273,37 @@ export default {
         },
         flushCom:function(){
 　　　　　　this.$router.go(0);
-　　　　}
+　　　　},
+        // 消息接口
+        msg(){
+          const _this = this
+          const url = myPub.URL+`/msg/getMessageList` ;
+          const params = new URLSearchParams();
+          params.append('token',sessionStorage.token);
+          params.append('pageSize','10');
+          params.append('curPagel','1');
+          axios.post(url,params).then(response => {
+            const data = response.data
+            if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+            }
+            if (data.unReadNum == '0') {
+                $(".imgleft img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
+            }else{
+                $(".imgleft img").attr("src",'../../assets/img/Messages@2x.png')
+            }
+            console.log(data)
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
     },
     mounted() {
     },

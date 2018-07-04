@@ -469,7 +469,7 @@ export default {
         background: url(~@/assets/img/bg.png);color: #fefefe;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}
         .left{
-            display: inline-block;width: 39%;text-align: center;position: relative;padding: 0 5%;text-align: right;
+            display: inline-block;width: 39%;text-align: center;position: relative;padding: 0 3%;text-align: right;
             .interest{
                 font-size: 3rem;color: #fff;text-align: center;margin: 0;padding: 0;display: inline-block;position: relative;width: 100%;text-align: right;
                 b{font-weight: normal;position: relative;bottom: 0rem;font-size: 0.8rem;}
@@ -478,7 +478,7 @@ export default {
         }
         .left:after{position: absolute;content: '';height: 70%;width: 1px;background: #7AAFFB;right: 0;top: 15%;}
         .right{
-            display: inline-block;width: 39%;padding: 0 5%;position: relative;bottom: 1rem;
+            display: inline-block;width: 45%;padding: 0 3%;position: relative;bottom: 1rem;
             p{
                 font-size: 0.6rem;color: #7AAFFB;line-height: 1.5rem;
                 span{font-size: 0.8rem;color: #fff}
@@ -509,7 +509,7 @@ export default {
             p{
                 padding:1rem;text-align: center;font-size: 0.6rem;
                 .leftimg{width: 2.4rem;height: 2.4rem;float: left;}
-                input{border: 0;text-align: center;font-size: 1.1rem;width: 20%;margin-top: 0.8rem;}
+                input{border: 0;text-align: center;font-size: 1.1rem;width: 26%;margin-top: 0.8rem;}
                 .rightimg{width: 2.4rem;height: 2.4rem;float: right;}
             }
             .word{

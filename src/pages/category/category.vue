@@ -9,7 +9,7 @@
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
                 <p class="Profit">{{item.annualYield}}</p>
-                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.openLimit}}</b> </span></p>
+                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>天</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
@@ -22,7 +22,7 @@
                               <span>历史年化收益率</span>
                           </p>
                           <p class="right">
-                              <span class="day"><b>{{item.daysLimit}}</b> 个月</span><span class="status">{{item.status}}</span>
+                              <span class="day"><b>{{item.period}}</b>天</span><span class="status">{{item.status}}</span>
                               <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
                           </p>
                       </div>
@@ -45,7 +45,7 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.daysLimit}}</b> 个月</span><span class="status">{{item.status}}</span>
+                            <span class="day"><b>{{item.period}}</b>天</span><span class="status">{{item.status}}</span>
                             <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
                         </p>
                     </div>
@@ -297,7 +297,7 @@ export default {
                       font-size: 0.6rem;border-right: 1px solid #eee;padding: 0 0.8rem;
                       b{font-size: 0.8rem;font-weight: normal;}
                   }
-                  .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;opacity: 0}
+                  .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;opacity: 0;position: relative;}
                   .Quota{
                       display: inline-block;width: 100%;font-size: 0.6rem;padding: 0 0.8rem;color: #999;
                       b{font-weight: normal;color: #333;font-size: 0.9rem;}
@@ -306,6 +306,7 @@ export default {
               .bg-img{position: absolute;width: 4rem;height: 4rem;right: 1rem;top: 5rem;}
               .bg{position: absolute;width: 100%;height: 100%;background: rgba(255,255,255,.3);left: 0;top: 0;}
           }
+          .list:first-child{display: none;}
       }
       .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
     }

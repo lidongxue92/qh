@@ -131,8 +131,18 @@ export default {
             return Number(realVal)
         }
     },
-    created() {
-        this.token()
+  filters: {
+    numFilter(value) {
+    // 截取当前数据到小数点后三位
+    let transformVal = Number(value).toFixed(3)
+    let realVal = transformVal.substring(0, transformVal.length - 1)
+    // num.toFixed(3)获取的是字符串
+    return Number(realVal)
+    }
+  },
+   created() {
+        this.token(),
+        this.msg()
     },
     activated: function() {
         this.product()
@@ -219,35 +229,66 @@ export default {
             }, 2000)
             }
         },
-        product(){
-            const _this = this
-            _this.$loading.show();
-            const url = myPub.URL+`/user/getAccountOverview` ;
-            const params = new URLSearchParams();
-            params.append('token',sessionStorage.token);
-            axios.post(url,params).then(response => {
-                _this.$loading.hide();
-                const data = response.data
-                console.log(response.data)
-                if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                }
-                if (data.result == '200') {
-                    this.asset = data.Account
-                    this.lczc = this.asset.lczc
-                }
+        // 数据
+      product(){
+        const _this = this
+        _this.$loading.show();
+        const url = myPub.URL+`/user/getAccountOverview` ;
+        const params = new URLSearchParams();
+        params.append('token',sessionStorage.token);
+        axios.post(url,params).then(response => {
+            _this.$loading.hide();
+            const data = response.data
+            console.log(response.data)
+            if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+            }
+            if (data.result == '200') {
+              this.asset = data.Account
+              this.lczc = this.asset.lczc
+            }
 
-            }).catch((err) => {
-                console.log(err)
-            })
-        }
+        }).catch((err) => {
+            console.log(err)
+        })
+      },
+      // 消息
+      msg(){
+        const _this = this
+        const url = myPub.URL+`/msg/getMessageList` ;
+        const params = new URLSearchParams();
+        params.append('token',sessionStorage.token);
+        params.append('pageSize','10');
+        params.append('curPagel','1');
+        axios.post(url,params).then(response => {
+          const data = response.data
+          if (data.result == '400') {
+              this.$vux.alert.show({
+                  title: '',
+                  content: data.resultMsg
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
+              }, 3000)
+          }
+          if (data.unReadNum == '0') {
+              $(".message img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
+          }else{
+              $(".message img").attr("src",'../../assets/img/Messages@2x.png')
+          }
+          console.log(data)
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
     },
     watch: {
         '$route' (to, from) {
