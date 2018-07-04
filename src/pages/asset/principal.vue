@@ -191,10 +191,7 @@ export default {
           }).catch((err) => {
               console.log(err)
           })
-    },
-    activated: function() {
-
-    },
+   },
     watch: {
         '$route' (to, from) {
             this.$router.go(0);
