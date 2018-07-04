@@ -250,28 +250,94 @@ export default {
     methods:{
         // 侧栏
         userset(){
-          this.$router.push({path:'/page/userset'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/userset'})
+            }
         },
         linkToInvite(){
-          this.$router.push({path:'/page/invite'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/invite'})
+            }
         },
         linkToProblem(){
-        this.$router.push({path:'/page/commonProblem'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/commonProblem'})
+            }
         },
         linkToAddress(){
-        this.$router.push({path:'/page/address'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/address'})
+            }
         },
         linkToService(){
-        this.$router.push({path:'/page/service'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/service'})
+            }
         },
         linkToAboutUs(){
-        this.$router.push({path:'/page/aboutUs'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/aboutUs'})
+            }
         },
         linkToLogin(){
-        this.$router.push({path:'/login'})
+            this.$router.push({path:'/login'})
         },
         linkToRegister(){
-        this.$router.push({path:'/settlein'})
+            this.$router.push({path:'/settlein'})
         },
         res(){
           if (sessionStorage.token) {
@@ -280,91 +346,136 @@ export default {
           }
         },
         linkToBankCard(){
-            this.$router.push({path:'/page/bankCard'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/bankCard'})
+            }
         },
         linkToBangCard(){
-            const url = myPub.URL+`/user/getUserInfo`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                const url = myPub.URL+`/user/getUserInfo`;
+                var params = new URLSearchParams();
+                params.append('token',sessionStorage.getItem("token"));
 
-            axios.post(url,params).then(res => {
-                console.log(res.data);
-                if (res.data.User.realNameStatus != 2) {
-                    this.$router.push({path:'/page/bangCard'});
-                }else{
-                    if (res.data.User.hasBankCard != 2) {
-                        //用户绑卡
-                        const url = myPub.URL+`/chinaPnr/userBindCard`;
-                        var params = new URLSearchParams();
-                        params.append('token',sessionStorage.token);
-                        params.append('clientType','h5');
+                axios.post(url,params).then(res => {
+                    console.log(res.data);
+                    if (res.data.User.realNameStatus != 2) {
+                        this.$router.push({path:'/page/bangCard'});
+                    }else{
+                        if (res.data.User.hasBankCard != 2) {
+                            //用户绑卡
+                            const url = myPub.URL+`/chinaPnr/userBindCard`;
+                            var params = new URLSearchParams();
+                            params.append('token',sessionStorage.token);
+                            params.append('clientType','h5');
 
-                        axios.post(url,params).then(res => {
-                            console.log(res.data);
-                            this.cardChinaPnrServer = res.data.chinaPnrServer;
-                            this.cardVersion = res.data.Version; //版本号
-                            this.cardCmdId = res.data.CmdId; //消息信息
-                            this.cardMerCustId = res.data.MerCustId; //商户客户号
-                            this.cardBgRetUrl = res.data.BgRetUrl; //商户后台应地址
-                            this.cardUsrId = res.data.UsrCustId; //用户客户号
-                            this.cardMerPriv = res.data.MerPriv;//商户私有域
-                            this.cardPageType = res.data.PageType; //页面类型
-                            this.cardChkValue = res.data.ChkValue; //签名
+                            axios.post(url,params).then(res => {
+                                console.log(res.data);
+                                this.cardChinaPnrServer = res.data.chinaPnrServer;
+                                this.cardVersion = res.data.Version; //版本号
+                                this.cardCmdId = res.data.CmdId; //消息信息
+                                this.cardMerCustId = res.data.MerCustId; //商户客户号
+                                this.cardBgRetUrl = res.data.BgRetUrl; //商户后台应地址
+                                this.cardUsrId = res.data.UsrCustId; //用户客户号
+                                this.cardMerPriv = res.data.MerPriv;//商户私有域
+                                this.cardPageType = res.data.PageType; //页面类型
+                                this.cardChkValue = res.data.ChkValue; //签名
 
-                            if(res.data.result == 200){
-                                //提交from表单
-                                setTimeout(() => {
-                                    document.bangkaSubmit.submit();
-                                }, 1000)
+                                if(res.data.result == 200){
+                                    //提交from表单
+                                    setTimeout(() => {
+                                        document.bangkaSubmit.submit();
+                                    }, 1000)
 
-                            }
-                        }).catch((err) => {
-                            console.log(err);
-                        });
+                                }
+                            }).catch((err) => {
+                                console.log(err);
+                            });
+                        }
                     }
-                }
 
-            }).catch((err) => {
-                console.log(err);
-            });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
 
         },
 
         // 开户
         linkToKaiHu(){
-            const url = myPub.URL+`/chinaPnr/userRegister`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('clientType','h5');
-            axios.post(url,params).then(res => {
-                console.log(res.data);
-                    this.ChinaPnrServer = res.data.chinaPnrServer;
-                    this.Version = res.data.Version; //版本号
-                    this.CmdId = res.data.CmdId; //消息信息
-                    this.MerCustId = res.data.MerCustId; //商户客户号
-                    this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
-                    this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                    this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
-                    this.UsrId = res.data.UsrId; //用户号
-                    this.UsrMp = res.data.UsrMp; //手机号
-                    this.PageType = res.data.PageType; //页面类型
-                    this.ChkValue = res.data.ChkValue; //签名
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                const url = myPub.URL+`/chinaPnr/userRegister`;
+                var params = new URLSearchParams();
+                params.append('token',sessionStorage.getItem("token"));
+                params.append('clientType','h5');
+                axios.post(url,params).then(res => {
+                    console.log(res.data);
+                        this.ChinaPnrServer = res.data.chinaPnrServer;
+                        this.Version = res.data.Version; //版本号
+                        this.CmdId = res.data.CmdId; //消息信息
+                        this.MerCustId = res.data.MerCustId; //商户客户号
+                        this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                        this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                        this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                        this.UsrId = res.data.UsrId; //用户号
+                        this.UsrMp = res.data.UsrMp; //手机号
+                        this.PageType = res.data.PageType; //页面类型
+                        this.ChkValue = res.data.ChkValue; //签名
 
-                if(res.data.result == 200){
-                    //提交from表单
-                    console.log(this.Version)
-                    setTimeout(() => {
-                        document.regSubmit.submit();
-                    }, 1000)
+                    if(res.data.result == 200){
+                        //提交from表单
+                        console.log(this.Version)
+                        setTimeout(() => {
+                            document.regSubmit.submit();
+                        }, 1000)
 
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+
         },
         // 三方账户信息
         linkToMsg(){
-          this.$router.push({path:'/page/accountHf'})
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                this.$router.push({path:'/page/accountHf'})
+            }
         },
         // 实名认证页面
         linkToRealName(){

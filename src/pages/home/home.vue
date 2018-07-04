@@ -124,15 +124,9 @@ export default {
         }
     },
     created() {
-        // this.token(),
-        // this.index_banner(),
-        // this.index_product()
-    },
-    activated: function() {
-        this.token(),
-        this.index_banner(),
+        this.token();
+        this.index_banner();
         this.index_product()
-        // this.flushCom()
     },
     watch: {
         '$route' (to, from) {
@@ -140,6 +134,24 @@ export default {
         },//回退上一级页面并刷新
     },
     methods: {
+        // 首页banner接口
+        index_banner(){
+          const _this = this
+          const url = myPub.URL+`/front/getAdvList` ;
+          const params = new URLSearchParams();
+          params.append('adType',1);
+          params.append('adPosition',1);
+          params.append('adPort','pc');
+          params.append('adCanal',0);
+          axios.post(url,params).then(response => {
+            const data = response.data
+            console.log(data);
+            // _this.demo02_list = data.Advertise.adImg;
+
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
         linkToDetail(id) {
             if (!sessionStorage.token) {
                 this.$vux.alert.show({
@@ -178,22 +190,6 @@ export default {
         zhezhaoHide(){
            $(".zhezhao").fadeOut(400);
            $(".slider").animate({left:"-75%"},400);
-        },
-        // 首页banner接口
-        index_banner(){
-          const _this = this
-          const url = myPub.URL+`/front/getAdvList` ;
-          const params = new URLSearchParams();
-          params.append('adType','1');
-          params.append('adPosition','1');
-          params.append('adPort','h5');
-          params.append('adCanal','0');
-          axios.post(url,params).then(response => {
-            const data = response.data
-            console.log(data)
-          }).catch((err) => {
-            console.log(err)
-          })
         },
         // 产品推荐
         index_product(){
