@@ -242,17 +242,17 @@ export default {
             axios.post(url,params).then(response => {
                 _this.$loading.hide();
                 const data = response.data
-                console.log(data)
-                if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                }
+                // console.log(data)
+                // if (data.result == '400') {
+                //     this.$vux.alert.show({
+                //         title: '',
+                //         content: data.resultMsg
+                //     })
+                //     setTimeout(() => {
+                //         this.$vux.alert.hide()
+                //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                //     }, 3000)
+                // }
                 if (data.result == '200') {
                     _this.newlist = data.GsInfo
                     _this.hotlist = data.HotInfo
@@ -284,16 +284,16 @@ export default {
           params.append('curPagel','1');
           axios.post(url,params).then(response => {
             const data = response.data
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
+            // if (data.result == '400') {
+            //     this.$vux.alert.show({
+            //         title: '',
+            //         content: data.resultMsg
+            //     })
+            //     setTimeout(() => {
+            //         this.$vux.alert.hide()
+            //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            //     }, 3000)
+            // }
             if (data.unReadNum == '0') {
                 $(".imgleft img").attr("src",'../../../static/img/icon_xiaoxi@2x.png')
             }else{

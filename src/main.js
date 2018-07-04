@@ -15,11 +15,20 @@ Vue.use(ElementUI);
 import Mint from 'mint-ui';
 Vue.use(Mint);
 
+
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+
 import vView from 'vue-view-lazy'
 Vue.use(vView,{
     error:'../../static/images/loading.png',
     loading:'../../static/images/loading.gif',
 });
+
+import Vant from 'vant';
+import 'vant/lib/vant-css/index.css';
+
+Vue.use(Vant);
 
 // vux 引入组件
 import { AlertPlugin, ToastPlugin } from 'vux'

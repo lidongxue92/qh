@@ -61,6 +61,7 @@
 
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
+import {Loadmore} from 'mint-ui';
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
@@ -91,9 +92,7 @@ export default {
     computed: {
      params() {
       return{
-       //这里先定义要传递给后台的数据
-       //然后将每次请求20条的参数一起提交给后台
-       pageSize: this.pageSize
+       pageSize:'1'
        }
      }
     },
@@ -127,6 +126,7 @@ export default {
           const _this = this
           const url = myPub.URL+`/product/getProductList`;
           var params = new URLSearchParams();
+          const pageSize =+1
           _this.$loading.show();
           params.append('productType','14');
           params.append('productSubType',a);
@@ -134,7 +134,7 @@ export default {
           params.append('clientType','h5');
           params.append('token',sessionStorage.token)
           params.append('pageSize','10');
-          params.append('curPage','1');
+          params.append('curPage',pageSize);
           axios.post(url,params).then(res => {
             _this.$loading.hide();
               console.log(res.data);
@@ -150,7 +150,7 @@ export default {
                 }, 3000)
               }
               if (data.result == '200') {
-                this.datalist =res.data.Product
+                this.datalist = res.data.Product
               setTimeout(() => {
                 $(".img").each(function (i,n) {
                   if ($(".img").eq(i).text() == '1') {
@@ -227,7 +227,7 @@ export default {
     },
     components: {
       infiniteScroll,
-        top
+      top
     }
 }
 </script>
