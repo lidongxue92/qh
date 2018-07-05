@@ -31,7 +31,7 @@
                 <h6>风险评估</h6>
                 <p>未评估</p>
               </div>
-              <div v-else>
+              <div v-else @click="linkToResult">
                 <h6>风险评估</h6>
                 <p>已评估</p>
               </div>
@@ -77,10 +77,6 @@
             <img src="../../assets/img/sliderBox/slider7.png">
             <span>关于我们</span>
           </li>
-          <!-- <li>
-            <img src="../../assets/img/sliderBox/slider8.png">
-            <span>版本更新</span>
-          </li> -->
         </ul>
 
         <!-- 侧栏底部 -->
@@ -89,7 +85,7 @@
             <p>安全退出</p>
           </div>
           <div class="loginReg" v-if ="!isShow" >
-            <p class="login" @click="linkToLogin">登陆</p>
+            <p class="login" @click="linkToLogin">登录</p>
             <p @click="linkToRegister">注册</p>
           </div>
 
@@ -222,6 +218,7 @@ export default {
         });
     },
     mounted() {
+        // 获取信息
         const url = myPub.URL+`/user/getUserInfo`;
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
@@ -246,6 +243,30 @@ export default {
         }).catch((err) => {
             console.log(err);
         });
+
+        //获取测试结果
+        const url1 = myPub.URL+`/user/getInvestTestResult`;
+        var params1 = new URLSearchParams();
+        params1.append('token',sessionStorage.getItem("token"));
+
+        axios.post(url1,params1).then(res => {
+            console.log(res.data);
+            console.log(res.data.investTestResult);
+            if (res.data.investTestResult != undefined && res.data.investTestResult != 0 && res.data.investTestResult != "0" && res.data.investTestResult != "undefined") {
+                this.isTest = false;
+            }else{
+                this.isTest = true;
+            }
+
+
+
+
+        }).catch((err) => {
+            console.log(err);
+        });
+
+
+
     },
     methods:{
         // 侧栏
@@ -274,10 +295,11 @@ export default {
                     this.$router.push({path:"/login",query: {redirect: 'your path'}})
                 }, 2000)
             }else{
-                // Location.href = "http://test.qihangjf.com:29089/#/risk.html"
-                Location.href = "risk.html"
-
+                location.href = "http://test.qihangjf.com:29084/risk.html?token=" + sessionStorage.token;
             }
+        },
+        linkToResult(){
+            this.$router.push({path:"/RiskResult"})
         },
         linkToInvite(){
             if (!sessionStorage.token) {

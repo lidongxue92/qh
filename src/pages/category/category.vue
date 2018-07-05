@@ -58,16 +58,19 @@
              <p class="note">理财有风险投资需谨慎 </p>
          </div>
         </div>
+        <div class="page"><page></page></div>
     </div>
 </template>
 
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
+import {Loadmore} from 'mint-ui';
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
 import Vue from 'vue'
 import infiniteScroll from 'mint-ui'
+import page from '../../pages/page/page'
 export default {
     name: 'category',
     data(){
@@ -88,7 +91,7 @@ export default {
 　　　}
 　　},
     created() {
-      this.token()
+    //   this.token()
     },
     beforeMount() {
         // 在页面挂载前就发起请求
@@ -271,7 +274,7 @@ export default {
 
             // 获取文档总高度
             // var ScrollHeight = this.getScrollHeight();
-            var ScrollHeight = $(".Condcut").height();
+            var ScrollHeight = $(".middle").height();
             console.log(ScrollHeight); //51
 
             //获取滚动条的高度
@@ -432,7 +435,8 @@ export default {
     },
     components: {
       infiniteScroll,
-        top
+        top,
+        page
     }
 }
 </script>
@@ -451,7 +455,7 @@ export default {
 }
 .goods{
     background: #f7f7f7;
-    height: 100%;
+    height: auto;
     h5{line-height: 30px;font-weight: normal;font-size: 0.8rem;border-bottom: 1px solid #eee;padding: 0 1rem;}
     .tab{
         background: #2B9AFF;

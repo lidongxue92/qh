@@ -132,11 +132,11 @@ export default {
         },
         // 眼睛切换
         eyesTab(){
-            if (this.imgSrc == "../../../static/img/loginEyes.png") {
-                this.imgSrc = "../../../static/img/closeEyes.png";
+            if (this.imgSrc == "../../static/img/loginEyes.png") {
+                this.imgSrc = "../../static/img/closeEyes.png";
                 this.type = "password"
             }else{
-                this.imgSrc = "../../../static/img/loginEyes.png";
+                this.imgSrc = "../../static/img/loginEyes.png";
                 this.type = "text"
             }
         },
@@ -743,7 +743,12 @@ export default {
   .middle{
     margin-top: 2rem;
     ul{
-        li{list-style: none;display: inline-block;width: 49.1%;line-height: 40px;text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
+        li{
+            list-style: none;
+            display: inline-block;
+            width: 48.9%;
+            line-height: 40px;
+            text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
         .active{border-bottom: 1px solid #2395FF;color: #2395FF}
     }
     .login_content1{
@@ -779,7 +784,7 @@ export default {
       margin-top: 20px;
       border: none;
       background: #2773FF;
-    //   opacity: .5;
+      opacity: .5;
   }
 
    .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}

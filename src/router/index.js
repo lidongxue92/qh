@@ -12,8 +12,6 @@ import Page from "../pages/page/page";
 import Category from "../pages/category/category";
 import Data from "../pages/order/data";
 import Asset from '../pages/asset/asset';
-
-
 import Ceshi from "../pages/detail/ceshi";
 import Detail from "../pages/detail/detail";
 import Detailto from "../pages/detail/detailto";
@@ -42,7 +40,7 @@ import Transfersuccess from '../pages/asset/Transfersuccess';
 import Card from '../pages/asset/card';
 import CardSuccess from '../pages/asset/cardSuccess';
 
-// // 侧栏
+// 侧栏
 import AboutUs from '../pages/slider/aboutUs';
 import Service from '../pages/slider/service';
 import Address from '../pages/slider/address';
@@ -59,7 +57,7 @@ import AccountHf from '../pages/slider/accountHf';
 import YanzhengPhone from '../pages/slider/yanzhengPhone';
 import BankCard from '../pages/slider/bankCard';
 import BangCard from '../pages/slider/bangCard';
-
+import RiskResult from '../pages/slider/riskResult';
 
 Vue.use(Router)
 
@@ -255,6 +253,16 @@ export default new Router({
                 // requireAuth: true
             },
             component: AccountHf,
+
+        },
+        {
+            path: '/RiskResult',
+            name: 'RiskResult',
+            meta: {
+                title: '风险测评结果',
+                // requireAuth: true
+            },
+            component: RiskResult,
 
         },
 
