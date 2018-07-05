@@ -91,6 +91,12 @@
 
         </div>
       </div>
+
+    <div class="bg"></div>
+    <div class="toast">
+        确定退出
+        <a class="button" @click="close">确定</a>
+    </div>
       <!-- 侧栏菜单项 -->
 
 
@@ -528,15 +534,14 @@ export default {
             axios.post(url,params).then(res => {
                 // console.log(res.data);
                 if (res.data.result == 200) {
-                    this.$vux.alert.show({
-                        content: res.data.resultMsg
-                    });
-                    setTimeout(() => {
-                        sessionStorage.removeItem("token");
-                        sessionStorage.removeItem("userId");
-                        this.$vux.alert.hide();
-                        this.$router.push({path:'/login'})
-                    },2000)
+                    $(".bg").css("display","block")
+                    $(".toast").css("display","block")
+                    // setTimeout(() => {
+                    //     sessionStorage.removeItem("token");
+                    //     sessionStorage.removeItem("userId");
+                    //     this.$vux.alert.hide();
+                    //     this.$router.push({path:'/login'})
+                    // },2000)
                 }
 
 
@@ -544,6 +549,11 @@ export default {
                 console.log(err);
             });
         },
+        close(){
+            $(".bg").css("display","none")
+            $(".toast").css("display","none")
+            this.$router.push({path:"/login"})
+        }
     },
 
 }
@@ -692,6 +702,11 @@ export default {
 
 
   }
+  .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);top: 0;left: 0;display: none;}
+  .toast{
+    position: absolute;width: 60%;border-radius: 5px;background: #fff;top: 50%;left: 40%;text-align: center;font-size: 0.8rem;color: #999;padding: 1rem 0;display: none;
+    .button{display: block;width: 80%;margin-left: 10%;height: 30px;color: #fff;background: #2B9AFF;font-size: 0.8rem;margin-top: 1rem;border-radius: 5px;line-height: 30px;}
+}
 
 }
 </style>
