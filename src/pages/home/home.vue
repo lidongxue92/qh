@@ -25,7 +25,7 @@
                     </li>
                     <li>
                         <img src="~@/assets/img/icon_huo@2x.png">
-                        <p>xx活动</p>
+                        <p>活动</p>
                     </li>
                     <li>
                         <img src="~@/assets/img/icon_banz@2x.png">
@@ -128,7 +128,7 @@ export default {
         }
     },
     created() {
-        // this.token();
+        this.token();
         this.index_banner();
         this.index_product(),
         this.msg()
