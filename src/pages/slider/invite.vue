@@ -7,7 +7,7 @@
         <div class="banner"> <a :href="adLink"><img :src="imgSrc"></a></div>
         <div class="inviteTop">
             <div class="pTop">
-                <p>启航金控累计为<span>{{regTotal}}</span>人赚取收益超过</p>
+                <p>启航金服累计为<span>{{regTotal}}</span>人赚取收益超过</p>
                 <p class="shouYi">{{totalProfit}}</p>
                 <div class="img"><img src="../../assets/img/invite/ewm.png"></div>
             </div>

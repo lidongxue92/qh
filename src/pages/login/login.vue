@@ -457,6 +457,7 @@ export default {
     created(){
         this.createCode();
         sessionStorage.removeItem("token");
+        this.userPhone = this.$route.query.phone
     },
     // watch: {
     //     '$route' (to, from) {

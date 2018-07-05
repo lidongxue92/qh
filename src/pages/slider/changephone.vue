@@ -5,9 +5,9 @@
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
                     <li>
-                        手机号&ensp;<input type="type" placeholder="请输入新的手机号" v-model="userPhone" @blur="checkLPhone"></li>
+                        手机号&ensp;<input type="type" placeholder="请输入新的手机号" v-model="userPhone" @blur="checkLPhone" maxlength="11"></li>
                     <li>
-                        验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode"  @input="changBGC">
+                        验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode"  @input="changBGC" maxlength="6">
                         <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
                     </li>
                 </ul>

@@ -3,7 +3,7 @@
         <div class="index_banner" >
             <img @click="zhezhaoShow" class="imgright" src="../../assets/img/icon_head@2x.png">
             <swiper :list="demo02_list" style="width:85%;margin:0 auto;" :aspect-ratio="300/800" dots-position="center"></swiper>
-            <span @click="linkToMsg" class="imgleft"><img src="../../assets/img/icon_xiaoxi@2x.png"></span>
+            <span @click="linkToMsg" class="imgleft"><img class="img1" src="../../assets/img/icon_xiaoxi@2x.png"><img v-if="isshow3" class="img2" src="../../assets/img/yuan.png"></span>
             <!-- 新手 -->
             <div class="set" v-if="!isshow">
                 <div class="left">
@@ -17,7 +17,11 @@
             </div>
             <!-- 非新手 -->
             <div class="list" v-if="isshow">
-                <p><img src="~@/assets/img/icon_lab@2x.png" />&ensp;热烈庆祝道道理财隆重上线，百万福利派送中……</p>
+                <div id="box"><img src="~@/assets/img/icon_lab@2x.png" />
+                    <ul id="con1" ref="con1" :class="{anim:animate==true}">
+                        <li v-for='item in items'>{{item.title}}</li>
+                    </ul>
+                </div>
                 <ul>
                     <li @click="linkToInvite">
                         <img src="~@/assets/img/icon_you@2x.png">
@@ -125,6 +129,11 @@ export default {
             isshow:true,
             isshow1:false,
             isshow2:true,
+            isshow3:false,
+
+            animate:false,
+              items:'',
+              page: [1, 2, 3, 4, 5]
         }
     },
     created() {
@@ -132,12 +141,17 @@ export default {
         this.index_banner();
         this.index_product(),
         this.msg()
+        this.Notice()
+        if (this.isshow == true) {
+            $(".middle").css("margin-top",'0')
+        }
+        setInterval(this.scroll,2500)
     },
-    // watch: {
-    //     '$route' (to, from) {
-    //         this.$router.go(0);
-    //     },//回退上一级页面并刷新
-    // },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        },//回退上一级页面并刷新
+    },
     methods: {
         // 首页banner接口
         index_banner(){
@@ -223,18 +237,8 @@ export default {
                      Url: data.Advertise[i].adLink,
                  };
                  str.push(obj);
-                 // console.log(obj);
              }
              this.demo02_list = str
-            // for (var i = 0; i < data.Advertise.length; i++) {
-            //     const arry = []
-            //     const img = data.Advertise[i].adImg
-            //     const Url = data.Advertise[i].adLink
-            //     const list = '{'+'"img":'+'"'+img+'",'+'"Url":'+'"'+Url+'",'+'}'
-            //     console.log(list)
-            //     // arry.push(list)
-            //     console.log(arry)
-            // }
             console.log(data)
           }).catch((err) => {
             console.log(err)
@@ -284,6 +288,15 @@ export default {
         flushCom:function(){
 　　　　　　this.$router.go(0);
 　　　　},
+        // 文字滚动
+        scroll(){
+          this.animate = true
+          setTimeout(() => {
+            this.items.push(this.items[0]);
+            this.items.shift();
+            this.animate= false;  // 这个地方如果不把animate 取反会出现消息回滚的现象，此时把ul 元素的过渡属性取消掉就可以完美实现无缝滚动的效果了
+          },1500)
+        },
         // 消息接口
         msg(){
           const _this = this
@@ -294,21 +307,25 @@ export default {
           params.append('curPagel','1');
           axios.post(url,params).then(response => {
             const data = response.data
-            // if (data.result == '400') {
-            //     this.$vux.alert.show({
-            //         title: '',
-            //         content: data.resultMsg
-            //     })
-            //     setTimeout(() => {
-            //         this.$vux.alert.hide()
-            //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
-            //     }, 3000)
-            // }
             if (data.unReadNum == '0') {
-                $(".imgleft img").attr("src",'../../static/img/xiaoXi.png')
+                this.isshow3 = false
             }else{
-                $(".imgleft img").attr("src",'../../static/img/Messages@2x.png')
+                this.isshow3 = true
             }
+            console.log(data)
+          }).catch((err) => {
+            console.log(err)
+          })
+        },
+        // 公告
+        Notice(){
+          const _this = this
+          const url = myPub.URL+`/index/getInfoManageList` ;
+          const params = new URLSearchParams();
+          params.append('imType','2');
+          axios.post(url,params).then(response => {
+            const data = response.data
+            this.items = data.InfoManage
             console.log(data)
           }).catch((err) => {
             console.log(err)
@@ -316,6 +333,9 @@ export default {
         },
     },
     mounted() {
+        if (this.isshow == true) {
+            $(".middle").css("margin-top",'0')
+        }
     },
     components: {
         Swiper,
@@ -338,9 +358,13 @@ export default {
     .index_banner{
         width:100%;position: relative;
         .imgright{position: absolute;left: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;}
-        .imgleft{position: absolute;right: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;display: inline-block;background: rgba(0,0,0,.5);border-radius: 50%;text-align:center;line-height:2rem;img{width: 0.8rem;height: 1rem}}
+        .imgleft{
+            position: absolute;right: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;display: inline-block;background: rgba(0,0,0,.5);border-radius: 50%;text-align:center;line-height:2rem;
+            .img1{width: 0.8rem;height: 1rem}
+            .img2{position: absolute;width:0.5rem;height: 0.5rem;right: 0.4rem;top: 0.3rem;}
+        }
         .set{
-            position: relative;bottom: 1rem;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;padding: 1rem 0;
+            position: absolute;top: 9rem;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;padding: 1rem 0;
             .left{
                 display: inline-block;width:58%;font-size: 0.6rem;padding: 0 1rem;
                 .res{font-size: 0.8rem;font-weight: 700;color: #333;}
@@ -356,9 +380,19 @@ export default {
         }
         .list{
             background: #fff;
-            p{
-                font-size: 0.6rem;padding: 0.2rem 1rem;background: #F6F6F6;height: 1.3rem;color: #666;
-                img{width: 0.8rem;height: 0.7rem;}
+            #box{
+                font-size: 0.6rem;padding: 0.2rem 1rem;background: #F6F6F6;height: 1.3rem;color: #666;height:31px;
+                line-height: 30px;
+                overflow: hidden;
+                transition: all 0.5s;
+                .anim{
+                    transition: all 1.5s;
+                    margin-top: -34px;
+                  }
+                  #con1 li{
+                    list-style: none;padding: 0;width: 100%;background: transparent;text-align: left;padding-left: 1.2rem;
+                  }
+                img{width: 1rem;height: 1rem;position: relative;top: 0.2rem;}
             }
             ul{
                 li{
@@ -369,7 +403,9 @@ export default {
             }
         }
     }
+    .mt5{margin-top: 5rem;}
     .middle{
+        margin-top: 7rem;
         .productlist{
             li{
                 background: #fff;margin-top: 10px;padding:1rem;min-height: 8rem;

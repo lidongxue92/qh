@@ -1,6 +1,6 @@
 <template>
   <div class="settlein">
-    <div class="phone" v-if='isshow'>
+    <div class="phone" v-if='!isshow'>
       <div class="bg-img">
         <h5><img @click="close" src="~@/assets/img/icon_register_close@2x.png">注册</h5>
         <img src="~@/assets/img/logo@2x.png">
@@ -21,7 +21,7 @@
     </div>
 
 
-    <div class="list" v-if="isshow1">
+    <div class="list" v-if="!isshow1">
       <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;">注册</h5>
       <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
       <group>
@@ -29,7 +29,7 @@
                  placeholder="请输入验证码"
                  v-model="verifyCode"
                >
-
+                <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
                   <x-button slot="right"
                       type="primary"
                       mini
@@ -181,7 +181,6 @@ export default {
     },
     created(){
       this.createCode();
-    //   console.log(myPub.URL)
   },
     methods:{
       login(){
@@ -273,14 +272,36 @@ export default {
       },
       next1(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
-          this.isshow1 = true;
-          this.isshow = false;
 
-          // 手机号脱敏
-          const tel = $('.register_content_input').val()
-          const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
-          console.log(mtel)
-          this.tel = mtel
+          const url = myPub.URL+`/check/checkPhone` ;
+          var params = new URLSearchParams();
+        params.append('phone',this.phoneNumber);;
+        axios.post(url,params).then(response => {
+              console.log(response)
+              if (response.data.result == '302') {
+                 this.isshow1 = true;
+                this.isshow = false;
+
+                // 手机号脱敏
+                const tel = $('.register_content_input').val()
+                const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
+                console.log(mtel)
+                this.tel = mtel
+              }
+              if (response.data.result == '301') {
+                  this.$vux.alert.show({
+                  title: '',
+                  content: '手机号已注册，请直接登录 '
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    const phone = this.phoneNumber
+                    this.$router.push({path:"/login",query:{phone:phone}})
+                }, 3000)
+              }
+          }).catch((err) => {
+            console.log(err)
+          })
         }
       },
       // 手机号验证码
@@ -368,7 +389,7 @@ export default {
                     });
                   }else{
                     if (data.result == '300') {
-                      this.$vux.alert.show({
+                        this.$vux.alert.show({
                         title: '',
                         content: data.resultMsg
                       })
