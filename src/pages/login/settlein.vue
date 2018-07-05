@@ -39,7 +39,7 @@
                  </x-button>
           </x-input>
         </group>
-        <label style="margin-top: 10px;">
+        <label style="margin-top: 1.5rem;">
           <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><img @click="emipy" class="img" src="~@/assets/img/closeEyes.png">
           <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
@@ -52,6 +52,10 @@
       </label>
       <a class="user_login" @click="register">提交注册</a>
     </div>
+    <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
+      <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
+      <p>@启航金服  理财有风险，投资需谨慎</p>
+    </div>
     <!-- 弹框 -->
     <div class="bg"></div>
     <div class="toast">
@@ -59,7 +63,6 @@
       <img src="~@/assets/img/active.png">
       <button class="button" @click = "kaiHu">开户使用新手礼包</button>
     </div>
-    <div class="bg"></div>
     <div class="toast1">
         <h5>启航金服注册协议<span @click="close1">&Chi;</span></h5>
         <div class="div">
@@ -185,6 +188,8 @@ export default {
         this.$router.push({path:"/login"})
       },
       close(){
+        $(".bg").css("display","none")
+        $(".toast").css("display","none")
         this.$router.push({path:"/"})
       },
       emipy(){
@@ -480,7 +485,7 @@ export default {
       color:#FFA303;
       display: block;
       line-height: 20px;
-
+      margin-top: 0.5rem;
   }
   .yanzhengma_input{
     width: 60%;
@@ -562,7 +567,7 @@ export default {
       background-color: #fff;
       margin-top: 2rem;
   }
-  .login_content1 label{width: 100%;display: block;position: relative;}
+  .login_content1 label{width: 100%;display: block;position: relative;margin-top: 0.8rem;}
   .login_content1 label .img{position: absolute;right: 0;top:0.8rem;width: 1rem;height: 1rem;}
   .user_login{
       display: block;
@@ -576,7 +581,7 @@ export default {
       border-radius: 30px;
       /*margin-top: 30px;*/
       cursor:pointer;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
   }
   .bg-ed711f{
     background: #2773FF

@@ -13,9 +13,8 @@
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
-                <!-- v-view-lazy -->
                <ul class="productlist">
-                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" :key="index">
+                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy :key="index">
                       <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
@@ -39,7 +38,7 @@
             <div class="middle">
              <ul class="productlist">
                  <!-- v-view-lazy  -->
-                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" :key="index">
+                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy :key="index">
                   <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span></h5>
                     <div>
                         <p class="left">
@@ -58,6 +57,7 @@
              <p class="note">理财有风险投资需谨慎 </p>
          </div>
         </div>
+        <div class="page"><page></page></div>
     </div>
 </template>
 
@@ -67,7 +67,7 @@ import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
 import Vue from 'vue'
-import infiniteScroll from 'mint-ui'
+import page from '../../pages/page/page'
 export default {
     name: 'category',
     data(){
@@ -80,229 +80,34 @@ export default {
         isshow4:false,
         isshow5:false,
         // loadingShow: false,
-
+        scroll: '',
         curPage: 1,
         pageSize: 10,
         disQuestionList:[],//每次加载出来的新数据
-        datalist:[],　　//每次加载累加后的总数据
+        datalist:[],
+        totalCount:'',　　//每次加载累加后的总数据
 　　　}
 　　},
     created() {
       this.token()
+      const status = '1'
+      const a = '18'
+      this.pro(status,a,10)
     },
     activated() {
       const status = '1'
-      const a = ''
-      this.pro(status,a)
-      this.homeScrollEvent()
+      const a = '18'
     },
     beforeMount() {
-        // 在页面挂载前就发起请求
-        this.getInitialUsers(1,18);
     },
     mounted() {
-        this.scroll(this.more);
+      const status = '1'
+      const a = '18'
+      setTimeout(() => {
+        this.pro(status,a,this.totalCount)
+      }, 500)     
     },
     methods: {
-      getInitialUsers(status,a) {
-        const _this = this
-        const url = myPub.URL+`/product/getProductList`;
-        var params = new URLSearchParams();
-        _this.$loading.show();
-        params.append('productType','14');
-        params.append('productSubType',a);
-        params.append('productProperty',status);
-        params.append('clientType','h5');
-        params.append('token',sessionStorage.token)
-        params.append('pageSize',this.pageSize);
-        params.append('curPage',this.curPage);
-        axios.post(url,params).then(res => {
-            _this.$loading.hide();
-            console.log(res.data);
-            const data = res.data
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
-            if (data.result == '200') {
-                this.datalist =res.data.Product;
-                setTimeout(() => {
-                    $(".img").each(function (i,n) {
-                      if ($(".img").eq(i).text() == '1') {
-                          $(".img").eq(i).css("opacity","1")
-                          $(".img").eq(i).addClass('img2')
-                          $(".img").eq(i).text('热销产品')
-                      }
-                      if ($(".img").eq(i).text() == '0') {
-                          $(".img").eq(i).css("opacity","1")
-                          $(".img").eq(i).addClass('img3')
-                          $(".img").eq(i).text('固收产品')
-                      }
-                    });
-                    $(".status").each(function (i,n) {
-                      if ($(".status").eq(i).text() == '3') {
-                          $(".status").eq(i).css({"opacity":"1"})
-                          $(".status").eq(i).text('可加入')
-                          $(".bg-img").eq(i).css("display","none")
-                          $(".bg").eq(i).css("display","none")
-                      }
-                      if ($(".status").eq(i).text() == '4') {
-                          $(".status").eq(i).css({"opacity":"1","color":"#999"})
-                          $(".status").eq(i).text('不可加入')
-                          $(".bg-img").eq(i).css("display","block")
-                          $(".bg").eq(i).css("display","block")
-                      }
-                    });
-                    $(".Property").each(function (i,n) {
-                      if ($(".Property").eq(i).text() == '19') {
-                          $(".Property").eq(i).css({"opacity":"1"})
-                          $(".Property").eq(i).text('可转让')
-                      }else{
-                          $(".Property").eq(i).css({"opacity":"1"})
-                          $(".Property").eq(i).text('不可转让')
-                      }
-                    })
-                }, 500)
-              }
-          }).catch((err) => {
-              console.log(err);
-          });
-        },
-        more(status,a) {
-            const _this = this
-            const url = myPub.URL+`/product/getProductList`;
-            var params = new URLSearchParams();
-            _this.$loading.show();
-            params.append('productType','14');
-            params.append('productSubType',a);
-            params.append('productProperty',status);
-            params.append('clientType','h5');
-            params.append('token',sessionStorage.token)
-            params.append('pageSize',this.pageSize);
-            params.append('curPage',this.curPage);
-            axios.post(url,params).then(res => {
-                _this.$loading.hide();
-                console.log(res.data);
-                if (this.curPage < res.data.totalPage) {
-                    this.curPage++;
-                }
-                    axios.get(`https://randomuser.me/api/`).then(response => {
-                    person.push(response.data.results[0])
-                    isLoading = false
-                    })
-                const data = res.data
-                if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                }
-                if (data.result == '200') {
-                    this.data = res.data.Product;
-                    let len = this.data.length;
-                    for(let i=0;i<len;i++){
-                    　　this.datalist.push(this.data[i]);　　//将新数据push到Data中
-                　　 }
-                    setTimeout(() => {
-                        $(".img").each(function (i,n) {
-                            if ($(".img").eq(i).text() == '1') {
-                                $(".img").eq(i).css("opacity","1")
-                                $(".img").eq(i).addClass('img2')
-                                $(".img").eq(i).text('热销产品')
-                            }
-                            if ($(".img").eq(i).text() == '0') {
-                                $(".img").eq(i).css("opacity","1")
-                                $(".img").eq(i).addClass('img3')
-                                $(".img").eq(i).text('固收产品')
-                            }
-                        });
-                        $(".status").each(function (i,n) {
-                            if ($(".status").eq(i).text() == '3') {
-                                $(".status").eq(i).css({"opacity":"1"})
-                                $(".status").eq(i).text('可加入')
-                                $(".bg-img").eq(i).css("display","none")
-                                $(".bg").eq(i).css("display","none")
-                            }
-                            if ($(".status").eq(i).text() == '4') {
-                                $(".status").eq(i).css({"opacity":"1","color":"#999"})
-                                $(".status").eq(i).text('不可加入')
-                                $(".bg-img").eq(i).css("display","block")
-                                $(".bg").eq(i).css("display","block")
-                            }
-                        });
-                        $(".Property").each(function (i,n) {
-                            if ($(".Property").eq(i).text() == '19') {
-                                $(".Property").eq(i).css({"opacity":"1"})
-                                $(".Property").eq(i).text('可转让')
-                            }else{
-                                $(".Property").eq(i).css({"opacity":"1"})
-                                $(".Property").eq(i).text('不可转让')
-                            }
-                        })
-                    }, 500)
-              }
-
-          }).catch((err) => {
-              console.log(err);
-          });
-        },
-         // 获取文档总高度
-        getScrollHeight() {
-            let bodyScrollHeight = 0
-            let documentScrollHeight = 0
-            if (document.body) {
-                bodyScrollHeight = document.body.scrollHeight
-            }
-            if (document.documentElement) {
-                documentScrollHeight = document.documentElement.scrollHeight
-            }
-            // 当页面内容超出浏览器可视窗口大小时，Html的高度包含body高度+margin+padding+border所以html高度可能会大于body高度
-            return (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight
-        },
-        scroll(Conduct) {
-            // 获取视口高度（网页可见区域高）
-            var WinHeight = document.documentElement.clientHeight || document.body.clientHeight;
-            console.log(WinHeight); //823
-
-            // 获取文档总高度
-            // var ScrollHeight = this.getScrollHeight();
-            var ScrollHeight = $(".Condcut").height();
-            console.log(ScrollHeight); //51
-
-            //获取滚动条的高度
-            var ScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            console.log(ScrollTop);//0
-
-            // 是否滚动到底部
-            var isReachBottom = ScrollTop >= parseInt(ScrollHeight) - WinHeight;
-            console.log(isReachBottom);
-            let isLoading = false;
-            window.onscroll = () => {
-                console.log("222");
-                console.log(document.documentElement.scrollTop);
-                // 距离底部200px时加载一次
-                let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 100;
-
-
-                if (bottomOfWindow && isLoading == false) {
-
-                    isLoading = true;
-                    this.curPage++;
-                    this.more(1,18);
-                }
-            }
-        },
-
       // 跳转详情页
         linktoDetail(id,dz) {
             this.$router.push({ path: '/page/detail',query: { id: id,dz:dz }})
@@ -317,7 +122,10 @@ export default {
             _this.isshow1 = false
             $(".Conducttab").addClass('active')
             $(".Transfertab").removeClass('active')
-            // this.pro('1','18')
+            this.pro('1','18',10)
+            setTimeout(() => {
+              this.pro(1,18,this.totalCount)
+            }, 500) 
         },
         // 转让专区
         Transfertab(){
@@ -326,88 +134,93 @@ export default {
             _this.isshow1 = true
             $(".Transfertab").addClass('active')
             $(".Conducttab").removeClass('active')
-            // this.pro('2','19')
+            this.pro('2','19',10)
+            setTimeout(() => {
+              this.pro(2,19,this.totalCount)
+            }, 500) 
         },
-        // pro(status,a){
-        //   const _this = this
-        //   const url = myPub.URL+`/product/getProductList`;
-        //   var params = new URLSearchParams();
-        //   _this.$loading.show();
-        //   params.append('productType','14');
-        //   params.append('productSubType',a);
-        //   params.append('productProperty',status);
-        //   params.append('clientType','h5');
-        //   params.append('token',sessionStorage.token)
-        //   params.append('pageSize',this.pageSize);
-        //   params.append('curPage',this.curPage);
-        //   axios.post(url,params).then(res => {
-        //     _this.$loading.hide();
-        //       console.log(res.data);
-        //       const data = res.data
-        //       if (data.result == '400') {
-        //         this.$vux.alert.show({
-        //             title: '',
-        //             content: data.resultMsg
-        //         })
-        //         setTimeout(() => {
-        //             this.$vux.alert.hide()
-        //             this.$router.push({path:"/login",query: {redirect: 'your path'}})
-        //         }, 3000)
-        //       }
-        //       if (data.result == '200') {
-        //         this.datalist =res.data.Product
-        //       setTimeout(() => {
-        //         $(".img").each(function (i,n) {
-        //           if ($(".img").eq(i).text() == '1') {
-        //             $(".img").eq(i).css("opacity","1")
-        //             $(".img").eq(i).addClass('img2')
-        //             $(".img").eq(i).text('热销产品')
-        //           }
-        //           if ($(".img").eq(i).text() == '0') {
-        //             $(".img").eq(i).css("opacity","1")
-        //             $(".img").eq(i).addClass('img3')
-        //             $(".img").eq(i).text('固收产品')
-        //           }
-        //         })
-        //         $(".status").each(function (i,n) {
-        //           if ($(".status").eq(i).text() == '3') {
-        //             $(".status").eq(i).css({"opacity":"1"})
-        //             $(".status").eq(i).text('可加入')
-        //             $(".bg-img").eq(i).css("display","none")
-        //             $(".bg").eq(i).css("display","none")
-        //           }
-        //           if ($(".status").eq(i).text() == '4') {
-        //             $(".status").eq(i).css({"opacity":"1","color":"#999"})
-        //             $(".status").eq(i).text('不可加入')
-        //             $(".bg-img").eq(i).css("display","block")
-        //             $(".bg").eq(i).css("display","block")
-        //           }
-        //         })
-        //         $(".Property").each(function (i,n) {
-        //           if ($(".Property").eq(i).text() == '18') {
-        //             $(".Property").eq(i).css({"opacity":"1"})
-        //             $(".Property").eq(i).text('不可转让')
-        //           }
-        //           if ($(".Property").eq(i).text() == '3') {
-        //             $(".Property").eq(i).css({"opacity":"1"})
-        //             $(".Property").eq(i).text('不可转让')
-        //           }
-        //           if ($(".Property").eq(i).text() == '22') {
-        //             $(".Property").eq(i).css({"opacity":"1"})
-        //             $(".Property").eq(i).text('不可转让')
-        //           }
-        //           if ($(".Property").eq(i).text() == '19') {
-        //             $(".Property").eq(i).css({"opacity":"1"})
-        //             $(".Property").eq(i).text('可转让')
-        //           }
-        //         })
-        //     }, 500)
-        //       }
+        pro(status,a,i){
+          const _this = this
+          const url = myPub.URL+`/product/getProductList`;
+          var params = new URLSearchParams();
+          _this.$loading.show();
+          params.append('productType','14');
+          params.append('productSubType',a);
+          params.append('productProperty',status);
+          params.append('clientType','h5');
+          params.append('token',sessionStorage.token)
+          params.append('pageSize',i);
+          params.append('curPage','1');
+          axios.post(url,params).then(res => {
+            _this.$loading.hide();
+              console.log(res.data);
+              const data = res.data
+              if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+              }
+              if (data.result == '200') {
+                this.datalist = res.data.Product
+                this.totalCount = res.data.totalCount
+                console.log(this.totalCount)
+              setTimeout(() => {
+                $(".img").each(function (i,n) {
+                  if ($(".img").eq(i).text() == '1') {
+                    $(".img").eq(i).css("opacity","1")
+                    $(".img").eq(i).addClass('img2')
+                    $(".img").eq(i).text('热销产品')
+                  }
+                  if ($(".img").eq(i).text() == '0') {
+                    $(".img").eq(i).css("opacity","1")
+                    $(".img").eq(i).addClass('img3')
+                    $(".img").eq(i).text('固收产品')
+                  }
+                })
+                $(".status").each(function (i,n) {
+                  if ($(".status").eq(i).text() == '3') {
+                    $(".status").eq(i).css({"opacity":"1"})
+                    $(".status").eq(i).text('可加入')
+                    $(".bg-img").eq(i).css("display","none")
+                    $(".bg").eq(i).css("display","none")
+                  }
+                  if ($(".status").eq(i).text() == '4') {
+                    $(".status").eq(i).css({"opacity":"1","color":"#999"})
+                    $(".status").eq(i).text('不可加入')
+                    $(".bg-img").eq(i).css("display","block")
+                    $(".bg").eq(i).css("display","block")
+                  }
+                })
+                $(".Property").each(function (i,n) {
+                  if ($(".Property").eq(i).text() == '18') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('不可转让')
+                  }
+                  if ($(".Property").eq(i).text() == '3') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('不可转让')
+                  }
+                  if ($(".Property").eq(i).text() == '22') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('不可转让')
+                  }
+                  if ($(".Property").eq(i).text() == '19') {
+                    $(".Property").eq(i).css({"opacity":"1"})
+                    $(".Property").eq(i).text('可转让')
+                  }
+                })
+            }, 500)
+              }
 
-        //   }).catch((err) => {
-        //       console.log(err);
-        //   });
-        // },
+          }).catch((err) => {
+              console.log(err);
+          });
+        },
         getAjaxContent(event,datalist){
             event.innerText = datalist
         },
@@ -424,6 +237,10 @@ export default {
               }, 2000)
             }
         },
+        menu() {
+          this.scroll = document.body.scrollTop;
+          console.log(this.scroll)
+         }
     },
     watch: {
         '$route' (to, from) {
@@ -431,8 +248,8 @@ export default {
         }//回退上一级页面并刷新
     },
     components: {
-      infiniteScroll,
-        top
+        top,
+        page
     }
 }
 </script>

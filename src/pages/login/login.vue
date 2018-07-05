@@ -51,7 +51,10 @@
         <!-- 短信登陆 -->
         <button class="login" @click="msgLogin" v-if="isshow1">登录</button>
         <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
-
+        <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
+          <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
+          <p>@启航金服  理财有风险，投资需谨慎</p>
+        </div>
         <!-- 弹框 -->
         <div class="bg"></div>
         <div class="toast">
@@ -274,7 +277,7 @@ export default {
         },
         // 关闭弹框
         close(){
-            this.$router.push({path:"/home"})
+            this.$router.push({path:"/"})
             // this.$router.go(-1)
         },
         // 密码登陆
