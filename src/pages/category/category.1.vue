@@ -58,16 +58,19 @@
              <p class="note">理财有风险投资需谨慎 </p>
          </div>
         </div>
+        <div class="page"><page></page></div>
     </div>
 </template>
 
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
+import {Loadmore} from 'mint-ui';
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
 import Vue from 'vue'
 import infiniteScroll from 'mint-ui'
+import page from '../../pages/page/page'
 export default {
     name: 'category',
     data(){
@@ -88,13 +91,7 @@ export default {
 　　　}
 　　},
     created() {
-      this.token()
-    },
-    activated() {
-      const status = '1'
-      const a = ''
-      this.pro(status,a)
-      this.homeScrollEvent()
+    //   this.token()
     },
     beforeMount() {
         // 在页面挂载前就发起请求
@@ -104,72 +101,73 @@ export default {
         this.scroll(this.more);
     },
     methods: {
-      getInitialUsers(status,a) {
-        const _this = this
-        const url = myPub.URL+`/product/getProductList`;
-        var params = new URLSearchParams();
-        _this.$loading.show();
-        params.append('productType','14');
-        params.append('productSubType',a);
-        params.append('productProperty',status);
-        params.append('clientType','h5');
-        params.append('token',sessionStorage.token)
-        params.append('pageSize',this.pageSize);
-        params.append('curPage',this.curPage);
-        axios.post(url,params).then(res => {
-            _this.$loading.hide();
-            console.log(res.data);
-            const data = res.data
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
-            if (data.result == '200') {
-                this.datalist =res.data.Product;
-                setTimeout(() => {
-                    $(".img").each(function (i,n) {
-                      if ($(".img").eq(i).text() == '1') {
-                          $(".img").eq(i).css("opacity","1")
-                          $(".img").eq(i).addClass('img2')
-                          $(".img").eq(i).text('热销产品')
-                      }
-                      if ($(".img").eq(i).text() == '0') {
-                          $(".img").eq(i).css("opacity","1")
-                          $(".img").eq(i).addClass('img3')
-                          $(".img").eq(i).text('固收产品')
-                      }
-                    });
-                    $(".status").each(function (i,n) {
-                      if ($(".status").eq(i).text() == '3') {
-                          $(".status").eq(i).css({"opacity":"1"})
-                          $(".status").eq(i).text('可加入')
-                          $(".bg-img").eq(i).css("display","none")
-                          $(".bg").eq(i).css("display","none")
-                      }
-                      if ($(".status").eq(i).text() == '4') {
-                          $(".status").eq(i).css({"opacity":"1","color":"#999"})
-                          $(".status").eq(i).text('不可加入')
-                          $(".bg-img").eq(i).css("display","block")
-                          $(".bg").eq(i).css("display","block")
-                      }
-                    });
-                    $(".Property").each(function (i,n) {
-                      if ($(".Property").eq(i).text() == '19') {
-                          $(".Property").eq(i).css({"opacity":"1"})
-                          $(".Property").eq(i).text('可转让')
-                      }else{
-                          $(".Property").eq(i).css({"opacity":"1"})
-                          $(".Property").eq(i).text('不可转让')
-                      }
+        getInitialUsers(status,a) {
+            const _this = this
+            const url = myPub.URL+`/product/getProductList`;
+            var params = new URLSearchParams();
+            _this.$loading.show();
+            params.append('productType','14');
+            params.append('productSubType',a);
+            params.append('productProperty',status);
+            params.append('clientType','h5');
+            params.append('token',sessionStorage.token)
+            params.append('pageSize',this.pageSize);
+            params.append('curPage',this.curPage);
+            axios.post(url,params).then(res => {
+                _this.$loading.hide();
+                console.log(res.data);
+                const data = res.data
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
                     })
-                }, 500)
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                    this.datalist =res.data.Product;
+                    setTimeout(() => {
+                        $(".img").each(function (i,n) {
+                            if ($(".img").eq(i).text() == '1') {
+                                $(".img").eq(i).css("opacity","1")
+                                $(".img").eq(i).addClass('img2')
+                                $(".img").eq(i).text('热销产品')
+                            }
+                            if ($(".img").eq(i).text() == '0') {
+                                $(".img").eq(i).css("opacity","1")
+                                $(".img").eq(i).addClass('img3')
+                                $(".img").eq(i).text('固收产品')
+                            }
+                        });
+                        $(".status").each(function (i,n) {
+                            if ($(".status").eq(i).text() == '3') {
+                                $(".status").eq(i).css({"opacity":"1"})
+                                $(".status").eq(i).text('可加入')
+                                $(".bg-img").eq(i).css("display","none")
+                                $(".bg").eq(i).css("display","none")
+                            }
+                            if ($(".status").eq(i).text() == '4') {
+                                $(".status").eq(i).css({"opacity":"1","color":"#999"})
+                                $(".status").eq(i).text('不可加入')
+                                $(".bg-img").eq(i).css("display","block")
+                                $(".bg").eq(i).css("display","block")
+                            }
+                        });
+                        $(".Property").each(function (i,n) {
+                            if ($(".Property").eq(i).text() == '19') {
+                                $(".Property").eq(i).css({"opacity":"1"})
+                                $(".Property").eq(i).text('可转让')
+                            }else{
+                                $(".Property").eq(i).css({"opacity":"1"})
+                                $(".Property").eq(i).text('不可转让')
+                            }
+                        })
+                    }, 500)
               }
+
           }).catch((err) => {
               console.log(err);
           });
@@ -276,7 +274,7 @@ export default {
 
             // 获取文档总高度
             // var ScrollHeight = this.getScrollHeight();
-            var ScrollHeight = $(".Condcut").height();
+            var ScrollHeight = $(".middle").height();
             console.log(ScrollHeight); //51
 
             //获取滚动条的高度
@@ -286,6 +284,11 @@ export default {
             // 是否滚动到底部
             var isReachBottom = ScrollTop >= parseInt(ScrollHeight) - WinHeight;
             console.log(isReachBottom);
+
+
+
+
+
             let isLoading = false;
             window.onscroll = () => {
                 console.log("222");
@@ -423,7 +426,7 @@ export default {
                   this.$router.push({path:"/login",query: {redirect: 'your path'}})
               }, 2000)
             }
-        },
+        }
     },
     watch: {
         '$route' (to, from) {
@@ -432,7 +435,8 @@ export default {
     },
     components: {
       infiniteScroll,
-        top
+        top,
+        page
     }
 }
 </script>
@@ -483,7 +487,8 @@ export default {
     .middle{
         .productlist{
           .list{
-              background: #fff;margin-top: 10px;padding:1rem;position: relative;min-height: 8rem; margin-bottom: 10px;
+              background: #fff;margin-top: 10px;padding:1rem;position: relative;
+              margin-bottom: 10px;
               .status{position: absolute;opacity: 0;}
               h5{
                   border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;padding-left: 0;

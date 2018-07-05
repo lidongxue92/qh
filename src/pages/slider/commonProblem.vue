@@ -41,13 +41,6 @@ export default {
         topComponent,
         InfiniteScroll
     },
-    // filters: {
-    //     filter:function (html) {
-    //         return html
-    //         .replace(/</g, '&lt;')
-    //         .replace(/>/g, '&gt;');
-    //     }
-    // },
     data(){
         return{
             index:0,

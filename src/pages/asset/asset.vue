@@ -98,6 +98,7 @@
     <div class="zhezhao" @click="zhezhaoHide"></div>
     <div class="slider"><slider> </slider></div>
 
+    <div class="page"><page></page></div>
   </div>
 </template>
 
@@ -107,11 +108,15 @@ import slider from '../../components/common/slider'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
+import page from '../../pages/page/page'
+
+
 
 export default {
     name: 'asset',
     components:{
-        slider
+        slider,
+        page
     },
     data(){
     　　return {
@@ -131,15 +136,6 @@ export default {
             return Number(realVal)
         }
     },
-  filters: {
-    numFilter(value) {
-    // 截取当前数据到小数点后三位
-    let transformVal = Number(value).toFixed(3)
-    let realVal = transformVal.substring(0, transformVal.length - 1)
-    // num.toFixed(3)获取的是字符串
-    return Number(realVal)
-    }
-  },
    created() {
         this.token(),
         this.msg()
@@ -280,9 +276,9 @@ export default {
               }, 3000)
           }
           if (data.unReadNum == '0') {
-              $(".message img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
-          }else{
-              $(".message img").attr("src",'../../assets/img/Messages@2x.png')
+              $(".imgleft img").attr("src",'../../../static/img/xiaoXi.png')
+            }else{
+              $(".imgleft img").attr("src",'../../../static/img/Messages@2x.png')
           }
           console.log(data)
         }).catch((err) => {

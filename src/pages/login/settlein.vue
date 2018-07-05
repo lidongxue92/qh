@@ -185,7 +185,7 @@ export default {
         this.$router.push({path:"/login"})
       },
       close(){
-        this.$router.push({path:"/page/home"})
+        this.$router.push({path:"/"})
       },
       emipy(){
         $('.phone').val("")

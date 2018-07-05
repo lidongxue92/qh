@@ -3,12 +3,12 @@
         <div class="product">
             <top v-bind:title="title"></top>
             <div class="left">
-                <span class="interest">{{product.baseAnnualYield}}<b>&ensp;+{{product.actAnnualYield}}%</b></span>
+                <span class="interest">{{product.baseAnnualYield}}<b class="activeLilv">%+{{product.actAnnualYield}}%</b></span>
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
                 <p>理财期限&emsp;<span>{{product.period}}天</span></p>
-                <p>开发额度&emsp;<span>{{product.openLimit}}元</span></p>
+                <p>开放额度&emsp;<span>{{product.openLimit}}元</span></p>
                 <span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
@@ -27,7 +27,7 @@
                 <h5>购买金额 <b class="Type" style="position: absolute;opacity: 0;">{{product.yieldDistribType}}</b></h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model= "money" @blur="red"/>元
+                    <input class="money" v-model= "money" @input="changeVal"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red">
@@ -131,6 +131,9 @@ export default {
             productType:'',
             actAnnualYield:'',
             residueMoney:'',
+            amountIncrease:"",
+
+
             // 三方开户数据
             ChinaPnrServer : "",
             Version : "",
@@ -203,11 +206,17 @@ export default {
             const num = $(".money")
             const value = num.val()
             if (value>=parseFloat(this.residueMoney)) {
-                $(".rightimg").attr('src',"~@/assets/img/add2.png")
+                $(".rightimg").attr('src',"../../../static/img/add2.png");
+                this.$vux.alert.show({
+                    content: "投资金额已达最大值"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 1000)
             }else{
-                this.money = (parseFloat(this.money)+parseFloat(this.Money))+'.00'
+                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))+'.00'
                 console.log (this.residueMoney)
-                $(".leftimg").attr('src',"~@/assets/img/add1.png")
+                $(".leftimg").attr('src',"../../../static/img/add1.png")
                 this.welfare()
                 this.Interest()
             }
@@ -220,10 +229,27 @@ export default {
                 this.money = (parseFloat(this.money)-parseFloat(this.Money))+'.00'
                 console.log (this.money+'00')
                 this.welfare()
-                this.Interest()
+                this.Interest();
+                $(".rightimg").attr('src',"../../../static/img/add.png");
             }else{
-                $(".leftimg").attr('src',"~@/assets/img/cont.png")
+                $(".leftimg").attr('src',"../../../static/img/cont.png");
+
             }
+        },
+        // 输入框
+        changeVal(){
+            if (this.money >= this.residueMoney) {
+                this.money = this.residueMoney;
+                this.$vux.alert.show({
+                    content: "投资金额已达最大值"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide();
+                }, 1000);
+                this.welfare();
+                this.Interest();
+            }
+
         },
         timer() {
           const _this =this
@@ -329,34 +355,34 @@ export default {
       // 开户
       go(){
          const url = myPub.URL+`/chinaPnr/userRegister`;
-        var params = new URLSearchParams();
-        params.append('token',sessionStorage.getItem("token"));
-        params.append('clientType','h5');
-        axios.post(url,params).then(res => {
-            console.log(res.data);
-            if(res.data.result == 200){
-                this.ChinaPnrServer = res.data.chinaPnrServer;
-                this.Version = res.data.Version; //版本号
-                this.CmdId = res.data.CmdId; //消息信息
-                this.MerCustId = res.data.MerCustId; //商户客户号
-                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
-                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
-                this.UsrId = res.data.UsrId; //用户号
-                this.UsrMp = res.data.UsrMp; //手机号
-                this.PageType = res.data.PageType; //页面类型
-                this.ChkValue = res.data.ChkValue; //签名
-                //提交from表单
-                console.log(this.Version)
-                setTimeout(() => {
-                    document.regSubmit.submit();
-                }, 500)
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('clientType','h5');
+            axios.post(url,params).then(res => {
+                console.log(res.data);
+                if(res.data.result == 200){
+                    this.ChinaPnrServer = res.data.chinaPnrServer;
+                    this.Version = res.data.Version; //版本号
+                    this.CmdId = res.data.CmdId; //消息信息
+                    this.MerCustId = res.data.MerCustId; //商户客户号
+                    this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                    this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                    this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                    this.UsrId = res.data.UsrId; //用户号
+                    this.UsrMp = res.data.UsrMp; //手机号
+                    this.PageType = res.data.PageType; //页面类型
+                    this.ChkValue = res.data.ChkValue; //签名
+                    //提交from表单
+                    console.log(this.Version)
+                    setTimeout(() => {
+                        document.regSubmit.submit();
+                    }, 500)
 
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
-    },
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
+      },
       // 产品数据
       productdata(){
           const _this = this
@@ -391,16 +417,19 @@ export default {
                 this.productType = data.ProductInfo.productType
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
+
+                if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
+                    $(".activeLilv").text("%");
+                }
+
+
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
-                }
-                if (this.product.productType == '22') {
+                }else if (this.product.productType == '22') {
                     $(".status").text("不可转让")
-                }
-                if (this.product.productType == '3') {
+                }else if (this.product.productType == '3') {
                     $(".status").text("不可转让")
-                }
-                if (this.product.productType == '18') {
+                }else if (this.product.productType == '18') {
                     $(".status").text("不可转让")
                 }
                 const jd = Math.round(this.product.xmjd)

@@ -27,13 +27,13 @@
           </div>
           <div class="st2Right">
               <img src="../../assets/img/sliderBox/sliderRisk.png" >
-              <div v-if="isTest">
+              <div v-if="isTest" @click="linkToRisk">
                 <h6>风险评估</h6>
                 <p>未评估</p>
               </div>
               <div v-else>
                 <h6>风险评估</h6>
-                <p>未评估</p>
+                <p>已评估</p>
               </div>
           </div>
         </div>
@@ -261,6 +261,22 @@ export default {
                 }, 2000)
             }else{
                 this.$router.push({path:'/page/userset'})
+            }
+        },
+        linkToRisk(){
+            if (!sessionStorage.token) {
+                this.$vux.alert.show({
+                    title: '',
+                    content: '请登录'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 2000)
+            }else{
+                // Location.href = "http://test.qihangjf.com:29089/#/risk.html"
+                Location.href = "risk.html"
+
             }
         },
         linkToInvite(){

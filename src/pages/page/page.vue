@@ -9,26 +9,26 @@
             <tabbar slot="bottom"
                     style="position:fixed"
                     v-if="!isShowTabbar">
-                <tabbar-item link="/page/home"
-                             :selected="$route.path === '/page/home'">
+                <tabbar-item link="/"
+                             :selected="$route.path === '/'">
                     <span class="icon icon-home"
                           slot="icon"></span>
                     <span slot="label">首页</span>
                 </tabbar-item>
-                <tabbar-item link="/page/category"
-                             :selected="$route.path === '/page/category'">
+                <tabbar-item link="/category"
+                             :selected="$route.path === '/category'">
                     <span class="icon icon-category"
                           slot="icon"></span>
                     <span slot="label">理财</span>
                 </tabbar-item>
-                <tabbar-item link="/page/data"
-                             :selected="$route.path === '/page/data'">
+                <tabbar-item link="/data"
+                             :selected="$route.path === '/data'">
                     <span class="icon icon-cart"
                           slot="icon"></span>
                     <span slot="label">发现</span>
                 </tabbar-item>
-                <tabbar-item link="/page/asset"
-                             :selected="$route.path === '/page/asset'">
+                <tabbar-item link="/asset"
+                             :selected="$route.path === '/asset'">
                     <span class="icon icon-user"
                           slot="icon"></span>
                     <span slot="label">资产</span>
@@ -62,7 +62,7 @@ export default {
         ...mapState(['title']),
         leftOptions() {
             return {
-                showBack: this.$route.path !== '/page/home'
+                showBack: this.$route.path !== '/home'
             }
         },
         rightOptions() {
