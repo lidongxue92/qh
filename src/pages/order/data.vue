@@ -33,10 +33,12 @@
           </a>
         </li>
       </ul>
+      <div class="page"><page></page></div>
   </div>
 </template>
 <script>
 import topComponent from '../../components/common/top';
+import page from '../../pages/page/page'
 
 import { Swiper, SwiperItem,ButtonTab, ButtonTabItem, Divider } from 'vux'
 export default {
@@ -44,6 +46,7 @@ export default {
   components: {
     topComponent,
     ButtonTabItem,
+    page
   },
   data() {
     return {

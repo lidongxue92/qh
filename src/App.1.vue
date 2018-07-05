@@ -16,12 +16,12 @@ export default {
     name: 'app',
     data(){
         return{
-
+           
         }
     },
     methods:{
         reload () {
-
+            
         }
     },
     directives: {
@@ -34,7 +34,7 @@ export default {
     },
     components: {
         Loading,
-        TransferDom,
+        TransferDom
     }
 }
 </script>

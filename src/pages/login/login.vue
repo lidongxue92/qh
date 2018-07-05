@@ -274,7 +274,7 @@ export default {
         },
         // 关闭弹框
         close(){
-            this.$router.push({path:"/page/home"})
+            this.$router.push({path:"/home"})
             // this.$router.go(-1)
         },
         // 密码登陆
@@ -295,7 +295,7 @@ export default {
                         sessionStorage.setItem("token",res.data.token);
                         sessionStorage.setItem("userId",user.id);
                         if (user.realName != "") {
-                            this.$router.push({path:"/page/home"})
+                            this.$router.push({path:"/"})
                         }else{
                             $(".bg").show();
                             $(".toast").show();
@@ -371,7 +371,7 @@ export default {
                         sessionStorage.setItem("userId",user.id);
 
                         if (user.realName != "") {
-                            this.$router.push({path:"/page/home"})
+                            this.$router.push({path:"/"})
                         }else{
                             $(".bg").show();
                             $(".toast").show();

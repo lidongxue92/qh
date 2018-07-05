@@ -29,7 +29,7 @@ export default {
     },
     data(){
         return{
-            imgSrc:"../../../static/img/bg.png",
+            imgSrc:"../../static/img/bg.png",
             adLink:"javaScript:;",
             regTotal:0,
             totalProfit:0.00,

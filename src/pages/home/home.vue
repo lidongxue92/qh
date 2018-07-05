@@ -81,6 +81,7 @@
        <p class="note">预期收益不代表对投资人实际收益的承诺 理财有风险，投资需谨慎 </p>
        <div class="zhezhao" @click="zhezhaoHide"></div>
         <div class="slider"><slider> </slider></div>
+        <div class="page"><page></page></div>
     </div>
 </template>
 <style type="text/css">
@@ -93,6 +94,7 @@ import products from '@/components/Products'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
+import page from '../../pages/page/page'
 const baseList = [{
   url: 'javascript:',
   img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
@@ -117,7 +119,7 @@ export default {
             recentList: [],
             newlist:'',
             hotlist:'',
-            list:'',
+            list:[],
             demo02_list:'[]',
             num:'',
             isshow:true,
@@ -126,7 +128,7 @@ export default {
         }
     },
     created() {
-        this.token();
+        // this.token();
         this.index_banner();
         this.index_product(),
         this.msg()
@@ -252,8 +254,7 @@ export default {
                         this.$vux.alert.hide()
                         this.$router.push({path:"/login",query: {redirect: 'your path'}})
                     }, 3000)
-                }
-                if (data.result == '200') {
+                }else if (data.result == '200') {
                     _this.newlist = data.GsInfo
                     _this.hotlist = data.HotInfo
                     _this.list = data.XsInfo
@@ -284,20 +285,20 @@ export default {
           params.append('curPagel','1');
           axios.post(url,params).then(response => {
             const data = response.data
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
+            // if (data.result == '400') {
+            //     this.$vux.alert.show({
+            //         title: '',
+            //         content: data.resultMsg
+            //     })
+            //     setTimeout(() => {
+            //         this.$vux.alert.hide()
+            //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            //     }, 3000)
+            // }
             if (data.unReadNum == '0') {
-                $(".imgleft img").attr("src",'../../assets/img/icon_xiaoxi@2x.png')
+                $(".imgleft img").attr("src",'../../../static/img/xiaoXi.png')
             }else{
-                $(".imgleft img").attr("src",'../../assets/img/Messages@2x.png')
+                $(".imgleft img").attr("src",'../../../static/img/Messages@2x.png')
             }
             console.log(data)
           }).catch((err) => {
@@ -314,7 +315,8 @@ export default {
         ButtonTab,
         ButtonTabItem,
         Divider,
-        slider
+        slider,
+        page
     },
 }
 </script>
