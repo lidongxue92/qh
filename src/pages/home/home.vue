@@ -371,7 +371,7 @@ export default {
         .set{
             position: absolute;top: 9rem;width: 90%;border-radius: 5px;margin-left: 5%;background: #fff;padding: 1rem 0;
             .left{
-                display: inline-block;width:58%;font-size: 0.6rem;padding: 0 1rem;
+                display: inline-block;width:57%;font-size: 0.6rem;padding: 0 1rem;
                 .res{font-size: 0.8rem;font-weight: 700;color: #333;}
                 .new{font-size: 0.8rem;font-weight: 700;color: #FFA303;}
                 .c-FF6332{color: #FF6332}
@@ -379,8 +379,11 @@ export default {
                 .button{display: inline-block;width: 70%;line-height: 30px;color: #fff;height: 30px;font-size: 1rem;background: #2395FF;text-align: center;border-radius: 30px;margin-top: 10px;}
             }
             .right{
-                display: inline-block;width: 30%;
-                img{width: 100%;}
+                display: inline-block;
+                width: 30%;
+                img{
+                    width: 100%;
+                }
             }
         }
         .list{

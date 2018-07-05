@@ -2,8 +2,8 @@
   <div class="settlein">
     <div class="phone" v-if='!isshow'>
       <div class="bg-img">
-        <h5><img @click="close" src="~@/assets/img/icon_register_close@2x.png">注册</h5>
-        <img src="~@/assets/img/logo@2x.png">
+        <h5><img @click="close" src="../../assets/img/close.png">注册</h5>
+        <img src="../../assets/img/logo@2x.png">
       </div>
       <div class="login_content1 ">
         <label>
@@ -22,8 +22,13 @@
 
 
     <div class="list" v-if="!isshow1">
-      <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;">注册</h5>
-      <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
+        <div class="regBgImg">
+            <div><img @click="closeREG" src="../../assets/img/leftBlack.png"></div>
+            <h5>注册</h5>
+        </div>
+        <p>验证码已发送至手机号：<span class="span">{{tel}}</span></p>
+      <!-- <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;">注册</h5> -->
+
       <group>
         <x-input type="text"
                  placeholder="请输入验证码"
@@ -52,6 +57,8 @@
       </label>
       <a class="user_login" @click="register">提交注册</a>
     </div>
+
+    <!-- 底部版权 -->
     <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
       <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
       <p>@启航金服  理财有风险，投资需谨慎</p>
@@ -136,6 +143,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
@@ -197,6 +205,10 @@ export default {
       close1(){
         $(".bg").css("display","none")
         $(".toast1").css("display","none")
+      },
+      closeREG(){
+          this.isshow = false;
+          this.isshow1 = true;
       },
       toast1(){
         $(".bg").css("display","block")
@@ -589,7 +601,7 @@ export default {
       margin-top: 2rem;
   }
   .login_content1 label{width: 100%;display: block;position: relative;margin-top: 0.8rem;}
-  .login_content1 label .img{position: absolute;right: 0;top:0.8rem;width: 1rem;height: 1rem;}
+  .login_content1 label .img{position: absolute;right: .8rem;top:0.8rem;width: 1rem;height: 1rem;}
   .user_login{
       display: block;
       width: 100%;
@@ -709,21 +721,51 @@ export default {
 </style>
 <style scoped lang="less">
 .settlein{
-  padding: 1rem;position: relative;height: 100%;
+  padding: 1rem;position: relative;height: auto;
   .bg-img{
     text-align: center;
     h5{
-      text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;
-      img{float: left;width: 1rem;height: 1rem;margin-top: 0;}
+        text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;
+        img{
+          float: left;
+          width: 1rem;
+          height: 1rem;
+          margin-top: 0;
+        }
     }
     img{margin-top:2rem;width: 5rem;height: 5rem;}
   }
   .list{
-    padding: 1rem;
-    h5{font-weight: normal;font-size: 1rem;}
+      .regBgImg{
+          height: 2.5rem;
+          text-align: center;
+          div{
+              float: left;
+              width: .8rem;
+              height: .8rem;
+              &:after{
+                  content: "";
+                  display: block;
+                  clear: both;
+              }
+              img{
+                  width: 100%;
+              }
+          }
+          h5{
+              font-size: 1rem;
+              color: #333;
+              font-weight: normal;
+          }
+      }
     label{
       display: block;position: relative;
-      img{position: absolute;right: 0;top: 0.9rem;width: 1rem;height: 0.6rem;}
+      img{
+          position: absolute;
+          right: 1rem;
+          top: 0.9rem;
+          width: 1rem;
+          height: 0.6rem;}
     }
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;

@@ -1,5 +1,10 @@
 <template>
-  <div class="settlein">
+<div class="logTop">
+    <topComponent title='登录' :showLeft='false'>
+        <span class="back" @click='goBack' slot="left"><img src="../../../static/img/left.png"></span>
+    </topComponent>
+
+    <div class="settlein">
         <div class="bg-img">
           <img src="~@/assets/img/logo@2x.png">
         </div>
@@ -8,6 +13,7 @@
                 <li class="password active" @click="tab">密码登录</li>
                 <li class="message" @click="tab1">短信登录</li>
             </ul>
+            <!-- 密码登陆 -->
             <div class="login_content1 " v-if="isshow">
                 <label>
                     <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
@@ -20,6 +26,9 @@
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
+
+                <button class="login" @click="Login" v-if="isshow">登录</button>
+                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
 
             <!-- 短信登陆 -->
@@ -44,17 +53,17 @@
                              </x-button>
                     </x-input>
                 </group>
+                <button class="login" @click="msgLogin" >登录</button>
+                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
-        </div>
 
-        <button class="login" @click="Login" v-if="isshow">登录</button>
-        <!-- 短信登陆 -->
-        <button class="login" @click="msgLogin" v-if="isshow1">登录</button>
-        <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
-        <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
-          <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
-          <p>@启航金服  理财有风险，投资需谨慎</p>
         </div>
+        <!-- 版权 -->
+            <div class="banQuan">
+                <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
+                <p>@启航金服  理财有风险，投资需谨慎</p>
+            </div>
+
         <!-- 弹框 -->
         <div class="bg"></div>
         <div class="toast">
@@ -62,8 +71,10 @@
             <img src="../../assets/img/active.png">
             <button class="button" @click="kaiHu">开户使用新手礼包</button>
         </div>
+  </div>
 
-        <!-- 开户 -->
+
+  <!-- 开户 -->
     <div class="box" style="display:none;">
         <form  name="regSubmit" method="post" :action="ChinaPnrServer">
              <input type='text' name='Version'  :value='Version'>
@@ -78,19 +89,24 @@
              <input type='text' name='MerPriv' :value='MerPriv'>
         </form>
     </div>
-
-  </div>
+</div>
 </template>
 <script>
-import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
+import { XInput, Group, XButton, Cell, Toast } from 'vux'
 import axios from 'axios'
 let Base64 = require('js-base64').Base64;
 import * as myPub from '../../assets/js/public.js'
-import $ from 'jquery'
+import $ from 'jquery';
+import topComponent from '../../components/common/top';
 var code ; //在全局定义验证码
 export default {
-    components:{
-        base64
+    components: {
+        XInput,
+        XButton,
+        Group,
+        Cell,
+        Toast,
+        topComponent
     },
     data () {
       return {
@@ -129,6 +145,9 @@ export default {
       }
     },
     methods:{
+        goBack(){
+            this.$router.back()
+        },
         // 清空
         clear(){
             this.userPhone = ""
@@ -262,16 +281,14 @@ export default {
             }
         },
         tab1(){
-            const _this =this
-            _this.isshow = false
-            _this.isshow1 = true
+            this.isshow = false
+            this.isshow1 = true
             $(".message").addClass('active')
             $(".password").removeClass('active')
         },
         tab(){
-            const _this =this
-            _this.isshow = true
-            _this.isshow1 = false
+            this.isshow = true
+            this.isshow1 = false
             $(".password").addClass('active')
             $(".message").removeClass('active')
         },
@@ -458,18 +475,6 @@ export default {
         this.createCode();
         sessionStorage.removeItem("token");
         this.userPhone = this.$route.query.phone
-    },
-    // watch: {
-    //     '$route' (to, from) {
-    //         this.$router.go(0);
-    //     }//回退上一级页面并刷新
-    // },
-    components: {
-        XInput,
-        XButton,
-        Group,
-        Cell,
-        Toast
     },
     watch: {
       '$route' (to, from) {
@@ -737,15 +742,35 @@ export default {
 }
 </style>
 <style scoped lang="less">
+.logTop{
+    height: 100%;
+    position: relative;
+
 .settlein{
     color: #333;
     padding: 1rem;
+    .banQuan{
+        width: 100%;
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 0.6rem;
+        color: #999;
+    }
   .bg-img{
     text-align: center;
     img{width: 5rem;height: 5rem;margin-top: 2rem;}
   }
   .middle{
     margin-top: 2rem;
+    height: 80%;
+    &:after{
+        content: "";
+        display: block;
+        clear: both;
+    }
     ul{
         li{
             list-style: none;
@@ -766,8 +791,9 @@ export default {
           input{position: relative;top: 2px;}
           span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
         }
-        .user_login{margin-top: 30px;background: #ed711f}
+        .user_login{background: #ed711f}
       }
+
   }
 
   .LoginImg{
@@ -798,5 +824,6 @@ export default {
         .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
         .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
     }
+}
 }
 </style>
