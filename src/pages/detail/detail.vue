@@ -27,7 +27,7 @@
                 <h5>购买金额 <b class="Type" style="position: absolute;opacity: 0;">{{product.yieldDistribType}}</b></h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model= "money" @input="changeVal"/>元
+                    <input class="money" v-model= "money" v-on:input="changeVal()"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red">
@@ -205,13 +205,15 @@ export default {
             const _this = this
             const num = $(".money")
             const value = num.val()
-            if (value>=parseFloat(this.residueMoney)) {
+            if (value > parseFloat(this.residueMoney)) {
                 $(".rightimg").attr('src',"../../../static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额已达最大值"
                 })
                 setTimeout(() => {
                     this.$vux.alert.hide()
+                    num.val(this.residueMoney)
+                    this.money = this.residueMoney
                 }, 1000)
             }else{
                 this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))+'.00'
@@ -225,8 +227,8 @@ export default {
             const _this = this
             const num = $(".money")
             const value = num.val()
-            if (value>parseFloat(this.Money)) {
-                this.money = (parseFloat(this.money)-parseFloat(this.Money))+'.00'
+            if (value >= parseFloat(this.Money)) {
+                this.money = (parseFloat(this.money)-parseFloat(this.amountIncrease))+'.00'
                 console.log (this.money+'00')
                 this.welfare()
                 this.Interest();
@@ -238,18 +240,37 @@ export default {
         },
         // 输入框
         changeVal(){
-            if (this.money >= this.residueMoney) {
-                this.money = this.residueMoney;
+            const num = $(".money")
+            const value = num.val()
+            if (value > parseFloat(this.residueMoney)) {
+                $(".rightimg").attr('src',"../../../static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额已达最大值"
                 })
                 setTimeout(() => {
-                    this.$vux.alert.hide();
-                }, 1000);
-                this.welfare();
-                this.Interest();
+                    num.val(this.residueMoney)
+                    this.money = this.residueMoney
+                    this.$vux.alert.hide()
+                    $(".leftimg").attr('src',"../../../static/img/add1.png")
+                }, 1000)
+            }else if (value < parseFloat(this.Money)) {
+                $(".leftimg").attr('src',"../../../static/img/cont.png")
+                this.$vux.alert.show({
+                    content: "投资金额不能小于起投金额"
+                })
+                setTimeout(() => {
+                    num.val(this.residueMoney)
+                    this.money = this.Money 
+                    this.$vux.alert.hide()
+                    $(".rightimg").attr('src',"../../../static/img/add.png");
+                }, 1000)
+            }else{
+                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))+'.00'
+                console.log (this.residueMoney)
+                $(".leftimg").attr('src',"../../../static/img/add1.png")
+                this.welfare()
+                this.Interest()
             }
-
         },
         timer() {
           const _this =this
@@ -417,6 +438,7 @@ export default {
                 this.productType = data.ProductInfo.productType
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
+                this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
 
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
                     $(".activeLilv").text("%");

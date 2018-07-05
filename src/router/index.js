@@ -445,6 +445,15 @@ export default new Router({
             component: Detail
         },
         {
+            path: '/page/ceshi',
+            name: 'ceshi',
+            meta: {
+                title: '产品详情',
+                // requireAuth: true
+            },
+            component: Ceshi
+        },
+        {
             path: '/page/detailto',
             name: 'detailto',
             meta: {

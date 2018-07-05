@@ -12,9 +12,9 @@
                 <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>天</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
-            <div class="middle element">
+            <div class="middle">
                <ul class="productlist">
-                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy  :key="index">
+                    <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy :key="index">
                       <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
@@ -37,7 +37,8 @@
         <div class="Transfer" v-if='isshow1'>
             <div class="middle">
              <ul class="productlist">
-                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy :key="index">
+                 <!-- v-view-lazy  -->
+                  <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" :key="index">
                   <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span></h5>
                     <div>
                         <p class="left">
@@ -61,42 +62,49 @@
 
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
-import {Loadmore} from 'mint-ui';
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
 import Vue from 'vue'
-import VueScroller from 'vue-scroller'
 
-var myScroll,pullDownEl, pullDownOffset,pullUpEl, pullUpOffset,generatedCount = 0;
 export default {
     name: 'category',
     data(){
 　　　return {
-　　　　datalist:'',
+// 　　　　datalist:'',
         isshow1:false,
         isshow:true,
         isshow2:true,
         isshow3:false,
         isshow4:false,
         isshow5:false,
-        loadingShow: false
+        // loadingShow: false,
+        scroll: '',
+        curPage: 1,
+        pageSize: 10,
+        disQuestionList:[],//每次加载出来的新数据
+        datalist:[],
+        totalCount:'',　　//每次加载累加后的总数据
 　　　}
 　　},
     created() {
       this.token()
+      const status = '1'
+      const a = '18'
+      this.pro(status,a,10)
     },
     activated() {
       const status = '1'
-      const a = ''
-        this.pro(status,a)
+      const a = '18'
     },
-    computed: {
-     params() {
-      return{
-       pageSize:'1'
-       }
-     }
+    beforeMount() {
+    },
+    mounted() {
+      const status = '1'
+      const a = '18'
+      setTimeout(() => {
+        this.pro(status,a,this.totalCount)
+      }, 500)     
     },
     methods: {
       // 跳转详情页
@@ -113,7 +121,7 @@ export default {
             _this.isshow1 = false
             $(".Conducttab").addClass('active')
             $(".Transfertab").removeClass('active')
-            this.pro('1','18')
+            this.pro('1','18',10)
         },
         // 转让专区
         Transfertab(){
@@ -122,21 +130,20 @@ export default {
             _this.isshow1 = true
             $(".Transfertab").addClass('active')
             $(".Conducttab").removeClass('active')
-            this.pro('2','19')
+            this.pro('2','19',10)
         },
-        pro(status,a){
+        pro(status,a,i){
           const _this = this
           const url = myPub.URL+`/product/getProductList`;
           var params = new URLSearchParams();
-          const pageSize =+1
           _this.$loading.show();
           params.append('productType','14');
           params.append('productSubType',a);
           params.append('productProperty',status);
           params.append('clientType','h5');
           params.append('token',sessionStorage.token)
-          params.append('pageSize','10');
-          params.append('curPage',pageSize);
+          params.append('pageSize',i);
+          params.append('curPage','1');
           axios.post(url,params).then(res => {
             _this.$loading.hide();
               console.log(res.data);
@@ -153,6 +160,8 @@ export default {
               }
               if (data.result == '200') {
                 this.datalist = res.data.Product
+                this.totalCount = res.data.totalCount
+                console.log(this.totalCount)
               setTimeout(() => {
                 $(".img").each(function (i,n) {
                   if ($(".img").eq(i).text() == '1') {
@@ -221,6 +230,10 @@ export default {
               }, 2000)
             }
         },
+        menu() {
+          this.scroll = document.body.scrollTop;
+          console.log(this.scroll)
+         }
     },
     watch: {
         '$route' (to, from) {
@@ -228,8 +241,7 @@ export default {
         }//回退上一级页面并刷新
     },
     components: {
-      VueScroller,
-      top
+        top
     }
 }
 </script>
@@ -248,13 +260,21 @@ export default {
 }
 .goods{
     background: #f7f7f7;
-    height: 100%;
+    height: auto;
     h5{line-height: 30px;font-weight: normal;font-size: 0.8rem;border-bottom: 1px solid #eee;padding: 0 1rem;}
     .tab{
         background: #2B9AFF;
         li{display: inline-block;width: 49%;border-bottom: 1px solid #eee;text-align: center;line-height: 40px;height: 40px;color: #BDD4F5;}
         .active{color: #fff;position: relative;}
         .active:after{content: '';display: inline-block;width: 30%;height: 2px;background: #fff;left: 35%;bottom: 0;position: absolute;}
+    }
+    .Conduct{
+        height: auto;
+        &:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
     }
     .top{
         border-bottom: 1px solid #eee;background: #fff;width: 94%;margin-left: 3%;margin-top: 3%;padding: 1rem 0;
@@ -272,12 +292,23 @@ export default {
     .middle{
         .productlist{
           .list{
-              background: #fff;margin-top: 10px;padding:1rem;position: relative;
+              background: #fff;margin-top: 10px;padding:1rem;position: relative;min-height: 8rem; margin-bottom: 10px;
               .status{position: absolute;opacity: 0;}
               h5{
                   border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;padding-left: 0;
                   span{color: #999;margin-left: 0.5rem;font-size: 0.6rem;}
-                  .prodecttitle{display: inline-block;max-width: 5.5rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;position: relative;top: -0.1rem;margin-left: 0;}
+                  .prodecttitle{
+                      display: inline-block;
+                      max-width: 5.5rem;
+                      overflow: hidden;
+                      text-overflow:ellipsis;
+                      white-space: nowrap;
+                      position: relative;
+                      top: -0.1rem;
+                      margin-left: 0;
+                      color: #333;
+                      font-size: 0.8rem;
+                    }
                   .Property{line-height: 1rem;padding:0 0.2rem;border: 1px solid #FFA303;border-radius: 30px;color:#FFA303;opacity: 0;position: absolute;right: 5.1rem;top: 0.3rem;}
                   .img{
                       float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;position: absolute;opacity: 0;right: 0;

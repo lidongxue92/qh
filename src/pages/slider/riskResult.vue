@@ -69,7 +69,7 @@ export default {
             this.$router.back()
         },
         riskAgain(){
-            this.$router.push({path:'/risk'});
+            location.href = "http://test.qihangjf.com:29084/risk.html?token=" + sessionStorage.token;
         }
     }
 }
