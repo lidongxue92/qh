@@ -87,7 +87,8 @@ export default {
     activated() {
       const status = '1'
       const a = ''
-        this.pro(status,a)
+      this.pro(status,a)
+      this.homeScrollEvent()
     },
     computed: {
      params() {
@@ -126,7 +127,8 @@ export default {
           const _this = this
           const url = myPub.URL+`/product/getProductList`;
           var params = new URLSearchParams();
-          const pageSize =+1
+          const i = 1
+          _this.i = +1
           _this.$loading.show();
           params.append('productType','14');
           params.append('productSubType',a);
@@ -134,7 +136,7 @@ export default {
           params.append('clientType','h5');
           params.append('token',sessionStorage.token)
           params.append('pageSize','10');
-          params.append('curPage',pageSize);
+          params.append('curPage',i);
           axios.post(url,params).then(res => {
             _this.$loading.hide();
               console.log(res.data);
@@ -218,7 +220,7 @@ export default {
                   this.$router.push({path:"/login",query: {redirect: 'your path'}})
               }, 2000)
             }
-        }
+        },
     },
     watch: {
         '$route' (to, from) {
@@ -246,7 +248,7 @@ export default {
 }
 .goods{
     background: #f7f7f7;
-    height: 100%;
+    height: auto;
     h5{line-height: 30px;font-weight: normal;font-size: 0.8rem;border-bottom: 1px solid #eee;padding: 0 1rem;}
     .tab{
         background: #2B9AFF;
@@ -270,7 +272,7 @@ export default {
     .middle{
         .productlist{
           .list{
-              background: #fff;margin-top: 10px;padding:1rem;position: relative;
+              background: #fff;margin-top: 10px;padding:1rem;position: relative;min-height: 8rem;
               .status{position: absolute;opacity: 0;}
               h5{
                   border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;padding-left: 0;

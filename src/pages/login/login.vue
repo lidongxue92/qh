@@ -455,11 +455,11 @@ export default {
         this.createCode();
         sessionStorage.removeItem("token");
     },
-    watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        }//回退上一级页面并刷新
-    },
+    // watch: {
+    //     '$route' (to, from) {
+    //         this.$router.go(0);
+    //     }//回退上一级页面并刷新
+    // },
     components: {
         XInput,
         XButton,

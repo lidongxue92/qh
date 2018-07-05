@@ -19,15 +19,15 @@
             <div class="list" v-if="isshow">
                 <p><img src="~@/assets/img/icon_lab@2x.png" />&ensp;热烈庆祝道道理财隆重上线，百万福利派送中……</p>
                 <ul>
-                    <li>
+                    <li @click="linkToInvite">
                         <img src="~@/assets/img/icon_you@2x.png">
                         <p>邀请好友</p>
                     </li>
-                    <li>
+                    <li @click="Dada">
                         <img src="~@/assets/img/icon_huo@2x.png">
                         <p>xx活动</p>
                     </li>
-                    <li>
+                    <li @click="linkToProblem">
                         <img src="~@/assets/img/icon_banz@2x.png">
                         <p>帮助中心</p>
                     </li>
@@ -131,11 +131,11 @@ export default {
         this.index_product(),
         this.msg()
     },
-    watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        },//回退上一级页面并刷新
-    },
+    // watch: {
+    //     '$route' (to, from) {
+    //         this.$router.go(0);
+    //     },//回退上一级页面并刷新
+    // },
     methods: {
         // 首页banner接口
         index_banner(){
@@ -168,6 +168,15 @@ export default {
             }else{
                 this.$router.push({ path: '/page/detail', query: { id: id } })
             }
+        },
+        linkToInvite(){
+            this.$router.push({path:'/page/invite'})
+        },
+        Dada(){
+            this.$router.push({path:'/data'})
+        },
+        linkToProblem(){
+           this.$router.push({path:'/page/commonProblem'})
         },
         settlein(){
             this.$router.push({path:"/settlein"})
