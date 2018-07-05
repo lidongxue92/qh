@@ -35,7 +35,7 @@
                             <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
                         <p class="note">有效期至：{{item.endDate}}
-                        <span class="button">立即使用</span></p>
+                        <span class="button">立即使用</span><span class="status">{{item.status}}</span></p>
                     </li>
                 </ul>
             </div>
@@ -61,7 +61,7 @@
                             <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
                         <p class="note">有效期至：{{item.endDate}}
-                        <span class="button">立即使用</span></p>
+                        <span class="button">立即使用</span><span class="status">{{item.status}}</span></p>
                     </li>
                 </ul>
             </div>
@@ -86,8 +86,11 @@
                             <span>使用条件：投资满{{item.incrName}}元可使用</span>
                             <span>投资满{{item.incrName}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：{{item.endDate}}
-                        <span class="button">立即使用</span></p>
+                        <p class="note">
+                            有效期至：{{item.endDate}}
+                            <span class="button">立即使用</span>
+                            <span class="status">{{item.status}}</span>
+                        </p>
                     </li>
                 </ul>
             </div>
@@ -95,7 +98,7 @@
             <div class="historypage" v-if="isshow6">
                 <p class="no">历史加息券</p>
                 <ul class="list">
-                    <li>
+                    <!-- <li>
                         <p class="title">新手红包</p>
                         <p class="left">¥<b>1000</b></p>
                         <p class="right">
@@ -104,7 +107,7 @@
                         </p>
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
-                    </li>
+                    </li> -->
                      <li v-for="(item,index) in addpro">
                         <p class="title">{{item.redPacketName}}</p>
                         <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
@@ -112,8 +115,11 @@
                             <span>使用条件：投资满{{item.investMoney}}元可使用</span>
                             <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
-                        <p class="note">有效期至：{{item.endDate}}
-                        <span class="button">立即使用</span></p>
+                        <p class="note">
+                            有效期至：{{item.endDate}}
+                            <span class="button">立即使用</span>
+                            <span class="status">{{item.status}}</span>
+                        </p>
                     </li>
                 </ul>
             </div>
@@ -247,8 +253,24 @@ export default {
                         this.$router.push({path:"/login"})
                     }, 3000)
                 }
-                if(res.data.result == 200){
+                if(res.data.result == '200'){
                     this.product = res.data.RedPacket
+                    setTimeout(() => {
+                        $(".status").each(function (i,n) {
+                        if ($(".status").eq(i).text() == '1') {
+                            $(".button").eq(i).text('已到期')
+                        }
+                        else if ($(".status").eq(i).text() == '2') {
+                            $(".button").eq(i).text('未到期')
+                        }
+                        else if ($(".status").eq(i).text() == '4') {
+                            $(".button").eq(i).text('以失效')
+                        }
+                        else if ($(".status").eq(i).text() == '5') {
+                            $(".button").eq(i).text('已下架')
+                        }
+                    })
+                    }, 200)
                 }
             }).catch((err) => {
                 console.log(err);
@@ -277,8 +299,25 @@ export default {
                         this.$router.push({path:"/login"})
                     }, 3000)
                 }
-                if(res.data.result == 200){
+                if(res.data.result == '200'){
                     this.addpro = res.data.Increase
+                    setTimeout(() => {
+                        $(".status").each(function (i,n) {
+                        if ($(".status").eq(i).text() == '1') {
+                            $(".button").eq(i).text('已到期')
+                        }
+                        else if ($(".status").eq(i).text() == '2') {
+                            $(".button").eq(i).text('未到期')
+                        }
+                        else if ($(".status").eq(i).text() == '4') {
+                            $(".button").eq(i).text('以失效')
+                        }
+                        else if ($(".status").eq(i).text() == '5') {
+                            $(".button").eq(i).text('已下架')
+                        }
+                    })
+                    }, 200)
+                    
                 }
             }).catch((err) => {
                 console.log(err);
@@ -344,7 +383,8 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1rem;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1rem;position: relative;
+                        .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;}
                     }
                 }
@@ -357,7 +397,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 0.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 1rem;
                             .button{position: relative;bottom: 0.3rem;}
                         }
                     }
@@ -382,7 +422,8 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;
+                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;
+                        .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
                     }
                 }
@@ -420,7 +461,8 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top: 1rem;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top: 1rem;position: relative;
+                        .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #C79B5A;color: #C79B5A;text-align: center;line-height: 1.4rem;}
                     }
                 }
@@ -433,7 +475,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 0.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 1rem;
                             .button{position: relative;bottom: 0.3rem;}
                         }
                     }
@@ -458,7 +500,8 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;
+                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;
+                        .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
                     }
                 }
@@ -471,7 +514,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 0.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 1rem;
                             .button{position: relative;bottom: 0.3rem;}
                         }
                     }

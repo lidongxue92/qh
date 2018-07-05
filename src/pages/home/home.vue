@@ -296,9 +296,9 @@ export default {
             //     }, 3000)
             // }
             if (data.unReadNum == '0') {
-                $(".imgleft img").attr("src",'../../../static/img/xiaoXi.png')
+                $(".imgleft img").attr("src",'../../static/img/xiaoXi.png')
             }else{
-                $(".imgleft img").attr("src",'../../../static/img/Messages@2x.png')
+                $(".imgleft img").attr("src",'../../static/img/Messages@2x.png')
             }
             console.log(data)
           }).catch((err) => {
