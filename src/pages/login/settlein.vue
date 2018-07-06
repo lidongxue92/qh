@@ -7,17 +7,17 @@
       </div>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone"><img @click="emipy" class="img" src="~@/assets/img/emipy.png">
+          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone" maxlength="11"><img @click="emipy" class="img" src="~@/assets/img/emipy.png">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC" maxlength="4">
           <img @click="emipy1" class="img" src="~@/assets/img/emipy.png" style="right: 40%">
           <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
           <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login next" @click="next1">下一步</a>
-        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
+        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;margin-top: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
 
@@ -31,19 +31,19 @@
 
       <label class="clearfix" style="margin-top: 30px;">
       <p style="border-bottom: 1px solid #eee">
-        <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+        <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
         <img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy2" style="right: 40%">
         <input type="button" :value="btnText"
         :disabled="disabled"  @click="sendCode" class="verification"/></p>
           <span class="tishixiaoxi disappear" >请输入验证码。</span>
       </label>
       <label style="margin-top: 1.5rem;">
-        <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy3" style="right: 12%;top: 0.7rem;">
+        <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres" maxlength="22"><img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy3" style="right: 12%;top: 0.7rem;" >
         <img :src="imgSrc" class="LoginImg" @click="eyesTab">
         <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
       <label>
-          <input type="password" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
+          <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
       </label>
       <label class="Agreement"  v-for="item of items" :key="item">
         <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
@@ -162,6 +162,7 @@ export default {
         isshow:true,
         isshow1:false,
         imgSrc:"../static/img/closeEyes.png",
+        type:"password",
         tel:'',
         items: [
           {state: true}
@@ -230,8 +231,8 @@ export default {
         $(".toast1").css("display","none")
       },
       closeREG(){
-          this.isshow = false;
-          this.isshow1 = true;
+          this.isshow = true;
+          this.isshow1 = false;
       },
       toast1(){
         $(".bg").css("display","block")
@@ -371,7 +372,7 @@ export default {
       // 验证下一步
       changBGC(){
             var pwdLen = $(".yanzhengma_input").val().length;
-            if (pwdLen >= 4) {
+            if (pwdLen >= 4 && this.checkLPhone() == true) {
                 $(".next").css("opacity","1");
             }else{
               $(".next").css("opacity",".5");
@@ -379,12 +380,12 @@ export default {
         },
         // 验证注册
       changres(){
-            var pwdLen = $(".register_content_input").val().length;
-            if (pwdLen >= 6) {
-                $(".res").css("opacity","1");
-            }else{
-              $(".res").css("opacity",".5");
-            }
+          var pwd = $(".res").val().length;
+          if (pwd >= 6) {
+              $(".res").css("opacity","1");
+          }else{
+            $(".res").css("opacity",".5");
+          }
         },
       // 验证登录密码
       checkLPsd(){
@@ -400,6 +401,15 @@ export default {
           }
       },
       register(){
+        if (this.check() == false) {
+            this.$vux.alert.show({
+              title: '',
+              content: '请勾选同意启航金服注册协议'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 3000)
+        }
         if( this.checkLPsd() == true && this.check() == true){
             const url = myPub.URL+`/reg/register`;
             const pwd = Base64.encode(this.LUserPsd,'utf-8')
@@ -448,7 +458,6 @@ export default {
                       })
                       setTimeout(() => {
                           this.$vux.alert.hide()
-                          this.$router.push({path:"/login"})
                       }, 3000)
                     }
                     this.$vux.alert.show({
@@ -773,7 +782,7 @@ export default {
 </style>
 <style scoped lang="less">
 .settlein{
-  padding: 1rem;position: relative;height: auto;
+  padding: 1rem;position: relative;height: 100%;
   .bg-img{
     text-align: center;
     h5{

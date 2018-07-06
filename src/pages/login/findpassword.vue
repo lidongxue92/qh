@@ -7,7 +7,7 @@
     <div class="phone" v-if='isshow'>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
+          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
           <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
@@ -26,7 +26,7 @@
       <h5>短信验证码已发送至：<span class="span">{{tel}}</span></h5>
       <label class="clearfix" style="margin-top: 30px;">
           <p style="border-bottom: 1px solid #eee">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
           <img src="../../assets/img/loginClear.png" class="img" @click="emipy2" style="right: 40%">
           <input type="button" :value="btnText"
           :disabled="disabled"  @click="sendCode" class="verification"/></p>
