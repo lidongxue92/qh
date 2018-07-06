@@ -100,7 +100,7 @@ export default {
             this.$router.back()
         },
         category(){
-            this.$router.push({ path: '/page/category' })
+            this.$router.push({ path: '/category' })
         },
         assetdetail(id){
             this.$router.push({ path: '/page/assetdetail',query:{id:id} })
@@ -142,7 +142,7 @@ export default {
             params.append('productFullStatus',productFullStatus);
             params.append('czlx','1');
             params.append('orderType',orderType);
-            params.append('clientType','pc');
+            params.append('clientType','h5');
             axios.post(url,params).then(response => {
                 _this.$loading.hide();
                 const data = response.data

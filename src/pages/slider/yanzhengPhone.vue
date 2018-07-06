@@ -5,7 +5,7 @@
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
                     <li>
-                        手机号&ensp;<input type="type" placeholder="请输入手机号" v-model="userPhone" @blur="checkLPhone"></li>
+                        手机号&ensp;<input type="type" placeholder="请输入手机号" v-model="Tel" @blur="checkLPhone"></li>
                     <li>
                         验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode" @input="changBGC">
                         <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
@@ -36,29 +36,32 @@ export default {
             time: 0,
             verifyCode: '',
             dialog: false,
-            userPhone: sessionStorage.userPhone,
+            userPhone:sessionStorage.userPhonem,
             smsCode:'',
             picLyanzhengma:'',
             checkCode:'',
             title:'手机号验证',
             isshow:true,
-            tishi:""
+            tishi:"",
+            Tel:''
         }
     },
     computed: {
     },
     mounted () {
     },
-    created() {},
+    created() {
+        const tel = this.userPhone
+        const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
+        this.Tel = mtel
+    },
     activated() {
-        // this.getALLProducts()
     },
     methods: {
         checkLPhone(){
             if(this.userPhone == ''){
                 this.tishis = "请输入手机号"
             }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
-
                 return true;
             }else{
                 this.tishis = "请输入正确手机号"
@@ -149,6 +152,18 @@ export default {
                         this.$vux.alert.hide();
                     }, 3000)
                 }
+                if (res.data.result == 200) {
+                    this.$router.push({ path: '/page/loginpassword'})
+                }else{
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                    }, 3000)
+                }
+
             }).catch((err) => {
             console.log(err)
             })

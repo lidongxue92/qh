@@ -520,7 +520,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f6f6f6;position: relative;height: auto;
+    background: #f6f6f6;position: relative;height: 100%;
     .product{
         background: url(~@/assets/img/bg.png);color: #fefefe;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}

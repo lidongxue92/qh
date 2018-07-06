@@ -279,7 +279,7 @@ export default {
         checkLPsd(){
             if(this.userPwd == ''){
                 return false
-            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
+            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?! )(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
                 $(".login_content1  span:eq(1)").addClass("disappear");
                 return true;
             }else{
