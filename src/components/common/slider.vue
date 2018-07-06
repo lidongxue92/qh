@@ -536,12 +536,6 @@ export default {
                 // console.log(res.data);
                 if (res.data.result == 200) {
                     this.$router.push({path:'/login'})
-                    // setTimeout(() => {
-                    //     sessionStorage.removeItem("token");
-                    //     sessionStorage.removeItem("userId");
-                    //     this.$vux.alert.hide();
-                    //     this.$router.push({path:'/login'})
-                    // },2000)
                 }
 
 

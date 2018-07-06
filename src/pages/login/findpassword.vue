@@ -1,6 +1,9 @@
 <template>
   <div class="settlein">
-      <top v-bind:title="title"></top>
+      <topComponent title='密码找回' :showLeft='false'>
+            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+        </topComponent>
+
     <div class="phone" v-if='isshow'>
       <div class="login_content1 ">
         <label>
@@ -15,12 +18,12 @@
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login" @click="next">下一步</a>
-        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
+        <!-- <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a> -->
       </div>
     </div>
     <div class="list" v-if="isshow1">
       <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;"></h5>
-      <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
+      <h5>短信验证码已发送至：<span class="span">{{tel}}</span></h5>
       <label class="clearfix" style="margin-top: 30px;">
           <p style="border-bottom: 1px solid #eee">
           <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
@@ -44,7 +47,7 @@
         <a class="user_login" @click="sub">确认提交</a>
     </div>
   </div>
-  
+
 </template>
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
@@ -52,12 +55,11 @@ import axios from 'axios'
 let Base64 = require('js-base64').Base64;
 import * as myPub from '../../assets/js/public.js'
 import $ from 'jquery'
-import top from '../../components/common/top1'
+import topComponent from '../../components/common/top'
 var code ; //在全局定义验证码
 export default {
     data () {
       return {
-          title:'找回密码',
         btnText: '发送验证码',
         disabled: false,
         time: 0,
@@ -81,7 +83,15 @@ export default {
     },
     methods:{
         goBack(){
-            this.$router.back()
+            if (this.isshow1 == true) {
+                this.isshow = true;
+                this.isshow1 = false;
+                this.emipy1();
+                $(".code").click();
+
+            }else{
+                this.$router.back()
+            }
         },
         // 清空手机号
         emipy(){
@@ -103,7 +113,7 @@ export default {
           this.newUserPwd1 = ''
         },
         // 眼睛切换
-        eyesTab(){     
+        eyesTab(){
             if (this.imgSrc == "../static/img/loginEyes.png") {
                 this.imgSrc = "../static/img/closeEyes.png";
                 this.type = "password"
@@ -140,30 +150,30 @@ export default {
       },
       // 图片验证码
       createCode(){
-          code = "";    
-          var codeLength = 4;//验证码的长度   
-          var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',   
-           'S','T','U','V','W','X','Y','Z');//随机数   
-          for(var i = 0; i < codeLength; i++) {//循环操作   
-              var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）   
-              code += random[index];//根据索引取得随机数加到code上   
-          }   
-              this.checkCode = code;//把code值赋给验证码   
+          code = "";
+          var codeLength = 4;//验证码的长度
+          var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+           'S','T','U','V','W','X','Y','Z');//随机数
+          for(var i = 0; i < codeLength; i++) {//循环操作
+              var index = Math.floor(Math.random()*36);//取得随机数的索引（0~35）
+              code += random[index];//根据索引取得随机数加到code上
+          }
+              this.checkCode = code;//把code值赋给验证码
       },
       // 失焦验证图和密码
       checkLpicma(){
-          this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写         
+          this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写
           if(this.picLyanzhengma == '') {
               $(".login_content1 span:eq(1)").text("请输入验证码")
               $(".login_content1 span:eq(1)").removeClass("disappear");
-          }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时    
+          }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时
               console.log( this.picLyanzhengma.toUpperCase())
-              console.log(code)           
+              console.log(code)
               $(".login_content1 span:eq(1)").text("验证码不正确")
               $(".login_content1 span:eq(1)").removeClass("disappear");
-              this.createCode();//刷新验证码   
+              this.createCode();//刷新验证码
               this.picLyanzhengma = '';
-          }else { //输入正确时   
+          }else { //输入正确时
               $(".login_content1 span:eq(1)").addClass("disappear");
               $(".login_content1 span:eq(1)").text("请输入验证码")
               if (this.checkLPhone() ==true) {
@@ -172,15 +182,16 @@ export default {
                 $('.user_login').removeClass('bg-ed711f')
               }
               return true;
-          } 
+          }
       },
       next(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
+            $(".user_login").css("opacity","1")
           const _this = this
           _this.isshow1 =true
           _this.isshow =false
           // 手机号脱敏
-          const tel = $('.register_content_input').val()  
+          const tel = $('.register_content_input').val()
           const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
           console.log(mtel)
           _this.tel = mtel;
@@ -230,7 +241,7 @@ export default {
                         this.$vux.alert.hide()
                     }, 3000)
                 }
-                
+
 
             }).catch((err) => {
             console.log(err)
@@ -275,7 +286,7 @@ export default {
       },
       sub(){
         if( this.checkLPsd() == true && this.checkLPsd1() == true){
-            
+
             this.time = 90
             this.disabled = true
             this.timer()
@@ -312,7 +323,7 @@ export default {
 
     created(){
       this.createCode();
-      
+
   },
   components: {
       XInput,
@@ -320,7 +331,7 @@ export default {
       Group,
       Cell,
       Toast,
-      top
+      topComponent
   }
 }
 </script>
@@ -375,7 +386,7 @@ export default {
       color:#FFA303;
       display: block;
       line-height: 20px;
-     
+
   }
   .yanzhengma_input{
     width: 60%;
@@ -482,7 +493,7 @@ export default {
       background-color: #2B9AFF;
       border-radius: 30px;
       margin-top:2rem;
-      cursor:pointer;
+      opacity: .5;
   }
   .bg-ed711f{
     background: #2773FF
