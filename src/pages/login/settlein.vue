@@ -39,7 +39,9 @@
           <img :src="imgSrc" class="LoginImg" @click="eyesTab" style="top: 1.8rem;">
         </label>
         <label>
-            <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
+            <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode " class="register_content_input inv" @input="img5">
+            <img src="../../assets/img/loginClear.png" class="LoginImg img5" @click="emipy5" style="right:1.5rem;top: 1.7rem;" >
+            <br>
         </label>
         <label class="Agreement"  v-for="item of items" :key="item">
           <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
@@ -223,6 +225,19 @@ export default {
         setTimeout(() => {
           $(".img4").css("display","none")
         }, 500)
+      },
+      // 清空邀请码
+      emipy5(){
+        this.invitationCode = ''
+        setTimeout(() => {
+          $(".img5").css("display","none")
+        }, 500)
+      },
+      img5(){
+        const leng = this.invitationCode.length
+        if (leng >= '1') {
+          $(".img5").css("display","block")
+        }
       },
       // 手机清空
       img1(){
@@ -663,6 +678,7 @@ export default {
           width: 1rem;
           }
           .img4{display: none;}
+          .img5{display: none;}
     }
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;

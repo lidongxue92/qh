@@ -45,7 +45,7 @@
                     <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
+                            <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -58,7 +58,7 @@
                    <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
+                            <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -71,7 +71,7 @@
                    <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2"></b></span>
+                            <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
