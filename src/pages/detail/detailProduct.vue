@@ -344,11 +344,12 @@ export default {
     }
     .xyContainer{
         position: absolute;
+        top: 0;
         left: 50%;
         transform: translateX(-50%);
         width: 80%;
         background: #fff;
-        border-radius: 50px;
+        border-radius: .6rem /* 25/40 */;
     }
 }
 </style>
