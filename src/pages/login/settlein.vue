@@ -1,6 +1,6 @@
 <template>
   <div class="settlein">
-    <div class="phone" v-if='!isshow'>
+    <div class="phone" v-if='isshow'>
       <div class="bg-img">
         <h5><img @click="close" src="../../assets/img/close.png">注册</h5>
         <img src="../../assets/img/logo@2x.png">
@@ -11,41 +11,36 @@
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC">
+          <img @click="emipy1" class="img" src="~@/assets/img/emipy.png" style="right: 40%">
           <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
           <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
-        <a class="user_login" @click="next1">下一步</a>
+        <a class="user_login next" @click="next1">下一步</a>
         <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
 
 
-    <div class="list" v-if="!isshow1">
+    <div class="list" v-if="isshow1">
         <div class="regBgImg">
             <div><img @click="closeREG" src="../../assets/img/leftBlack.png"></div>
             <h5>注册</h5>
         </div>
         <p>验证码已发送至手机号：<span class="span">{{tel}}</span></p>
 
-      <group>
-        <x-input type="text"
-                 placeholder="请输入验证码"
-                 v-model="verifyCode"
-               >
-                <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
-                  <x-button slot="right"
-                      type="primary"
-                      mini
-                      :text="btnText"
-                      :disabled="disabled"
-                      @click.native="sendCode" class="verification">
-                 </x-button>
-          </x-input>
-        </group>
-        <label style="margin-top: 1.5rem;">
-          <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><img @click="emipy" class="img" src="~@/assets/img/closeEyes.png">
-          <span class="tishixiaoxi disappear">请输入密码。</span>
+      <label class="clearfix" style="margin-top: 30px;">
+      <p style="border-bottom: 1px solid #eee">
+        <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+        <img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy2" style="right: 40%">
+        <input type="button" :value="btnText"
+        :disabled="disabled"  @click="sendCode" class="verification"/></p>
+          <span class="tishixiaoxi disappear" >请输入验证码。</span>
+      </label>
+      <label style="margin-top: 1.5rem;">
+        <input type="password" placeholder="设置登录密码" class="register_content_input" v-model="LUserPsd" @blur="checkLPsd"><img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy3" style="right: 12%;top: 0.7rem;">
+        <img :src="imgSrc" class="LoginImg" @click="eyesTab">
+        <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
       <label>
           <input type="password" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
@@ -54,7 +49,7 @@
         <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
         <span v-if='!isshow2'>请同意注册协议</span>
       </label>
-      <a class="user_login" @click="register">提交注册</a>
+      <a class="user_login res" @click="register">提交注册</a>
     </div>
 
     <!-- 底部版权 -->
@@ -166,6 +161,7 @@ export default {
         invitationCode:'',
         isshow:true,
         isshow1:false,
+        imgSrc:"../static/img/closeEyes.png",
         tel:'',
         items: [
           {state: true}
@@ -198,9 +194,36 @@ export default {
         $(".toast").css("display","none")
         this.$router.push({path:"/"})
       },
+      // 清空手机号
       emipy(){
         $('.phone').val("")
+        $(".next").css("opacity",".5");
       },
+      // 清空图形验证码
+      emipy1(){
+        this.picLyanzhengma = ''
+        $(".next").css("opacity",".5");
+      },
+      // 清空手机验证码
+      emipy2(){
+        this.verifyCode = ''
+        $(".res").css("opacity",".5");
+      },
+      // 清空登录密码
+      emipy3(){
+        this.LUserPsd = ''
+        $(".res").css("opacity",".5");
+      },
+      // 眼睛切换
+        eyesTab(){
+            if (this.imgSrc == "../static/img/loginEyes.png") {
+                this.imgSrc = "../static/img/closeEyes.png";
+                this.type = "password"
+            }else{
+                this.imgSrc = "../static/img/loginEyes.png";
+                this.type = "text"
+            }
+        },
       close1(){
         $(".bg").css("display","none")
         $(".toast1").css("display","none")
@@ -283,14 +306,13 @@ export default {
       },
       next1(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
-
           const url = myPub.URL+`/check/checkPhone` ;
           var params = new URLSearchParams();
-        params.append('phone',this.phoneNumber);;
-        axios.post(url,params).then(response => {
+          params.append('phone',this.phoneNumber);;
+           axios.post(url,params).then(response => {
               console.log(response)
               if (response.data.result == '302') {
-                 this.isshow1 = true;
+                this.isshow1 = true;
                 this.isshow = false;
 
                 // 手机号脱敏
@@ -298,6 +320,7 @@ export default {
                 const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
                 console.log(mtel)
                 this.tel = mtel
+                this.sendCode()
               }
               if (response.data.result == '301') {
                   this.$vux.alert.show({
@@ -317,20 +340,20 @@ export default {
       },
       // 手机号验证码
       sendCode() {
-            console.log('点击验证码触发')
-            this.time = 90
-            this.disabled = true
-            this.timer()
-             // 获取验证
-              const url = myPub.URL+`/three/getSmsCode` ;
-              var params = new URLSearchParams();
-              params.append('phone',this.phoneNumber);
-              params.append('msgType','1');
-              axios.post(url,params).then(response => {
-                    console.log(response)
-              }).catch((err) => {
-                console.log(err)
-              })
+        console.log('点击验证码触发')
+        this.time = 90
+        this.disabled = true
+        this.timer()
+         // 获取验证
+          const url = myPub.URL+`/three/getSmsCode` ;
+          var params = new URLSearchParams();
+          params.append('phone',this.phoneNumber);
+          params.append('msgType','1');
+          axios.post(url,params).then(response => {
+                console.log(response)
+          }).catch((err) => {
+            console.log(err)
+          })
         },
 
       timer() {
@@ -344,17 +367,35 @@ export default {
           this.disabled = false
         }
       },
+      // 验证下一步
+      changBGC(){
+            var pwdLen = $(".yanzhengma_input").val().length;
+            if (pwdLen >= 4) {
+                $(".next").css("opacity","1");
+            }else{
+              $(".next").css("opacity",".5");
+            }
+        },
+        // 验证注册
+      changres(){
+            var pwdLen = $(".register_content_input").val().length;
+            if (pwdLen >= 6) {
+                $(".res").css("opacity","1");
+            }else{
+              $(".res").css("opacity",".5");
+            }
+        },
       // 验证登录密码
       checkLPsd(){
           if(this.LUserPsd == ''){
-              $(".list span:eq(1)").text("请输入密码");
-              $(".list span:eq(1)").removeClass("disappear")
-          }else if(this.LUserPsd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
-              $(".list span:eq(1)").addClass("disappear")
+              $(".list span:eq(2)").text("请输入密码");
+              $(".list span:eq(2)").removeClass("disappear")
+          }else if(this.LUserPsd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
+              $(".list span:eq(2)").addClass("disappear")
               return true;
           }else{
-              $(".list span:eq(1)").removeClass("disappear");
-              $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
+              $(".list span:eq(2)").removeClass("disappear");
+              $(".list span:eq(2)").text("6~20位数字、字母或特殊符号组合")
           }
       },
       register(){
@@ -519,9 +560,6 @@ export default {
       line-height: 20px;
       margin-top: 0.5rem;
   }
-  .yanzhengma_input{
-    width: 60%;
-  }
   .disappear{
        visibility:hidden;
   }
@@ -548,8 +586,22 @@ export default {
       border-bottom: 1px solid #e6e6e6;
   }
   .verification{
-      vertical-align: middle;
-      margin-left: 10px;
+    vertical-align: middle;
+    font-size: 0.9rem!important;
+    border: 0;
+    color: #FFA303;
+    width: 30%;
+    text-align: center;
+    background: transparent;
+    border-bottom: 0;
+  }
+  .yanzhengma_input{
+    width: 60%;
+    font-size:0.9rem;
+    padding: 5px 0 5px 10px;
+      height: 30px;
+      /*margin-top: 25px;*/
+      border: 0;
   }
   .agreement{
       position: relative;
@@ -734,7 +786,11 @@ export default {
     }
     img{margin-top:2rem;width: 5rem;height: 5rem;}
   }
+  .phone{
+    .next{opacity: .5}
+  }
   .list{
+    .res{opacity: .5}
       .regBgImg{
           height: 2.5rem;
           text-align: center;
@@ -764,7 +820,7 @@ export default {
           right: 1rem;
           top: 0.9rem;
           width: 1rem;
-          height: 0.6rem;}
+          }
     }
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;

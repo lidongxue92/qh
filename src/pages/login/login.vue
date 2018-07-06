@@ -21,8 +21,9 @@
                     <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
                 <label>
-                    <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC"><br>
-                    <span class="tishixiaoxi disappear">请输入密码。</span>
+                    <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC" maxlength="20"><br>
+                    <span class="tishixiaoxi disappear">6~20位数字、字母或特殊符号组合</span>
+                    <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear1" style="right: 2.1rem;top: 0.7rem;">
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
@@ -35,26 +36,26 @@
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
                   <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
-              <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+                <label class="clearfix" style="margin-top: 30px;">
+                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear3" style="right: 40%">
+                  <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
                     <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
-                <group>
-                    <x-input type="text" placeholder="请输入短信验证码" v-model="verifyCode" >
-                              <x-button slot="right"
-                                  type="primary"
-                                  mini
-                                  :text="btnText"
-                                  :disabled="disabled"
-                                  @click.native="sendCode" class="verification">
-                             </x-button>
-                    </x-input>
-                </group>
+                <label class="clearfix" style="margin-top: 30px;">
+                  <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear4" style="right: 40%">
+                  <input type="button" :value="btnText"
+                      :disabled="disabled"  @click="sendCode" class="verification"/> <br>
+                    <span class="tishixiaoxi disappear">请输入验证码。</span>
+                </label>
+                <button class="login" @click="msgLogin" style="padding-top: 0;">登录</button>
+                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
         </div>
 
         <div class="buttomLogin">
-            <button class="login" @click="Login">登录</button>
+            <button class="login" @click="Login" style="padding-top: 0;">登录</button>
             <button class="user_login" @click="settlein" style="background: #2773FF">注册</button>
         </div>
 
@@ -148,9 +149,22 @@ export default {
         goBack(){
             this.$router.back()
         },
-        // 清空
+        // 清空手机号
         clear(){
             this.userPhone = ""
+        },
+        // 清空密码
+        clear1(){
+            this.userPwd = ""
+            $(".login").css("opacity",".5");
+        },
+        // 清空图形验证码
+        clea3(){
+            this.picLyanzhengma = ""
+        },
+        // 清空验证码
+        clear4(){
+            this.verifyCode = ""
         },
         // 眼睛切换
         eyesTab(){
@@ -196,12 +210,12 @@ export default {
             if(this.userPwd == ''){
                 $(".login_content1  span:eq(1)").text("请输入密码");
                 $(".login_content1  span:eq(1)").removeClass("disappear")
-            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
+            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
                 $(".login_content1  span:eq(1)").addClass("disappear");
                 return true;
             }else{
                 $(".login_content1  span:eq(1)").removeClass("disappear");
-                $(".login_content1  span:eq(1)").text("密码必须6-20位，包含字母与数字")
+                $(".login_content1  span:eq(1)").text("6~20位数字、字母或特殊符号组合")
             }
         },
         // 判断登陆背景色
@@ -272,7 +286,7 @@ export default {
         timer() {
             if (this.time > 0) {
                 this.time--
-                this.btnText = this.time + 's后重新获取'
+                this.btnText = this.time + 's'
                 setTimeout(this.timer, 1000)
             } else {
                 this.time = 0
@@ -573,8 +587,16 @@ export default {
   }
   .verification{
       vertical-align: middle;
-      margin-left: 10px;
-      font-size:0.9rem!important;
+    margin-left: 10px;
+    font-size: 0.9rem!important;
+    border: 0;
+    color: #FFA303;
+    /* float: right; */
+    width: 30%;
+    text-align: center;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    background: transparent;
   }
   .agreement{
       position: relative;
@@ -732,108 +754,98 @@ export default {
 </style>
 <style scoped lang="less">
 .logTop{
-    height: 100%;
-    position: relative;
-    .banQuan{
-        width: 100%;
+    .settlein{
+        color: #333;
+        padding: 1rem;
+        .buttomLogin{
+            position: relative;
+            bottom: 0rem;
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            button{
+                width: 100%;
+                font-size: 0.9rem;
+                text-align: center;
+                color: #fff;
+                border-radius: 30px;
+                border: none;
+                background: #2773FF;
+               padding: 0.4rem 0;
+            }
+
+            .login{
+                opacity: .5;
+                margin-bottom: 20px;
+            }
+              .user_login{
+                opacity: 1;
+            }
+        }
+
+      .bg-img{
         text-align: center;
-        font-size: 0.6rem;
-        color: #999;
-    }
-
-.settlein{
-    color: #333;
-    padding: 1rem;
-    padding-bottom: 0;
-    height: 35rem;
-    background: #f6f6f6;
-    &:after{
-        content: "";
-        display: block;
-        clear: both;
-    }
-
-    .buttomLogin{
-        position: absolute;
-        bottom: 0;
-        width: 80%;
-        left: 50%;
-        transform: translateX(-50%);
-        button{
-            width: 100%;
-            font-size: 0.9rem;
-            text-align: center;
-            color: #fff;
-            border-radius: 30px;
-            border: none;
-            background: #2773FF;
-            padding-top: .8rem;
-            padding-bottom: 0.8rem;
-        }
-
-        .login{
-            opacity: .5;
-            margin-bottom: 20px;
-        }
-          .user_login{
-            opacity: 1;
-        }
-    }
-
-  .bg-img{
-    text-align: center;
-    img{width: 5rem;height: 5rem;margin-top: 2rem;}
-  }
-  .middle{
-    margin-top: 2rem;
-    height: 30rem;
-    &:after{
-        content: "";
-        display: block;
-        clear: both;
-    }
-    ul{
-        li{
-            list-style: none;
-            display: inline-block;
-            width: 48.9%;
-            line-height: 40px;
-            text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
-        .active{border-bottom: 1px solid #2395FF;color: #2395FF}
-    }
-    .login_content1{
-        a{float: right;color: #FFA303;font-size: 0.8rem;margin-top: 5px;}
-    }
-    .list{
-        h5{font-weight: normal;}
-        label{display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;}
-        .Agreement{
-          font-size: 0.8rem;margin-top: 20px;position: relative;
-          input{position: relative;top: 2px;}
-          span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
-        }
+        img{width: 5rem;height: 5rem;margin-top: 2rem;}
       }
-
-
-
-
-  }
-    // 小图标
-  .LoginImg{
-      width: 1rem /* 34/40 */;
-      position: absolute;
-      right: .8rem;
-      top: 1rem;
-  }
-
-
-   .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
-    .toast{
-        position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
-        img{width: 100%;}
-        .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
-        .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+      .middle{
+        margin-top: 2rem;
+        height: 12rem;
+        &:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+        ul{
+            li{
+                list-style: none;
+                display: inline-block;
+                width: 48.9%;
+                line-height: 40px;
+                text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
+            .active{border-bottom: 1px solid #2395FF;color: #2395FF}
+        }
+        .login_content1{
+            a{float: right;color: #FFA303;font-size: 0.8rem;margin-top: 5px;}
+        }
+        .list{
+            h5{font-weight: normal;}
+            label{display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;}
+            .Agreement{
+              font-size: 0.8rem;margin-top: 20px;position: relative;
+              input{position: relative;top: 2px;}
+              span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
+            }
+          }
+      }
+      .LoginImg{
+          width: 1rem /* 34/40 */;
+          position: absolute;
+          right: .8rem;
+          top: 1rem;
+      }
+      .login{
+          display: block;
+          width: 100%;
+          height: 40px;
+          font-size: 0.9rem;
+          text-align: center;
+          line-height: 40px;
+          color: #fff;
+          border-radius: 30px;
+          margin-top: 4rem;
+          border: none;
+          background: #2773FF;
+          opacity: .5;
+      }
+       .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
+        .toast{
+            position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
+            img{width: 100%;}
+            .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
+            .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+        }
     }
+    .banQuan{font-size: 0.8rem;text-align: center;color: #999;margin-top: 2rem;}
 }
-}
+
 </style>
