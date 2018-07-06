@@ -526,6 +526,9 @@ export default {
   .right{
       float: right;
   }
+  .clearfix{
+      border-bottom: 1px solid #eee;
+  }
   .clearfix:after{
       content:'';
       display:block;

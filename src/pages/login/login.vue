@@ -33,7 +33,7 @@
 
             <!-- 短信登陆 -->
             <div class="list" v-if="isshow1">
-              <label>
+                <label>
                   <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
                   <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
@@ -680,7 +680,13 @@ export default {
    .user_login{
     display: inline-block;
     width: 100%;
-    padding: 0.4ren 0;text-align: center;color: #fff!important;border-radius: 50px;height: 2.2rem;line-height: 2.2rem;margin-top: 1rem!important;
+    padding: 0.4ren 0;
+    text-align: center;
+    color: #fff!important;
+    border-radius: 50px;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    margin-top: 1rem!important;
    }
   .verification1{
       vertical-align: middle;
@@ -773,31 +779,31 @@ export default {
     .settlein{
         color: #333;
         padding: 1rem;
-        .buttomLogin{
-            position: relative;
-            bottom: 0rem;
-            width: 80%;
-            left: 50%;
-            transform: translateX(-50%);
-            button{
-                width: 100%;
-                font-size: 0.9rem;
-                text-align: center;
-                color: #fff;
-                border-radius: 30px;
-                border: none;
-                background: #2773FF;
-               padding: 0.4rem 0;
-            }
+        // .buttomLogin{
+        //     position: relative;
+        //     bottom: 0rem;
+        //     width: 80%;
+        //     left: 50%;
+        //     transform: translateX(-50%);
+        //     button{
+        //         width: 100%;
+        //         font-size: 0.9rem;
+        //         text-align: center;
+        //         color: #fff;
+        //         border-radius: 30px;
+        //         border: none;
+        //         background: #2773FF;
+        //         padding: 0.4rem 0;
+        //     }
 
-            .login{
-                opacity: .5;
-                margin-bottom: 20px;
-            }
-              .user_login{
-                opacity: 1;
-            }
-        }
+        //     .login{
+        //         opacity: .5;
+        //         margin-bottom: 20px;
+        //     }
+        //       .user_login{
+        //         opacity: 1;
+        //     }
+        // }
 
       .bg-img{
         text-align: center;
@@ -833,19 +839,19 @@ export default {
             }
           }
           .login1{
-          display: block;
-          width: 100%;
-          height: 40px;
-          font-size: 0.9rem;
-          text-align: center;
-          line-height: 40px;
-          color: #fff;
-          border-radius: 30px;
-          margin-top: 2.5rem;
-          border: none;
-          background: #2773FF;
-          opacity: .5;
-      }
+            display: block;
+            width: 100%;
+            height: 40px;
+            font-size: 0.9rem;
+            text-align: center;
+            line-height: 40px;
+            color: #fff;
+            border-radius: 30px;
+            margin-top: 2.5rem;
+            border: none;
+            background: #2773FF;
+            opacity: .5;
+        }
       }
       .LoginImg{
           width: 1rem /* 34/40 */;
