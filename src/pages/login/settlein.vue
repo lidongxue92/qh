@@ -7,17 +7,17 @@
       </div>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone"><img @click="emipy" class="img" src="~@/assets/img/emipy.png">
+          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone" maxlength="11"><img @click="emipy" class="img" src="~@/assets/img/emipy.png">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC" maxlength="4">
           <img @click="emipy1" class="img" src="~@/assets/img/emipy.png" style="right: 40%">
           <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
           <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login next" @click="next1">下一步</a>
-        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
+        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;margin-top: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
 
@@ -31,14 +31,14 @@
 
       <label class="clearfix" style="margin-top: 30px;">
       <p style="border-bottom: 1px solid #eee">
-        <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+        <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
         <img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy2" style="right: 40%">
         <input type="button" :value="btnText"
         :disabled="disabled"  @click="sendCode" class="verification"/></p>
           <span class="tishixiaoxi disappear" >请输入验证码。</span>
       </label>
       <label style="margin-top: 1.5rem;">
-        <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres"><img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy3" style="right: 12%;top: 0.7rem;" >
+        <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres" maxlength="22"><img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy3" style="right: 12%;top: 0.7rem;" >
         <img :src="imgSrc" class="LoginImg" @click="eyesTab">
         <span class="tishixiaoxi disappear">请输入密码。</span>
       </label>
@@ -230,8 +230,8 @@ export default {
         $(".toast1").css("display","none")
       },
       closeREG(){
-          this.isshow = false;
-          this.isshow1 = true;
+          this.isshow = true;
+          this.isshow1 = false;
       },
       toast1(){
         $(".bg").css("display","block")
@@ -371,7 +371,7 @@ export default {
       // 验证下一步
       changBGC(){
             var pwdLen = $(".yanzhengma_input").val().length;
-            if (pwdLen >= 4) {
+            if (pwdLen >= 4 && this.checkLPhone() == true) {
                 $(".next").css("opacity","1");
             }else{
               $(".next").css("opacity",".5");

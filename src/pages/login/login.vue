@@ -16,7 +16,7 @@
             <!-- 密码登陆 -->
             <div class="login_content1 " v-if="isshow">
                 <label>
-                    <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
+                    <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
                     <span class="tishixiaoxi disappear">请输入手机号。</span>
                     <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
@@ -34,24 +34,24 @@
             <!-- 短信登陆 -->
             <div class="list" v-if="isshow1">
               <label>
-                  <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
+                  <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
                   <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
                 <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma">
+                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4">
                   <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear3" style="right: 40%">
                   <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
                     <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
                 <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+                  <input type="text" placeholder="请输入验证码" class="yanzhengma_input pwd1" v-model="verifyCode" maxlength="6" @input="changBGC1">
                   <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear4" style="right: 40%">
                   <input type="button" :value="btnText"
                       :disabled="disabled"  @click="sendCode" class="verification"/> <br>
                     <span class="tishixiaoxi disappear">请输入验证码。</span>
                 </label>
-                <button class="login" @click="msgLogin" style="padding-top: 0;">登录</button>
+                <button class="login1" @click="msgLogin" style="padding-top: 0;">登录</button>
                 <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
         </div>
@@ -148,6 +148,8 @@ export default {
         // 清空手机号
         clear(){
             this.userPhone = ""
+            $(".login").css("opacity",".5");
+            $(".login1").css("opacity",".5");
         },
         // 清空密码
         clear1(){
@@ -155,12 +157,14 @@ export default {
             $(".login").css("opacity",".5");
         },
         // 清空图形验证码
-        clea3(){
+        clear3(){
             this.picLyanzhengma = ""
+            $(".login1").css("opacity",".5");
         },
         // 清空验证码
         clear4(){
             this.verifyCode = ""
+            $(".login1").css("opacity",".5");
         },
         // 眼睛切换
         eyesTab(){
@@ -217,11 +221,20 @@ export default {
         // 判断登陆背景色
         changBGC(){
             var pwdLen = $(".pwd").val().length;
-            if (pwdLen >= 6) {
+            if (pwdLen >= 6 && this.checkLPhone() == true) {
                 // console.log(pwdLen);
                 $(".login").css("opacity","1");
             }else{
                 $(".login").css("opacity",".5");
+            }
+        },
+        changBGC1(){
+            var pwd = $(".pwd1").val().length;
+            if (pwd >= 6 && this.checkLpicma() == true) {
+                // console.log(pwdLen);
+                $(".login1").css("opacity","1");
+            }else{
+                $(".login1").css("opacity",".5");
             }
         },
 
@@ -263,7 +276,8 @@ export default {
         },
         // 手机号验证码
         sendCode() {
-            // console.log('点击验证码触发')
+            if ( this.checkLPhone() == true && this.checkLpicma() == true) {
+                // console.log('点击验证码触发')
             this.time = 90
             this.disabled = true
             this.timer()
@@ -278,6 +292,7 @@ export default {
               }).catch((err) => {
                 console.log(err)
               })
+            }
         },
         timer() {
             if (this.time > 0) {
@@ -817,6 +832,20 @@ export default {
               span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
             }
           }
+          .login1{
+          display: block;
+          width: 100%;
+          height: 40px;
+          font-size: 0.9rem;
+          text-align: center;
+          line-height: 40px;
+          color: #fff;
+          border-radius: 30px;
+          margin-top: 2.5rem;
+          border: none;
+          background: #2773FF;
+          opacity: .5;
+      }
       }
       .LoginImg{
           width: 1rem /* 34/40 */;
