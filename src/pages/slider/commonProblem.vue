@@ -78,7 +78,6 @@ export default {
                         axios.post(url,params).then(res => {
                             console.log(res.data.DisQuestion);
                             this.DisQuestion = res.data.DisQuestion;
-
                             setTimeout(() => {
                                 $(".questionTitle").each(function (i) {
                                 $(".questionTitle").eq(i).click(function () {

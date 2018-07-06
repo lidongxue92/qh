@@ -59,6 +59,7 @@ import BankCard from '../pages/slider/bankCard';
 import BangCard from '../pages/slider/bangCard';
 import RiskResult from '../pages/slider/riskResult';
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -309,6 +310,16 @@ export default new Router({
             component: BangCard
 
         },
+        {
+            path: '/RiskResult',
+            name: 'RiskResult',
+            meta: {
+            title: '风险测评结果',
+            // requireAuth: true
+            },
+            component: RiskResult,
+
+            },
 
         // 活动页
         // {
