@@ -19,7 +19,7 @@
             <div class="list" v-if="isshow">
                 <div id="box"><img src="~@/assets/img/icon_lab@2x.png" />
                     <ul id="con1" ref="con1" :class="{anim:animate==true}">
-                        <li v-for='(item,index) in items' :key="index">{{item.title}}</li>
+                        <li v-for='(item,index) in items' :key="index" @click="linkGongGao(item.title,item.content,item.date)">{{item.title}}</li>
                     </ul>
                 </div>
                 <ul>
@@ -152,12 +152,8 @@ export default {
             this.$router.go(0);
         },//回退上一级页面并刷新
     },
-    watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        },//回退上一级页面并刷新
-    },
     methods: {
+<<<<<<< HEAD
         // 首页banner接口
         index_banner(){
           const _this = this
@@ -177,6 +173,9 @@ export default {
           })
         },
         linkToDetail(id,dz) {
+=======
+        linkToDetail(id) {
+>>>>>>> fd8db78f164fe520277f849a1719e933c99b2c1b
             if (!sessionStorage.token) {
                 this.$vux.alert.show({
                     title: '',
@@ -331,11 +330,19 @@ export default {
           params.append('imType','2');
           axios.post(url,params).then(response => {
             const data = response.data
-            this.items = data.InfoManage
+            this.items = data.InfoManage;
+
             console.log(data)
           }).catch((err) => {
             console.log(err)
           })
+        },
+        // 首页公告
+        linkGongGao(title,content,data){
+            sessionStorage.setItem("title",title);
+            sessionStorage.setItem("content",content);
+            sessionStorage.setItem("data",data);
+            this.$router.push({path:'/page/msgDetail1'})
         },
     },
     mounted() {

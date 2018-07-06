@@ -38,7 +38,7 @@ export default {
             DisQuestion:[],
             number:'',//总问题数
             isShow:false,
-            imgSrc:"../static/img/right.png"
+            imgSrc:"./static/img/right.png"
         }
     },
     created(){
@@ -69,7 +69,7 @@ export default {
                                     $(".answer").eq(i).slideToggle("fast",function (newImgSrc) {
                                         console.log();
                                         var newImgSrc = $(".imgSrc").eq(i).attr("src");
-                                        newImgSrc == "../static/img/right.png" ? $(".imgSrc").eq(i).attr("src","../static/img/down.png") : $(".imgSrc").eq(i).attr("src","../static/img/right.png");
+                                        newImgSrc == "./static/img/right.png" ? $(".imgSrc").eq(i).attr("src","./static/img/down.png") : $(".imgSrc").eq(i).attr("src","./static/img/right.png");
                                     });
 
                                 });
