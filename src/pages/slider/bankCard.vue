@@ -42,33 +42,6 @@ export default {
             cardAccount:"",
             expressFlag:"",
 
-
-            // 银行信息
-            ICBC : require("../../../static/img/bank/ICBC.png"), //工商银行
-            ABC : require("../../../static/img/bank/ABC.png"), //农业银行
-            CMB : require("../../../static/img/bank/CMB.png"), //招商银行
-            CCB : require("../../../static/img/bank/CCB.png"), //建设银行
-            BCCB : require("../../../static/img/bank/BCCB.png"), //北京银行
-            BJRCB : require("../../../static/img/bank/BJRCB.png"),//北京农村商业银行
-            BOC : require("../../../static/img/bank/BOC.png"), //中国银行
-            BOCOM : require("../../../static/img/bank/BOCOM.png"), //交通银行
-            CMBC : require("../../../static/img/bank/CMBC.png"), //民生银行
-            BOS : require("../../../static/img/bank/BOS.png"), //上海银行
-            CBHB : require("../../../static/img/bank/CBHB.png"),//渤海
-            CEB : require("../../../static/img/bank/CEB.png"), //光大银行
-            CIB : require("../../../static/img/bank/CIB.png"),//興業银行
-            CITIC : require("../../../static/img/bank/CITIC.png"), //中信银行
-            CZB : require("../../../static/img/bank/CZB.png"), //浙商银行
-            GDB : require("../../../static/img/bank/GDB.png"), //广发银行
-            HKBEA : require("../../../static/img/bank/HKBEA.png"), //東亞银行
-            HXB : require("../../../static/img/bank/HXB.png"),//華夏银行
-            HZCB : require("../../../static/img/bank/HZCB.png"), //杭州银行
-            NJCB : require("../../../static/img/bank/NJCB.png"),//南京银行
-            PINGAN : require("../../../static/img/bank/PINGAN.png"), //平安银行
-            PSBC : require("../../../static/img/bank/PSBC.png"), //儲蓄银行
-            SDB : require("../../../static/img/bank/SDB.png"), //深發银行
-            SPDB : require("../../../static/img/bank/SPDB.png"), //浦發银行
-            SRCB : require("../../../static/img/bank/SRCB.png"), //上海农村商业银行
         }
     },
     created() {
@@ -88,7 +61,7 @@ export default {
                 this.expressFlag = this.BankCard.expressFlag;
 
                 // 银行logo
-                this.imgSrc = "../../../static/img/bank/" + this.bankCode +".png";
+                this.imgSrc = "../static/img/bank/" + this.bankCode +".png";
 
                 // 判断背景颜色
                 if (this.bankCode == "BCCB" || this.bankCode == "BJRCB" || this.bankCode == "BOC" || this.bankCode == "CITIC" || this.bankCode == "CMB" || this.bankCode == "CZB" || this.bankCode == "GDB" || this.bankCode == "HKBEA" || this.bankCode == "HXB" || this.bankCode == "ICBC" || this.bankCode == "NJCB" || this.bankCode == "PINGAN") {
