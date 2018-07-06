@@ -158,7 +158,7 @@ export default {
                     this.BorrowerDetails = this.BorrowerDetails
                     for (var i in  _this.brow) {
                         var obj = _this.brow[i]
-                        this.BorrowerDetails = '[{'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
+                        this.BorrowerDetails = '[{'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
                     }
                     // console.log(this.BorrowerDetails)
                     // this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);

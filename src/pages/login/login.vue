@@ -747,7 +747,7 @@ export default {
   .middle{
     margin-top: 2rem;
     ul{
-        li{list-style: none;display: inline-block;width: 49.1%;line-height: 40px;text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
+        li{list-style: none;display: inline-block;width: 48.9%;line-height: 40px;text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
         .active{border-bottom: 1px solid #2395FF;color: #2395FF}
     }
     .login_content1{

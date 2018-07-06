@@ -31,7 +31,7 @@
                 <h6>风险评估</h6>
                 <p>未评估</p>
               </div>
-              <div v-else>
+              <div v-else @click="linkToResult">
                 <h6>风险评估</h6>
                 <p>已评估</p>
               </div>
@@ -280,10 +280,11 @@ export default {
                     this.$router.push({path:"/login",query: {redirect: 'your path'}})
                 }, 2000)
             }else{
-                // Location.href = "http://test.qihangjf.com:29089/#/risk.html"
-                Location.href = "risk.html"
-
+                location.href = "http://test.qihangjf.com:29084/risk.html?token=" + sessionStorage.token;
             }
+        },
+        linkToResult(){
+            this.$router.push({path:"/RiskResult"})
         },
         linkToInvite(){
             if (!sessionStorage.token) {
