@@ -54,7 +54,7 @@ export default {
             this.$router.back()
         },
         addEventTest(ev){
-            addEventListener("keyup",function () {
+                addEventListener("keyup",function () {
                 var num = $(".shuRu").val().length; //获取输入的字数，注意textarea是通过val()来获取的
                 // console.log(num);
                 if (num <= 500) {
@@ -67,50 +67,66 @@ export default {
             });
         },
         submit(){
-            const url = myPub.URL+`/feed/feedback`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('content',this.content);
+            var regAddress = /(\ud83c[\udf00-\udfff])|(\ud83d[\udc00-\ude4f])|(\ud83d[\ude80-\udeff])/;//emoji正则表达式
+            if (regAddress.test(this.content) == false) {
+                const url = myPub.URL+`/feed/feedback`;
+                var params = new URLSearchParams();
+                params.append('token',sessionStorage.getItem("token"));
+                params.append('content',this.content);
 
-            axios.post(url,params).then(res => {
-                console.log(res.data);
-                if (res.data.result == 200) {
-                    this.$vux.alert.show({
-                        content: res.data.resultMsg
-                    });
-                    setTimeout(() => {
-                        this.$vux.alert.hide();
-                        this.content = "";
-                        $(".limitNum_word").html("0") //把最后获取到的字数，显示出来
-                        this.$router.push({ path: '/'})
-                    },3000);
-                }else if (res.data.result == 300) {
-                    this.$vux.alert.show({
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                    },3000)
-                }else if (res.data.result == 301) {
-                    this.$vux.alert.show({
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                    },3000)
-                }else if (res.data.result == 302) {
-                    this.$vux.alert.show({
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                    },3000)
-                }
+                axios.post(url,params).then(res => {
+                    console.log(res.data);
+                    if (res.data.result == 200) {
+                        this.$vux.alert.show({
+                            content: res.data.resultMsg
+                        });
+                        setTimeout(() => {
+                            this.$vux.alert.hide();
+                            this.content = "";
+                            $(".limitNum_word").html("0") //把最后获取到的字数，显示出来
+                            this.$router.push({ path: '/'})
+                        },3000);
+                    }else if (res.data.result == 300) {
+                        this.$vux.alert.show({
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                        },3000)
+                    }else if (res.data.result == 301) {
+                        this.$vux.alert.show({
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                        },3000)
+                    }else if (res.data.result == 302) {
+                        this.$vux.alert.show({
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                        },3000)
+                    }else if (res.data.result == 400) {
+                        this.$vux.alert.show({
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide();
+                            this.$router.push({ path: '/login'})
+                        },3000)
+                    }
 
 
-            }).catch((err) => {
-                console.log(err);
-            });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }else{
+                console.log("11111");
+
+            }
+
+
         }
     }
 }

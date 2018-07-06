@@ -18,7 +18,7 @@
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login next" @click="next">下一步</a>
-        <!-- <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a> -->
+        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
     <div class="list" v-if="isshow1">

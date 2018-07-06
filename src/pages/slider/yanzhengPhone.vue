@@ -11,7 +11,6 @@
                         <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
                     </li>
                 </ul>
-                <p>{{tishis}}</p>
             </div>
             <button class="button" @click="check">验证</button>
         </div>
@@ -119,24 +118,40 @@ export default {
             params.append('smsCode',this.smsCode);
             axios.post(url,params).then(res => {
                 console.log(res);
-                if (res.data.result == 400) {
+                if (res.data.result == 200) {
+                    const url = myPub.URL+`/three/checkSmsCode`;
+                    var params = new URLSearchParams();
+                    params.append('phone',sessionStorage.userPhonem);
+                    params.append('smsCode',this.smsCode);
+                    axios.post(url,params).then(res => {
+                        console.log(res);
+                        if (res.data.result == 400) {
+                            this.$vux.alert.show({
+                                title: '',
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                            }, 3000)
+                        }
+                    }).catch((err) => {
+                    console.log(err)
+                    })
+                    this.$router.push({ path: '/page/loginpassword'})
+
+                }else if(res.data.result == 300){
                     this.$vux.alert.show({
                         title: '',
-                        content: data.resultMsg
+                        content: res.data.resultMsg
                     })
                     setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                        this.$vux.alert.hide();
                     }, 3000)
                 }
-                // if (res.data.result == 200) {
-
-                // }
-
             }).catch((err) => {
             console.log(err)
             })
-            this.$router.push({ path: '/page/loginpassword'})
         },
     },
     components: {
@@ -174,10 +189,10 @@ export default {
             position: relative;
             padding-bottom: 2rem;
              .list{
-                margin-top: 0.5rem;background: #fff;border-radius: 3px;color: #bdbdbd ;padding-bottom: 2rem;margin-bottom: 2rem;
+                margin-top: 0.5rem;background: #fff;border-radius: 3px;color: #bdbdbd ;margin-bottom: 2rem;
                 li{
                     list-style: none;font-size: 0.7rem;border-bottom: 1px solid #eee;padding: 0.8rem;position: relative;
-                    input{width: 55%;border: 0;color: #bdbdbd}
+                    input{width: 52%;border: 0;color: #bdbdbd}
                     div{display: inline-block;}
                     #sm{color: #FFA303;font-size: 0.8rem;padding-left: 3%;border-left: 1px solid #eee;width: 25%;}
                 }

@@ -98,9 +98,12 @@ export default {
                 axios.post(url,params).then(res => {
                     console.log(res.data);
                     if (res.data.result == 200) {
-                        $(".zhezhao").hide();
-                        this.isAddress = true;
-                        this.address = this.addressVal
+                        setTimeout(() => {
+                            $(".zhezhao").hide();
+                            this.isAddress = true;
+                            this.address = this.addressVal;
+                            this.$router.go(0);
+                        }, 600);
                     }else if (res.data.result == 400) {
                         this.$vux.alert.show({
                             title: '',
@@ -121,7 +124,7 @@ export default {
                     content: "请输入地址"
                 })
                 setTimeout(() => {
-                    this.$vux.alert.hide()
+                    this.$vux.alert.hide();
                 }, 2000)
             }
         }
