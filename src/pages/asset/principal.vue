@@ -270,7 +270,7 @@ export default {
         .Data{
             .datalist{
                 li{
-                    margin-top: 0.5rem;background: #fff;position: relative;
+                    margin-top: 0.5rem;background: #fff;position: relative;min-height: 8rem;
                     h5{
                         padding: 0.8rem 1rem;color: #666;border-bottom:1px solid #eee;
                         span{float: right;color: #999;font-size: 0.5rem;}

@@ -383,7 +383,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1rem;position: relative;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1rem;position: relative;display: block;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;}
                     }
@@ -422,7 +422,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;
+                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;display: block;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
                     }
@@ -461,7 +461,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top: 1rem;position: relative;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top: 1rem;position: relative;display: block;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #C79B5A;color: #C79B5A;text-align: center;line-height: 1.4rem;}
                     }
@@ -500,7 +500,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;
+                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;display: block;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
                     }

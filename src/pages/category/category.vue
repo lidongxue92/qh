@@ -90,7 +90,7 @@ export default {
     created() {
       this.token()
       const status = '1'
-      const a = '18'
+      const a = ' '
       this.pro(status,a,10)
     },
     activated() {
@@ -106,7 +106,7 @@ export default {
     },
     mounted() {
       const status = '1'
-      const a = '18'
+      const a = ' '
       setTimeout(() => {
         this.pro(status,a,this.totalCount)
       }, 500)
@@ -126,9 +126,9 @@ export default {
             _this.isshow1 = false
             $(".Conducttab").addClass('active')
             $(".Transfertab").removeClass('active')
-            this.pro('1','18',10)
+            this.pro('1',' ',10)
             setTimeout(() => {
-              this.pro(1,18,this.totalCount)
+              this.pro(1,'',this.totalCount)
             }, 500)
         },
         // 转让专区

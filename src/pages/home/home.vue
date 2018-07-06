@@ -41,7 +41,7 @@
         <!-- 理财列表 -->
        <div class="middle">
            <ul class="productlist">
-                <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId)" :key="index">
+                <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId,item.qcdz)" :key="index">
                     <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
@@ -49,12 +49,12 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b> 个月</span><span class="status">可加入</span>
-                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}</b></span>
+                            <span class="day"><b>{{item.period}}</b> 天</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
                 </li>
-                <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId)" :key="index">
+                <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
                    <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
@@ -62,12 +62,12 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b> 个月</span><span class="status">可加入</span>
-                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}</b></span>
+                            <span class="day"><b>{{item.period}}</b> 天</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
                 </li>
-                <li v-for="(item,index) in list"  @click="linkToDetail(item.productId)" :key="index">
+                <li v-for="(item,index) in list"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
                    <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
@@ -75,8 +75,8 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b> 个月</span><span class="status">可加入</span>
-                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}</b></span>
+                            <span class="day"><b>{{item.period}}</b> 天</span><span class="status">可加入</span>
+                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
                 </li>
@@ -176,7 +176,7 @@ export default {
             console.log(err)
           })
         },
-        linkToDetail(id) {
+        linkToDetail(id,dz) {
             if (!sessionStorage.token) {
                 this.$vux.alert.show({
                     title: '',
@@ -187,7 +187,7 @@ export default {
                     this.$router.push({path:"/login",query: {redirect: 'your path'}})
                 }, 2000)
             }else{
-                this.$router.push({ path: '/page/detail', query: { id: id } })
+                this.$router.push({ path: '/page/detail', query: { id: id,dz:dz } })
             }
         },
         linkToInvite(){
@@ -272,10 +272,11 @@ export default {
                         this.$vux.alert.hide()
                         this.$router.push({path:"/login",query: {redirect: 'your path'}})
                     }, 3000)
-                }else if (data.result == '200') {
-                    _this.newlist = data.GsInfo
+                }
+                if (data.result == '200') {
+                    _this.newlist = data.XsInfo
                     _this.hotlist = data.HotInfo
-                    _this.list = data.XsInfo
+                    _this.list = data.GsInfo
                 }
 
             }).catch((err) => {
