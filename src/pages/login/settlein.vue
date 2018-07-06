@@ -27,7 +27,6 @@
             <h5>注册</h5>
         </div>
         <p>验证码已发送至手机号：<span class="span">{{tel}}</span></p>
-      <!-- <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;">注册</h5> -->
 
       <group>
         <x-input type="text"

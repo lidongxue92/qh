@@ -1,7 +1,7 @@
 <template>
 <div class="logTop">
     <topComponent title='登录' :showLeft='false'>
-        <span class="back" @click='goBack' slot="left"><img src="../../../static/img/left.png"></span>
+        <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
     </topComponent>
 
     <div class="settlein">
@@ -26,9 +26,6 @@
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
-
-                <button class="login" @click="Login" v-if="isshow">登录</button>
-                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
 
             <!-- 短信登陆 -->
@@ -53,16 +50,13 @@
                              </x-button>
                     </x-input>
                 </group>
-                <button class="login" @click="msgLogin" >登录</button>
-                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
-
         </div>
-        <!-- 版权 -->
-            <div class="banQuan">
-                <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
-                <p>@启航金服  理财有风险，投资需谨慎</p>
-            </div>
+
+        <div class="buttomLogin">
+            <button class="login" @click="Login">登录</button>
+            <button class="user_login" @click="settlein" style="background: #2773FF">注册</button>
+        </div>
 
         <!-- 弹框 -->
         <div class="bg"></div>
@@ -71,7 +65,13 @@
             <img src="../../assets/img/active.png">
             <button class="button" @click="kaiHu">开户使用新手礼包</button>
         </div>
-  </div>
+    </div>
+
+    <!-- 版权 -->
+    <div class="banQuan">
+        <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
+        <p>@启航金服  理财有风险，投资需谨慎</p>
+    </div>
 
 
   <!-- 开户 -->
@@ -126,7 +126,7 @@ export default {
           {state: true}
         ],
         isshow2:'true',
-        imgSrc:"../../../static/img/closeEyes.png",
+        imgSrc:"../static/img/closeEyes.png",
         type:"password",
 
 
@@ -154,11 +154,11 @@ export default {
         },
         // 眼睛切换
         eyesTab(){
-            if (this.imgSrc == "../../static/img/loginEyes.png") {
-                this.imgSrc = "../../static/img/closeEyes.png";
+            if (this.imgSrc == "../static/img/loginEyes.png") {
+                this.imgSrc = "../static/img/closeEyes.png";
                 this.type = "password"
             }else{
-                this.imgSrc = "../../static/img/loginEyes.png";
+                this.imgSrc = "../static/img/loginEyes.png";
                 this.type = "text"
             }
         },
@@ -626,18 +626,7 @@ export default {
       position: relative!important;
   }
   .login_content1 label{width: 100%;display: block;position: relative;margin-top: 30px;height: 42px}
-  .user_login{
-      display: block;
-      width: 100%;
-      height: 40px;
-      font-size: 0.9rem;
-      text-align: center;
-      line-height: 40px;
-      color: #fff;
-      border-radius: 30px;
-      margin-top: 20px;
-      cursor:pointer;
-  }
+
   .bg-ed711f{
     background: #ed711f
   }
@@ -745,27 +734,59 @@ export default {
 .logTop{
     height: 100%;
     position: relative;
-
-.settlein{
-    color: #333;
-    padding: 1rem;
     .banQuan{
         width: 100%;
-        position: absolute;
-        top: 80%;
-        left: 50%;
-        transform: translateX(-50%);
         text-align: center;
         font-size: 0.6rem;
         color: #999;
     }
+
+.settlein{
+    color: #333;
+    padding: 1rem;
+    padding-bottom: 0;
+    height: 35rem;
+    background: #f6f6f6;
+    &:after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .buttomLogin{
+        position: absolute;
+        bottom: 0;
+        width: 80%;
+        left: 50%;
+        transform: translateX(-50%);
+        button{
+            width: 100%;
+            font-size: 0.9rem;
+            text-align: center;
+            color: #fff;
+            border-radius: 30px;
+            border: none;
+            background: #2773FF;
+            padding-top: .8rem;
+            padding-bottom: 0.8rem;
+        }
+
+        .login{
+            opacity: .5;
+            margin-bottom: 20px;
+        }
+          .user_login{
+            opacity: 1;
+        }
+    }
+
   .bg-img{
     text-align: center;
     img{width: 5rem;height: 5rem;margin-top: 2rem;}
   }
   .middle{
     margin-top: 2rem;
-    height: 80%;
+    height: 30rem;
     &:after{
         content: "";
         display: block;
@@ -791,31 +812,20 @@ export default {
           input{position: relative;top: 2px;}
           span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
         }
-        .user_login{background: #ed711f}
       }
 
-  }
 
+
+
+  }
+    // 小图标
   .LoginImg{
       width: 1rem /* 34/40 */;
       position: absolute;
       right: .8rem;
       top: 1rem;
   }
-  .login{
-      display: block;
-      width: 100%;
-      height: 40px;
-      font-size: 0.9rem;
-      text-align: center;
-      line-height: 40px;
-      color: #fff;
-      border-radius: 30px;
-      margin-top: 20px;
-      border: none;
-      background: #2773FF;
-      opacity: .5;
-  }
+
 
    .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
     .toast{

@@ -10,7 +10,7 @@
             <p>{{userPhoneBlack}}</p>
           </div>
           <div v-else>
-            <h5 @click="linkToLogin">去登录</h5>
+            <h5 @click="linkToLogin">请登录</h5>
           </div>
         </div>
         <div class="sliderTop2">

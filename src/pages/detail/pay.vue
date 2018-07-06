@@ -13,7 +13,7 @@
         </div>
         <button class="button" @click="buy">确认支付</button>
         <div class="box" style="display:none;">
-            <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+            <form  name="regSubmit" method="post" :action="ChinaPnrServer">
             <input type='text' name='Version' :value='Version'> Version
             <input type='text' name='CmdId' :value='CmdId'> CmdId
             <input type='text' name='OrdId' :value='OrdId'> OrdId
@@ -56,7 +56,7 @@ export default {
             BorrowerDetails:"",
             BorrowerDetailsStr:'',
             // 三方开户数据
-            ChinaPnrServer : "", 
+            ChinaPnrServer : "",
             Version : "",
             CmdId : "",
             OrdId : "",
@@ -66,7 +66,7 @@ export default {
             BorrowerDetails : "",
             IsFreeze : "",
             MerCustId:"",
-            UsrCustId : "", 
+            UsrCustId : "",
             PageType: "",
             ChkValue : "",
             BgRetUrl : "",
@@ -79,7 +79,7 @@ export default {
     mounted () {
     },
     created() {
-        
+
     },
     activated: function(){
         this.productdata()
@@ -90,9 +90,6 @@ export default {
         }//回退上一级页面并刷新
     },
     methods: {
-        linkTodetail1() {
-            this.$router.push({ path: '/page/detail1' })
-        },
         productdata(){
             const _this = this
             _this.$loading.show();
@@ -120,13 +117,13 @@ export default {
                     }, 3000)
                 }
                 if(res.data.result == 200){
-                    this.product = data.buyInfo.detailInfo
+                    this.product = data.buyInfo.detailInfo;
                 }
             }).catch((err) => {
                 console.log(err);
             });
         },
-        
+
         // 三方购买
         buy(){
             const _this = this
@@ -151,10 +148,10 @@ export default {
                     this.ChinaPnrServer = Pay.ChinaPnrServer;
                     this.Version = Pay.Version;
                     this.CmdId = Pay.CmdId;
-                    this.OrdId = Pay.OrdId; 
-                    this.OrdDate = Pay.OrdDate; 
+                    this.OrdId = Pay.OrdId;
+                    this.OrdDate = Pay.OrdDate;
                     this.TransAmt = Pay.TransAmt;
-                    this.MaxTenderRate = Pay.MaxTenderRate; 
+                    this.MaxTenderRate = Pay.MaxTenderRate;
                     this.BorrowerDetails = this.BorrowerDetails
                     for (var i in  _this.brow) {
                         var obj = _this.brow[i]
@@ -185,7 +182,7 @@ export default {
                         console.log(this.PageType)
                         document.regSubmit.submit();
                     }, 500)
-                    
+
                 }
             }).catch((err) => {
                 console.log(err);
@@ -231,6 +228,6 @@ export default {
         }
     }
     .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;position: fixed;bottom: 2rem;}
-     
+
 }
 </style>

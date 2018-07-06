@@ -53,7 +53,7 @@ export default {
             DisQuestion:[],
             number:'',//总问题数
             isShow:false,
-            imgSrc:"../../../static/img/rightGray.png"
+            imgSrc:"../static/img/rightGray.png"
         }
     },
     created(){
@@ -82,19 +82,19 @@ export default {
                             setTimeout(() => {
                                 $(".questionTitle").each(function (i) {
                                 $(".questionTitle").eq(i).click(function () {
-                                    $(".imgSrc").attr("src","../../../static/img/down.png");
+                                    $(".imgSrc").attr("src","../static/img/down.png");
                                     var src = $(".questionTitle:eq(i) img").attr("src");
                                     console.log(src);
-                                    if (src == "../../../static/img/right.png") {
-                                        src = "../../../static/img/down.png";
+                                    if (src == "../static/img/right.png") {
+                                        src = "../static/img/down.png";
                                     }
 
 
-                                    // if (this.imgSrc == "../../../static/img/rightGray.png") {
+                                    // if (this.imgSrc == "../static/img/rightGray.png") {
                                     //     this.imgSrc = "";
                                     //     this.isShow = true;
                                     // }else{
-                                    //     this.imgSrc = "../../../static/img/rightGray.png";
+                                    //     this.imgSrc = "../static/img/rightGray.png";
                                     //     this.isShow = false;
                                     // }
                                 });
