@@ -9,7 +9,7 @@
                     <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </li>
                 <li>
-                    <input type="password" placeholder="请输入新密码" class="register_content_input" v-model="surePwd" @blur="checkLPsd1" @focus="shuruPwd">
+                    <input type="password" placeholder="请确认新密码" class="register_content_input" v-model="surePwd" @blur="checkLPsd1" @focus="shuruPwd1">
                     <!-- <span class="tishixiaoxi disappear">请输入新密码。</span> -->
                     <img src="../../assets/img/loginClear.png" class="LoginImg1" @click="clear1">
                 </li>
@@ -63,9 +63,13 @@ export default {
         },
         shuruPwd(){
             $(".LoginImg").show();
+
         },
         shuruPwd1(){
             $(".LoginImg1").show();
+            if (this.surePwd != "") {
+                $(".button").css("opacity"," 1");
+            }
         },
         // 验证登录密码
         checkLPsd(){
@@ -177,7 +181,19 @@ export default {
         }
         p{padding: 0.5rem;font-size: 0.6rem;color: #999}
         .disappear{color: red;}
-        .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+        .button{
+            border: 0;
+            width: 90%;
+            margin-left: 5%;
+            margin-top: 1rem;
+            background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);
+            height: 40px;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            opacity: .5;
+        }
     }
 }
 </style>

@@ -49,8 +49,6 @@
                       :disabled="disabled"  @click="sendCode" class="verification"/> <br>
                     <span class="tishixiaoxi disappear">请输入验证码。</span>
                 </label>
-                <button class="login" @click="msgLogin" style="padding-top: 0;">登录</button>
-                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
         </div>
 

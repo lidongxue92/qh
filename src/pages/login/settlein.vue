@@ -184,6 +184,7 @@ export default {
     },
     created(){
       this.createCode();
+      this.phoneNumber = this.$route.query.phone
   },
     methods:{
       login(){
