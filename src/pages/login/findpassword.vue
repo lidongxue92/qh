@@ -5,10 +5,13 @@
       <div class="login_content1 ">
         <label>
           <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone">
+          <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma">
+          <img @click="emipy" class="img" src="~@/assets/img/emipy.png" style="right: 40%;">
+          <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login" @click="next">下一步</a>
@@ -18,30 +21,24 @@
     <div class="list" v-if="isshow1">
       <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;"></h5>
       <h5>短信验证码已发送<span class="span">{{tel}}</span>,注意查收</h5>
-      <group>
-        <x-input type="text"
-                 placeholder="请输入验证码"
-                 v-model="verifyCode"
-               >
-
-                  <x-button slot="right"
-                      type="primary"
-                      mini
-                      :text="btnText"
-                      :disabled="disabled"
-                      @click.native="sendCode" class="verification">
-                 </x-button>
-          </x-input>
-        </group>
-        
+      <label class="clearfix" style="margin-top: 30px;">
+          <p style="border-bottom: 1px solid #eee">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+          <img src="../../assets/img/loginClear.png" class="img" @click="emipy2" style="right: 40%">
+          <input type="button" :value="btnText"
+          :disabled="disabled"  @click="sendCode" class="verification"/></p>
+          <span class="tishixiaoxi disappear" >请输入验证码。</span>
+      </label>
         <label style="margin-top: 10px; position: relative;">
             <input :type="type" placeholder="请输入新密码" class="register_content_input" v-model="newUserPwd" @blur="checkLPsd"><br>
             <span class="tishixiaoxi disappear">请输入新密码。</span>
             <img :src="imgSrc" class="LoginImg" @click="eyesTab">
+            <img src="../../assets/img/loginClear.png" class="img" @click="emipy3" style="right: 12%">
         </label>
         <label style="margin-top: 10px;">
             <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1"><br>
             <span class="tishixiaoxi disappear1">请输入密码。</span>
+            <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
         </label>
 
         <a class="user_login" @click="sub">确认提交</a>
@@ -78,7 +75,7 @@ export default {
           {state: true}
         ],
         isshow2:'true',
-        imgSrc:"../../../static/img/closeEyes.png",
+        imgSrc:"../static/img/closeEyes.png",
         type:"password",
       }
     },
@@ -86,13 +83,32 @@ export default {
         goBack(){
             this.$router.back()
         },
+        // 清空手机号
+        emipy(){
+          this.userPhone =''
+        },
+        // 清空图形验证码
+        emipy1(){
+          this.picLyanzhengma = ''
+        },
+        // 清空手机验证码
+        emipy2(){
+          this.verifyCode = ''
+        },
+        // 清空登录密码
+        emipy3(){
+          this.newUserPwd = ''
+        },
+        emipy4(){
+          this.newUserPwd1 = ''
+        },
         // 眼睛切换
         eyesTab(){     
-            if (this.imgSrc == "../../../static/img/loginEyes.png") {
-                this.imgSrc = "../../../static/img/closeEyes.png";
+            if (this.imgSrc == "../static/img/loginEyes.png") {
+                this.imgSrc = "../static/img/closeEyes.png";
                 this.type = "password"
             }else{
-                this.imgSrc = "../../../static/img/loginEyes.png";
+                this.imgSrc = "../static/img/loginEyes.png";
                 this.type = "text"
             }
         },
@@ -235,26 +251,26 @@ export default {
       // 验证登录密码
       checkLPsd(){
           if(this.newUserPwd == ''){
-              $(".list span:eq(1)").text("请输入密码");
-              $(".list span:eq(1)").removeClass("disappear")
-          }else if(this.newUserPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
-              $(".list span:eq(1)").addClass("disappear")
+              $(".list span:eq(2)").text("请输入密码");
+              $(".list span:eq(2)").removeClass("disappear")
+          }else if(this.newUserPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
+              $(".list span:eq(2)").addClass("disappear")
               return true;
           }else{
-              $(".list span:eq(1)").removeClass("disappear");
-              $(".list span:eq(1)").text("密码必须6-20位，包含字母与数字")
+              $(".list span:eq(2)").removeClass("disappear");
+              $(".list span:eq(2)").text("6~20位数字、字母或特殊符号组合")
           }
       },
       checkLPsd1(){
           if(this.newUserPwd == ''){
-              $(".list span:eq(2)").text("请输入密码");
-              $(".list span:eq(2)").removeClass("disappear1")
+              $(".list span:eq(3)").text("请输入密码");
+              $(".list span:eq(3)").removeClass("disappear1")
           }else if(this.newUserPwd == this.newUserPwd1){
-              $(".list span:eq(2)").addClass("disappear1")
+              $(".list span:eq(3)").addClass("disappear1")
               return true;
           }else{
-              $(".list span:eq(2)").removeClass("disappear1");
-              $(".list span:eq(2)").text("两次输入的密码不一致")
+              $(".list span:eq(3)").removeClass("disappear1");
+              $(".list span:eq(3  )").text("两次输入的密码不一致")
           }
       },
       sub(){
@@ -363,6 +379,11 @@ export default {
   }
   .yanzhengma_input{
     width: 60%;
+    font-size:0.9rem;
+    padding: 5px 0 5px 10px;
+      height: 30px;
+      /*margin-top: 25px;*/
+      border: 0;
   }
   .disappear,.disappear1{
        visibility:hidden;
@@ -391,8 +412,13 @@ export default {
   }
   .verification{
       vertical-align: middle;
-      margin-left: 10px;
-      font-size: 0.9rem!important;
+    font-size: 0.9rem!important;
+    border: 0;
+    color: #FFA303;
+    width: 30%;
+    text-align: center;
+    background: transparent;
+    border-bottom: 0;
   }
   .agreement{
       position: relative;
@@ -444,6 +470,7 @@ export default {
       padding: 0 5%;
   }
   .login_content1 label{width: 100%;display: block;position: relative;}
+  .login_content1 label .img{position: absolute;right: .8rem;top:0.8rem;width: 1rem;height: 1rem;}
   .user_login{
       display: block;
       width: 100%;
@@ -573,7 +600,10 @@ export default {
   .list{
     padding: 1rem;
     h5{font-weight: normal;font-size: 1rem;}
-    label{display: block;}
+    label{
+      display: block;position: relative;
+      .img{position: absolute;right: .8rem;top:0.8rem;width: 1rem;height: 1rem;}
+    }
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
       input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11; outline: none}

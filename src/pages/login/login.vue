@@ -21,8 +21,9 @@
                     <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
                 <label>
-                    <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC"><br>
-                    <span class="tishixiaoxi disappear">请输入密码。</span>
+                    <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC" maxlength="20"><br>
+                    <span class="tishixiaoxi disappear">6~20位数字、字母或特殊符号组合</span>
+                    <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear1" style="right: 2.1rem;top: 0.7rem;">
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
@@ -38,21 +39,19 @@
                   <span class="tishixiaoxi disappear">请输入手机号。</span>
                   <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
                 </label>
-              <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma"><input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+                <label class="clearfix" style="margin-top: 30px;">
+                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear3" style="right: 40%">
+                  <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
                     <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
-                <group>
-                    <x-input type="text" placeholder="请输入短信验证码" v-model="verifyCode" >
-                              <x-button slot="right"
-                                  type="primary"
-                                  mini
-                                  :text="btnText"
-                                  :disabled="disabled"
-                                  @click.native="sendCode" class="verification">
-                             </x-button>
-                    </x-input>
-                </group>
+                <label class="clearfix" style="margin-top: 30px;">
+                  <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear4" style="right: 40%">
+                  <input type="button" :value="btnText"
+                      :disabled="disabled"  @click="sendCode" class="verification"/> <br>
+                    <span class="tishixiaoxi disappear">请输入验证码。</span>
+                </label>
                 <button class="login" @click="msgLogin" >登录</button>
                 <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
@@ -126,7 +125,7 @@ export default {
           {state: true}
         ],
         isshow2:'true',
-        imgSrc:"../../../static/img/closeEyes.png",
+        imgSrc:"../static/img/closeEyes.png",
         type:"password",
 
 
@@ -148,17 +147,30 @@ export default {
         goBack(){
             this.$router.back()
         },
-        // 清空
+        // 清空手机号
         clear(){
             this.userPhone = ""
         },
+        // 清空密码
+        clear1(){
+            this.userPwd = ""
+            $(".login").css("opacity",".5");
+        },
+        // 清空图形验证码
+        clea3(){
+            this.picLyanzhengma = ""
+        },
+        // 清空验证码
+        clear4(){
+            this.verifyCode = ""
+        },
         // 眼睛切换
         eyesTab(){
-            if (this.imgSrc == "../../static/img/loginEyes.png") {
-                this.imgSrc = "../../static/img/closeEyes.png";
+            if (this.imgSrc == "../static/img/loginEyes.png") {
+                this.imgSrc = "../static/img/closeEyes.png";
                 this.type = "password"
             }else{
-                this.imgSrc = "../../static/img/loginEyes.png";
+                this.imgSrc = "../static/img/loginEyes.png";
                 this.type = "text"
             }
         },
@@ -196,12 +208,12 @@ export default {
             if(this.userPwd == ''){
                 $(".login_content1  span:eq(1)").text("请输入密码");
                 $(".login_content1  span:eq(1)").removeClass("disappear")
-            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
+            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
                 $(".login_content1  span:eq(1)").addClass("disappear");
                 return true;
             }else{
                 $(".login_content1  span:eq(1)").removeClass("disappear");
-                $(".login_content1  span:eq(1)").text("密码必须6-20位，包含字母与数字")
+                $(".login_content1  span:eq(1)").text("6~20位数字、字母或特殊符号组合")
             }
         },
         // 判断登陆背景色
@@ -272,7 +284,7 @@ export default {
         timer() {
             if (this.time > 0) {
                 this.time--
-                this.btnText = this.time + 's后重新获取'
+                this.btnText = this.time + 's'
                 setTimeout(this.timer, 1000)
             } else {
                 this.time = 0
@@ -573,8 +585,16 @@ export default {
   }
   .verification{
       vertical-align: middle;
-      margin-left: 10px;
-      font-size:0.9rem!important;
+    margin-left: 10px;
+    font-size: 0.9rem!important;
+    border: 0;
+    color: #FFA303;
+    /* float: right; */
+    width: 30%;
+    text-align: center;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    background: transparent;
   }
   .agreement{
       position: relative;
@@ -751,8 +771,8 @@ export default {
     padding: 1rem;
     .banQuan{
         width: 100%;
-        position: absolute;
-        top: 80%;
+        position: relative;
+        margin-top:3rem;
         left: 50%;
         transform: translateX(-50%);
         text-align: center;
@@ -811,7 +831,7 @@ export default {
       line-height: 40px;
       color: #fff;
       border-radius: 30px;
-      margin-top: 20px;
+      margin-top: 4rem;
       border: none;
       background: #2773FF;
       opacity: .5;
