@@ -181,6 +181,7 @@ export default {
     },
     created(){
       this.createCode();
+      this.phoneNumber = this.$route.query.phone
   },
     methods:{
       login(){
@@ -416,7 +417,7 @@ export default {
             }
         },
       // 验证注册背景色
-      changres(){
+        changres(){
           var pwd = $(".res").val().length;
           if (pwd >= 6) {
               $(".res").css("opacity","1");
@@ -475,82 +476,81 @@ export default {
             console.log(err)
           })
       },
-      // 注册
-      register(){
-        if (this.check() == false) {
-            this.$vux.alert.show({
-              title: '',
-              content: '请勾选同意启航金服注册协议'
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-            }, 3000)
-        }
-        if( this.checkLPsd() == true && this.check() == true){
-            const url = myPub.URL+`/reg/register`;
-            const pwd = Base64.encode(this.LUserPsd,'utf-8')
-            var params = new URLSearchParams();
-            params.append('phone',this.phoneNumber);
-            params.append('smsCode',this.verifyCode);
-            params.append('clientType','h5');
-            params.append('regChannel','h5');
-            params.append('reqPwd',pwd);
-            params.append('invitationCode',this.invitationCode);
-            axios.post(url,params).then(response => {
-                  console.log(response.data)
-                  const data = response.data
-                  if (data.result == '200') {
-                    $(".bg").css('display',"block")
-                    $(".toast").css('display',"block")
-                    const token = data.token
-                    sessionStorage.setItem('token',token);
+        register(){
+            if (this.check() == false) {
+                this.$vux.alert.show({
+                title: '',
+                content: '请勾选同意启航金服注册协议'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
+            if( this.checkLPsd() == true && this.check() == true){
+                const url = myPub.URL+`/reg/register`;
+                const pwd = Base64.encode(this.LUserPsd,'utf-8')
+                var params = new URLSearchParams();
+                params.append('phone',this.phoneNumber);
+                params.append('smsCode',this.verifyCode);
+                params.append('clientType','h5');
+                params.append('regChannel','h5');
+                params.append('reqPwd',pwd);
+                params.append('invitationCode',this.invitationCode);
+                axios.post(url,params).then(response => {
+                    console.log(response.data)
+                    const data = response.data
+                    if (data.result == '200') {
+                        $(".bg").css('display',"block")
+                        $(".toast").css('display',"block")
+                        const token = data.token
+                        sessionStorage.setItem('token',token);
 
-                    // 缓存开户数据
-                    const url = myPub.URL+`/chinaPnr/userRegister`;
-                    var params = new URLSearchParams();
-                    params.append('token',sessionStorage.getItem("token"));
-                    params.append('clientType','h5');
-                    axios.post(url,params).then(res => {
-                        console.log(res.data);
-                            this.ChinaPnrServer = res.data.chinaPnrServer;
-                            this.Version = res.data.Version; //版本号
-                            this.CmdId = res.data.CmdId; //消息信息
-                            this.MerCustId = res.data.MerCustId; //商户客户号
-                            this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
-                            this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
-                            this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
-                            this.UsrId = res.data.UsrId; //用户号
-                            this.UsrMp = res.data.UsrMp; //手机号
-                            this.PageType = res.data.PageType; //页面类型
-                            this.ChkValue = res.data.ChkValue; //签名
-                    }).catch((err) => {
-                        console.log(err);
-                    });
-                  }else{
-                    if (data.result == '300') {
+                        // 缓存开户数据
+                        const url = myPub.URL+`/chinaPnr/userRegister`;
+                        var params = new URLSearchParams();
+                        params.append('token',sessionStorage.getItem("token"));
+                        params.append('clientType','h5');
+                        axios.post(url,params).then(res => {
+                            console.log(res.data);
+                                this.ChinaPnrServer = res.data.chinaPnrServer;
+                                this.Version = res.data.Version; //版本号
+                                this.CmdId = res.data.CmdId; //消息信息
+                                this.MerCustId = res.data.MerCustId; //商户客户号
+                                this.RetUrl = res.data.RetUrl; //页面返回的URL //undefinded
+                                this.BgRetUrl = res.data.BgRetUrl; //商户后台应答地址
+                                this.MerPriv = res.data.MerPriv; //商户私有域 //undefinded
+                                this.UsrId = res.data.UsrId; //用户号
+                                this.UsrMp = res.data.UsrMp; //手机号
+                                this.PageType = res.data.PageType; //页面类型
+                                this.ChkValue = res.data.ChkValue; //签名
+                        }).catch((err) => {
+                            console.log(err);
+                        });
+                    }else{
+                        if (data.result == '300') {
+                            this.$vux.alert.show({
+                            title: '',
+                            content: data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                        }, 3000)
+                        }
                         this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                      })
-                      setTimeout(() => {
-                          this.$vux.alert.hide()
-                      }, 3000)
+                            title: '',
+                            content: data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                        }, 3000)
                     }
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                    }, 3000)
-                  }
-            }).catch((err) => {
-              console.log(err)
-            })
-          }
-      },
-      // 三方开户
-       kaiHu(){
+                }).catch((err) => {
+                console.log(err)
+                })
+            }
+        },
+        // 三方开户
+        kaiHu(){
           const url = myPub.URL+`/chinaPnr/userRegister`;
           var params = new URLSearchParams();
           params.append('token',sessionStorage.getItem("token"));
@@ -580,17 +580,17 @@ export default {
           }).catch((err) => {
               console.log(err);
           });
-    }
-},
+        }
+    },
 
-  components: {
+    components: {
       XInput,
       XButton,
       Group,
       Cell,
       base64,
       Toast
-  }
+    }
 }
 </script>
 
@@ -702,6 +702,9 @@ export default {
   }
   .right{
       float: right;
+  }
+  .clearfix{
+      border-bottom: 1px solid #eee;
   }
   .clearfix:after{
       content:'';

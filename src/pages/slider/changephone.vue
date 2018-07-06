@@ -69,28 +69,37 @@ export default {
         },
         // 手机号验证码
         sendCode() {
-            this.time = 90
-            this.disabled = true;
-            this.timer()
+            if (this.checkLPhone == true) {
+                this.time = 90
+                this.disabled = true;
+                this.timer()
                 // 获取验证
-              const url = myPub.URL+`/three/getSmsCode` ;
-              var params = new URLSearchParams();
-              params.append('phone',this.userPhone);
-              params.append('msgType',2);
-              axios.post(url,params).then(res => {
-                    console.log(res.data);
-                        if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
-                            this.$vux.alert.show({
-                                content: res.data.resultMsg
-                            })
-                            setTimeout(() => {
-                                this.$vux.alert.hide()
-                            }, 3000)
-                        }
+                const url = myPub.URL+`/three/getSmsCode` ;
+                var params = new URLSearchParams();
+                params.append('phone',this.userPhone);
+                params.append('msgType',2);
+                axios.post(url,params).then(res => {
+                        console.log(res.data);
+                            if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                                this.$vux.alert.show({
+                                    content: res.data.resultMsg
+                                })
+                                setTimeout(() => {
+                                    this.$vux.alert.hide()
+                                }, 3000)
+                            }
 
-              }).catch((err) => {
-                console.log(err)
-              })
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }else{
+                this.$vux.alert.show({
+                    content: "请输入手机号码"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
+            }
         },
         timer() {
             if (this.time > 0) {
@@ -114,8 +123,7 @@ export default {
             }
         },
         sureChange(){
-            console.log(this.checkLPhone());
-
+            // console.log(this.checkLPhone());
               if (this.checkLPhone() == true) {
                 const url = myPub.URL+`/user/updateUserPhone` ;
                 var params = new URLSearchParams();
@@ -147,8 +155,11 @@ export default {
                             })
                             setTimeout(() => {
                                 this.$vux.alert.hide();
-                                sessionStorage("userPhonem",this.userPhone);
-                                this.$router.push({path:"/home"})
+                                var newPhone = this.userPhone;
+                                newPhone = newPhone.substr(0, 3) + "****" + newPhone.substr(7);
+                                sessionStorage.setItem("userPhonem",this.userPhone);
+                                sessionStorage.setItem("userPhone",newPhone);
+                                this.$router.go(-1);
                             }, 3000)
                         }if (res.data.result != 200) {
                         if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
@@ -179,6 +190,11 @@ export default {
                     console.log(err)
                 })
               }
+        }
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
         }
     },
     components: {

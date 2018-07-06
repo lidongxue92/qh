@@ -121,7 +121,7 @@ export default {
           {state: true}
         ],
         isshow2:'true',
-        imgSrc:"../static/img/closeEyes.png",
+        imgSrc:"./static/img/closeEyes.png",
         type:"password",
 
 
@@ -203,11 +203,11 @@ export default {
         },
         // 眼睛切换
         eyesTab(){
-            if (this.imgSrc == "../static/img/loginEyes.png") {
-                this.imgSrc = "../static/img/closeEyes.png";
+            if (this.imgSrc == "./static/img/loginEyes.png") {
+                this.imgSrc = "./static/img/closeEyes.png";
                 this.type = "password"
             }else{
-                this.imgSrc = "../static/img/loginEyes.png";
+                this.imgSrc = "./static/img/loginEyes.png";
                 this.type = "text"
             }
         },

@@ -4,17 +4,17 @@
         <div class="middle">
             <ul class="list">
                 <li>
-                    <input type="password" placeholder="请输入新密码" class="register_content_input" v-model="pwd" @blur="checkLPsd" @focus="shuruPwd">
+                    <input type="password" placeholder="请输入新密码" class="register_content_input pwd" v-model="pwd" @blur="checkLPsd" @input="shuruPwd">
                     <!-- <span class="tishixiaoxi disappear">请输入新密码。</span> -->
-                    <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
+                    <img src="../../assets/img/loginClear.png" class="LoginClear" @click="clear">
                 </li>
                 <li>
-                    <input type="password" placeholder="请输入新密码" class="register_content_input" v-model="surePwd" @blur="checkLPsd1" @focus="shuruPwd">
+                    <input type="password" placeholder="请确认新密码" class="register_content_input surePwd" v-model="surePwd" @blur="checkLPsd1" @input="shuruPwd1">
                     <!-- <span class="tishixiaoxi disappear">请输入新密码。</span> -->
-                    <img src="../../assets/img/loginClear.png" class="LoginImg1" @click="clear1">
+                    <img src="../../assets/img/loginClear.png" class="LoginClear1" @click="clear1">
                 </li>
             </ul>
-            <p>密码长度为6~20位，数字、字母组合</p>
+            <p>密码长度为8~32位，须包含数字、字母、符号至少2种或以上元素</p>
             <button class="button" @click="sub">确认修改</button>
         </div>
     </div>
@@ -40,7 +40,7 @@ export default {
             title:'登录密码修改',
             isshow:true,
             pwd:'',
-            surePwd:''
+            surePwd:'',
         }
     },
     computed: {
@@ -48,48 +48,62 @@ export default {
     mounted () {
     },
     created() {
-
-    },
-    activated() {
-        // this.getALLProducts()
+        if (this.surePwd != "" && this.pwd != "") {
+            $(".button").css("opacity"," 1");
+        }
     },
     methods: {
         // 清空
         clear(){
-            this.pwd = ""
+            this.pwd = "";
+            $(".LoginClear").hide();
         },
         clear1(){
-            this.surePwd = ""
+            this.surePwd = "";
+            $(".LoginClear1").hide();
         },
+        //X号切换
         shuruPwd(){
-            $(".LoginImg").show();
+            var pwdLen = $(".pwd").val().length;
+            if (pwdLen != 0) {
+                $(".LoginClear").show();
+            }else{
+                $(".LoginClear").hide();
+            }
         },
         shuruPwd1(){
-            $(".LoginImg1").show();
+            var suePwdLen = $(".surePwd").val().length;
+            if (suePwdLen != 0) {
+                $(".LoginClear1").show();
+            }else{
+                $(".LoginClear1").hide();
+            }
         },
         // 验证登录密码
         checkLPsd(){
-            $(".LoginImg").hide();
             if(this.pwd == ''){
                 $(".middle p").addClass("disappear");
-            }else if(this.pwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/) == 0){
+            }else if(this.pwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
                 $(".middle p").removeClass("disappear");
+                console.log(this.pwd);
                 return true;
             }else{
                  $(".middle p").removeClass("disappear");
+                //  $(".LoginClear").show();
             }
         },
         checkLPsd1(){
-            $(".LoginImg1").hide();
             if(this.surePwd == ''){
                 $(".middle p").addClass("disappear")
             }else if(this.pwd == this.surePwd){
                 $(".middle p").removeClass("disappear");
-                $(".middle p").text("密码长度为6~20位，数字、字母组合")
+                $(".middle p").text("密码长度为8~32位，须包含数字、字母、符号至少2种或以上元素")
+                $(".button").css("opacity"," 1");
                 return true;
             }else{
                 $(".middle p").addClass("disappear");
-                $(".middle p").text("两次密码必须一致")
+                $(".middle p").text("两次密码必须一致");
+                // $(".LoginClear1").show();
             }
         },
         sub(){
@@ -164,10 +178,9 @@ export default {
             li{
                 list-style: none;font-size: 0.7rem;border-bottom: 1px solid #eee;position: relative;
                 input{width: 100%;border: 0;color: #bdbdbd;padding: 0.8rem;outline:none;}
-                // .tishixiaoxi{position: absolute;right: 0.8rem;top: 0.8rem;color: #FFA303}
             }
             li:last-child{border-bottom: 0;}
-            .LoginImg,.LoginImg1{
+            .LoginClear,.LoginClear1{
                 width: 1rem /* 34/40 */;
                 position: absolute;
                 right: .8rem;
@@ -177,7 +190,19 @@ export default {
         }
         p{padding: 0.5rem;font-size: 0.6rem;color: #999}
         .disappear{color: red;}
-        .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+        .button{
+            border: 0;
+            width: 90%;
+            margin-left: 5%;
+            margin-top: 1rem;
+            background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);
+            height: 40px;
+            text-align: center;
+            color: #fff;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            opacity: .5;
+        }
     }
 }
 </style>

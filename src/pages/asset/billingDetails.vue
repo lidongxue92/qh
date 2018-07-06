@@ -10,7 +10,7 @@
                     <span>时间</span>
                     <span>状态</span>
                 </li>
-                <li class="li" v-for="(item,index) in Product">
+                <li class="li" v-for="(item,index) in Product" :key="index">
                     <span>{{item.tradeTypeName}}</span>
                     <span>{{item.tradeMoney}}</span>
                     <span>{{item.tradeTime.split(" ")[0]}}</span>

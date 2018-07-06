@@ -12,13 +12,13 @@
           <span class="tishixiaoxi disappear">请输入手机号。</span>
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4" @input="changeBGC">
           <img @click="emipy" class="img" src="~@/assets/img/emipy.png" style="right: 40%;">
           <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
             <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
-        <a class="user_login" @click="next">下一步</a>
-        <!-- <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a> -->
+        <a class="user_login next" @click="next">下一步</a>
+        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
     <div class="list" v-if="isshow1">
@@ -39,7 +39,7 @@
             <img src="../../assets/img/loginClear.png" class="img" @click="emipy3" style="right: 12%">
         </label>
         <label style="margin-top: 10px;">
-            <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1"><br>
+            <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
             <span class="tishixiaoxi disappear1">请输入密码。</span>
             <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
         </label>
@@ -122,6 +122,14 @@ export default {
                 this.type = "text"
             }
         },
+        changeBGC(){
+            if (this.picLyanzhengma != "") {
+                $(".next").css("opacity","1")
+            };
+            if (this.newUserPwd1 != "") {
+                $(".user_login").css("opacity","1")
+            }
+        },
       login(){
         this.$router.push({path:"/login"})
       },
@@ -142,7 +150,28 @@ export default {
 
           }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
               $(".login_content1 span:eq(0)").addClass("disappear")
-              return true;
+
+                const url = myPub.URL+`/check/checkPhone` ;
+                var params = new URLSearchParams();
+                params.append('phone',this.userPhone);;
+                axios.post(url,params).then(response => {
+                    console.log(response)
+                    if (response.data.result == '302') {
+                        this.$vux.alert.show({
+                        title: '',
+                        content: response.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            const phone = this.userPhone;
+                            this.$router.push({path:"/settlein",query:{phone:phone}})
+                        }, 3000)
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+                return true;
+
           }else{
               $(".login_content1 span:eq(0)").removeClass("disappear");
               $(".login_content1 span:eq(0)").text("请输入正确手机号。")
@@ -186,7 +215,6 @@ export default {
       },
       next(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
-            $(".user_login").css("opacity","1")
           const _this = this
           _this.isshow1 =true
           _this.isshow =false
@@ -294,22 +322,14 @@ export default {
             axios.post(url,params).then(res => {
                 console.log(res);
                 if (res.data.result == 200) {
-                  this.$vux.alert.show({
-                      // title: '',
-                      content: res.data.resultMsg
-                  })
-                  setTimeout(() => {
-                      // this.$vux.alert.hide()
-                      this.$router.push({path:"/login"});
-                  }, 3000)
-                }else{
-                  this.$vux.alert.show({
-                      // title: '',
-                      content: res.data.resultMsg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                  }, 3000)
+                        this.$vux.alert.show({
+                            // title: '',
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            // this.$vux.alert.hide()
+                            this.$router.push({path:"/login",query:{phone:this.userPhone}});
+                        }, 3000)
                 }
 
             }).catch((err) => {
@@ -462,20 +482,6 @@ export default {
       border: 1px solid #f3f3f3;
       margin-left: 10px;
       cursor: pointer;
-  }
-  .next{
-      display: block;
-      width: 287px;
-      height: 50px;
-      font-size: 18px;
-      text-align: center;
-      line-height: 50px;
-      color: #fff;
-      background-color: #053d84;
-      border-radius: 5px;
-      margin-left: 40px;
-      cursor: pointer;
-
   }
   /*注册*/
   .login_content1{

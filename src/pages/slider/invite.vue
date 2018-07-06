@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <topComponent title='邀请好友' :showLeft='false'>
-            <span class="back" @click='goBack' slot="left"><img src="../../../static/img/left.png"></span>
+            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
             <span class="right" @click='linkToFrienfList' slot="right">好友列表</span>
         </topComponent>
         <div class="banner"> <a :href="adLink"><img :src="imgSrc"></a></div>
@@ -29,7 +29,7 @@ export default {
     },
     data(){
         return{
-            imgSrc:"../static/img/invite/bg.png",
+            imgSrc:"./static/img/invite/bg.png",
             adLink:"javaScript:;",
             regTotal:0,
             totalProfit:0.00,

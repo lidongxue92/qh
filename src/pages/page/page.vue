@@ -62,7 +62,7 @@ export default {
         ...mapState(['title']),
         leftOptions() {
             return {
-                showBack: this.$route.path !== '/home'
+                showBack: this.$route.path !== '/'
             }
         },
         rightOptions() {
@@ -77,10 +77,7 @@ export default {
             return false
         },
         isPaddingBottom() {
-        //     if (/platform/.test(this.$route.path)) {
-        //         return true
-        //     }
-        //     return false
+
         }
     },
     methods: {
