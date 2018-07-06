@@ -26,6 +26,8 @@
                     <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear1" style="right: 2.1rem;top: 0.7rem;">
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
+                <button class="login" @click="Login" style="padding-top: 0;">登录</button>
+                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
             </div>
 
@@ -53,12 +55,6 @@
                 <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
         </div>
-
-        <div class="buttomLogin">
-            <button class="login" @click="Login" style="padding-top: 0;">登录</button>
-            <button class="user_login" @click="settlein" style="background: #2773FF">注册</button>
-        </div>
-
         <!-- 弹框 -->
         <div class="bg"></div>
         <div class="toast">
@@ -666,6 +662,11 @@ export default {
       border: 0;
       border-bottom: 1px solid #e6e6e6;
   }
+   .user_login{
+    display: inline-block;
+    width: 100%;
+    padding: 0.4ren 0;text-align: center;color: #fff!important;border-radius: 50px;height: 2.2rem;line-height: 2.2rem;margin-top: 1rem!important;
+   }
   .verification1{
       vertical-align: middle;
       transform: translate(-15px,0);
@@ -832,7 +833,7 @@ export default {
           line-height: 40px;
           color: #fff;
           border-radius: 30px;
-          margin-top: 4rem;
+          margin-top: 2.5rem;
           border: none;
           background: #2773FF;
           opacity: .5;
@@ -845,7 +846,10 @@ export default {
             .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
         }
     }
-    .banQuan{font-size: 0.8rem;text-align: center;color: #999;margin-top: 2rem;}
+    .banQuan{font-size: 0.8rem;text-align: center;color: #999;margin-top: 2rem;position: fixed;width: 100%;bottom: 1rem;}
+    @media screen and (max-width: 320px) {
+        .banQuan{position: relative;margin-top:13rem;}
+    }
 }
 
 </style>

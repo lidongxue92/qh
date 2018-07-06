@@ -81,7 +81,7 @@
 
         <!-- 侧栏底部 -->
         <div class="sliderBottom">
-          <div class="loginOut" v-if="isShow" @click="loginOut">
+          <div class="loginOut" v-if="isShow" @click="out">
             <p>安全退出</p>
           </div>
           <div class="loginReg" v-if ="!isShow" >
@@ -94,8 +94,9 @@
 
     <div class="bg"></div>
     <div class="toast">
-        确定退出
-        <a class="button" @click="close">确定</a>
+        <p>确定退出当前账户吗</p>
+        <a class="button" @click="close" style="background: #fff;color: #999">取消</a>
+        <a class="button" @click="loginOut">确定</a>
     </div>
       <!-- 侧栏菜单项 -->
 
@@ -534,8 +535,7 @@ export default {
             axios.post(url,params).then(res => {
                 // console.log(res.data);
                 if (res.data.result == 200) {
-                    $(".bg").css("display","block")
-                    $(".toast").css("display","block")
+                    this.$router.push({path:'/login'})
                     // setTimeout(() => {
                     //     sessionStorage.removeItem("token");
                     //     sessionStorage.removeItem("userId");
@@ -549,10 +549,13 @@ export default {
                 console.log(err);
             });
         },
+        out(){
+            $(".bg").css("display","block")
+            $(".toast").css("display","block")
+        },
         close(){
             $(".bg").css("display","none")
             $(".toast").css("display","none")
-            this.$router.push({path:"/login"})
         }
     },
 
@@ -702,10 +705,11 @@ export default {
 
 
   }
-  .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);top: 0;left: 0;display: none;}
+  .bg{position: fixed;width: 100%;height: 100%;background: rgba(0,0,0,.5);top: 0;left: 0;display: none;}
   .toast{
-    position: absolute;width: 60%;border-radius: 5px;background: #fff;top: 50%;left: 40%;text-align: center;font-size: 0.8rem;color: #999;padding: 1rem 0;display: none;
-    .button{display: block;width: 80%;margin-left: 10%;height: 30px;color: #fff;background: #2B9AFF;font-size: 0.8rem;margin-top: 1rem;border-radius: 5px;line-height: 30px;}
+    position: fixed;width: 70%;border-radius: 5px;background: #fff;top: 30%;left: 15%;text-align: center;font-size: 0.8rem;color: #999;display:block;min-height: 6rem;overflow: hidden;display: none;
+    p{margin-top: 2rem;}
+    .button{display: inline-block;width: 49%;height: 30px;color: #fff;background: #2B9AFF;font-size: 0.8rem;line-height: 30px;margin-top: 2rem;}
 }
 
 }
