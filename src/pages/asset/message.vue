@@ -11,13 +11,13 @@
     </div>
 
     <div class="msgList">
-        <div class="xiaoXi" @click="linkToMsgDetail(item.msgTextId)" v-for="(item,index) in Log" >
+        <div class="xiaoXi" @click="linkToMsgDetail(item.msgTextId)" v-for="(item,index) in Log" :key="index">
             <p class="msgTitle">{{item.msgTitle}}</p>
             <p class="content"><span>{{item.msgText}}</span></p>
         </div>
     </div>
     <div class="msgList" >
-        <div class="gongGao" @click="linkToMsgDetail1(item.title,item.content,item.date)" v-for="(item,index) in note">
+        <div class="gongGao" @click="linkToMsgDetail1(item.title,item.content,item.date)" v-for="(item,index) in note" :key="index">
         <p class="msgTitle">{{item.title}}</p>
             <p class="content"><span>{{item.content}}</span></p>
         </div>
