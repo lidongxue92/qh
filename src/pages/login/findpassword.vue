@@ -43,7 +43,7 @@
             <span class="tishixiaoxi disappear1">请输入密码。</span>
             <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
         </label>
-
+        <p style="font-size: 0.8rem;color: #999">密码长度为6-20位,须包含数字;字母;符号;至少2种或以上元素;且不包含空格</p>
         <a class="user_login" @click="sub">确认提交</a>
     </div>
   </div>
@@ -222,30 +222,30 @@ export default {
       },
       // 手机号验证码
       sendCode() {
-            // console.log('点击验证码触发')
-            this.time = 90
-            this.disabled = true
-            this.timer()
-            const url = myPub.URL+`/three/getSmsCode` ;
-            var params = new URLSearchParams();
-            params.append('phone',this.userPhone);
-            params.append('msgType',3);
-            axios.post(url,params).then(res => {
-                console.log(res);
-                if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
-                    this.$vux.alert.show({
-                        // title: '',
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                    }, 3000)
-                }
+          // console.log('点击验证码触发')
+          this.time = 90
+          this.disabled = true
+          this.timer()
+          const url = myPub.URL+`/three/getSmsCode` ;
+          var params = new URLSearchParams();
+          params.append('phone',this.userPhone);
+          params.append('msgType',3);
+          axios.post(url,params).then(res => {
+              console.log(res);
+              if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                  this.$vux.alert.show({
+                      // title: '',
+                      content: res.data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
+              }
 
 
-            }).catch((err) => {
-            console.log(err)
-            })
+          }).catch((err) => {
+          console.log(err)
+          })
         },
 
         timer() {
@@ -264,12 +264,12 @@ export default {
           if(this.newUserPwd == ''){
               $(".list span:eq(2)").text("请输入密码");
               $(".list span:eq(2)").removeClass("disappear")
-          }else if(this.newUserPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
+          }else if(this.newUserPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?! )(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
               $(".list span:eq(2)").addClass("disappear")
               return true;
           }else{
               $(".list span:eq(2)").removeClass("disappear");
-              $(".list span:eq(2)").text("6~20位数字、字母或特殊符号组合")
+              $(".list span:eq(2)").text("6~20位数字、字母或特殊符号组合,且不包含空格")
           }
       },
       checkLPsd1(){
@@ -286,10 +286,6 @@ export default {
       },
       sub(){
         if( this.checkLPsd() == true && this.checkLPsd1() == true){
-
-            this.time = 90
-            this.disabled = true
-            this.timer()
             const url = myPub.URL+`/pwd/findPwd` ;
             var params = new URLSearchParams();
             params.append('phone',this.userPhone);
@@ -298,14 +294,22 @@ export default {
             axios.post(url,params).then(res => {
                 console.log(res);
                 if (res.data.result == 200) {
-                        this.$vux.alert.show({
-                            // title: '',
-                            content: res.data.resultMsg
-                        })
-                        setTimeout(() => {
-                            // this.$vux.alert.hide()
-                            this.$router.push({path:"/login"});
-                        }, 3000)
+                  this.$vux.alert.show({
+                      // title: '',
+                      content: res.data.resultMsg
+                  })
+                  setTimeout(() => {
+                      // this.$vux.alert.hide()
+                      this.$router.push({path:"/login"});
+                  }, 3000)
+                }else{
+                  this.$vux.alert.show({
+                      // title: '',
+                      content: res.data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
                 }
 
             }).catch((err) => {

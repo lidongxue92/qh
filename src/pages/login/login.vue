@@ -16,43 +16,40 @@
             <!-- 密码登陆 -->
             <div class="login_content1 " v-if="isshow">
                 <label>
-                    <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
+                    <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11" @input="img1">
                     <span class="tishixiaoxi disappear">请输入手机号。</span>
-                    <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
+                    <img src="../../assets/img/loginClear.png" class="LoginImg img1" @click="clear">
                 </label>
                 <label>
                     <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC" maxlength="20"><br>
                     <span class="tishixiaoxi disappear">6~20位数字、字母或特殊符号组合</span>
-                    <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear1" style="right: 2.1rem;top: 0.7rem;">
+                    <img src="../../assets/img/loginClear.png" class="LoginImg img2" @click="clear1" style="right: 2.1rem;top: 0.7rem;">
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
-                <button class="login" @click="Login" style="padding-top: 0;">登录</button>
-                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
+                <button class="login" @click="Login" style="padding-top: 0;">登录</button>
+                <a class="user_login" @click="settlein" style="background: #2773FF;opacity: 1">注册</a>
             </div>
 
             <!-- 短信登陆 -->
             <div class="list" v-if="isshow1">
               <label>
-                  <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
-                  <span class="tishixiaoxi disappear">请输入手机号。</span>
-                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
+                  <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone1" @blur="checkLPhone1" maxlength="11" @input="img5">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg img5" @click="clear2">
                 </label>
                 <label class="clearfix" style="margin-top: 30px;">
-                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4">
-                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear3" style="right: 40%">
+                  <input type="text" placeholder="请输入图片验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4" @input="img4">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg img3" @click="clear3" style="right: 40%">
                   <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-                    <span class="tishixiaoxi disappear">请输入图片验证码。</span>
                 </label>
                 <label class="clearfix" style="margin-top: 30px;">
                   <input type="text" placeholder="请输入验证码" class="yanzhengma_input pwd1" v-model="verifyCode" maxlength="6" @input="changBGC1">
-                  <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear4" style="right: 40%">
+                  <img src="../../assets/img/loginClear.png" class="LoginImg img4" @click="clear4" style="right: 40%">
                   <input type="button" :value="btnText"
                       :disabled="disabled"  @click="sendCode" class="verification"/> <br>
-                    <span class="tishixiaoxi disappear">请输入验证码。</span>
                 </label>
                 <button class="login1" @click="msgLogin" style="padding-top: 0;">登录</button>
-                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
+                <a class="user_login" @click="settlein" style="background: #2773FF;opacity: 1">注册</a>
             </div>
         </div>
         <!-- 弹框 -->
@@ -112,6 +109,7 @@ export default {
         time: 0,
         verifyCode: '',
         userPhone:'',
+        userPhone1:'',
         dialog: false,
         userPwd:'',
         picLyanzhengma:'',
@@ -149,22 +147,59 @@ export default {
         clear(){
             this.userPhone = ""
             $(".login").css("opacity",".5");
+            setTimeout(() => {
+                $(".img1").css('display','none')
+            }, 1000)
+        },
+        img1(){
+            const len = this.userPhone.length
+            if (len >= 1) {
+                $(".img1").css('display','block')
+            }
+        },
+        // 清空手机号
+        clear2(){
+            this.userPhone1 = ""
             $(".login1").css("opacity",".5");
+            setTimeout(() => {
+                $(".img5").css('display','none')
+            }, 1000)
+        },
+        img5(){
+            const len = this.userPhone1.length
+            if (len >= 1) {
+                $(".img5").css('display','block')
+            }
         },
         // 清空密码
         clear1(){
-            this.userPwd = ""
+            this.userPwd1 = ""
             $(".login").css("opacity",".5");
+            setTimeout(() => {
+                $(".img2").css('display','none')
+            }, 1000)
         },
         // 清空图形验证码
         clear3(){
             this.picLyanzhengma = ""
             $(".login1").css("opacity",".5");
+            setTimeout(() => {
+                $(".img3").css('display','none')
+            }, 1000)
+        },
+        img4(){
+            const len = this.picLyanzhengma.length
+            if (len >= 1) {
+                $(".img3").css('display','block')
+            }
         },
         // 清空验证码
         clear4(){
             this.verifyCode = ""
             $(".login1").css("opacity",".5");
+            setTimeout(() => {
+                $(".img4").css('display','none')
+            }, 1000)
         },
         // 眼睛切换
         eyesTab(){
@@ -194,28 +229,66 @@ export default {
         // 验证登陆手机号格式
         checkLPhone(){
             if(this.userPhone == ''){
-                $(".middle span:eq(0)").removeClass("disappear");
-                $(".middle span:eq(0)").text("请输入手机号。")
+                  //   this.$vux.alert.show({
+                  //   title: '',
+                  //   content: '请输入手机号'
+                  // })
+                  // setTimeout(() => {
+                  //     this.$vux.alert.hide()
+                  // }, 1000)
+                  return false
 
             }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
                 $(".middle span:eq(0)").addClass("disappear")
                 return true;
             }else{
-                $(".middle span:eq(0)").removeClass("disappear");
-                $(".middle span:eq(0)").text("请输入正确手机号。")
+                this.$vux.alert.show({
+                title: '',
+                content: '请输入正确手机号'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 1000)
+            }
+        },
+        checkLPhone1(){
+            if(this.userPhone1 == ''){
+              //   this.$vux.alert.show({
+              //   title: '',
+              //   content: '请输入手机号'
+              // })
+              // setTimeout(() => {
+              //     this.$vux.alert.hide()
+              // }, 1000)
+              return false
+            }else if(this.userPhone1.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
+                $(".middle span:eq(0)").addClass("disappear")
+                return true;
+            }else{
+               this.$vux.alert.show({
+                title: '',
+                content: '请输入正确手机号'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 1000)
             }
         },
         // 验证登录密码
         checkLPsd(){
             if(this.userPwd == ''){
-                $(".login_content1  span:eq(1)").text("请输入密码");
-                $(".login_content1  span:eq(1)").removeClass("disappear")
-            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
+                return false
+            }else if(this.userPwd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?! )(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
                 $(".login_content1  span:eq(1)").addClass("disappear");
                 return true;
             }else{
-                $(".login_content1  span:eq(1)").removeClass("disappear");
-                $(".login_content1  span:eq(1)").text("6~20位数字、字母或特殊符号组合")
+                 this.$vux.alert.show({
+                title: '',
+                content: '密码由6~20位数字、字母或特殊符号组合'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 1000)
             }
         },
         // 判断登陆背景色
@@ -227,6 +300,9 @@ export default {
             }else{
                 $(".login").css("opacity",".5");
             }
+            if (pwdLen >= 1) {
+                $(".img2").css("display","block")
+            }
         },
         changBGC1(){
             var pwd = $(".pwd1").val().length;
@@ -235,6 +311,9 @@ export default {
                 $(".login1").css("opacity","1");
             }else{
                 $(".login1").css("opacity",".5");
+            }
+            if (pwd >= 1) {
+                $(".img4").css("display","block")
             }
         },
 
@@ -254,23 +333,20 @@ export default {
         checkLpicma(){
             this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写
             if(this.picLyanzhengma == '') {
-                $(".list span:eq(1)").text("请输入验证码")
-                $(".list span:eq(1)").removeClass("disappear");
+                return false
             }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时
                 console.log( this.picLyanzhengma.toUpperCase())
                 console.log(code)
-                $(".list span:eq(1)").text("验证码不正确")
-                $(".list span:eq(1)").removeClass("disappear");
+                 this.$vux.alert.show({
+                    title: '',
+                    content: '验证码不正确'
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 1000)
                 this.createCode();//刷新验证码
                 this.picLyanzhengma = '';
             }else { //输入正确时
-                $(".list span:eq(1)").addClass("disappear");
-                $(".list span:eq(1)").text("请输入验证码")
-                if (this.checkLPhone() ==true) {
-                $('.user_login').addClass('bg-ed711f')
-                }else{
-                $('.user_login').removeClass('bg-ed711f')
-                }
                 return true;
             }
         },
@@ -511,7 +587,21 @@ export default {
 
 <style type="text/css">
   /*@import '/static/css/register_login.css'*/
-  .left{
+  .weui-cells:before{border-top: 0!important;}
+  .weui-cells:after{border-bottom: 0!important;}
+  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
+  .weui-btn:after{border: 0!important;}
+  .weui-input{border: 0!important;font-size: 0.9rem!important;height: 42px!important;line-height:42px!important;padding-left: 5px;width: 90%!important}
+  .weui-cell{padding: 10px 0!important}
+  .weui-cells{border-bottom: 1px solid #eee}
+  @media screen and (max-width: 320px) {
+    .register_content_input{width:96%}
+    .yanzhengma_input{width: 10rem;}
+}
+</style>
+<style scoped lang="less">
+.logTop{
+    .left{
       float: left;
   }
   .right{
@@ -592,7 +682,7 @@ export default {
       width:96%;
       height: 30px;
       padding: 5px 0 5px 10px;
-      /*margin-top: 30px;*/
+      font-size: 0.8rem;
       border: 0;
       border-bottom: 1px solid #e6e6e6;
   }
@@ -655,10 +745,15 @@ export default {
   .login_content1{
       width: 100%;
       background-color: #fff;
+      padding: 0!important;
       padding-bottom: 30px!important;
       position: relative!important;
   }
-  .login_content1 label{width: 100%;display: block;position: relative;margin-top: 30px;height: 42px}
+  .login_content1 label{
+    width: 100%;display: block;position: relative;margin-top: 30px;height: 42px;
+    .img1{display: none;}
+    .img2{display: none;}
+}
 
   .bg-ed711f{
     background: #ed711f
@@ -756,20 +851,6 @@ export default {
       margin-top: 10px;
       cursor: pointer;
   }
-  .weui-cells:before{border-top: 0!important;}
-  .weui-cells:after{border-bottom: 0!important;}
-  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
-  .weui-btn:after{border: 0!important;}
-  .weui-input{border: 0!important;font-size: 0.9rem!important;height: 42px!important;line-height:42px!important;padding-left: 5px;width: 90%!important}
-  .weui-cell{padding: 10px 0!important}
-  .weui-cells{border-bottom: 1px solid #eee}
-  @media screen and (max-width: 320px) {
-    .register_content_input{width:96%}
-    .yanzhengma_input{width: 10rem;}
-}
-</style>
-<style scoped lang="less">
-.logTop{
     .settlein{
         color: #333;
         padding: 1rem;
@@ -825,7 +906,13 @@ export default {
         }
         .list{
             h5{font-weight: normal;}
-            label{display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;}
+            label{
+                display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;
+                .img2{display: none;}
+                .img3{display: none;}
+                .img4{display: none;}
+                .img5{display: none;}
+            }
             .Agreement{
               font-size: 0.8rem;margin-top: 20px;position: relative;
               input{position: relative;top: 2px;}

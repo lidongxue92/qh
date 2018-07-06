@@ -7,14 +7,12 @@
       </div>
       <div class="login_content1 ">
         <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone" maxlength="11"><img @click="emipy" class="img" src="~@/assets/img/emipy.png">
-          <span class="tishixiaoxi disappear">请输入手机号。</span>
+          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone" maxlength="11" @input="img1"><img @click="emipy" class="img img1" src="~@/assets/img/emipy.png">
         </label>
         <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC" maxlength="4">
-          <img @click="emipy1" class="img" src="~@/assets/img/emipy.png" style="right: 40%">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC " maxlength="4" >
+          <img @click="emipy1" class="img img2" src="~@/assets/img/emipy.png" style="right: 40%;top: 0.8rem;">
           <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-          <span class="tishixiaoxi disappear">请输入验证码。</span>
         </label>
         <a class="user_login next" @click="next1">下一步</a>
         <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;margin-top: 0.8rem;" @click="login">已有账号,去登录</a>
@@ -29,27 +27,25 @@
         </div>
         <p>验证码已发送至手机号：<span class="span">{{tel}}</span></p>
 
-      <label class="clearfix" style="margin-top: 30px;">
-      <p style="border-bottom: 1px solid #eee">
-        <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
-        <img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy2" style="right: 40%">
-        <input type="button" :value="btnText"
-        :disabled="disabled"  @click="sendCode" class="verification"/></p>
-          <span class="tishixiaoxi disappear" >请输入验证码。</span>
-      </label>
-      <label style="margin-top: 1.5rem;">
-        <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres" maxlength="22"><img src="../../assets/img/loginClear.png" class="LoginImg" @click="emipy3" style="right: 12%;top: 0.7rem;" >
-        <img :src="imgSrc" class="LoginImg" @click="eyesTab">
-        <span class="tishixiaoxi disappear">请输入密码。</span>
-      </label>
-      <label>
-          <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
-      </label>
-      <label class="Agreement"  v-for="item of items" :key="item">
-        <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
-        <span v-if='!isshow2'>请同意注册协议</span>
-      </label>
-      <a class="user_login res" @click="register">提交注册</a>
+        <label class="clearfix" style="margin-top: 30px;">
+        <p style="border-bottom: 1px solid #eee">
+          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6" @input="img3">
+          <img src="../../assets/img/loginClear.png" class="LoginImg img3" @click="emipy2" style="right: 40%">
+          <input type="button" :value="btnText"
+          :disabled="disabled"  @click="sendCode" class="verification"/></p>
+        </label>
+        <label>
+          <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres" maxlength="22" ><img src="../../assets/img/loginClear.png" class="LoginImg img4" @click="emipy3" style="right: 14%;top: 1.7rem;" >
+          <img :src="imgSrc" class="LoginImg" @click="eyesTab" style="top: 1.8rem;">
+        </label>
+        <label>
+            <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode" class="register_content_input"><br>
+        </label>
+        <label class="Agreement"  v-for="item of items" :key="item">
+          <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
+          <span v-if='!isshow2'>请同意注册协议</span>
+        </label>
+        <a class="user_login res" @click="checkSmsCode">提交注册</a>
     </div>
 
     <!-- 底部版权 -->
@@ -161,7 +157,7 @@ export default {
         invitationCode:'',
         isshow:true,
         isshow1:false,
-        imgSrc:"../static/img/closeEyes.png",
+        imgSrc:"./static/img/closeEyes.png",
         type:"password",
         tel:'',
         items: [
@@ -197,23 +193,48 @@ export default {
       },
       // 清空手机号
       emipy(){
-        $('.phone').val("")
+        this.phoneNumber = ''
         $(".next").css("opacity",".5");
+        setTimeout(() => {
+          $(".img1").css("display","none")
+        }, 500)
       },
       // 清空图形验证码
       emipy1(){
         this.picLyanzhengma = ''
         $(".next").css("opacity",".5");
+        setTimeout(() => {
+          $(".img2").css("display","none")
+        }, 500)
       },
       // 清空手机验证码
       emipy2(){
         this.verifyCode = ''
         $(".res").css("opacity",".5");
+        setTimeout(() => {
+          $(".img3").css("display","none")
+        }, 500)
       },
       // 清空登录密码
       emipy3(){
         this.LUserPsd = ''
         $(".res").css("opacity",".5");
+        setTimeout(() => {
+          $(".img4").css("display","none")
+        }, 500)
+      },
+      // 手机清空
+      img1(){
+        const leng = this.phoneNumber.length
+        if (leng >= '1') {
+          $(".img1").css("display","block")
+        }
+      },
+      img3(){
+        const leng = this.verifyCode.length
+        if (leng >= '1') {
+          $(".img3").css("display","block")
+        }
       },
       // 眼睛切换
         eyesTab(){
@@ -258,15 +279,24 @@ export default {
       // 验证登陆手机号格式
       checkLPhone(){
           if(this.phoneNumber == ''){
-              $(".login_content1 span:eq(0)").removeClass("disappear");
-              $(".login_content1 span:eq(0)").text("请输入手机号。")
-
+            //   this.$vux.alert.show({
+            //   title: '',
+            //   content: '请输入手机号'
+            // })
+            // setTimeout(() => {
+            //     this.$vux.alert.hide()
+            // }, 1000)
+            return false
           }else if(this.phoneNumber.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
-              $(".login_content1 span:eq(0)").addClass("disappear")
               return true;
           }else{
-              $(".login_content1 span:eq(0)").removeClass("disappear");
-              $(".login_content1 span:eq(0)").text("请输入正确手机号。")
+            this.$vux.alert.show({
+              title: '',
+              content: '请输入正确手机号'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 1000)
           }
       },
       // 图片验证码
@@ -285,23 +315,27 @@ export default {
       checkLpicma(){
           this.picLyanzhengma.toUpperCase();//取得输入的验证码并转化为大写
           if(this.picLyanzhengma == '') {
-              $(".login_content1 span:eq(1)").text("请输入验证码")
-              $(".login_content1 span:eq(1)").removeClass("disappear");
+            return false
+            //   this.$vux.alert.show({
+            //   title: '',
+            //   content: '请输入验证码'
+            // })
+            // setTimeout(() => {
+            //     this.$vux.alert.hide()
+            // }, 1000)
           }else if(this.picLyanzhengma.toUpperCase() != this.checkCode ) { //若输入的验证码与产生的验证码不一致时
               console.log( this.picLyanzhengma.toUpperCase())
               console.log(code)
-              $(".login_content1 span:eq(1)").text("验证码不正确")
-              $(".login_content1 span:eq(1)").removeClass("disappear");
+              this.$vux.alert.show({
+                title: '',
+                content: '验证码不正确'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+              }, 1000)
               this.createCode();//刷新验证码
               this.picLyanzhengma = '';
-          }else { //输入正确时
-              $(".login_content1 span:eq(1)").addClass("disappear");
-              $(".login_content1 span:eq(1)").text("请输入验证码")
-              if (this.checkLPhone() ==true) {
-                $('.user_login').addClass('bg-ed711f')
-              }else{
-                $('.user_login').removeClass('bg-ed711f')
-              }
+          }else {
               return true;
           }
       },
@@ -368,7 +402,7 @@ export default {
           this.disabled = false
         }
       },
-      // 验证下一步
+      // 验证下一步背景色
       changBGC(){
             var pwdLen = $(".yanzhengma_input").val().length;
             if (pwdLen >= 4 && this.checkLPhone() == true) {
@@ -376,8 +410,12 @@ export default {
             }else{
               $(".next").css("opacity",".5");
             }
+            const leng = this.picLyanzhengma.length
+            if (leng >= '1') {
+              $(".img2").css("display","block")
+            }
         },
-        // 验证注册
+      // 验证注册背景色
       changres(){
           var pwd = $(".res").val().length;
           if (pwd >= 6) {
@@ -385,20 +423,59 @@ export default {
           }else{
             $(".res").css("opacity",".5");
           }
+          const leng = this.LUserPsd.length
+          if (leng >= '1') {
+            $(".img4").css("display","block")
+          }
         },
       // 验证登录密码
       checkLPsd(){
           if(this.LUserPsd == ''){
-              $(".list span:eq(2)").text("请输入密码");
-              $(".list span:eq(2)").removeClass("disappear")
-          }else if(this.LUserPsd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
+            return false
+            //   this.$vux.alert.show({
+            //   title: '',
+            //   content: '请输入密码'
+            // })
+            // setTimeout(() => {
+            //     this.$vux.alert.hide()
+            // }, 1000)
+          }else if(this.LUserPsd.search(/^(?![0-9]+$)(?![a-zA-Z]+$)(?! )(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/) == 0){
               $(".list span:eq(2)").addClass("disappear")
               return true;
           }else{
-              $(".list span:eq(2)").removeClass("disappear");
-              $(".list span:eq(2)").text("6~20位数字、字母或特殊符号组合")
+            this.$vux.alert.show({
+              title: '',
+              content: '密码由6~20位数字、字母或特殊符号组合'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+            }, 1000)
           }
       },
+      // 验证手机验证码
+      checkSmsCode(){
+        const url = myPub.URL+`/three/getSmsCode` ;
+          var params = new URLSearchParams();
+          params.append('phone',this.phoneNumber);
+          params.append('smsCode',this.verifyCode);
+          axios.post(url,params).then(response => {
+                console.log(response)
+                if (response.data.result == 200) {
+                  this.register()
+                }else{
+                  this.$vux.alert.show({
+                  title: '',
+                  content: '手机验证码不正确或已超时'
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  },  1000)
+                }
+          }).catch((err) => {
+            console.log(err)
+          })
+      },
+      // 注册
       register(){
         if (this.check() == false) {
             this.$vux.alert.show({
@@ -519,7 +596,108 @@ export default {
 
 <style type="text/css">
   /*@import '/static/css/register_login.css'*/
-  .left{
+
+  .weui-cells:before{border-top: 0!important;}
+  .weui-cells:after{border-bottom: 0!important;}
+  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
+  .weui-btn:after{border: 0!important;}
+  .weui-input{border:0!important; font-size:0.9rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
+  .weui-cell{padding: 10px 0!important;}
+  .weui-btn_mini{font-size: 0.9rem!important;}
+  .weui-cells{border-bottom: 1px solid #eee;}
+  @media screen and (max-width: 320px) {
+    .register_content_input{width: 17rem}
+    .yanzhengma_input{width: 10rem;}
+    #code{right: -4%;}
+}
+</style>
+<style scoped lang="less">
+.settlein{
+  padding: 1rem;position: relative;height: 100%;
+  .bg-img{
+    text-align: center;
+    h5{
+        text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;
+        img{
+          float: left;
+          width: 1rem;
+          height: 1rem;
+          margin-top: 0;
+        }
+    }
+    img{margin-top:2rem;width: 5rem;height: 5rem;}
+  }
+  .phone{
+    .next{opacity: .5}
+  }
+  .list{
+    .res{opacity: .5}
+      .regBgImg{
+          height: 2.5rem;
+          text-align: center;
+          div{
+              float: left;
+              width: .8rem;
+              height: .8rem;
+              &:after{
+                  content: "";
+                  display: block;
+                  clear: both;
+              }
+              img{
+                  width: 100%;
+              }
+          }
+          h5{
+              font-size: 1rem;
+              color: #333;
+              font-weight: normal;
+          }
+      }
+    label{
+      display: block;position: relative;
+      img{
+          position: absolute;
+          right: 1.5rem;
+          top: 0.9rem;
+          width: 1rem;
+          }
+          .img4{display: none;}
+    }
+    .Agreement{
+      font-size: 0.8rem;margin-top: 20px;position: relative;
+      input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11;}
+      .img{position: absolute;width: 0.8rem;height: 0.8rem;left: 0;top: 0.4rem;display: inline-block;}
+      .img1{background: url(~@/assets/img/noagree.png);background-size: 100%;background-repeat: no-repeat;}
+      .img2{background: url(~@/assets/img/agree_blue.png);background-size: 100%;background-repeat: no-repeat;}
+      b{font-weight: normal;}
+      span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
+    }
+    .user_login{margin-top: 30px;background: #2B9AFF}
+  }
+  .c-2395FF{color: #2395FF}
+  .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
+  .toast{
+    position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
+    img{width: 100%;}
+    .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
+    .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+  }
+  .toast1{
+      position: absolute;width: 80%;margin-left: 5%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 10%;max-height: 80%;overflow-y:auto;display: none;
+      h5{
+        font-size: 0.9rem;color: #666;text-align: center;font-weight:normal;padding: 0.5rem 0.8rem;
+        span{position: fixed;top: 11%;right: 14%;}
+      }
+      h6{
+          font-weight: normal;font-size: 0.8rem;color: #2773FF;padding: 0 0.8rem;margin-top: 1rem;
+          .c-FFC62E{display: inline-block;width: 0.6rem;height: 0.6rem;background: #FFC62E;border-radius: 50%;margin-right: 0.5rem;}
+          .c-A1CB46{display: inline-block;width: 0.6rem;height: 0.6rem;background: #A1CB46;border-radius: 50%;margin-right: 0.5rem;}
+      }
+      p{font-size: 0.7rem;color: #666;padding: 0.2rem 0.8rem;line-height: 1.5rem;}
+      .button{border: 0;width: 70%;margin-left: 15%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;margin-bottom: 1rem;}
+    }
+      .left{
       float: left;
   }
   .right{
@@ -568,6 +746,7 @@ export default {
       display: block;
       line-height: 20px;
       margin-top: 0.5rem;
+      position: absolute;
   }
   .disappear{
        visibility:hidden;
@@ -590,7 +769,7 @@ export default {
       width:98%;
       height: 30px;
       padding: 5px 0 5px 10px;
-      /*margin-top: 30px;*/
+      margin-top: 1rem;
       border: 0;
       border-bottom: 1px solid #e6e6e6;
   }
@@ -600,7 +779,7 @@ export default {
     border: 0;
     color: #FFA303;
     width: 30%;
-    text-align: center;
+    text-align: right;
     background: transparent;
     border-bottom: 0;
   }
@@ -658,10 +837,10 @@ export default {
   .login_content1{
       width: 100%;
       background-color: #fff;
-      margin-top: 2rem;
+      margin-top: 2rem;padding: 0!important;
   }
-  .login_content1 label{width: 100%;display: block;position: relative;margin-top: 0.8rem;}
-  .login_content1 label .img{position: absolute;right: .8rem;top:0.8rem;width: 1rem;height: 1rem;}
+  .login_content1 label{width: 100%;display: block;position: relative;margin-top: 0.8rem;margin-bottom: 2rem;}
+  .login_content1 label .img{position: absolute;right: .8rem;top:1.8rem;width: 1rem;height: 1rem;display: none;}
   .user_login{
       display: block;
       width: 100%;
@@ -675,6 +854,7 @@ export default {
       /*margin-top: 30px;*/
       cursor:pointer;
       margin-top: 1.5rem;
+      margin-left: 0!important;
   }
   .bg-ed711f{
     background: #2773FF
@@ -765,104 +945,5 @@ export default {
       margin-top: 10px;
       cursor: pointer;
   }
-  .weui-cells:before{border-top: 0!important;}
-  .weui-cells:after{border-bottom: 0!important;}
-  .weui-btn_primary{background: transparent!important;color: #FFA303!important;}
-  .weui-btn:after{border: 0!important;}
-  .weui-input{border:0!important; font-size:0.9rem!important;height: 2rem!important;line-height: 2rem!important;padding-left: 5px;width: 90%!important}
-  .weui-cell{padding: 10px 0!important;}
-  .weui-btn_mini{font-size: 0.9rem!important;}
-  .weui-cells{border-bottom: 1px solid #eee;}
-  @media screen and (max-width: 320px) {
-    .register_content_input{width: 17rem}
-    .yanzhengma_input{width: 10rem;}
-    #code{right: -4%;}
-}
-</style>
-<style scoped lang="less">
-.settlein{
-  padding: 1rem;position: relative;height: 100%;
-  .bg-img{
-    text-align: center;
-    h5{
-        text-align: center;font-size: 1rem;font-weight: normal;line-height: 30px;
-        img{
-          float: left;
-          width: 1rem;
-          height: 1rem;
-          margin-top: 0;
-        }
-    }
-    img{margin-top:2rem;width: 5rem;height: 5rem;}
-  }
-  .phone{
-    .next{opacity: .5}
-  }
-  .list{
-    .res{opacity: .5}
-      .regBgImg{
-          height: 2.5rem;
-          text-align: center;
-          div{
-              float: left;
-              width: .8rem;
-              height: .8rem;
-              &:after{
-                  content: "";
-                  display: block;
-                  clear: both;
-              }
-              img{
-                  width: 100%;
-              }
-          }
-          h5{
-              font-size: 1rem;
-              color: #333;
-              font-weight: normal;
-          }
-      }
-    label{
-      display: block;position: relative;
-      img{
-          position: absolute;
-          right: 1rem;
-          top: 0.9rem;
-          width: 1rem;
-          }
-    }
-    .Agreement{
-      font-size: 0.8rem;margin-top: 20px;position: relative;
-      input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11;}
-      .img{position: absolute;width: 0.8rem;height: 0.8rem;left: 0;top: 0.4rem;display: inline-block;}
-      .img1{background: url(~@/assets/img/noagree.png);background-size: 100%;background-repeat: no-repeat;}
-      .img2{background: url(~@/assets/img/agree_blue.png);background-size: 100%;background-repeat: no-repeat;}
-      b{font-weight: normal;}
-      span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
-    }
-    .user_login{margin-top: 30px;background: #2B9AFF}
-  }
-  .c-2395FF{color: #2395FF}
-  .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
-  .toast{
-    position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
-    img{width: 100%;}
-    .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
-    .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
-  }
-  .toast1{
-      position: absolute;width: 80%;margin-left: 5%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 10%;max-height: 80%;overflow-y:auto;display: none;
-      h5{
-        font-size: 0.9rem;color: #666;text-align: center;font-weight:normal;padding: 0.5rem 0.8rem;
-        span{position: fixed;top: 11%;right: 14%;}
-      }
-      h6{
-          font-weight: normal;font-size: 0.8rem;color: #2773FF;padding: 0 0.8rem;margin-top: 1rem;
-          .c-FFC62E{display: inline-block;width: 0.6rem;height: 0.6rem;background: #FFC62E;border-radius: 50%;margin-right: 0.5rem;}
-          .c-A1CB46{display: inline-block;width: 0.6rem;height: 0.6rem;background: #A1CB46;border-radius: 50%;margin-right: 0.5rem;}
-      }
-      p{font-size: 0.7rem;color: #666;padding: 0.2rem 0.8rem;line-height: 1.5rem;}
-      .button{border: 0;width: 70%;margin-left: 15%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;margin-bottom: 1rem;}
-    }
 }
 </style>

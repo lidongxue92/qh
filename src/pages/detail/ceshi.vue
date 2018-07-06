@@ -50,20 +50,7 @@ export default {
   }
   #box{
     width: 300px;
-    height: 62px;
-    line-height: 30px;
-    overflow: hidden;
-    padding-left: 30px;
-    border: 1px solid black;
-    transition: all 0.5s;
+    
   }
-  .anim{
-    transition: all 1.5s;
-    margin-top: -34px;
-  }
-  #con1 li{
-    list-style: none;
-    line-height: 34px;
-    height: 34px;
-  }
+  
 </style>
