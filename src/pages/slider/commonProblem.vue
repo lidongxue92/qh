@@ -7,11 +7,11 @@
     </div>
     <div class="main">
         <div class="menu" >
-            <div v-for="(item,index) in DisQuestion" :key="index" v-view-lazy>
+            <div v-for="(item,index) in DisQuestion" :key="index" v-view-lazy class="qLi">
                 <div class="questionTitle">
                     <span class="number">Q<b>{{index + 1}}</b></span>
                     <p>{{item.title}}</p>
-                    <img src="../../../static/img/right.png" class="imgSrc">
+                    <div><img :src="imgSrc" class="imgSrc"></div>
                 </div>
                 <div class="answer" v-show="isShow">
                     <p>{{item.content}}</p>
@@ -53,7 +53,7 @@ export default {
             DisQuestion:[],
             number:'',//总问题数
             isShow:false,
-            imgSrc:"../../../static/img/rightGray.png"
+            imgSrc:"../static/img/right.png"
         }
     },
     created(){
@@ -81,23 +81,14 @@ export default {
                             setTimeout(() => {
                                 $(".questionTitle").each(function (i) {
                                 $(".questionTitle").eq(i).click(function () {
-                                    $(".imgSrc").attr("src","../../../static/img/down.png");
-                                    var src = $(".questionTitle:eq(i) img").attr("src");
-                                    console.log(src);
-                                    if (src == "../../../static/img/right.png") {
-                                        src = "../../../static/img/down.png";
-                                    }
+                                    $(".answer").eq(i).slideToggle("fast",function (newImgSrc) {
+                                        console.log();
+                                        var newImgSrc = $(".imgSrc").eq(i).attr("src");
+                                        newImgSrc == "../static/img/right.png" ? $(".imgSrc").eq(i).attr("src","../static/img/down.png") : $(".imgSrc").eq(i).attr("src","../static/img/right.png");
+                                    });
 
-
-                                    // if (this.imgSrc == "../../../static/img/rightGray.png") {
-                                    //     this.imgSrc = "";
-                                    //     this.isShow = true;
-                                    // }else{
-                                    //     this.imgSrc = "../../../static/img/rightGray.png";
-                                    //     this.isShow = false;
-                                    // }
                                 });
-                            }, 300);
+                            }, 200);
                             })
 
                         }).catch((err) => {
@@ -169,9 +160,17 @@ export default {
         .menu{
              width: 92%;
              margin: 0 auto;
+             .qLi{
+                 border-bottom: 1px solid #eee;
+                 padding-top: .8rem;
+                 padding-bottom: 0.8rem;
+             }
             .questionTitle{
+                display: flex;
+                flex: 1;
+                padding-top: 0.2rem;
+                padding-bottom: 0.2rem;
                 .number{
-                    display: inline-block;
                     width: 12%;
                     line-height: 1.5em;
                     vertical-align: top;
@@ -184,12 +183,16 @@ export default {
 
                 }
                 p{
-                    display: inline-block;
                     width: 79%;
                     line-height: 1.5rem;
                     font-size: .9rem;
-                    vertical-align:auto;
                     padding-top: .3rem;
+                }
+                div{
+                    padding-top: 0.5rem;
+                    img{
+                        width: 60%;
+                    }
                 }
 
             }

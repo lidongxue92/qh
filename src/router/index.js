@@ -89,7 +89,7 @@ export default new Router({
             name: 'findpassword',
             component: Findpassword,
             meta: {
-                title: '找回密码'
+                title: '密码找回'
             }
         },
         // 配置首页

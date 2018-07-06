@@ -1,7 +1,7 @@
 <template>
 <div class="logTop">
     <topComponent title='登录' :showLeft='false'>
-        <span class="back" @click='goBack' slot="left"><img src="../../../static/img/left.png"></span>
+        <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
     </topComponent>
 
     <div class="settlein">
@@ -27,9 +27,6 @@
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>
-
-                <button class="login" @click="Login" v-if="isshow">登录</button>
-                <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
 
             <!-- 短信登陆 -->
@@ -52,16 +49,15 @@
                       :disabled="disabled"  @click="sendCode" class="verification"/> <br>
                     <span class="tishixiaoxi disappear">请输入验证码。</span>
                 </label>
-                <button class="login" @click="msgLogin" >登录</button>
+                <button class="login" @click="msgLogin" style="padding-top: 0;">登录</button>
                 <a class="user_login" @click="settlein" style="background: #2773FF">注册</a>
             </div>
-
         </div>
-        <!-- 版权 -->
-            <div class="banQuan">
-                <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
-                <p>@启航金服  理财有风险，投资需谨慎</p>
-            </div>
+
+        <div class="buttomLogin">
+            <button class="login" @click="Login" style="padding-top: 0;">登录</button>
+            <button class="user_login" @click="settlein" style="background: #2773FF;padding-top: 0;">注册</button>
+        </div>
 
         <!-- 弹框 -->
         <div class="bg"></div>
@@ -70,7 +66,13 @@
             <img src="../../assets/img/active.png">
             <button class="button" @click="kaiHu">开户使用新手礼包</button>
         </div>
-  </div>
+    </div>
+
+    <!-- 版权 -->
+    <div class="banQuan">
+        <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
+        <p>@启航金服  理财有风险，投资需谨慎</p>
+    </div>
 
 
   <!-- 开户 -->
@@ -646,18 +648,7 @@ export default {
       position: relative!important;
   }
   .login_content1 label{width: 100%;display: block;position: relative;margin-top: 30px;height: 42px}
-  .user_login{
-      display: block;
-      width: 100%;
-      height: 40px;
-      font-size: 0.9rem;
-      text-align: center;
-      line-height: 40px;
-      color: #fff;
-      border-radius: 30px;
-      margin-top: 20px;
-      cursor:pointer;
-  }
+
   .bg-ed711f{
     background: #ed711f
   }
@@ -763,87 +754,99 @@ export default {
 </style>
 <style scoped lang="less">
 .logTop{
-    height: 100%;
-    position: relative;
+    .settlein{
+        color: #333;
+        padding: 1rem;
+        .buttomLogin{
+            position: relative;
+            bottom: 0rem;
+            width: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            button{
+                width: 100%;
+                font-size: 0.9rem;
+                text-align: center;
+                color: #fff;
+                border-radius: 30px;
+                border: none;
+                background: #2773FF;
+                padding-top: .8rem;
+                padding-bottom: 0.8rem;
+            }
 
-.settlein{
-    color: #333;
-    padding: 1rem;
-    .banQuan{
-        width: 100%;
-        position: relative;
-        margin-top:3rem;
-        left: 50%;
-        transform: translateX(-50%);
-        text-align: center;
-        font-size: 0.6rem;
-        color: #999;
-    }
-  .bg-img{
-    text-align: center;
-    img{width: 5rem;height: 5rem;margin-top: 2rem;}
-  }
-  .middle{
-    margin-top: 2rem;
-    height: 80%;
-    &:after{
-        content: "";
-        display: block;
-        clear: both;
-    }
-    ul{
-        li{
-            list-style: none;
-            display: inline-block;
-            width: 48.9%;
-            line-height: 40px;
-            text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
-        .active{border-bottom: 1px solid #2395FF;color: #2395FF}
-    }
-    .login_content1{
-        a{float: right;color: #FFA303;font-size: 0.8rem;margin-top: 5px;}
-    }
-    .list{
-        h5{font-weight: normal;}
-        label{display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;}
-        .Agreement{
-          font-size: 0.8rem;margin-top: 20px;position: relative;
-          input{position: relative;top: 2px;}
-          span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
+            .login{
+                opacity: .5;
+                margin-bottom: 20px;
+            }
+              .user_login{
+                opacity: 1;
+            }
         }
-        .user_login{background: #ed711f}
+
+      .bg-img{
+        text-align: center;
+        img{width: 5rem;height: 5rem;margin-top: 2rem;}
       }
-
-  }
-
-  .LoginImg{
-      width: 1rem /* 34/40 */;
-      position: absolute;
-      right: .8rem;
-      top: 1rem;
-  }
-  .login{
-      display: block;
-      width: 100%;
-      height: 40px;
-      font-size: 0.9rem;
-      text-align: center;
-      line-height: 40px;
-      color: #fff;
-      border-radius: 30px;
-      margin-top: 4rem;
-      border: none;
-      background: #2773FF;
-      opacity: .5;
-  }
-
-   .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
-    .toast{
-        position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
-        img{width: 100%;}
-        .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
-        .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+      .middle{
+        margin-top: 2rem;
+        height: 12rem;
+        &:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+        ul{
+            li{
+                list-style: none;
+                display: inline-block;
+                width: 48.9%;
+                line-height: 40px;
+                text-align: center;border-bottom: 1px solid #eeeeee;font-size: 1rem;color: #999}
+            .active{border-bottom: 1px solid #2395FF;color: #2395FF}
+        }
+        .login_content1{
+            a{float: right;color: #FFA303;font-size: 0.8rem;margin-top: 5px;}
+        }
+        .list{
+            h5{font-weight: normal;}
+            label{display: block;position: relative;height: 42px;width: 100%;margin-top: 30px;}
+            .Agreement{
+              font-size: 0.8rem;margin-top: 20px;position: relative;
+              input{position: relative;top: 2px;}
+              span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
+            }
+          }
+      }
+      .LoginImg{
+          width: 1rem /* 34/40 */;
+          position: absolute;
+          right: .8rem;
+          top: 1rem;
+      }
+      .login{
+          display: block;
+          width: 100%;
+          height: 40px;
+          font-size: 0.9rem;
+          text-align: center;
+          line-height: 40px;
+          color: #fff;
+          border-radius: 30px;
+          margin-top: 4rem;
+          border: none;
+          background: #2773FF;
+          opacity: .5;
+      }
+       .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
+        .toast{
+            position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
+            img{width: 100%;}
+            .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
+            .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
+        }
     }
+    .banQuan{font-size: 0.8rem;text-align: center;color: #999;margin-top: 2rem;}
 }
-}
+
 </style>

@@ -108,7 +108,7 @@ export default {
                             })
                             setTimeout(() => {
                                 this.$vux.alert.hide()
-                                this.$router.push({ path: '/login'})
+                                this.$router.push({ path: '/page/userset'})
                             }, 2000)
 
                         }else if (res.data.result == 400) {
