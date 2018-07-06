@@ -153,7 +153,6 @@ export default {
         },//回退上一级页面并刷新
     },
     methods: {
-<<<<<<< HEAD
         // 首页banner接口
         index_banner(){
           const _this = this
@@ -173,9 +172,6 @@ export default {
           })
         },
         linkToDetail(id,dz) {
-=======
-        linkToDetail(id) {
->>>>>>> fd8db78f164fe520277f849a1719e933c99b2c1b
             if (!sessionStorage.token) {
                 this.$vux.alert.show({
                     title: '',
