@@ -56,7 +56,7 @@
 
         <div class="buttomLogin">
             <button class="login" @click="Login" style="padding-top: 0;">登录</button>
-            <button class="user_login" @click="settlein" style="background: #2773FF;padding-top: 0;">注册</button>
+            <button class="user_login" @click="settlein" style="background: #2773FF">注册</button>
         </div>
 
         <!-- 弹框 -->
@@ -771,8 +771,7 @@ export default {
                 border-radius: 30px;
                 border: none;
                 background: #2773FF;
-                padding-top: .8rem;
-                padding-bottom: 0.8rem;
+               padding: 0.4rem 0;
             }
 
             .login{
