@@ -39,7 +39,6 @@
 
 <script>
 import topComponent from '../../components/common/top';
-import { InfiniteScroll } from 'mint-ui';
 import $ from 'jquery';
 import axios from 'axios';
 import * as myPub from '../../assets/js/public.js'
@@ -79,7 +78,27 @@ export default {
                         axios.post(url,params).then(res => {
                             console.log(res.data.DisQuestion);
                             this.DisQuestion = res.data.DisQuestion;
+                            setTimeout(() => {
+                                $(".questionTitle").each(function (i) {
+                                $(".questionTitle").eq(i).click(function () {
+                                    $(".imgSrc").attr("src","../../../static/img/down.png");
+                                    var src = $(".questionTitle:eq(i) img").attr("src");
+                                    console.log(src);
+                                    if (src == "../../../static/img/right.png") {
+                                        src = "../../../static/img/down.png";
+                                    }
 
+
+                                    // if (this.imgSrc == "../../../static/img/rightGray.png") {
+                                    //     this.imgSrc = "";
+                                    //     this.isShow = true;
+                                    // }else{
+                                    //     this.imgSrc = "../../../static/img/rightGray.png";
+                                    //     this.isShow = false;
+                                    // }
+                                });
+                            }, 300);
+                            })
 
                         }).catch((err) => {
                             console.log(err);

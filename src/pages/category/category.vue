@@ -37,7 +37,6 @@
         <div class="Transfer" v-if='isshow1'>
             <div class="middle">
              <ul class="productlist">
-                 <!-- v-view-lazy  -->
                   <li class="list" v-for="(item,index) in datalist" @click="linktoDetailto(item.productId,item.qcdz)" v-view-lazy :key="index">
                   <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span></h5>
                     <div>
@@ -63,6 +62,7 @@
 
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
+import {Loadmore} from 'mint-ui';
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
@@ -72,7 +72,6 @@ export default {
     name: 'category',
     data(){
 　　　return {
-// 　　　　datalist:'',
         isshow1:false,
         isshow:true,
         isshow2:true,
@@ -99,13 +98,18 @@ export default {
       const a = '18'
     },
     beforeMount() {
+       //获取url
+        var url = location.href;
+        var url = url.split("=");
+        var token = url[1];
+        sessionStorage.setItem("token",token);
     },
     mounted() {
       const status = '1'
       const a = '18'
       setTimeout(() => {
         this.pro(status,a,this.totalCount)
-      }, 500)     
+      }, 500)
     },
     methods: {
       // 跳转详情页
@@ -125,7 +129,7 @@ export default {
             this.pro('1','18',10)
             setTimeout(() => {
               this.pro(1,18,this.totalCount)
-            }, 500) 
+            }, 500)
         },
         // 转让专区
         Transfertab(){
@@ -137,7 +141,7 @@ export default {
             this.pro('2','19',10)
             setTimeout(() => {
               this.pro(2,19,this.totalCount)
-            }, 500) 
+            }, 500)
         },
         pro(status,a,i){
           const _this = this

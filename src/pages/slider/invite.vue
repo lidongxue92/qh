@@ -29,7 +29,7 @@ export default {
     },
     data(){
         return{
-            imgSrc:"../../static/img/bg.png",
+            imgSrc:"../static/img/invite/bg.png",
             adLink:"javaScript:;",
             regTotal:0,
             totalProfit:0.00,
@@ -91,6 +91,10 @@ export default {
 
 <style lang="less" scoped>
 .container{
+    background: #F6F6F6;
+    width: 100%;
+    height: auto;
+    padding-bottom: 100%;
     .right{
         position: absolute;
         top: 0;
@@ -98,9 +102,7 @@ export default {
         font-size: .7rem /* 26/40 */;
         line-height: 2.8rem;
     }
-    background: #F6F6F6;
-    width: 100%;
-    height: 100%;
+
     .banner{
         width: 100%;
         img{

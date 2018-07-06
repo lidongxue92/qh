@@ -81,6 +81,8 @@ export default {
                     setTimeout(() => {
                         this.$vux.alert.hide();
                         this.content = "";
+                        $(".limitNum_word").html("0") //把最后获取到的字数，显示出来
+                        this.$router.push({ path: '/'})
                     },3000);
                 }else if (res.data.result == 300) {
                     this.$vux.alert.show({
