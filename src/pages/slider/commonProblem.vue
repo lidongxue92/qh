@@ -17,21 +17,6 @@
                     <p>{{item.content}}</p>
                 </div>
             </div>
-
-
-            <!-- <el-collapse accordion>
-                <el-collapse-item v-for="(item,index) in DisQuestion" :key="index" v-view-lazy>
-                    <template slot="title">
-                        <div class="questionTitle">
-                        <span class="number">Q<b>{{index + 1}}</b></span>
-                            <p>{{item.title}}</p>
-                        </div>
-                    </template>
-                    <div class="answer">
-                        <p>{{item.content}}</p>
-                    </div>
-                </el-collapse-item>
-            </el-collapse> -->
         </div>
     </div>
 </div>
@@ -101,8 +86,6 @@ export default {
                 console.log(err);
             });
     },
-    mounted(){
-    },
     methods:{
         goBack(){
             this.$router.back()
@@ -111,32 +94,6 @@ export default {
 }
 </script>
 
-
-<style>
-.mint-loadmore{
-    margin-top: -25px;
-    background: #Fff;
-}
-.mint-loadmore-bottom{
-    text-align: center;
-
-}
-.mint-loadmore-top{
-    text-align: center;
-    position: relative;
-    z-index: -1;
-}
-.el-collapse-item__header{
-    height: auto;
-    line-height: 1em;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-.el-collapse-item__arrow{
-    line-height: 1em;
-    padding-top: .8rem;
-}
-</style>
 
 <style lang="less" scoped>
 .el-collapse{

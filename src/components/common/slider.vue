@@ -536,12 +536,6 @@ export default {
                 if (res.data.result == 200) {
                     $(".bg").css("display","block")
                     $(".toast").css("display","block")
-                    // setTimeout(() => {
-                    //     sessionStorage.removeItem("token");
-                    //     sessionStorage.removeItem("userId");
-                    //     this.$vux.alert.hide();
-                    //     this.$router.push({path:'/login'})
-                    // },2000)
                 }
 
 

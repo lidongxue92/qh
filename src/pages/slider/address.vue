@@ -27,7 +27,7 @@
         <div class="zhezhao">
             <div class="addAddress">
                 <img src="../../assets/img/sliderBox/closeX.png" @click="close">
-                <textarea placeholder="请填写您的详细地址" @click="changeText" class="textarea" v-model="addressVal"></textarea>
+                <textarea placeholder="请填写您的详细地址" @input="changeText" class="textarea" v-model="addressVal" maxlength="100"></textarea>
                 <input type="button" value="提交" class="submitAddress" @click="submitAddress">
             </div>
         </div>
@@ -74,9 +74,11 @@ export default {
             this.$router.back()
         },
         changeText(){
-            addEventListener("keyup",function () {
+            if (this.addressVal == "") {
+                $(".submitAddress").css("opacity",".5");
+            }else{
                 $(".submitAddress").css("opacity","1");
-            });
+            }
         },
         close(){
             $(".zhezhao").hide();
@@ -86,32 +88,42 @@ export default {
             $(".zhezhao").show();
         },
         submitAddress(){
-            const url = myPub.URL+`/user/saveAddress`;
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            // params.append('type',2);
-            params.append('address',this.addressVal);
+            if (this.addressVal != "") {
+                const url = myPub.URL+`/user/saveAddress`;
+                var params = new URLSearchParams();
+                params.append('token',sessionStorage.getItem("token"));
+                // params.append('type',2);
+                params.append('address',this.addressVal);
 
-            axios.post(url,params).then(res => {
-                // console.log(res.data);
-                if (res.data.result == 200) {
-                    $(".zhezhao").hide();
-                    this.isAddress = true;
-                    this.address = this.addressVal
-                }else if (res.data.result == 400) {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                }
+                axios.post(url,params).then(res => {
+                    console.log(res.data);
+                    if (res.data.result == 200) {
+                        $(".zhezhao").hide();
+                        this.isAddress = true;
+                        this.address = this.addressVal
+                    }else if (res.data.result == 400) {
+                        this.$vux.alert.show({
+                            title: '',
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                        }, 3000)
+                    }
 
-            }).catch((err) => {
-                console.log(err);
-            });
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }else{
+                this.$vux.alert.show({
+                    title: '',
+                    content: "请输入地址"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 2000)
+            }
         }
 
     }

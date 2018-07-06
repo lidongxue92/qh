@@ -19,7 +19,7 @@
             <div class="list" v-if="isshow">
                 <div id="box"><img src="~@/assets/img/icon_lab@2x.png" />
                     <ul id="con1" ref="con1" :class="{anim:animate==true}">
-                        <li v-for='item in items'>{{item.title}}</li>
+                        <li v-for='(item,index) in items' :key="index">{{item.title}}</li>
                     </ul>
                 </div>
                 <ul>
