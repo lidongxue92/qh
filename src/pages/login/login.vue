@@ -85,6 +85,7 @@
     </div>
 </div>
 </template>
+
 <script>
 import { XInput, Group, XButton, Cell, Toast } from 'vux'
 import axios from 'axios'
@@ -886,7 +887,9 @@ export default {
       }
       .middle{
         margin-top: 2rem;
-        height: 12rem;
+        // height: 12rem;
+        height: auto;
+        padding-bottom: 2rem;
         &:after{
             content: "";
             display: block;
@@ -962,7 +965,15 @@ export default {
             .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}
         }
     }
-    .banQuan{font-size: 0.8rem;text-align: center;color: #999;margin-top: 2rem;position: fixed;width: 100%;bottom: 1rem;}
+    .banQuan{
+        font-size: 0.8rem;
+        text-align: center;
+        color: #999;
+        margin-top: 2rem;
+        position: relative;
+        width: 100%;
+        bottom: 1rem;
+    }
     @media screen and (max-width: 320px) {
         .banQuan{position: relative;margin-top:13rem;}
     }

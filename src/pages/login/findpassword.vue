@@ -1,5 +1,5 @@
 <template>
-  <div class="settlein">
+<div class="settlein">
       <topComponent title='密码找回' :showLeft='false'>
             <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
         </topComponent>
@@ -21,6 +21,7 @@
         <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
       </div>
     </div>
+
     <div class="list" v-if="isshow1">
       <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;"></h5>
       <h5>短信验证码已发送至：<span class="span">{{tel}}</span></h5>
@@ -43,11 +44,17 @@
             <span class="tishixiaoxi disappear1">请输入密码。</span>
             <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
         </label>
+        <p>密码长度为8~32位，须包含数字、字母、符号至少2种或以上元素</p>
 
         <a class="user_login" @click="sub">确认提交</a>
     </div>
-  </div>
 
+        <!-- 底部版权 -->
+    <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
+      <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
+      <p>@启航金服  理财有风险，投资需谨慎</p>
+    </div>
+</div>
 </template>
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
@@ -77,7 +84,7 @@ export default {
           {state: true}
         ],
         isshow2:'true',
-        imgSrc:"../static/img/closeEyes.png",
+        imgSrc:"./static/img/closeEyes.png",
         type:"password",
       }
     },
@@ -114,11 +121,11 @@ export default {
         },
         // 眼睛切换
         eyesTab(){
-            if (this.imgSrc == "../static/img/loginEyes.png") {
-                this.imgSrc = "../static/img/closeEyes.png";
+            if (this.imgSrc == "./static/img/loginEyes.png") {
+                this.imgSrc = "./static/img/closeEyes.png";
                 this.type = "password"
             }else{
-                this.imgSrc = "../static/img/loginEyes.png";
+                this.imgSrc = "./static/img/loginEyes.png";
                 this.type = "text"
             }
         },
@@ -639,6 +646,10 @@ export default {
       span{display: inline-block;width: 100%;position: absolute;left: 0;bottom: -20px;color: #ff8134}
     }
     .user_login{margin-top: 30px;background: #2B9AFF}
+    p{
+        color: #666;
+        font-size: 0.8rem;
+    }
   }
   .c-2395FF{color: #2395FF}
   .LoginImg{

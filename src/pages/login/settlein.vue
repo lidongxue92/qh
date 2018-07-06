@@ -183,6 +183,14 @@ export default {
         ChkValue : "",
       }
     },
+    components: {
+      XInput,
+      XButton,
+      Group,
+      Cell,
+      base64,
+      Toast
+    },
     created(){
       this.createCode();
       this.phoneNumber = this.$route.query.phone
@@ -506,15 +514,13 @@ export default {
           });
         }
     },
+    watch: {
+      '$route' (to, from) {
+          this.$router.go(0);
+      }//回退上一级页面并刷新
+    },
 
-    components: {
-      XInput,
-      XButton,
-      Group,
-      Cell,
-      base64,
-      Toast
-    }
+
 }
 </script>
 
