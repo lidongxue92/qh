@@ -1,6 +1,8 @@
 <template>
     <div class="detail">
-        <top v-bind:title="title"></top>
+        <topComponent title='确认支付' :showLeft='false'>
+            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+        </topComponent>
         <div class="middle">
             <ul class="list">
                 <li>产品名称<span>{{product.productName}}</span></li>
@@ -32,6 +34,16 @@
             <input type='text' name='ReqExt' :value='ReqExt'>ReqExt
             </form>
         </div>
+
+        <!-- 弹框 -->
+        <div class="bg"></div>
+        <div class="tost">
+            <p>主人，在万军从中，抢到一个宝贝，您确定要放弃它吗？</p>
+            <div class="btn">
+                <button @click="no">取消</button>
+                <button class="sure" @click="yes">确认</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -41,7 +53,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
-import top from '../../components/common/top1'
+import topComponent from '../../components/common/top'
 export default {
     name: 'detail',
     directives: {
@@ -76,13 +88,6 @@ export default {
             ReqExt :""
         }
     },
-    computed: {
-    },
-    mounted () {
-    },
-    created() {
-
-    },
     activated: function(){
         this.productdata()
     },
@@ -92,6 +97,17 @@ export default {
         }//回退上一级页面并刷新
     },
     methods: {
+        goBack(){
+            $(".bg").show();
+            $(".tost").show();
+        },
+        no(){
+            $(".bg").hide();
+            $(".tost").hide();
+        },
+        yes(){
+            this.$router.back();
+        },
         productdata(){
             const _this = this
             _this.$loading.show();
@@ -222,7 +238,7 @@ export default {
         Toast,
         XAddress,
         XButton,
-        top
+        topComponent
     }
 }
 </script>
@@ -242,6 +258,49 @@ export default {
         }
     }
     .button{border: 0;width: 90%;margin-left: 5%;margin-top: 1rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;position: fixed;bottom: 2rem;}
+
+    .bg{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+    }
+    .tost{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: auto;
+        top: 30%;
+        background: #fff;
+        border-radius: .8rem;
+        font-size: .9rem;
+        text-align: center;
+        p{
+            width: 90%;
+            margin: 0 auto;
+            padding: 2.5rem 0;
+        }
+        .btn{
+            display: flex;
+            flex: 1;
+            font-size: 1rem;
+            button{
+                width: 50%;
+                background: none;
+                border: none;
+                padding: .8rem 0;
+            }
+            .sure{
+                background: #2773FF;
+                border-radius: 0 0 .8rem 0;
+                border: #2773FF;
+                color: #fff;
+            }
+        }
+    }
 
 }
 </style>

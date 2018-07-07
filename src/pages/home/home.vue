@@ -271,10 +271,17 @@ export default {
           const _this = this
           const url = myPub.URL+`/activity/getActivity` ;
           axios.post(url).then(response => {
-            const data = response.data
+            const data = response.data;
+              console.log(data);
+
             $(".act a").attr("href",response.data.activityLink)
-            $(".act img").attr("src",response.data.activityIcon)
             $(".act p").text(response.data.activityName)
+
+            // if (response.data.activityIcon != "") {
+            //     // $(".act img").attr("src",response.data.activityIcon)
+            // }
+
+
           }).catch((err) => {
             console.log(err)
           })

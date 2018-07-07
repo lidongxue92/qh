@@ -69,7 +69,7 @@ export default {
         },
         // 手机号验证码
         sendCode() {
-            if (this.checkLPhone == true) {
+            if (this.checkLPhone() == true) {
                 this.time = 90
                 this.disabled = true;
                 this.timer()
