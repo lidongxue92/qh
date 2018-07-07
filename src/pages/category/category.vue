@@ -104,7 +104,9 @@ export default {
         var url = location.href;
         var url = url.split("=");
         var token = url[1];
-        sessionStorage.setItem("token",token);
+        if (token != undefined) {
+            sessionStorage.setItem("token",token);
+        }
     },
     mounted() {
       const status = '1'
