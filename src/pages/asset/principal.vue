@@ -30,7 +30,7 @@
         </div>
         <div class="Data" v-if="isshow2">
             <ul class="datalist">
-                <li @click="assetdetail(item.productId)"  v-for="(item,index) in Product" :key="index">
+                <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" v-view-lazy :key="index">
                     <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
@@ -69,12 +69,13 @@ export default {
         isshow4:false,
         isshow5:false,
         money:'',
-        Account:{}
+        Account:{},
+        totalCount:''
 　　  }
 　　},
     created() {
         this.lczc = this.$route.query.lazc;
-        this.product('1,2','0,1,2',0);
+        this.product('1,2','0,1,2',0,10);
         const url = myPub.URL+`/user/getAccountOverview` ;
           const params = new URLSearchParams();
           params.append('token',sessionStorage.token);
@@ -95,6 +96,8 @@ export default {
               console.log(err)
           })
     },
+    mounted() {
+    },
     methods:{
         goBack() {
             this.$router.back()
@@ -113,14 +116,20 @@ export default {
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
-            this.product('1,2','0,1,2',0);
+            this.product('1,2','0,1,2',0,10);
+            setTimeout(() => {
+                this.product('1,2','0,1,2',0,this.totalCount)
+            }, 1200)
         },
         going(){
             const _this = this
             $(".going").addClass('active')
             $(".has").removeClass('active')
             $(".had").removeClass('active')
-            this.product(6,'0,2',0);
+            this.product(6,'0,2',0,10);
+            setTimeout(() => {
+                this.product(6,'0,2',0,this.totalCount)
+            }, 1200)
         },
         had(){
             const _this = this
@@ -128,15 +137,19 @@ export default {
             $(".has").removeClass('active')
             $(".going").removeClass('active')
             _this.isshow4 = true
-            this.product(3,'0,1,2','0,1')
+            this.product(3,'0,1,2','0,1',10);
+            setTimeout(() => {
+                this.product(3,'0,1,2','0,1',this.totalCount)
+            },1500)
+            
         },
-        product(status,productFullStatus,orderType){
+        product(status,productFullStatus,orderType,pageSize){
             const _this = this
             _this.$loading.show();
             const url = myPub.URL+`/user/getUserAssetsList` ;
             const params = new URLSearchParams();
             params.append('curPage','1');
-            params.append('pageSize','10');
+            params.append('pageSize',pageSize);
             params.append('status',status);
             params.append('token',sessionStorage.token);
             params.append('productFullStatus',productFullStatus);
@@ -161,6 +174,8 @@ export default {
                     // console.log(sessionStorage.token)
                     this.Product = data.Product
                     this.money = data
+                    this.totalCount = data.totalCount
+                    console.log(this.totalCount)
                     if (data.Product.length <= 0){
                     this.isshow1 = true
                     this.isshow2 = false

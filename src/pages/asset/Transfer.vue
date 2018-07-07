@@ -80,7 +80,7 @@ export default {
             this.$router.push({ path: '/page/TransferAgreement' })
         },
         category(){
-            this.$router.push({ path: '/page/category' })
+            this.$router.push({ path: '/category' })
         },
         Transferable(){
             const _this = this

@@ -31,7 +31,7 @@
 
     <!-- 充值提现 -->
     <div class="recharge">
-      <div @click="linkToWithdraw"><p>提现</p></div>
+      <div @click="linkToWithdraw(asset.avlBalance)"><p>提现</p></div>
       <div @click="linkToRecharge"><p class="withdraw">充值</p></div>
 
     </div>
@@ -145,12 +145,12 @@ export default {
     },
     methods:{
         eyesTab(){
-            if (this.imgSrc == "../../../static/img/openEyes.png") {
-                this.imgSrc = "../../../static/img/closeEyes.png";
+            if (this.imgSrc == "./static/img/openEyes.png") {
+                this.imgSrc = "./static/img/closeEyes.png";
                 $(".numberChange").text("****")
 
             }else{
-                this.imgSrc = "../../../static/img/openEyes.png";
+                this.imgSrc = "./static/img/openEyes.png";
 
                 // 总额
                 const totalMoney = this.toDecimal2(Math.floor((this.asset.totalMoney)*100)/100);
@@ -203,8 +203,8 @@ export default {
         linkToRecharge(){
         this.$router.push({path:'/page/recharge'})
         },
-        linkToWithdraw(){
-        this.$router.push({path:'/page/withdraw'})
+        linkToWithdraw(avlBalance){
+        this.$router.push({path:'/page/withdraw' ,query: { avlBalance : avlBalance}})
         },
         linkToPrincipal(money){
         this.$router.push({path:'/page/principal' , query: { lczc : money}})
@@ -236,19 +236,70 @@ export default {
             _this.$loading.hide();
             const data = response.data
             console.log(response.data)
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
+            // if (data.result == '400') {
+            //     this.$vux.alert.show({
+            //         title: '',
+            //         content: data.resultMsg
+            //     })
+            //     setTimeout(() => {
+            //         this.$vux.alert.hide()
+            //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            //     }, 3000)
+            // }
             if (data.result == '200') {
               this.asset = data.Account
               this.lczc = this.asset.lczc
+              const lczc = Math.floor(Number(data.Account.lczc))
+              const dssy = Math.floor(Number(data.Account.dssy))
+              const zrje = Math.floor(Number(data.Account.zrje))
+              const avlBalance = Math.floor(Number(data.Account.avlBalance))
+              const frzBalance = Math.floor(Number(data.Account.frzBalance))
+              const all = Number(lczc)+Number(dssy)+Number(zrje)+Number(avlBalance)+Number(frzBalance)
+              const lczc1 = Math.floor((lczc/all)*300)
+              const dssy1 = Math.floor((dssy/all)*300)
+              const zrje1 = Math.floor((zrje/all)*300)
+              const avlBalance1 = Math.floor((avlBalance/all)*300)
+              const frzBalance1 = Math.floor((frzBalance/all)*300)
+              var myChart = echarts.init(document.getElementById('main'));
+              myChart.setOption({
+                tooltip : { //提示框组件
+                show:false,
+                },
+                color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+                 series: [
+                    {
+                        name:'访问来源',
+                        type:'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:[
+                          {value:lczc1, name:'待收本金'},
+                          {value:dssy1, name:'待收收益'},
+                          {value:zrje1, name:'转让金额'},
+                          {value:avlBalance1, name:'账户余额'},
+                          {value:frzBalance1, name:'冻结金额'}
+                      ]
+                    }
+                ]
+              });
             }
 
         }).catch((err) => {
@@ -265,16 +316,16 @@ export default {
         params.append('curPagel','1');
         axios.post(url,params).then(response => {
           const data = response.data
-          if (data.result == '400') {
-              this.$vux.alert.show({
-                  title: '',
-                  content: data.resultMsg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
-              }, 3000)
-          }
+          // if (data.result == '400') {
+          //     this.$vux.alert.show({
+          //         title: '',
+          //         content: data.resultMsg
+          //     })
+          //     setTimeout(() => {
+          //         this.$vux.alert.hide()
+          //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+          //     }, 3000)
+          // }
           if (data.unReadNum == '0') {
               $(".imgleft img").attr("src",'../../../static/img/xiaoXi.png')
             }else{
@@ -292,46 +343,6 @@ export default {
         }//回退上一级页面并刷新
     },
     mounted() {
-        /*ECharts图表*/
-        var myChart = echarts.init(document.getElementById('main'));
-        myChart.setOption({
-                tooltip : { //提示框组件
-                show:false,
-                },
-                color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
-                series : [ //系列列表
-                    {
-                        // name:'设备状态',  //系列名称
-                        type:'pie',   //类型 pie表示饼图
-                        radius : ['56%', '70%'],  //饼图的半径,第一项是内半径,第二项是外半径,内半径为0就是真的饼,不是环形
-                        hoverAnimation:false,
-                        legendHoverLink:false,
-                        itemStyle : {  //图形样式
-                            normal : { //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                                label : {  //饼图图形上的文本标签
-                                    show : false  //平常不显示
-                                },
-                                labelLine : {     //标签的视觉引导线样式
-                                    show : false  //平常不显示
-                                }
-                            },
-                            emphasis : {   //normal 是图形在默认状态下的样式；emphasis 是图形在高亮状态下的样式，比如在鼠标悬浮或者图例联动高亮时。
-                                label : {  //饼图图形上的文本标签
-                                    show : false,
-                                }
-                            }
-                        },
-                        data:[
-                            {value:80, name:'待收本金'},
-                            {value:10, name:'待收收益'},
-                            {value:30, name:'转让金额'},
-                            {value:20, name:'账户余额'},
-                            {value:25, name:'冻结金额'}
-                        ]
-                    }
-                ]
-        });
-        /*ECharts图表*/
     }
 
 }

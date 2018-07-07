@@ -27,9 +27,11 @@
                         <img src="~@/assets/img/icon_you@2x.png">
                         <p>邀请好友</p>
                     </li>
-                    <li @click="Dada">
-                        <img src="~@/assets/img/icon_huo@2x.png">
-                        <p>活动</p>
+                    <li class="act">
+                        <a href="javascript:" style="color: #333">
+                            <img src="~@/assets/img/icon_huo@2x.png">
+                            <p></p>
+                        </a>
                     </li>
                     <li @click="linkToProblem">
                         <img src="~@/assets/img/icon_banz@2x.png">
@@ -140,6 +142,7 @@ export default {
         this.token();
         this.index_banner();
         this.index_product(),
+        this.active(),
         this.msg()
         this.Notice()
         if (this.isshow == true) {
@@ -153,24 +156,6 @@ export default {
         },//回退上一级页面并刷新
     },
     methods: {
-        // 首页banner接口
-        index_banner(){
-          const _this = this
-          const url = myPub.URL+`/front/getAdvList` ;
-          const params = new URLSearchParams();
-          params.append('adType',1);
-          params.append('adPosition',1);
-          params.append('adPort','pc');
-          params.append('adCanal',0);
-          axios.post(url,params).then(response => {
-            const data = response.data
-            console.log(data);
-            // _this.demo02_list = data.Advertise.adImg;
-
-          }).catch((err) => {
-            console.log(err)
-          })
-        },
         linkToDetail(id,dz) {
             if (!sessionStorage.token) {
                 this.$vux.alert.show({
@@ -226,7 +211,7 @@ export default {
           const params = new URLSearchParams();
           params.append('adType','1');
           params.append('adPosition','1');
-          params.append('adPort','PC');
+          params.append('adPort','android');
           params.append('adCanal','0');
           axios.post(url,params).then(response => {
             const data = response.data
@@ -234,7 +219,7 @@ export default {
             for (var i = 0; i < data.Advertise.length; i++) {
                  var obj = {
                      img: data.Advertise[i].adImg,
-                     Url: data.Advertise[i].adLink,
+                     url: data.Advertise[i].adLink,
                  };
                  str.push(obj);
              }
@@ -277,6 +262,19 @@ export default {
             }).catch((err) => {
                 console.log(err)
             })
+        },
+        // 首页活动接口
+        active(){
+          const _this = this
+          const url = myPub.URL+`/activity/getActivity` ;
+          axios.post(url).then(response => {
+            const data = response.data
+            $(".act a").attr("href",response.data.activityLink)
+            $(".act img").attr("src",response.data.activityIcon)
+            $(".act p").text(response.data.activityName)
+          }).catch((err) => {
+            console.log(err)
+          })
         },
         // 判断token
         token(){

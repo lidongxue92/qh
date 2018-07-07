@@ -4,9 +4,9 @@
         <div class="middle">
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
-                    <li>提现金额&ensp;<input type="type" v-model = 'transMoney'>元</li>
+                    <li>提现金额&ensp;<input type="type" v-model = 'transMoney' @input="re" maxlength="8">元</li>
                 </ul>
-                <p>您当前可提现金额<span>￥1000.36</span> <span class="right">全部提现</span></p>
+                <p>您当前可提现金额<span>￥{{avlBalance}}</span> <span class="right" @click="all">全部提现</span></p>
                 <button class="button" @click="withdraw">下一步</button>
                 <p class="title">提现规则：</p>
                 <p>1. 您每月拥有三次免费提现的机会，超过三次收取2元/笔；</p>
@@ -66,6 +66,7 @@ export default {
             title:'提现',
             isshow:true,
             transMoney:'',
+            avlBalance:'',
 
             // 三方提现
             BgRetUrl:'',
@@ -90,11 +91,24 @@ export default {
     },
     mounted () {
     },
-    created() {},
+    created() {
+        this.avlBalance = this.$route.query.avlBalance;
+    },
     activated() {
         // this.getALLProducts()
     },
     methods: {
+        re(){
+            if (this.transMoney.length >=3) {
+                $(".button").css("opacity","1")
+            }else{
+                $(".button").css("opacity",".5")
+            }
+        },
+        all(){
+            this.transMoney = this.$route.query.avlBalance
+            $(".button").css("opacity","1")
+        },
         withdrawsuccess() {
             this.$router.push({ path: '/page/withdrawsuccess' })
         },
@@ -198,7 +212,7 @@ export default {
                 .right{float: right;color: #FFA303}
             }
             .title{color: #333;font-size: 0.7rem;margin-top: 1rem;}
-            .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+            .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;opacity: .5}
         }
     }
 }

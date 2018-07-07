@@ -4,7 +4,7 @@
         <div class="middle">
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
-                    <li>充值金额&ensp;<input type="type" placeholder="充值金额最小为100" v-model= 'transMoney'>元</li>
+                    <li>充值金额&ensp;<input type="type" placeholder="充值金额最小为100" v-model= 'transMoney' @input="re" maxlength="8">元</li>
                 </ul>
 
                 <button class="button">确定</button>
@@ -140,6 +140,13 @@ export default {
                 console.log(err);
             });
         },
+        re(){
+            if (this.transMoney.length >=3) {
+                $(".button").css("opacity","1")
+            }else{
+                $(".button").css("opacity",".5")
+            }
+        },
         //基本信息
         user(){
             const url = myPub.URL+`/user/getUserInfo`;
@@ -158,7 +165,16 @@ export default {
                       this.$vux.alert.hide()
                       this.$router.push({path:"/login",query: {redirect: 'your path'}})
                   }, 3000)
-              }
+                 }
+                 if (res.data.result == '300') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
+                 }
                 if(res.data.result == 200){
                     if (res.data.hasBankCard == '1') {
                         $(".button").click(function () {
@@ -169,12 +185,6 @@ export default {
                             _this.recharge()
                         })
                     }
-                    //提交from表单
-                    // setTimeout(() => {
-                    //     console.log(this.chinaPnrServer)
-                    //     $(".regSubmit").submit();
-                    // }, 500)
-                    
                 }
             }).catch((err) => {
                 console.log(err);
@@ -227,7 +237,7 @@ export default {
                 .right{float: right;color: #FFA303}
             }
             .title{color: #333;font-size: 0.7rem;margin-top: 1rem;}
-            .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;}
+            .button{border: 0;width: 90%;margin-left: 5%;margin-top: 2rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;opacity: .5}
         }
     }
 }

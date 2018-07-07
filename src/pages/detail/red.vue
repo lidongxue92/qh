@@ -17,7 +17,7 @@
             <div class="Data" v-if='isshow2'>
                 <p class="no" v-if='isshow4'>不使用红包卡券</p>
                 <ul class="list">
-                    <li>
+                    <!-- <li>
                         <p class="title">新手红包</p>
                         <p class="left">¥<b>1000</b></p>
                         <p class="right">
@@ -26,8 +26,8 @@
                         </p>
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
-                    </li>
-                    <li v-for="(item,index) in product">
+                    </li> -->
+                    <li v-for="(item,index) in product" @click="linkDetail1(item.welfareId,item.redPacketMoney)">
                         <p class="title">{{item.redPacketName}}</p>
                         <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                         <p class="right">
@@ -35,7 +35,7 @@
                             <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
                         <p class="note">有效期至：{{item.endDate}}
-                        <span class="button">立即使用</span><span class="status">{{item.status}}</span></p>
+                        <span class="button"></span><span class="status">{{item.status}}</span></p>
                     </li>
                 </ul>
             </div>
@@ -43,7 +43,7 @@
             <div class="historyData" v-if='isshow3'>
                 <p class="no">历史红包</p>
                 <ul class="list">
-                    <li>
+                   <!--  <li>
                         <p class="title">新手红包</p>
                         <p class="left">¥<b>1000</b></p>
                         <p class="right">
@@ -52,7 +52,7 @@
                         </p>
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">已使用</span></p>
-                    </li>
+                    </li> -->
                    <li v-for="(item,index) in product">
                         <p class="title">{{item.redPacketName}}</p>
                         <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
@@ -61,7 +61,7 @@
                             <span>投资满{{item.investMoney}}元可使用</span>
                         </p>
                         <p class="note">有效期至：{{item.endDate}}
-                        <span class="button">立即使用</span><span class="status">{{item.status}}</span></p>
+                        <span class="button"></span><span class="status">{{item.status}}</span></p>
                     </li>
                 </ul>
             </div>
@@ -69,7 +69,7 @@
             <div class="page" v-if="isshow5">
                 <p class="no" v-if='isshow4'>不使用红包卡券</p>
                 <ul class="list">
-                    <li>
+                    <!-- <li>
                         <p class="title">新手红包</p>
                         <p class="left">¥<b>1000</b></p>
                         <p class="right">
@@ -77,18 +77,18 @@
                             <span>投资满10000元可使用</span>
                         </p>
                         <p class="note">有效期至：2017.12.12 00:00
-                        <span class="button">立即使用</span></p>
-                    </li>
-                    <li v-for="(item,index) in addpro">
+                        <span class="button"></span></p>
+                    </li> -->
+                    <li v-for="(item,index) in addpro" @click="linkDetail1(item.welfareId,item.incrMoney)">
                         <p class="title">{{item.incrName}}</p>
-                        <p class="left">¥<b>{{item.cashMoney}}</b></p>
+                        <p class="left">¥<b>{{item.incrMoney}}</b></p>
                         <p class="right">
                             <span>使用条件：投资满{{item.incrName}}元可使用</span>
                             <span>投资满{{item.incrName}}元可使用</span>
                         </p>
                         <p class="note">
                             有效期至：{{item.endDate}}
-                            <span class="button">立即使用</span>
+                            <span class="button"></span>
                             <span class="status">{{item.status}}</span>
                         </p>
                     </li>
@@ -117,7 +117,7 @@
                         </p>
                         <p class="note">
                             有效期至：{{item.endDate}}
-                            <span class="button">立即使用</span>
+                            <span class="button"></span>
                             <span class="status">{{item.status}}</span>
                         </p>
                     </li>
@@ -165,7 +165,8 @@ export default {
             isshow3:false,
             isshow4:false,
             isshow5:false,
-            isshow6:false
+            isshow6:false,
+            id:''
         }
     },
     computed: {
@@ -255,21 +256,26 @@ export default {
                 }
                 if(res.data.result == '200'){
                     this.product = res.data.RedPacket
+                    this.id = this.product.welfareId
                     setTimeout(() => {
                         $(".status").each(function (i,n) {
-                        if ($(".status").eq(i).text() == '1') {
-                            $(".button").eq(i).text('已到期')
-                        }
-                        else if ($(".status").eq(i).text() == '2') {
-                            $(".button").eq(i).text('未到期')
-                        }
-                        else if ($(".status").eq(i).text() == '4') {
-                            $(".button").eq(i).text('以失效')
-                        }
-                        else if ($(".status").eq(i).text() == '5') {
-                            $(".button").eq(i).text('已下架')
-                        }
-                    })
+                            if ($(".status").eq(i).text() == '1') {
+                                $(".button").eq(i).text('已到期')
+                            }
+                            if ($(".status").eq(i).text() == '2') {
+                                $(".button").eq(i).text('未到期')
+                            }
+                            if ($(".status").eq(i).text() == '3') {
+                                console.log(i)
+                                $(".button").eq(i).text('立即使用')
+                            }
+                            if ($(".status").eq(i).text() == '4') {
+                                $(".button").eq(i).text('已失效')
+                            }
+                            if ($(".status").eq(i).text() == '5') {
+                                $(".button").eq(i).text('已下架')
+                            }
+                        })
                     }, 200)
                 }
             }).catch((err) => {
@@ -301,28 +307,48 @@ export default {
                 }
                 if(res.data.result == '200'){
                     this.addpro = res.data.Increase
+                    this.id = this.addpro.welfareId
                     setTimeout(() => {
                         $(".status").each(function (i,n) {
-                        if ($(".status").eq(i).text() == '1') {
-                            $(".button").eq(i).text('已到期')
-                        }
-                        else if ($(".status").eq(i).text() == '2') {
-                            $(".button").eq(i).text('未到期')
-                        }
-                        else if ($(".status").eq(i).text() == '4') {
-                            $(".button").eq(i).text('以失效')
-                        }
-                        else if ($(".status").eq(i).text() == '5') {
-                            $(".button").eq(i).text('已下架')
-                        }
-                    })
+                            if ($(".status").eq(i).text() == '1') {
+                                $(".button").eq(i).text('已到期')
+                            }
+                            if ($(".status").eq(i).text() == '2') {
+                                $(".button").eq(i).text('未到期')
+                            }
+                            if ($(".status").eq(i).text() == '3') {
+                                console.log(i)
+                                $(".button").eq(i).text('立即使用')
+                            }
+                            if ($(".status").eq(i).text() == '4') {
+                                $(".button").eq(i).text('已失效')
+                            }
+                            if ($(".status").eq(i).text() == '5') {
+                                $(".button").eq(i).text('已下架')
+                            }
+                        })
                     }, 200)
                     
                 }
             }).catch((err) => {
                 console.log(err);
             });
-        }
+        },
+        // 红包使用情况
+        linkDetail1(packetId,redPacketMoney){
+            sessionStorage.setItem("packetId",packetId);
+            sessionStorage.setItem("redPacketMoney",redPacketMoney);
+            const id = this.$route.query.id
+            this.$router.push({path:'/page/detail', query: { id: id }})
+        },
+        // 加息券使用情况
+        linkDetail(incrId,redPacketMoney){
+            sessionStorage.setItem("incrId",packetId);
+            sessionStorage.setItem("redPacketMoney",incrMoney);
+            const id = this.$route.query.id
+            alert(id)
+            this.$router.push({path:'/page/detail', query: { id: id }})
+        },
     },
     components: {
         PopupPicker,
@@ -523,7 +549,7 @@ export default {
         }
     }
     .titlenote{position: absolute;top: 0.8rem;right: 0.5rem;color: #fff;font-size: 0.8rem;}
-    .notes{font-size: 0.7rem;color: #FFA303;text-align: center;position: fixed;bottom: 1rem;width: 100%;}
+    .notes{font-size: 0.7rem;color: #FFA303;text-align: center;position:relative;top: 1rem;width: 100%;padding-bottom: 1rem}
     .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);left: 0;top: 0;display: none;}
     .toast{
         position: absolute;width: 80%;margin-left: 10%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 20%;display: none;

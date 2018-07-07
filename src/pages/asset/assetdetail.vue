@@ -59,7 +59,8 @@ export default {
         isshow1:false,
         isshow2:false,
         isshow3:true,
-        Product:''
+        Product:'',
+        totalCount:''
 　　  }
 　　},
     created() {
