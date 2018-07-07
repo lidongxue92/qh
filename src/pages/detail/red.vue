@@ -28,12 +28,14 @@
                         <span class="button">立即使用</span></p>
                     </li> -->
                     <li v-for="(item,index) in product" @click="linkDetail1(item.welfareId,item.redPacketMoney)">
-                        <p class="title">{{item.redPacketName}}</p>
-                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                            <span>投资满{{item.investMoney}}元可使用</span>
-                        </p>
+                        <div class="clearfix">
+                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满{{item.investMoney}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">有效期至：{{item.endDate}}
                         <span class="button"></span><span class="status">{{item.status}}</span></p>
                     </li>
@@ -54,12 +56,14 @@
                         <span class="button">已使用</span></p>
                     </li> -->
                    <li v-for="(item,index) in product">
-                        <p class="title">{{item.redPacketName}}</p>
-                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                            <span>投资满{{item.investMoney}}元可使用</span>
-                        </p>
+                       <div class="clearfix">
+                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满{{item.investMoney}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">有效期至：{{item.endDate}}
                         <span class="button"></span><span class="status">{{item.status}}</span></p>
                     </li>
@@ -80,12 +84,14 @@
                         <span class="button"></span></p>
                     </li> -->
                     <li v-for="(item,index) in addpro" @click="linkDetail1(item.welfareId,item.incrMoney)">
-                        <p class="title">{{item.incrName}}</p>
-                        <p class="left">¥<b>{{item.incrMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.incrName}}元可使用</span>
-                            <span>投资满{{item.incrName}}元可使用</span>
-                        </p>
+                        <div class="clearfix">
+                            <p class="title">{{item.incrName}}</p>
+                            <p class="left">¥<b>{{item.incrMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.incrName}}元可使用</span>
+                                <span>投资满{{item.incrName}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">
                             有效期至：{{item.endDate}}
                             <span class="button"></span>
@@ -109,12 +115,14 @@
                         <span class="button">立即使用</span></p>
                     </li> -->
                      <li v-for="(item,index) in addpro">
-                        <p class="title">{{item.redPacketName}}</p>
-                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                            <span>投资满{{item.investMoney}}元可使用</span>
-                        </p>
+                        <div class="clearfix">
+                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满{{item.investMoney}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">
                             有效期至：{{item.endDate}}
                             <span class="button"></span>
@@ -377,6 +385,17 @@ export default {
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content:" ";
+    clear: both;
+    height: 0;
+}
+.clearfix {
+    zoom:1;
+}
 .detail {
     background: #f7f7f7;height:100%;position: relative;
     .tab{
@@ -400,7 +419,7 @@ export default {
                     background: url(~@/assets/img/red.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
@@ -439,7 +458,7 @@ export default {
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
@@ -478,7 +497,7 @@ export default {
                     background: url(~@/assets/img/pageadd.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
@@ -517,7 +536,7 @@ export default {
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}

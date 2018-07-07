@@ -179,17 +179,72 @@ export default {
                 console.log(this.totalCount)
                 setTimeout(() => {
                     $(".img").each(function (i,n) {
-                    if ($(".img").eq(i).text() == '1') {
+                      if ($(".img").eq(i).text() == '1') {
                         $(".img").eq(i).css("opacity","1")
                         $(".img").eq(i).addClass('img2')
                         $(".img").eq(i).text('热销产品')
-                    }
-                    if ($(".img").eq(i).text() == '0') {
-                        $(".img").eq(i).css("opacity","1")
-                        $(".img").eq(i).addClass('img3')
-                        $(".img").eq(i).text('固收产品')
-                    }
+                      }
+                      if ($(".img").eq(i).text() == '0') {
+                        $(".Property").each(function (i,n) {
+                          if ($(".Property").eq(i).text() == '18' && $(".img").eq(i).text() == '0') {
+                              $(".Property").eq(i).css({"opacity":"1"})
+                              $(".Property").eq(i).text('不可转让')
+                              $(".img").eq(i).css("opacity","1")
+                              $(".img").eq(i).addClass('img3')
+                              $(".img").eq(i).text('固收产品')
+                          }
+                          if ($(".Property").eq(i).text() == '3' && $(".img").eq(i).text() == '0') {
+                              $(".Property").eq(i).css({"opacity":"1"})
+                              $(".Property").eq(i).text('不可转让')
+                              $(".img").eq(i).css("opacity","1")
+                              $(".img").eq(i).addClass('img3')
+                              $(".img").eq(i).text('固收产品')
+                          }
+                          if ($(".Property").eq(i).text() == '22' && $(".img").eq(i).text() == '0') {
+                              $(".Property").eq(i).css({"opacity":"1"})
+                              $(".Property").eq(i).text('不可转让')
+                              $(".img").eq(i).css("opacity","1")
+                              $(".img").eq(i).addClass('img3')
+                              $(".img").eq(i).text('固收产品')
+                          }
+                          if ($(".Property").eq(i).text() == '19' && $(".img").eq(i).text() == '0') {
+                              $(".Property").eq(i).css({"opacity":"1"})
+                              $(".Property").eq(i).text('可转让')
+                              $(".img").eq(i).css("opacity","1")
+                              $(".img").eq(i).addClass('img3')
+                              $(".img").eq(i).text('转让产品')
+                          }
+                           if ($(".Property").eq(i).text() == '3' && $(".img").eq(i).text() == '0') {
+                              $(".Property").eq(i).css({"opacity":"1"})
+                              $(".Property").eq(i).text('可转让')
+                              $(".img").eq(i).css("opacity","1")
+                              $(".img").eq(i).addClass('img1')
+                              $(".img").eq(i).text('新手产品')
+                          }
+                        })
+                      }
                     })
+                    $(".Property").each(function (i,n) {
+                        if ($(".Property").eq(i).text() == '18') {
+                            $(".Property").eq(i).css({"opacity":"1"})
+                            $(".Property").eq(i).text('不可转让')
+                        }
+                        if ($(".Property").eq(i).text() == '3') {
+                            $(".Property").eq(i).css({"opacity":"1"})
+                            $(".Property").eq(i).text('不可转让')
+                        }
+                        if ($(".Property").eq(i).text() == '22') {
+                            $(".Property").eq(i).css({"opacity":"1"})
+                            $(".Property").eq(i).text('不可转让')
+                        }
+                        if ($(".Property").eq(i).text() == '19') {
+                            $(".Property").eq(i).css({"opacity":"1"})
+                            $(".Property").eq(i).text('可转让')
+                            $(".img").eq(i).css("opacity","1")
+                              $(".img").eq(i).addClass('img3')
+                              $(".img").eq(i).text('转让产品')
+                        }
+                      })
                     $(".status").each(function (i,n) {
                     if ($(".status").eq(i).text() == '3') {
                         $(".status").eq(i).css({"opacity":"1"})
@@ -202,24 +257,6 @@ export default {
                         $(".status").eq(i).text('')
                         $(".bg-img").eq(i).css("display","block")
                         $(".bg").eq(i).css("display","block")
-                    }
-                    })
-                    $(".Property").each(function (i,n) {
-                    if ($(".Property").eq(i).text() == '18') {
-                        $(".Property").eq(i).css({"opacity":"1"})
-                        $(".Property").eq(i).text('不可转让')
-                    }
-                    if ($(".Property").eq(i).text() == '3') {
-                        $(".Property").eq(i).css({"opacity":"1"})
-                        $(".Property").eq(i).text('不可转让')
-                    }
-                    if ($(".Property").eq(i).text() == '22') {
-                        $(".Property").eq(i).css({"opacity":"1"})
-                        $(".Property").eq(i).text('不可转让')
-                    }
-                    if ($(".Property").eq(i).text() == '19') {
-                        $(".Property").eq(i).css({"opacity":"1"})
-                        $(".Property").eq(i).text('可转让')
                     }
                     })
                 }, 500)
@@ -350,7 +387,7 @@ export default {
                   }
               }
               .right{
-                  display: inline-block;width: 48%;
+                  display: inline-block;width: 48%;margin-top: 1rem;
                   .day{
                       font-size: 0.6rem;
                     //border-right: 1px solid #eee;
