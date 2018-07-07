@@ -31,7 +31,7 @@
         </div>
         <div class="Data" v-else>
             <ul class="datalist">
-                <li @click="assetdetail(item.productId)"  v-for="(item,index) in Product" :key="index">
+                <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" :key="index">
                     <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
@@ -202,7 +202,7 @@ export default {
             axios.post(url1,params1).then(res => {
                     console.log(res);
 
-                this.Product = res.data.Product;
+                    this.Product = res.data.Product;
                     if (res.data.result == '400') {
                     this.$vux.alert.show({
                         title: '',

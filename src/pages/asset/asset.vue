@@ -321,7 +321,7 @@ export default {
                             }
                         },
                         data:[
-                            {value:80, name:'待收本金'},
+                            {value:800, name:'待收本金'},
                             {value:10, name:'待收收益'},
                             {value:30, name:'转让金额'},
                             {value:20, name:'账户余额'},

@@ -4,16 +4,16 @@
     <div class="assetTop">
       <div class="title">
         <img src="~@/assets/img/left.png" @click="goBack">
-        <span>产品名称</span>
+        <span>{{Product.productName}}</span>
       </div>
       <div class="assetTopMain">
-        <h5>投资本金(元) <span><img :src="imgSrc"></span></h5>
-        <p class="totalMoney numberChange">{{totalMoney}}</p>
+        <h5>投资本金(元)</h5>
+        <p class="totalMoney numberChange">{{Product.investMoney}}</p>
       </div>
       <ul class="assetBottom">
           <li class="tl">
               <span>预计到期收益(元)</span>
-              <span class="big">{{Product.exceptedYield}}</span>
+              <span class="big">{{Product.exceptedYield | numFilter}}</span>
           </li>
           <li class="middle">
               <span>产品期限(天)</span>
@@ -36,7 +36,7 @@
         <img v-if="isshow2" src="~@/assets/img/had.png">
         <div class="product" v-if="isshow3">
             <h5>资金去向 <span></span></h5>
-            <p v-if="isshow">某某项目 <img class="img" src="~@/assets/img/right.png"></p>
+            <p v-if="isshow" @click="linkTodetail1(Product.productId)">{{Product.productName}} <img class="img" src="~@/assets/img/right.png"></p>
         </div>
         <p class="note" v-if="!isshow">流标，标的募集未满额</p>
     </div>
@@ -62,11 +62,21 @@ export default {
         Product:''
 　　  }
 　　},
-    created() {
-        this.lczc = this.$route.query.lazc
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3)
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
+        }
     },
-    activated: function() {
-        this.product()
+    created() {
+        this.lczc = this.$route.query.lazc;
+        this.product();
+        //冻结金额
+        const frzBalance = this.toDecimal2(Math.floor((this.Product.annualYield)*100)/100);
+        $(".tr .big").text(frzBalance);
     },
     watch: {
         '$route' (to, from) {
@@ -76,6 +86,9 @@ export default {
     methods:{
         goBack() {
             this.$router.back()
+        },
+        linkTodetail1(id) {
+            this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
         category(){
             this.$router.push({ path: '/page/category' })
@@ -196,7 +209,7 @@ export default {
     }
     .list{
         margin-top: 0.8rem;position: relative;
-        ul{ 
+        ul{
             padding: 0 0.8rem;background: #fff;
             li{
                 line-height: 2.5rem;height: 2.5rem;font-size: 0.8rem;color: #666;border-bottom: 1px solid #eee;
