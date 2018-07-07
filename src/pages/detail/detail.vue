@@ -7,7 +7,7 @@
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
-                <p>理财期限&emsp;<span>{{product.period}}天</span></p>
+                <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
                 <p>开放额度&emsp;<span>{{product.openLimit}}元</span></p>
                 <span class="status">{{product.productType}}</span>
             </div>
@@ -30,8 +30,8 @@
                     <input class="money" v-model= "money" v-on:input="changeVal()"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
-                <p class="word" @click="red">
-                    <span class="fl">红包卡券</span><span class="fr">{{free.totalCount}}个可用&emsp;<img src="~@/assets/img/right.png"></span>
+                <p class="word" @click="red(product.productId)">
+                    <span class="fl">红包卡券</span><span class="fr usered">{{totalCount}}&emsp;<img src="~@/assets/img/right.png"></span>
                 </p>
                 <p class="word">
                     <span class="fl">预期收益</span><span class="fr c-FFA303"><b class="rate1"></b>&ensp;元</span>
@@ -132,6 +132,7 @@ export default {
             actAnnualYield:'',
             residueMoney:'',
             amountIncrease:"",
+            totalCount:'',
 
 
             // 三方开户数据
@@ -164,6 +165,13 @@ export default {
         setTimeout(() => {
             this.welfare()
             this.Interest()
+            console.log(sessionStorage.redPacketMoney)
+            setTimeout(() => {
+                console.log(sessionStorage.redPacketMoney)
+                if (sessionStorage.redPacketMoney) {
+                    this.totalCount = sessionStorage.redPacketMoney
+                }
+            }, 200)
         }, 300)
     },
     methods: {
@@ -185,8 +193,8 @@ export default {
         log(id) {
             this.$router.push({ path: '/page/log',query: { id: id } })
         },
-        red() {
-            this.$router.push({ path: '/page/red' })
+        red(id) {
+            this.$router.push({ path: '/page/red', query: { id: id }})
         },
         rightclose(){
           $(".bg").css("display","none")
@@ -206,7 +214,7 @@ export default {
             const num = $(".money")
             const value = num.val()
             if (value > parseFloat(this.residueMoney)) {
-                $(".rightimg").attr('src',"../../../static/img/add2.png");
+                $(".rightimg").attr('src',"./static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额已达最大值"
                 })
@@ -216,9 +224,9 @@ export default {
                     this.money = this.residueMoney
                 }, 1000)
             }else{
-                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))+'.00'
+                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))
                 console.log (this.residueMoney)
-                $(".leftimg").attr('src',"../../../static/img/add1.png")
+                $(".leftimg").attr('src',"./static/img/add1.png")
                 this.welfare()
                 this.Interest()
             }
@@ -228,13 +236,13 @@ export default {
             const num = $(".money")
             const value = num.val()
             if (value >= parseFloat(this.Money)) {
-                this.money = (parseFloat(this.money)-parseFloat(this.amountIncrease))+'.00'
+                this.money = (parseFloat(this.money)-parseFloat(this.amountIncrease))
                 console.log (this.money+'00')
                 this.welfare()
                 this.Interest();
-                $(".rightimg").attr('src',"../../../static/img/add.png");
+                $(".rightimg").attr('src',"./static/img/add.png");
             }else{
-                $(".leftimg").attr('src',"../../../static/img/cont.png");
+                $(".leftimg").attr('src',"./static/img/cont.png");
 
             }
         },
@@ -243,7 +251,7 @@ export default {
             const num = $(".money")
             const value = num.val()
             if (value > parseFloat(this.residueMoney)) {
-                $(".rightimg").attr('src',"../../../static/img/add2.png");
+                $(".rightimg").attr('src',"./static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额已达最大值"
                 })
@@ -251,10 +259,10 @@ export default {
                     num.val(this.residueMoney)
                     this.money = this.residueMoney
                     this.$vux.alert.hide()
-                    $(".leftimg").attr('src',"../../../static/img/add1.png")
+                    $(".leftimg").attr('src',"./static/img/add1.png")
                 }, 1000)
             }else if (value < parseFloat(this.Money)) {
-                $(".leftimg").attr('src',"../../../static/img/cont.png")
+                $(".leftimg").attr('src',"./static/img/cont.png")
                 this.$vux.alert.show({
                     content: "投资金额不能小于起投金额"
                 })
@@ -262,12 +270,12 @@ export default {
                     num.val(this.residueMoney)
                     this.money = this.Money
                     this.$vux.alert.hide()
-                    $(".rightimg").attr('src',"../../../static/img/add.png");
+                    $(".rightimg").attr('src',"./static/img/add.png");
                 }, 1000)
             }else{
-                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))+'.00'
+                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))
                 console.log (this.residueMoney)
-                $(".leftimg").attr('src',"../../../static/img/add1.png")
+                $(".leftimg").attr('src',"./static/img/add1.png")
                 this.welfare()
                 this.Interest()
             }
@@ -290,88 +298,88 @@ export default {
       },
       // 计息
       Interest(){
-        var newAddMoney = this.money;//金额
-        var lilv = this.Annual / 100;//年利率
-        //求取预期到期收益
-        var month = parseInt(this.day / 30); // 总共整月数 (还款月数)
-        var monthYuShu = this.day % 30; // 多余的天数
-        var lilvMouth = Math.floor((lilv / 12) * 1000000) / 1000000; // 月利率
-        var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000; // 日利率
-        if ($(".Type").text() == '2') {
-            var lilvMouth = Math.floor((lilv / 12)*1000000)/1000000; // 月利率
-            var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000;; // 日利率
-            var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000; // 总月数的收益
-            // 总收益 = 总月数的收益 + 剩余天数的收益;
-            var total = this.toDecimal2(Math.floor(totalMonth * 100) / 100);
-            $(".rate1").text(total)
-        }
-        if ($(".Type").text() == '3') {
-            // 总月数的收益
-            var totalMonth = 0;
-            for (var i = 1; i <= month; i++) {
-                //收益计算公式 ：
-                var jssy = Math.floor((newAddMoney * lilvMouth * (Math.pow(1 + lilvMouth, month) - Math.pow(1 + lilvMouth, i - 1)) / (Math.pow(1 + lilvMouth, month) - 1)) * 1000000) / 1000000;
-                // 每个月的收益：
-            var monthly = jssy;
-                totalMonth = totalMonth + monthly;
-            }
-            // console.log(totalMonth);
-            // 剩余天数的收益
-            var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100;
-            var total = this.toDecimal2(Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
-            // console.log(total);
-            $(".rate1").text(total)
-        }
-        if ($(".Type").text() == '1') {
-            if (this.productType == 19) {
-                var zrLilv = this.actAnnualYield / 100;
-                var total = (Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
-                console.log(zrLilv);
-                $(".rate1").text(total)
-            }else{
-                var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
-                console.log(newAddMoney);
+            var newAddMoney = this.money;//金额
+            var lilv = this.Annual / 100;//年利率
+            //求取预期到期收益
+            var month = parseInt(this.day / 30); // 总共整月数 (还款月数)
+            var monthYuShu = this.day % 30; // 多余的天数
+            var lilvMouth = Math.floor((lilv / 12) * 1000000) / 1000000; // 月利率
+            var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000; // 日利率
+            if ($(".Type").text() == '2') {
+                var lilvMouth = Math.floor((lilv / 12)*1000000)/1000000; // 月利率
+                var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000;; // 日利率
+                var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000; // 总月数的收益
+                // 总收益 = 总月数的收益 + 剩余天数的收益;
+                var total = this.toDecimal2(Math.floor(totalMonth * 100) / 100);
                 $(".rate1").text(total)
             }
-        }
+            if ($(".Type").text() == '3') {
+                // 总月数的收益
+                var totalMonth = 0;
+                for (var i = 1; i <= month; i++) {
+                    //收益计算公式 ：
+                    var jssy = Math.floor((newAddMoney * lilvMouth * (Math.pow(1 + lilvMouth, month) - Math.pow(1 + lilvMouth, i - 1)) / (Math.pow(1 + lilvMouth, month) - 1)) * 1000000) / 1000000;
+                    // 每个月的收益：
+                var monthly = jssy;
+                    totalMonth = totalMonth + monthly;
+                }
+                // console.log(totalMonth);
+                // 剩余天数的收益
+                var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100;
+                var total = this.toDecimal2(Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
+                // console.log(total);
+                $(".rate1").text(total)
+            }
+            if ($(".Type").text() == '1') {
+                if (this.productType == 19) {
+                    var zrLilv = this.actAnnualYield / 100;
+                    var total = (Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
+                    console.log(zrLilv);
+                    $(".rate1").text(total)
+                }else{
+                    var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
+                    console.log(newAddMoney);
+                    $(".rate1").text(total)
+                }
+            }
       },
       tost(){
-        const _this = this
-        _this.$loading.show();
-        const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-        const id = this.id
-        const orderMoney = this.money
-        var params = new URLSearchParams();
-        params.append('token',sessionStorage.getItem("token"));
-        params.append('productId',id);
-        params.append('clientType','h5');
-        params.append('orderMoney',orderMoney);
-        params.append('payType','1');
-        axios.post(url,params).then(res => {
-            console.log(res.data)
-            const data = res.data
-            _this.$loading.hide();
-                if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login"})
-                }, 3000)
-            }
-            if(res.data.result == 200){
-                this.isshow = true
-                this.timer()
-            }
-            if(res.data.result == 302){
-                $(".toast").css("display","block")
-                $(".bg").css("display","block")
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
+            const _this = this
+            _this.$loading.show();
+            const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+            const id = this.id
+            const orderMoney = this.money
+            var params = new URLSearchParams();
+            params.append('token',sessionStorage.getItem("token"));
+            params.append('productId',id);
+            params.append('clientType','h5');
+            params.append('orderMoney',orderMoney);
+            params.append('payType','1');
+            axios.post(url,params).then(res => {
+                console.log(res.data)
+                const data = res.data
+                _this.$loading.hide();
+                    if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login"})
+                    }, 3000)
+                }
+                if(res.data.result == 200){
+                    this.isshow = true
+                    this.timer()
+                }
+                if(res.data.result == 302){
+                    $(".toast").css("display","block")
+                    $(".bg").css("display","block")
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
       },
       // 开户
       go(){
@@ -440,6 +448,7 @@ export default {
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
 
+
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
                     $(".activeLilv").text("%");
                 }
@@ -477,6 +486,7 @@ export default {
                 console.log(res.data)
                 const data = res.data
                 this.free= data
+                this.totalCount = this.free.totalCount
             }).catch((err) => {
                 console.log(err);
             });
@@ -525,7 +535,7 @@ export default {
         background: url(~@/assets/img/bg.png);color: #fefefe;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}
         .left{
-            display: inline-block;width: 39%;text-align: center;position: relative;padding: 0 3%;text-align: right;
+            display: inline-block;width: 39%;text-align: center;position: relative;padding: 0 3%;text-align: right;min-height: 6rem;
             .interest{
                 font-size: 3rem;color: #fff;text-align: center;margin: 0;padding: 0;display: inline-block;position: relative;width: 100%;text-align: right;
                 b{font-weight: normal;position: relative;bottom: 0rem;font-size: 0.8rem;}
@@ -534,7 +544,7 @@ export default {
         }
         .left:after{position: absolute;content: '';height: 70%;width: 1px;background: #7AAFFB;right: 0;top: 15%;}
         .right{
-            display: inline-block;width: 45%;padding: 0 3%;position: relative;bottom: 1rem;
+            display: inline-block;width: 45%;padding: 0 3%;position: relative;min-height: 6rem;
             p{
                 font-size: 0.6rem;color: #7AAFFB;line-height: 1.5rem;
                 span{font-size: 0.8rem;color: #fff}

@@ -10,9 +10,9 @@
                     <span>时间</span>
                     <span>状态</span>
                 </li>
-                <li class="li" v-for="(item,index) in Product" :key="index">
+                <li class="li" v-for="(item,index) in Product" v-view-lazy :key="index">
                     <span>{{item.tradeTypeName}}</span>
-                    <span>{{item.tradeMoney}}</span>
+                    <span><b>本金</b>{{item.mark}}{{item.tradeMoney}}</span>
                     <span>{{item.tradeTime.split(" ")[0]}}</span>
                     <span class="tradeStatus">{{item.tradeStatus}}</span>
                 </li>
@@ -50,16 +50,29 @@ export default {
         return {
             Product: '',
             money:'1000',
-            title:'账单'
+            title:'账单',
+            totalCount:''
+
         }
     },
     computed: {
     },
     mounted () {
+        // setTimeout(() => {
+        //     this.product('',this.totalCount)
+        // }, 500)
     },
-    created() {},
+    created() {
+        this.product('',20)
+        setTimeout(() => {
+            this.product('',this.totalCount)
+        }, 500)
+    },
     activated() {
-        this.product('')
+        this.product('',20)
+        setTimeout(() => {
+            this.product('',this.totalCount)
+        }, 500)
     },
     methods: {
         linkTodetail1() {
@@ -73,51 +86,72 @@ export default {
         all(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('')
+            this.product('',20)
+            setTimeout(() => {
+                this.product('',this.totalCount)
+            }, 500)
         },
         // 充值
         Recharge(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('2')
+            this.product('2',20)
+            setTimeout(() => {
+                this.product('2',this.totalCount)
+            }, 500)
         },
         // 提现
         Put(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('3')
+            this.product('3',20)
+            setTimeout(() => {
+                this.product('3',this.totalCount)
+            }, 500)
         },
         // 兑付
         Investment(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('4')
+            this.product('4',20)
+            setTimeout(() => {
+                this.product('4',this.totalCount)
+            }, 500)
         },
         // 加息兑付
         Increase(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('5')
+            this.product('5',20)
+            setTimeout(() => {
+                this.product('5',this.totalCount)
+            }, 500)
         },
         // 转让到账
         Transfer(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('6')
+            this.product('6',20)
+            setTimeout(() => {
+                this.product('6',this.totalCount)
+            }, 500)
         },
         // 手续费
         Service(){
             $(".bg").css('display','none')
             $(".toast").css('display','none')
-            this.product('7')
+            this.product('7',20)
+            setTimeout(() => {
+                this.product('7',this.totalCount)
+            }, 500)
         },
-        product(status){
+        product(status,totalCount){
             const _this = this
           _this.$loading.show();
           const url = myPub.URL+`/user/getMyTradeRecords` ;
           const params = new URLSearchParams();
           params.append('curPage','1');
-          params.append('pageSize','10');
+          params.append('pageSize',totalCount);
           params.append('token',sessionStorage.token);
           params.append('tranType',status);
           axios.post(url,params).then(response => {
@@ -136,6 +170,7 @@ export default {
               }
               if (data.result == '200') {
                 this.Product = data.Trade
+                this.totalCount =data.totalCount
                 setTimeout(() => {
                 $(".tradeStatus").each(function (i,n) {
                     if ($(".tradeStatus").eq(i).text() == '-1') {
@@ -197,13 +232,13 @@ export default {
         .list{
             li{
                 text-align: center;line-height: 2.5rem;background: #fff;border-top: 1px solid #eee;
-                span{display: inline-block;width: 24%;font-size: 0.8rem;color: #666}
+                span{display: inline-block;width: 24%;font-size: 0.8rem;color: #666;b{font-weight: normal;}}
                 .tradeStatus{opacity: 0}
             }
             li:first-child{background: #eee;border-top: 0;}
             @media screen and (max-width: 320px) {
                 li{
-                    span{width: 23%}
+                    span{width: 23%;b{display: inline-block;width: 100%;}}
                 }
             }
         }
@@ -218,6 +253,7 @@ export default {
         @media screen and (max-width: 320px) {
             li{
                 width: 3.7rem;margin-right: 0.5rem;
+
             }
         }
     }

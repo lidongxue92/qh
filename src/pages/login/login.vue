@@ -174,7 +174,7 @@ export default {
         },
         // 清空密码
         clear1(){
-            this.userPwd1 = ""
+            this.userPwd = ""
             $(".login").css("opacity",".5");
             setTimeout(() => {
                 $(".img2").css('display','none')

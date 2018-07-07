@@ -31,7 +31,7 @@
         </div>
         <div class="Data" v-else>
             <ul class="datalist">
-                <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" :key="index">
+                <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" v-view-lazy :key="index">
                     <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
@@ -69,13 +69,14 @@ export default {
         isshow3:false,
         isshow4:false,
         isshow5:false,
+        money:'',
         Account:{},
-        isshowHas: true,
+        totalCount:'',
+        isshowHas: true
 　　  }
 　　},
     created() {
         this.lczc = this.$route.query.lazc;
-
           const url = myPub.URL+`/user/getAccountOverview` ;
           const params = new URLSearchParams();
           params.append('token',sessionStorage.token);
@@ -98,9 +99,10 @@ export default {
           }).catch((err) => {
               console.log(err)
           });
-
             const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const _this = this
             const params1 = new URLSearchParams();
+            _this.$loading.show();
             params1.append('token',sessionStorage.token);
             params1.append('curPage',1);
             params1.append('pageSize',9);
@@ -110,7 +112,7 @@ export default {
             params1.append('orderType',0);
             axios.post(url1,params1).then(res => {
                     console.log(res);
-
+                    _this.$loading.hide();
                 this.Product = res.data.Product;
                     if (res.data.result == '400') {
                     this.$vux.alert.show({
@@ -122,10 +124,37 @@ export default {
                         this.$router.push({path:"/login",query: {redirect: 'your path'}})
                     }, 3000)
                     }else if (res.data.result == 200) {
+                        this.totalCount = res.data.totalCount
                         if (res.data.totalCount == 0) {
                             this.isshowHas = true;
                         }else{
-                            this.isshowHas = false;
+                            console.log(this.totalCount)
+                            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                            const _this = this
+                            const params1 = new URLSearchParams();
+                            _this.$loading.show();
+                            params1.append('token',sessionStorage.token);
+                            params1.append('curPage',1);
+                            params1.append('pageSize',this.totalCount);
+                            params1.append('czlx',1);
+                            params1.append('status',"1,2");
+                            params1.append('productFullStatus',"0,1,2");
+                            params1.append('orderType',0);
+                            axios.post(url1,params1).then(res => {
+                                console.log(res);
+                                 _this.$loading.hide();
+                               if (res.data.result == 200) {
+                                    this.totalCount = res.data.totalCount
+                                    this.Product = res.data.Product
+                                    if (res.data.totalCount == 0) {
+                                        this.isshowHas = true;
+                                    }else{
+                                        this.isshowHas = false;
+                                    }
+                                }
+                            }).catch((err) => {
+                                console.log(err)
+                            })
                         }
                     }
             }).catch((err) => {
@@ -160,59 +189,135 @@ export default {
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
+            this.product('1,2','0,1,2',0,10);
+            setTimeout(() => {
+                const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                const params1 = new URLSearchParams();
+                params1.append('token',sessionStorage.token);
+                params1.append('curPage',1);
+                params1.append('pageSize',this.totalCount);
+                params1.append('czlx',1);
+                params1.append('status',"1,2");
+                params1.append('productFullStatus',"0,1,2");
+                params1.append('orderType',0);
+                axios.post(url1,params1).then(res => {
+                        console.log(res);
 
+                    this.Product = res.data.Product;
+                        if (res.data.result == '400') {
+                        this.$vux.alert.show({
+                            title: '',
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                        }, 3000)
+                        }else if (res.data.result == 200) {
+                            if (res.data.totalCount == 0) {
+                                this.isshowHas = true;
+                            }else{
+                                this.isshowHas = false;
+                            }
+                        }
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }, 1200)
+        },
+        going(){
+            const _this = this
+            _this.$loading.show();
+            $(".going").addClass('active')
+            $(".had").removeClass('active')
+            $(".has").removeClass('active')
             const url1 = myPub.URL+`/user/getUserAssetsList` ;
             const params1 = new URLSearchParams();
             params1.append('token',sessionStorage.token);
             params1.append('curPage',1);
-            params1.append('pageSize',9);
+            params1.append('pageSize',10);
+            params1.append('status',6);
+            params1.append('productFullStatus',"0,2");
             params1.append('czlx',1);
-            params1.append('status',"1,2");
-            params1.append('productFullStatus',"0,1,2");
             params1.append('orderType',0);
+            params1.append('clientType','h5');
             axios.post(url1,params1).then(res => {
-                    console.log(res);
-
+                console.log(res);
+                _this.$loading.hide();
                 this.Product = res.data.Product;
-                    if (res.data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                    }else if (res.data.result == 200) {
-                        if (res.data.totalCount == 0) {
-                            this.isshowHas = true;
-                        }else{
-                            this.isshowHas = false;
-                        }
+                if (res.data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: res.data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+                }else if (res.data.result == 200) {
+                    this.totalCount = res.data.totalCount
+                    this.isshow4 = true
+                    if (res.data.totalCount == 0) {
+                        this.isshowHas = true;
+                    }else{
+                        console.log(this.totalCount)
+                        const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                        const _this = this
+                        const params1 = new URLSearchParams();
+                        _this.$loading.show();
+                        params1.append('token',sessionStorage.token);
+                        params1.append('curPage',1);
+                        params1.append('pageSize',this.totalCount);
+                        params1.append('czlx',1);
+                        params1.append('status',6);
+                        params1.append('productFullStatus',"0,2");
+                        params1.append('orderType',0);
+                        params1.append('clientType','h5');
+                        axios.post(url1,params1).then(res => {
+                            console.log(res);
+                             _this.$loading.hide();
+                           if (res.data.result == 200) {
+                                this.totalCount = res.data.totalCount
+                                this.Product = res.data.Product
+                                if (res.data.totalCount == 0) {
+                                    this.isshowHas = true;
+                                }else{
+                                    this.isshowHas = false;
+                                }
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        })
                     }
+                    $(".productStatus").each(function (i,n) {
+                        if ($(".productStatus").eq(i).text() == '6') {
+                            $(".img1").eq(i).css("display","inline-block")
+                        }
+                    })
+                }
             }).catch((err) => {
                 console.log(err)
             })
         },
-        going(){
-            $(".going").addClass('active')
-            $(".has").removeClass('active')
-            $(".had").removeClass('active')
-
-            const url1 = myPub.URL+`/user/getUserAssetsList` ;
-            const params1 = new URLSearchParams();
-            params1.append('token',sessionStorage.token);
-            params1.append('curPage',1);
-            params1.append('pageSize',9);
-            params1.append('czlx',1);
-            params1.append('status',"6,7");
-            params1.append('productFullStatus',"0,2");
-            params1.append('orderType',0);
-            axios.post(url1,params1).then(res => {
-                    console.log(res);
-
-                    this.Product = res.data.Product;
-                    if (res.data.result == '400') {
+        product(pageSize,czlx,status,productFullStatus,orderType){
+            const _this = this
+            _this.$loading.show();
+             _this.pageSize = 9
+            const url = myPub.URL+`/user/getUserAssetsList` ;
+            const params = new URLSearchParams();
+            params.append('curPage','1');
+            params.append('pageSize',pageSize);
+            params.append('status',status);
+            params.append('token',sessionStorage.token);
+            params.append('productFullStatus',productFullStatus);
+            params.append('czlx','1');
+            params.append('orderType',orderType);
+            params.append('clientType','h5');
+            axios.post(url,params).then(response => {
+                _this.$loading.hide();
+                const data = response.data
+                console.log(response)
+                if (data.result == '400') {
                     this.$vux.alert.show({
                         title: '',
                         content: res.data.resultMsg
@@ -221,6 +326,16 @@ export default {
                         this.$vux.alert.hide()
                         this.$router.push({path:"/login",query: {redirect: 'your path'}})
                     }, 3000)
+                }
+                if (data.result == '200') {
+                    // console.log(sessionStorage.token)
+                    this.Product = data.Product
+                    this.money = data
+                    this.totalCount = data.totalCount
+                    console.log(this.totalCount)
+                    if (data.Product.length <= 0){
+                    this.isshow1 = true
+                    this.isshow2 = false
                     }else if (res.data.result == 200) {
                         if (res.data.totalCount == 0) {
                             this.isshowHas = true;
@@ -233,12 +348,14 @@ export default {
                             }
                         })
                     }
+                }
             }).catch((err) => {
                 console.log(err)
             })
         },
         had(){
             const _this = this
+            _this.$loading.show();
             $(".had").addClass('active')
             $(".going").removeClass('active')
             $(".has").removeClass('active')
@@ -254,7 +371,7 @@ export default {
             params1.append('clientType','h5');
             axios.post(url1,params1).then(res => {
                 console.log(res);
-
+                _this.$loading.hide();
                 this.Product = res.data.Product;
                 if (res.data.result == '400') {
                 this.$vux.alert.show({
@@ -266,10 +383,39 @@ export default {
                     this.$router.push({path:"/login",query: {redirect: 'your path'}})
                 }, 3000)
                 }else if (res.data.result == 200) {
+                    this.totalCount = res.data.totalCount
+                    this.isshow4 = true
                     if (res.data.totalCount == 0) {
                         this.isshowHas = true;
                     }else{
-                        this.isshowHas = false;
+                        console.log(this.totalCount)
+                        const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                        const _this = this
+                        const params1 = new URLSearchParams();
+                        _this.$loading.show();
+                        params1.append('token',sessionStorage.token);
+                        params1.append('curPage',1);
+                        params1.append('pageSize',this.totalCount);
+                        params1.append('czlx',1);
+                        params1.append('status',"3");
+                        params1.append('productFullStatus',"0,1,2");
+                        params1.append('orderType','0,1');
+                        params1.append('clientType','h5');
+                        axios.post(url1,params1).then(res => {
+                            console.log(res);
+                             _this.$loading.hide();
+                           if (res.data.result == 200) {
+                                this.totalCount = res.data.totalCount
+                                this.Product = res.data.Product
+                                if (res.data.totalCount == 0) {
+                                    this.isshowHas = true;
+                                }else{
+                                    this.isshowHas = false;
+                                }
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        })
                     }
                     $(".productStatus").each(function (i,n) {
                         if ($(".productStatus").eq(i).text() == '6') {
@@ -310,7 +456,7 @@ export default {
   }
 .asset{
     background: #f6f6f6;
-    height: 100%;
+    height: auto;
     /*资产头部*/
     .assetTop{
         width: 100%;
@@ -364,7 +510,7 @@ export default {
             .active{color: #FFA303;border-bottom: 2px solid #FFA303}
         }
         .nodata{
-            text-align: center;
+            text-align: center;padding-bottom: 13rem;
             img{margin-top: 3rem;width: 4.2rem;height: 4.5rem;}
             p{font-size: 0.8rem;color: #999;line-height:1rem;margin-top: 0.5rem;}
             .button{width: 10rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border: 0;border-radius: 30px;line-height: 2.2rem;height: 2.2rem;color: #fff;font-size: 0.9rem;margin-top: 1.2rem;}

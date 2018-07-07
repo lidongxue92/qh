@@ -55,6 +55,8 @@ export default {
             brow:{},
             BorrowerDetails:"",
             BorrowerDetailsStr:'',
+            packetId:sessionStorage.packetId,
+            incrId:sessionStorage.incrIdf,
             // 三方开户数据
             ChinaPnrServer : "",
             Version : "",
@@ -102,6 +104,12 @@ export default {
             params.append('clientType','h5');
             params.append('orderMoney',orderMoney);
             params.append('payType','1');
+            if (sessionStorage.packetId) {
+                params.append('packetId',sessionStorage.packetId);
+            }
+            if (sessionStorage.incrIdf) {
+                params.append('incrIdf',sessionStorage.incrIdf);
+            }
             axios.post(url,params).then(res => {
                 console.log(res.data)
                 const data = res.data
@@ -137,6 +145,12 @@ export default {
             params.append('clientType','h5');
             params.append('orderMoney',orderMoney);
             params.append('payType','1');
+            if (sessionStorage.packetId) {
+                params.append('packetId',sessionStorage.packetId);
+            }
+            if (sessionStorage.incrIdf) {
+                params.append('incrIdf',sessionStorage.incrIdf);
+            }
             axios.post(url,params).then(res => {
                 _this.$loading.hide();
                 console.log(res.data.buyInfo);
