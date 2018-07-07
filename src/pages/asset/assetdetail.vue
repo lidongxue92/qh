@@ -21,14 +21,18 @@
           </li>
           <li class="tr">
               <span>平均历史年化收益</span>
-              <span class="big">{{Product.annualYield}}</span>
+              <span class="big">{{Product.annualYield}}%</span>
           </li>
       </ul>
+    </div>
+    <div class="assetTop2">
+      <p class="rpMoney">红包金额　-{{Product.rpMoney}}</p>
+      <p class="increaseMoney">加息券　+{{Product.increaseMoney}}%</p>
     </div>
     <!-- 标 -->
     <div class="list">
         <ul>
-            <li>到期日 <span>{{Product.buyTime}}</span></li>
+            <li>到期日 <span>{{Product.dueDate}}</span></li>
             <li>起息日 <span>{{Product.interestDate}}</span></li>
             <li>投资日 <span>{{Product.buyTime}}</span></li>
             <li>收益方式 <span class="Profit">到期还本付息</span></li>
@@ -52,7 +56,7 @@ export default {
     name: 'asset',
     data(){
 　　  return {
-        imgSrc:"../../../static/img/openEyes.png",
+        imgSrc:"./static/img/openEyes.png",
         totalMoney:1888800.01,
         numberChange: 10000.08,
         isshow: true,
@@ -129,7 +133,19 @@ export default {
                 }
                 if (this.Product.status == '7') {
                   this.isshow = false
+                };
+
+                if (this.Product.rpMoney == 0) {
+                    $(".rpMoney").empty();
                 }
+                if (this.Product.increaseMoney == "") {
+                    $(".increaseMoney").empty();
+                }
+                if (this.Product.rpMoney == 0 && this.Product.increaseMoney == "") {
+                    $(".assetTop2").remove();
+                }
+
+
               }
 
           }).catch((err) => {
@@ -205,6 +221,22 @@ export default {
             @media screen and (max-width: 320px) {
                 li{width: 35%}
                 .middle{width: 26%}
+            }
+        }
+    }
+    .assetTop2{
+        display: flex;
+        flex: 1;
+        background: #35A2FC;
+        color: #FFFEFE;
+        font-size: 0.8rem;
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        p{
+            width: 40%;
+            margin: 0 auto;
+            &:last-child{
+                text-align: right;
             }
         }
     }

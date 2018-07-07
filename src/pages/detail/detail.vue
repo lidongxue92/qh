@@ -8,7 +8,7 @@
             </div>
             <div class="right">
                 <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
-                <p>开放额度&emsp;<span>{{product.openLimit}}元</span></p>
+                <p>开放额度&emsp;<span>{{product.openLimit}}万元</span></p>
                 <span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
@@ -151,14 +151,11 @@ export default {
     },
     computed: {
     },
-    mounted () {
-    },
     created() {
         const dz = this.$route.query.dz
         this.dz = dz
         console.log(this.dz)
         this.productdata();
-        // this.token();
     },
     activated: function() {
         this.productdata()
@@ -175,18 +172,6 @@ export default {
         }, 300)
     },
     methods: {
-        // token(){
-        //     if (!sessionStorage.token) {
-        //     this.$vux.alert.show({
-        //         title: '',
-        //         content: '请登录'
-        //     })
-        //     setTimeout(() => {
-        //         this.$vux.alert.hide()
-        //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
-        //     }, 2000)
-        //     }
-        // },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
@@ -359,16 +344,16 @@ export default {
                 console.log(res.data)
                 const data = res.data
                 _this.$loading.hide();
-                    if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login"})
-                    }, 3000)
-                }
+                //     if (data.result == '400') {
+                //     this.$vux.alert.show({
+                //         title: '',
+                //         content: data.resultMsg
+                //     })
+                //     setTimeout(() => {
+                //         this.$vux.alert.hide()
+                //         this.$router.push({path:"/login"})
+                //     }, 3000)
+                // }
                 if(res.data.result == 200){
                     this.isshow = true
                     this.timer()
@@ -447,6 +432,12 @@ export default {
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
+
+                if (this.product.openLimit != "") {
+                    this.product.openLimit = this.product.openLimit/10000;
+                    console.log(this.product.openLimit);
+
+                }
 
 
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {

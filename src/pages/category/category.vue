@@ -8,7 +8,7 @@
         <div class="Conduct" v-if='isshow'>
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
-                <p class="Profit">{{item.annualYield}}</p>
+                <p class="Profit">{{item.annualYield}}%</p>
                 <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>元</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
@@ -18,12 +18,12 @@
                       <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
-                              <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
+                              <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b>%</span>
                               <span>历史年化收益率</span>
                           </p>
                           <p class="right">
                               <span class="day"><b>{{item.period}}</b>天</span>
-                              <!-- <span class="status">{{item.status}}</span> -->
+                              <span class="status">{{item.status}}</span>
                               <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
                           </p>
                       </div>
@@ -42,12 +42,12 @@
                   <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b></span>
+                            <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b>%</span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b>天</span>
-                            <!-- <span class="status">{{item.status}}</span> -->
+                            <span class="status">{{item.status}}</span>
                             <span class="Quota">剩余金额<b>{{item.openLimit}}</b>元</span>
                         </p>
                     </div>
@@ -104,7 +104,9 @@ export default {
         var url = location.href;
         var url = url.split("=");
         var token = url[1];
-        sessionStorage.setItem("token",token);
+        if (token != undefined) {
+            sessionStorage.setItem("token",token);
+        }
     },
     mounted() {
       const status = '1'
@@ -191,13 +193,13 @@ export default {
                     $(".status").each(function (i,n) {
                     if ($(".status").eq(i).text() == '3') {
                         $(".status").eq(i).css({"opacity":"1"})
-                        // $(".status").eq(i).text('可加入')
+                        $(".status").eq(i).text('')
                         $(".bg-img").eq(i).css("display","none")
                         $(".bg").eq(i).css("display","none")
                     }
                     if ($(".status").eq(i).text() == '4') {
                         $(".status").eq(i).css({"opacity":"1","color":"#999"})
-                        // $(".status").eq(i).text('不可加入')
+                        $(".status").eq(i).text('')
                         $(".bg-img").eq(i).css("display","block")
                         $(".bg").eq(i).css("display","block")
                     }

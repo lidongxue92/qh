@@ -38,7 +38,7 @@
                         <span>投资金额(元)</span>
                     </p>
                     <p class="right">
-                        <span class="color">{{item.exceptedYield}}</span>
+                        <span class="color">{{item.exceptedYield | numFilter}}</span>
                         <span>预计到期收益(元)</span>
                     </p>
                     <span class="productStatus" style="position: absolute;opacity: 0;">{{item.productStatus}}</span>
@@ -162,7 +162,14 @@ export default {
             })
 
     },
-    mounted() {
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3)
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
+        }
     },
     methods:{
         goBack() {
@@ -295,7 +302,7 @@ export default {
         product(pageSize,czlx,status,productFullStatus,orderType){
             const _this = this
             _this.$loading.show();
-             _this.pageSize = 9 
+             _this.pageSize = 9
             const url = myPub.URL+`/user/getUserAssetsList` ;
             const params = new URLSearchParams();
             params.append('curPage','1');
