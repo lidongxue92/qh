@@ -192,7 +192,15 @@ export default {
     created(){
       this.createCode();
       this.phoneNumber = this.$route.query.phone
-  },
+    },
+    active(){
+          const _this = this
+          _this.verifyCode = ''
+          _this.phoneNumber = ''
+          _this.LUserPsd = ''
+          _this.picLyanzhengma = ''
+          _this.invitationCode = ''
+        },
     methods:{
       login(){
         this.$router.push({path:"/login"})
