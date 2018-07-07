@@ -43,7 +43,7 @@
             <img src="../../assets/img/loginClear.png" class="LoginImg img5" @click="emipy5" style="right:1.5rem;top: 1.7rem;" >
             <br>
         </label>
-        <label class="Agreement"  v-for="item of items" :key="item">
+        <label class="Agreement"  v-for="(item,index) of items" :key="index">
           <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
           <span v-if='!isshow2'>请同意注册协议</span>
         </label>
@@ -417,7 +417,7 @@ export default {
           params.append('phone',this.phoneNumber);
           params.append('msgType','1');
           axios.post(url,params).then(response => {
-                console.log(response)
+                console.log(response);
           }).catch((err) => {
             console.log(err)
           })
