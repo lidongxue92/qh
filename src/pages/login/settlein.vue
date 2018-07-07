@@ -486,26 +486,26 @@ export default {
       },
       // 验证手机验证码
       checkSmsCode(){
-        // const url = myPub.URL+`/three/getSmsCode` ;
-        //   var params = new URLSearchParams();
-        //   params.append('phone',this.phoneNumber);
-        //   params.append('smsCode',this.verifyCode);
-        //   axios.post(url,params).then(response => {
-        //         console.log(response)
-        //         if (response.data.result == 200) {
+        const url = myPub.URL+`/three/checkSmsCode` ;
+          var params = new URLSearchParams();
+          params.append('phone',this.phoneNumber);
+          params.append('smsCode',this.verifyCode);
+          axios.post(url,params).then(response => {
+                console.log(response)
+                if (response.data.result == 200) {
                   this.register()
-          //       }else{
-          //         this.$vux.alert.show({
-          //         title: '',
-          //         content: '手机验证码不正确或已超时'
-          //         })
-          //         setTimeout(() => {
-          //             this.$vux.alert.hide()
-          //         },  1000)
-          //       }
-          // }).catch((err) => {
-          //   console.log(err)
-          // })
+                }else{
+                  this.$vux.alert.show({
+                  title: '',
+                  content: '手机验证码不正确或已超时'
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  },  1000)
+                }
+          }).catch((err) => {
+            console.log(err)
+          })
       },
         register(){
             if (this.check() == false) {
