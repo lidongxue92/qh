@@ -66,7 +66,7 @@
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
-                            <!-- <span class="status">可加入</span> -->
+                            <span class="status">{{item.productProperty}}</span>
                             <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
@@ -80,7 +80,7 @@
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
-                            <!-- <span class="status">可加入</span> -->
+                            <span class="status">{{item.productProperty}}</span>
                             <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
@@ -260,6 +260,18 @@ export default {
                     _this.newlist = data.XsInfo
                     _this.hotlist = data.HotInfo
                     _this.list = data.GsInfo
+                    setTimeout(() => {
+                        $(".status").each(function (i) {
+                        if ($(".status").eq(i).text() == '1') {
+                            $(".status").eq(i).text('不可转让')
+                        }
+                        })
+                        $(".status").each(function (i) {
+                            if ($(".status").eq(i).text() == '2') {
+                                $(".status").eq(i).text('可转让')
+                            }
+                        })
+                    }, 200)
                 }
 
             }).catch((err) => {
@@ -386,6 +398,7 @@ export default {
             .right{
                 display: inline-block;
                 width: 30%;
+                margin-top: 1rem;
                 img{
                     width: 100%;
                 }
@@ -447,14 +460,14 @@ export default {
                     }
                 }
                 .right{
-                    display: inline-block;width: 48%;
+                    display: inline-block;width: 48%;margin-top: 1rem;
                     .day{
                         font-size: 0.6rem;
                         // border-right: 1px solid #eee;
                         padding: 0 0.8rem;
                         b{font-size: 0.8rem;font-weight: normal;}
                     }
-                    .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;}
+                    .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;border-left: 1px solid #eee;}
                     .Quota{
                         display: inline-block;width: 100%;font-size: 0.6rem;padding: 0 0.8rem;color: #999;
                         b{font-weight: normal;color: #333;font-size: 0.9rem;}

@@ -28,12 +28,14 @@
                         <span class="button">立即使用</span></p>
                     </li> -->
                     <li v-for="(item,index) in product" @click="linkDetail1(item.welfareId,item.redPacketMoney)">
-                        <p class="title">{{item.redPacketName}}</p>
-                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                            <span>投资满{{item.investMoney}}元可使用</span>
-                        </p>
+                        <div class="clearfix">
+                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满{{item.investMoney}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">有效期至：{{item.endDate}}
                         <span class="button"></span><span class="status">{{item.status}}</span></p>
                     </li>
@@ -54,12 +56,14 @@
                         <span class="button">已使用</span></p>
                     </li> -->
                    <li v-for="(item,index) in product">
-                        <p class="title">{{item.redPacketName}}</p>
-                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                            <span>投资满{{item.investMoney}}元可使用</span>
-                        </p>
+                       <div class="clearfix">
+                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满{{item.investMoney}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">有效期至：{{item.endDate}}
                         <span class="button"></span><span class="status">{{item.status}}</span></p>
                     </li>
@@ -80,12 +84,14 @@
                         <span class="button"></span></p>
                     </li> -->
                     <li v-for="(item,index) in addpro" @click="linkDetail1(item.welfareId,item.incrMoney)">
-                        <p class="title">{{item.incrName}}</p>
-                        <p class="left">¥<b>{{item.incrMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.incrName}}元可使用</span>
-                            <span>投资满{{item.incrName}}元可使用</span>
-                        </p>
+                        <div class="clearfix">
+                            <p class="title">{{item.incrName}}</p>
+                            <p class="left">¥<b>{{item.incrMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.incrName}}元可使用</span>
+                                <span>投资满{{item.incrName}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">
                             有效期至：{{item.endDate}}
                             <span class="button"></span>
@@ -109,12 +115,14 @@
                         <span class="button">立即使用</span></p>
                     </li> -->
                      <li v-for="(item,index) in addpro">
-                        <p class="title">{{item.redPacketName}}</p>
-                        <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                        <p class="right">
-                            <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                            <span>投资满{{item.investMoney}}元可使用</span>
-                        </p>
+                        <div class="clearfix">
+                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                            <p class="right">
+                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满{{item.investMoney}}元可使用</span>
+                            </p>
+                        </div>
                         <p class="note">
                             有效期至：{{item.endDate}}
                             <span class="button"></span>
@@ -377,6 +385,17 @@ export default {
 <style scoped lang="less">
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content:" ";
+    clear: both;
+    height: 0;
+}
+.clearfix {
+    zoom:1;
+}
 .detail {
     background: #f7f7f7;height:100%;position: relative;
     .tab{

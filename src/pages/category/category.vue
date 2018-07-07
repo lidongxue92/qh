@@ -350,7 +350,7 @@ export default {
                   }
               }
               .right{
-                  display: inline-block;width: 48%;
+                  display: inline-block;width: 48%;margin-top: 1rem;
                   .day{
                       font-size: 0.6rem;
                     //border-right: 1px solid #eee;
