@@ -13,6 +13,8 @@ export function newNonce() {
 // 4. test Test
 
 window.ENV = "TEST";
+// window.ENV = "DEVELOP";
+
 
 let URL, wsURL, appId;
 

@@ -5,7 +5,7 @@
       <div class="title">
         <div @click="zhezhaoShow"><span class="head"><img src="../../assets/img/icon_head@2x.png"></span></div>
         <div><h1>资产</h1></div>
-        <div @click="linkToMsg"><span class="message"><img src="../../assets/img/icon_xiaoxi@2x.png"></span></div>
+        <div @click="linkToMsg"><span class="message"><img :src="imgMsg"></span></div>
       </div>
       <div class="assetTopMain">
         <h5>总资产(元) <span @click="eyesTab"><img :src="imgSrc"></span></h5>
@@ -13,7 +13,7 @@
       </div>
       <div class="assetTopBottom">
         <div class="atbLeft">
-          <h6>可用余额(元)</h6>
+          <h6>理财资产(元)</h6>
           <p class="numberChange avlBalance">{{asset.avlBalance}}</p>
         </div>
         <div class="atbRight">
@@ -89,7 +89,7 @@
           <div>
             <b></b>
             <span>冻结金额</span>
-            <p class="numberChange">{{asset.frzBalance}}</p>
+            <p class="numberChange frzBalance">{{asset.frzBalance}}</p>
           </div>
         </div>
       </div>
@@ -120,11 +120,12 @@ export default {
     },
     data(){
     　　return {
-            imgSrc:"../../../static/img/openEyes.png",
+            imgSrc:"./static/img/openEyes.png",
             totalMoney:0.00,
             numberChange: 0.00,
             asset:'{}',
-            totalMoney:''
+            totalMoney:'',
+            imgMsg:"./static/img/xiaoXi.png"
     　　　}
     　},
     filters: {
@@ -226,86 +227,88 @@ export default {
             }
         },
         // 数据
-      product(){
-        const _this = this
-        _this.$loading.show();
-        const url = myPub.URL+`/user/getAccountOverview` ;
-        const params = new URLSearchParams();
-        params.append('token',sessionStorage.token);
-        axios.post(url,params).then(response => {
-            _this.$loading.hide();
-            const data = response.data
-            console.log(response.data)
-            // if (data.result == '400') {
-            //     this.$vux.alert.show({
-            //         title: '',
-            //         content: data.resultMsg
-            //     })
-            //     setTimeout(() => {
-            //         this.$vux.alert.hide()
-            //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
-            //     }, 3000)
-            // }
-            if (data.result == '200') {
-              this.asset = data.Account
-              this.lczc = this.asset.lczc
-              const lczc = Math.floor(Number(data.Account.lczc))
-              const dssy = Math.floor(Number(data.Account.dssy))
-              const zrje = Math.floor(Number(data.Account.zrje))
-              const avlBalance = Math.floor(Number(data.Account.avlBalance))
-              const frzBalance = Math.floor(Number(data.Account.frzBalance))
-              const all = Number(lczc)+Number(dssy)+Number(zrje)+Number(avlBalance)+Number(frzBalance)
-              const lczc1 = Math.floor((lczc/all)*300)
-              const dssy1 = Math.floor((dssy/all)*300)
-              const zrje1 = Math.floor((zrje/all)*300)
-              const avlBalance1 = Math.floor((avlBalance/all)*300)
-              const frzBalance1 = Math.floor((frzBalance/all)*300)
-              var myChart = echarts.init(document.getElementById('main'));
-              myChart.setOption({
-                tooltip : { //提示框组件
-                show:false,
-                },
-                color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
-                 series: [
-                    {
-                        name:'访问来源',
-                        type:'pie',
-                        radius: ['50%', '70%'],
-                        avoidLabelOverlap: false,
-                        label: {
-                            normal: {
-                                show: false,
-                                position: 'center'
-                            },
-                            emphasis: {
-                                show: true,
-                                textStyle: {
-                                    fontSize: '30',
-                                    fontWeight: 'bold'
+        product(){
+            const _this = this
+            _this.$loading.show();
+            const url = myPub.URL+`/user/getAccountOverview` ;
+            const params = new URLSearchParams();
+            params.append('token',sessionStorage.token);
+            axios.post(url,params).then(response => {
+                _this.$loading.hide();
+                const data = response.data
+                console.log(response.data)
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                  this.asset = data.Account
+                  this.lczc = this.asset.lczc
+                  this.asset = data.Account
+                  this.lczc = this.asset.lczc
+                  const lczc = Math.floor(Number(data.Account.lczc))
+                  const dssy = Math.floor(Number(data.Account.dssy))
+                  const zrje = Math.floor(Number(data.Account.zrje))
+                  const avlBalance = Math.floor(Number(data.Account.avlBalance))
+                  const frzBalance = Math.floor(Number(data.Account.frzBalance))
+                  const all = Number(lczc)+Number(dssy)+Number(zrje)+Number(avlBalance)+Number(frzBalance)
+                  const lczc1 = Math.floor((lczc/all)*300)
+                  const dssy1 = Math.floor((dssy/all)*300)
+                  const zrje1 = Math.floor((zrje/all)*300)
+                  const avlBalance1 = Math.floor((avlBalance/all)*300)
+                  const frzBalance1 = Math.floor((frzBalance/all)*300)
+                  var myChart = echarts.init(document.getElementById('main'));
+                  myChart.setOption({
+                    tooltip : { //提示框组件
+                    show:false,
+                    },
+                    color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+                     series: [
+                        {
+                            name:'访问来源',
+                            type:'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
                                 }
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: false
-                            }
-                        },
-                        data:[
-                          {value:lczc1, name:'待收本金'},
-                          {value:dssy1, name:'待收收益'},
-                          {value:zrje1, name:'转让金额'},
-                          {value:avlBalance1, name:'账户余额'},
-                          {value:frzBalance1, name:'冻结金额'}
-                      ]
-                    }
-                ]
-              });
-            }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                              {value:lczc1, name:'待收本金'},
+                              {value:dssy1, name:'待收收益'},
+                              {value:zrje1, name:'转让金额'},
+                              {value:avlBalance1, name:'账户余额'},
+                              {value:frzBalance1, name:'冻结金额'}
+                          ]
+                        }
+                    ]
+                  });
+                }
 
-        }).catch((err) => {
-            console.log(err)
-        })
-      },
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
       // 消息
       msg(){
         const _this = this
@@ -327,9 +330,9 @@ export default {
           //     }, 3000)
           // }
           if (data.unReadNum == '0') {
-              $(".imgleft img").attr("src",'../../../static/img/xiaoXi.png')
+              $(".imgleft img").attr("src",'./static/img/xiaoXi.png')
             }else{
-              $(".imgleft img").attr("src",'../../../static/img/Messages@2x.png')
+              $(".imgleft img").attr("src",'./static/img/Messages@2x.png')
           }
           console.log(data)
         }).catch((err) => {
@@ -343,7 +346,12 @@ export default {
         }//回退上一级页面并刷新
     },
     mounted() {
-    }
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
 
 }
 </script>

@@ -2,22 +2,22 @@
 <div class="container">
     <topComponent :showLeft='false'>
         <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
-        <span class="right" slot="right">全部已读</span>
+        <span class="right" slot="right" @click="allRead">全部已读</span>
     </topComponent>
 
     <div id="myMsgTab" class="title">
-        <input type="button" value="消息" class="active">
+        <input type="button" value="消息" class="active" @click="loadPageList">
         <input type="button" value="公告" @click="loadPageList1">
     </div>
 
-    <div class="msgList">
-        <div class="xiaoXi" @click="linkToMsgDetail(item.msgTextId)" v-for="(item,index) in Log" :key="index">
+    <div class="msgList" v-if="isShow">
+        <div id="xiaoXi" @click="linkToMsgDetail(item.msgTextId)" v-for="(item,index) in Log" :key="index">
             <p class="msgTitle">{{item.msgTitle}}</p>
             <p class="content"><span>{{item.msgText}}</span></p>
         </div>
     </div>
-    <div class="msgList" >
-        <div class="gongGao" @click="linkToMsgDetail1(item.title,item.content,item.date)" v-for="(item,index) in note" :key="index">
+    <div class="msgList gongGao" v-if="isShow1">
+        <div id="gongGao" @click="linkToMsgDetail1(item.title,item.content,item.date)" v-for="(item,index) in note" :key="index">
         <p class="msgTitle">{{item.title}}</p>
             <p class="content"><span>{{item.content}}</span></p>
         </div>
@@ -43,7 +43,9 @@ export default {
            xiaoxi:[],
            gonggao:[],
            note:'',
-           Log:''
+           Log:'',
+           isShow:true,
+           isShow1:false,
 
         }
     },
@@ -53,8 +55,6 @@ export default {
         $(".msgList").eq(0).show();
         $("#myMsgTab input").click(function () {
             $(this).addClass("active").siblings().removeClass("active");
-            var i = $("#myMsgTab input").index(this);
-            $(".msgList").eq(i).show().siblings(".msgList").hide();
         });
     },
     watch: {
@@ -81,64 +81,99 @@ export default {
             this.$router.push({path:'/page/msgDetail1'})
         },
         loadPageList(){
+            $(".right").show();
+            this.isShow = true;
+            this.isShow1 = false;
             const _this = this
             _this.$loading.show();
-          const url = myPub.URL+`/msg/getMessageList` ;
-          const params = new URLSearchParams();
-          params.append('token',sessionStorage.token);
-          params.append('pageSize','10');
-          params.append('curPagel','1');
-          axios.post(url,params).then(response => {
-            const data = response.data
-            _this.$loading.hide();
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
-            if (data.result == '200') {
-                this.Log = data.message
-                console.log(this.Log )
-            }
-            console.log(data)
-          }).catch((err) => {
-            console.log(err)
-          })
+            const url = myPub.URL+`/msg/getMessageList` ;
+            const params = new URLSearchParams();
+            params.append('token',sessionStorage.token);
+            params.append('pageSize','10');
+            params.append('curPagel','1');
+            axios.post(url,params).then(response => {
+                const data = response.data
+                _this.$loading.hide();
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                    this.Log = data.message
+                    console.log(this.Log);
+                }
+                console.log(data)
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         loadPageList1(){
+            $(".right").hide();
+            this.isShow = false;
+            this.isShow1 = true;
+
             const _this = this
             _this.$loading.show();
-          const url = myPub.URL+`/index/getInfoManageList` ;
-          const params = new URLSearchParams();
-          params.append('imType','2');
-          params.append('pageSize','10');
-          params.append('curPagel','1');
-          axios.post(url,params).then(response => {
-            const data = response.data
-            _this.$loading.hide();
-            if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-            }
-            if (data.result == '200') {
-                this.note = data.InfoManage
-                // console.log(this.note )
-            }
-            console.log(data)
-          }).catch((err) => {
-            console.log(err)
-          })
+            const url = myPub.URL+`/index/getInfoManageList` ;
+            const params = new URLSearchParams();
+            params.append('imType','2');
+            params.append('pageSize','10');
+            params.append('curPagel','1');
+            axios.post(url,params).then(response => {
+                const data = response.data
+                _this.$loading.hide();
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                    this.note = data.InfoManage
+                    // console.log(this.note )
+                }
+                console.log(data)
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        allRead(){
+            const url = myPub.URL+`/msg/getMessageList` ;
+            const params = new URLSearchParams();
+            params.append('token',sessionStorage.token);
+            params.append('pageSize','10');
+            params.append('curPagel','1');
+            axios.post(url,params).then(response => {
+                const data = response.data
+                if (data.msgStatus != 0) {
+
+                    // const url = myPub.URL+`/msg/setMsgRead` ;
+                    // const params = new URLSearchParams();
+                    // params.append('token',sessionStorage.token);
+                    // params.append('pageSize','10');
+                    // params.append('curPagel','1');
+                    // axios.post(url,params).then(response => {
+                    //     const data = response.data
+                    //     if (data.msgStatus != 0) {
+
+                    //     }
+                    // }).catch((err) => {
+                    //     console.log(err)
+                    // })
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
         },
     }
 }
@@ -188,7 +223,7 @@ export default {
         height: 100%;
         padding-top: 2.8rem;
     }
-    .xiaoXi,.gongGao{
+    #xiaoXi,#gongGao{
         width: 100%;
         margin: 0 auto;
         padding-top: 0.5rem;
@@ -197,16 +232,21 @@ export default {
         p{
             width: 94%;
             margin-left: 3%;
-            line-height: 1.8em;
             box-sizing: border-box;
             background: #fff;
+            line-height: 2em;
         }
         .msgTitle{
             margin: 0 auto;
+            height: auto;
             background: url("../../assets/img/msgBg1.png") top no-repeat;
-            background-size: 100%;
-            padding: .3rem .8rem;
-            font-size: .9rem /* 28/40 */;
+            background-size: 100% 100%;
+            padding: 0 .8rem .3rem;
+            font-size: .9rem;
+            background-color:#fff;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         .content{
            font-size: .7rem /* 26/40 */;

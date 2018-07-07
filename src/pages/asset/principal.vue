@@ -22,13 +22,14 @@
             <li class="going" @click="going">投标中</li>
             <li class="had" @click="had">已兑付</li>
         </ul>
-        <div class="nodata" v-if="isshow1">
+
+        <div class="nodata" v-if="isshowHas">
             <img src="~@/assets/img/no_data.png">
             <p>您还没有持有理财产品哦</p>
             <p>赶紧去产品中心挑选吧~</p>
             <button class="button" @click="category">去理财</button>
         </div>
-        <div class="Data" v-if="isshow2">
+        <div class="Data" v-else>
             <ul class="datalist">
                 <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" v-view-lazy :key="index">
                     <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
@@ -70,18 +71,18 @@ export default {
         isshow5:false,
         money:'',
         Account:{},
-        totalCount:''
+        totalCount:'',
+        isshowHas: true
 　　  }
 　　},
     created() {
         this.lczc = this.$route.query.lazc;
-        this.product('1,2','0,1,2',0,10);
-        const url = myPub.URL+`/user/getAccountOverview` ;
+          const url = myPub.URL+`/user/getAccountOverview` ;
           const params = new URLSearchParams();
           params.append('token',sessionStorage.token);
           axios.post(url,params).then(res => {
                this.Account = res.data.Account;
-                // console.log(this.Account);
+                // console.log(res);
                 if (res.data.result == '400') {
                   this.$vux.alert.show({
                       title: '',
@@ -91,10 +92,75 @@ export default {
                       this.$vux.alert.hide()
                       this.$router.push({path:"/login",query: {redirect: 'your path'}})
                   }, 3000)
+                }else if (res.data.result == 200) {
+                    this.isshow1 = true;
+                    this.isshow2 = false;
                 }
           }).catch((err) => {
               console.log(err)
-          })
+          });
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const _this = this
+            const params1 = new URLSearchParams();
+            _this.$loading.show();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('czlx',1);
+            params1.append('status',"1,2");
+            params1.append('productFullStatus',"0,1,2");
+            params1.append('orderType',0);
+            axios.post(url1,params1).then(res => {
+                    console.log(res);
+                    _this.$loading.hide();
+                this.Product = res.data.Product;
+                    if (res.data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                    }else if (res.data.result == 200) {
+                        this.totalCount = res.data.totalCount
+                        if (res.data.totalCount == 0) {
+                            this.isshowHas = true;
+                        }else{
+                            console.log(this.totalCount)
+                            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                            const _this = this
+                            const params1 = new URLSearchParams();
+                            _this.$loading.show();
+                            params1.append('token',sessionStorage.token);
+                            params1.append('curPage',1);
+                            params1.append('pageSize',this.totalCount);
+                            params1.append('czlx',1);
+                            params1.append('status',"1,2");
+                            params1.append('productFullStatus',"0,1,2");
+                            params1.append('orderType',0);
+                            axios.post(url1,params1).then(res => {
+                                console.log(res);
+                                 _this.$loading.hide();
+                               if (res.data.result == 200) {
+                                    this.totalCount = res.data.totalCount
+                                    this.Product = res.data.Product
+                                    if (res.data.totalCount == 0) {
+                                        this.isshowHas = true;
+                                    }else{
+                                        this.isshowHas = false;
+                                    }
+                                }
+                            }).catch((err) => {
+                                console.log(err)
+                            })
+                        }
+                    }
+            }).catch((err) => {
+                console.log(err)
+            })
+
     },
     mounted() {
     },
@@ -118,34 +184,118 @@ export default {
             $(".had").removeClass('active')
             this.product('1,2','0,1,2',0,10);
             setTimeout(() => {
-                this.product('1,2','0,1,2',0,this.totalCount)
+                const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                const params1 = new URLSearchParams();
+                params1.append('token',sessionStorage.token);
+                params1.append('curPage',1);
+                params1.append('pageSize',this.totalCount);
+                params1.append('czlx',1);
+                params1.append('status',"1,2");
+                params1.append('productFullStatus',"0,1,2");
+                params1.append('orderType',0);
+                axios.post(url1,params1).then(res => {
+                        console.log(res);
+
+                    this.Product = res.data.Product;
+                        if (res.data.result == '400') {
+                        this.$vux.alert.show({
+                            title: '',
+                            content: res.data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                        }, 3000)
+                        }else if (res.data.result == 200) {
+                            if (res.data.totalCount == 0) {
+                                this.isshowHas = true;
+                            }else{
+                                this.isshowHas = false;
+                            }
+                        }
+                }).catch((err) => {
+                    console.log(err)
+                })
             }, 1200)
         },
         going(){
             const _this = this
+            _this.$loading.show();
             $(".going").addClass('active')
-            $(".has").removeClass('active')
             $(".had").removeClass('active')
-            this.product(6,'0,2',0,10);
-            setTimeout(() => {
-                this.product(6,'0,2',0,this.totalCount)
-            }, 1200)
-        },
-        had(){
-            const _this = this
-            $(".had").addClass('active')
             $(".has").removeClass('active')
-            $(".going").removeClass('active')
-            _this.isshow4 = true
-            this.product(3,'0,1,2','0,1',10);
-            setTimeout(() => {
-                this.product(3,'0,1,2','0,1',this.totalCount)
-            },1500)
-            
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',10);
+            params1.append('status',6);
+            params1.append('productFullStatus',"0,2");
+            params1.append('czlx',1);
+            params1.append('orderType',0);
+            params1.append('clientType','h5');
+            axios.post(url1,params1).then(res => {
+                console.log(res);
+                _this.$loading.hide();
+                this.Product = res.data.Product;
+                if (res.data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: res.data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+                }else if (res.data.result == 200) {
+                    this.totalCount = res.data.totalCount
+                    this.isshow4 = true
+                    if (res.data.totalCount == 0) {
+                        this.isshowHas = true;
+                    }else{
+                        console.log(this.totalCount)
+                        const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                        const _this = this
+                        const params1 = new URLSearchParams();
+                        _this.$loading.show();
+                        params1.append('token',sessionStorage.token);
+                        params1.append('curPage',1);
+                        params1.append('pageSize',this.totalCount);
+                        params1.append('czlx',1);
+                        params1.append('status',6);
+                        params1.append('productFullStatus',"0,2");
+                        params1.append('orderType',0);
+                        params1.append('clientType','h5');
+                        axios.post(url1,params1).then(res => {
+                            console.log(res);
+                             _this.$loading.hide();
+                           if (res.data.result == 200) {
+                                this.totalCount = res.data.totalCount
+                                this.Product = res.data.Product
+                                if (res.data.totalCount == 0) {
+                                    this.isshowHas = true;
+                                }else{
+                                    this.isshowHas = false;
+                                }
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        })
+                    }
+                    $(".productStatus").each(function (i,n) {
+                        if ($(".productStatus").eq(i).text() == '6') {
+                            $(".img1").eq(i).css("display","inline-block")
+                        }
+                    })
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
         },
-        product(status,productFullStatus,orderType,pageSize){
+        product(pageSize,czlx,status,productFullStatus,orderType){
             const _this = this
             _this.$loading.show();
+             _this.pageSize = 9 
             const url = myPub.URL+`/user/getUserAssetsList` ;
             const params = new URLSearchParams();
             params.append('curPage','1');
@@ -163,7 +313,7 @@ export default {
                 if (data.result == '400') {
                     this.$vux.alert.show({
                         title: '',
-                        content: data.resultMsg
+                        content: res.data.resultMsg
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
@@ -179,9 +329,86 @@ export default {
                     if (data.Product.length <= 0){
                     this.isshow1 = true
                     this.isshow2 = false
+                    }else if (res.data.result == 200) {
+                        if (res.data.totalCount == 0) {
+                            this.isshowHas = true;
+                        }else{
+                            this.isshowHas = false;
+                        }
+                        $(".productStatus").each(function (i,n) {
+                            if ($(".productStatus").eq(i).text() == '6') {
+                                $(".img1").eq(i).css("display","inline-block")
+                            }
+                        })
+                    }
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        had(){
+            const _this = this
+            _this.$loading.show();
+            $(".had").addClass('active')
+            $(".going").removeClass('active')
+            $(".has").removeClass('active')
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('status',3);
+            params1.append('productFullStatus',"0,1,2");
+            params1.append('czlx',1);
+            params1.append('orderType',"0,1");
+            params1.append('clientType','h5');
+            axios.post(url1,params1).then(res => {
+                console.log(res);
+                _this.$loading.hide();
+                this.Product = res.data.Product;
+                if (res.data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: res.data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+                }else if (res.data.result == 200) {
+                    this.totalCount = res.data.totalCount
+                    this.isshow4 = true
+                    if (res.data.totalCount == 0) {
+                        this.isshowHas = true;
                     }else{
-                        this.isshow1 = false
-                    this.isshow2 = true
+                        console.log(this.totalCount)
+                        const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                        const _this = this
+                        const params1 = new URLSearchParams();
+                        _this.$loading.show();
+                        params1.append('token',sessionStorage.token);
+                        params1.append('curPage',1);
+                        params1.append('pageSize',this.totalCount);
+                        params1.append('czlx',1);
+                        params1.append('status',"3");
+                        params1.append('productFullStatus',"0,1,2");
+                        params1.append('orderType','0,1');
+                        params1.append('clientType','h5');
+                        axios.post(url1,params1).then(res => {
+                            console.log(res);
+                             _this.$loading.hide();
+                           if (res.data.result == 200) {
+                                this.totalCount = res.data.totalCount
+                                this.Product = res.data.Product
+                                if (res.data.totalCount == 0) {
+                                    this.isshowHas = true;
+                                }else{
+                                    this.isshowHas = false;
+                                }
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        })
                     }
                     $(".productStatus").each(function (i,n) {
                         if ($(".productStatus").eq(i).text() == '6') {
@@ -189,11 +416,10 @@ export default {
                         }
                     })
                 }
-
             }).catch((err) => {
                 console.log(err)
             })
-        }
+        },
     },
     filters: {
         numFilter(value) {
@@ -223,7 +449,7 @@ export default {
   }
 .asset{
     background: #f6f6f6;
-    height: 100%;
+    height: auto;
     /*资产头部*/
     .assetTop{
         width: 100%;
@@ -277,7 +503,7 @@ export default {
             .active{color: #FFA303;border-bottom: 2px solid #FFA303}
         }
         .nodata{
-            text-align: center;
+            text-align: center;padding-bottom: 13rem;
             img{margin-top: 3rem;width: 4.2rem;height: 4.5rem;}
             p{font-size: 0.8rem;color: #999;line-height:1rem;margin-top: 0.5rem;}
             .button{width: 10rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border: 0;border-radius: 30px;line-height: 2.2rem;height: 2.2rem;color: #fff;font-size: 0.9rem;margin-top: 1.2rem;}

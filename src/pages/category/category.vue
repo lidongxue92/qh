@@ -9,7 +9,7 @@
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
                 <p class="Profit">{{item.annualYield}}</p>
-                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>天</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
+                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>元</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
@@ -22,7 +22,8 @@
                               <span>历史年化收益率</span>
                           </p>
                           <p class="right">
-                              <span class="day"><b>{{item.period}}</b>天</span><span class="status">{{item.status}}</span>
+                              <span class="day"><b>{{item.period}}</b>天</span>
+                              <!-- <span class="status">{{item.status}}</span> -->
                               <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
                           </p>
                       </div>
@@ -45,8 +46,9 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b>天</span><span class="status">{{item.status}}</span>
-                            <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
+                            <span class="day"><b>{{item.period}}</b>天</span>
+                            <!-- <span class="status">{{item.status}}</span> -->
+                            <span class="Quota">剩余金额<b>{{item.openLimit}}</b>元</span>
                         </p>
                     </div>
                     <img class="bg-img" src="~@/assets/img/full.png">
@@ -88,7 +90,7 @@ export default {
 　　　}
 　　},
     created() {
-      this.token()
+    //   this.token()
       const status = '1'
       const a = ' '
       this.pro(status,a,10)
@@ -173,53 +175,62 @@ export default {
                 this.datalist = res.data.Product
                 this.totalCount = res.data.totalCount
                 console.log(this.totalCount)
-              setTimeout(() => {
-                $(".img").each(function (i,n) {
-                  if ($(".img").eq(i).text() == '1') {
-                    $(".img").eq(i).css("opacity","1")
-                    $(".img").eq(i).addClass('img2')
-                    $(".img").eq(i).text('热销产品')
-                  }
-                  if ($(".img").eq(i).text() == '0') {
-                    $(".img").eq(i).css("opacity","1")
-                    $(".img").eq(i).addClass('img3')
-                    $(".img").eq(i).text('固收产品')
-                  }
-                })
-                $(".status").each(function (i,n) {
-                  if ($(".status").eq(i).text() == '3') {
-                    $(".status").eq(i).css({"opacity":"1"})
-                    $(".status").eq(i).text('可加入')
-                    $(".bg-img").eq(i).css("display","none")
-                    $(".bg").eq(i).css("display","none")
-                  }
-                  if ($(".status").eq(i).text() == '4') {
-                    $(".status").eq(i).css({"opacity":"1","color":"#999"})
-                    $(".status").eq(i).text('不可加入')
-                    $(".bg-img").eq(i).css("display","block")
-                    $(".bg").eq(i).css("display","block")
-                  }
-                })
-                $(".Property").each(function (i,n) {
-                  if ($(".Property").eq(i).text() == '18') {
-                    $(".Property").eq(i).css({"opacity":"1"})
-                    $(".Property").eq(i).text('不可转让')
-                  }
-                  if ($(".Property").eq(i).text() == '3') {
-                    $(".Property").eq(i).css({"opacity":"1"})
-                    $(".Property").eq(i).text('不可转让')
-                  }
-                  if ($(".Property").eq(i).text() == '22') {
-                    $(".Property").eq(i).css({"opacity":"1"})
-                    $(".Property").eq(i).text('不可转让')
-                  }
-                  if ($(".Property").eq(i).text() == '19') {
-                    $(".Property").eq(i).css({"opacity":"1"})
-                    $(".Property").eq(i).text('可转让')
-                  }
-                })
-            }, 500)
-              }
+                setTimeout(() => {
+                    $(".img").each(function (i,n) {
+                    if ($(".img").eq(i).text() == '1') {
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img").eq(i).addClass('img2')
+                        $(".img").eq(i).text('热销产品')
+                    }
+                    if ($(".img").eq(i).text() == '0') {
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img").eq(i).addClass('img3')
+                        $(".img").eq(i).text('固收产品')
+                    }
+                    })
+                    $(".status").each(function (i,n) {
+                    if ($(".status").eq(i).text() == '3') {
+                        $(".status").eq(i).css({"opacity":"1"})
+                        // $(".status").eq(i).text('可加入')
+                        $(".bg-img").eq(i).css("display","none")
+                        $(".bg").eq(i).css("display","none")
+                    }
+                    if ($(".status").eq(i).text() == '4') {
+                        $(".status").eq(i).css({"opacity":"1","color":"#999"})
+                        // $(".status").eq(i).text('不可加入')
+                        $(".bg-img").eq(i).css("display","block")
+                        $(".bg").eq(i).css("display","block")
+                    }
+                    })
+                    $(".Property").each(function (i,n) {
+                    if ($(".Property").eq(i).text() == '18') {
+                        $(".Property").eq(i).css({"opacity":"1"})
+                        $(".Property").eq(i).text('不可转让')
+                    }
+                    if ($(".Property").eq(i).text() == '3') {
+                        $(".Property").eq(i).css({"opacity":"1"})
+                        $(".Property").eq(i).text('不可转让')
+                    }
+                    if ($(".Property").eq(i).text() == '22') {
+                        $(".Property").eq(i).css({"opacity":"1"})
+                        $(".Property").eq(i).text('不可转让')
+                    }
+                    if ($(".Property").eq(i).text() == '19') {
+                        $(".Property").eq(i).css({"opacity":"1"})
+                        $(".Property").eq(i).text('可转让')
+                    }
+                    })
+                }, 500)
+              }else if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login"})
+                    }, 3000)
+                }
 
           }).catch((err) => {
               console.log(err);
@@ -229,18 +240,18 @@ export default {
             event.innerText = datalist
         },
         // 判断token
-        token(){
-            if (!sessionStorage.token) {
-              this.$vux.alert.show({
-                  title: '',
-                  content: '请登录'
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
-              }, 2000)
-            }
-        },
+        // token(){
+        //     if (!sessionStorage.token) {
+        //       this.$vux.alert.show({
+        //           title: '',
+        //           content: '请登录'
+        //       })
+        //       setTimeout(() => {
+        //           this.$vux.alert.hide()
+        //           this.$router.push({path:"/login",query: {redirect: 'your path'}})
+        //       }, 2000)
+        //     }
+        // },
         menu() {
           this.scroll = document.body.scrollTop;
           console.log(this.scroll)
@@ -339,7 +350,9 @@ export default {
               .right{
                   display: inline-block;width: 48%;
                   .day{
-                      font-size: 0.6rem;border-right: 1px solid #eee;padding: 0 0.8rem;
+                      font-size: 0.6rem;
+                    //border-right: 1px solid #eee;
+                      padding: 0 0.8rem;
                       b{font-size: 0.8rem;font-weight: normal;}
                   }
                   .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;opacity: 0;position: relative;}

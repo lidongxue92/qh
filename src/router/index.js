@@ -19,6 +19,7 @@ import DetailProduct from "../pages/detail/detailProduct";
 import Pay from "../pages/detail/pay";
 import Log from "../pages/detail/log";
 import Red from "../pages/detail/red";
+import TouZiInfo from "../pages/detail/touZiInfo";
 
 // 资产相关页面
 
@@ -482,6 +483,16 @@ export default new Router({
             },
             component: DetailProduct
         },
+        {
+            path: '/page/touZiInfo',
+            name: 'touZiInfo',
+            meta: {
+                title: '投资风险说明',
+                // requireAuth: true
+            },
+            component: TouZiInfo
+        },
+
         {
             path: '/page/log',
             name: 'log',

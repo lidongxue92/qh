@@ -51,7 +51,8 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b> 天</span><span class="status">可加入</span>
+                            <span class="day"><b>{{item.period}}</b> 天</span>
+                            <!-- <span class="status">可加入</span> -->
                             <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
@@ -64,7 +65,8 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b> 天</span><span class="status">可加入</span>
+                            <span class="day"><b>{{item.period}}</b> 天</span>
+                            <!-- <span class="status">可加入</span> -->
                             <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
@@ -77,7 +79,8 @@
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
-                            <span class="day"><b>{{item.period}}</b> 天</span><span class="status">可加入</span>
+                            <span class="day"><b>{{item.period}}</b> 天</span>
+                            <!-- <span class="status">可加入</span> -->
                             <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
                         </p>
                     </div>
@@ -446,7 +449,9 @@ export default {
                 .right{
                     display: inline-block;width: 48%;
                     .day{
-                        font-size: 0.6rem;border-right: 1px solid #eee;padding: 0 0.8rem;
+                        font-size: 0.6rem;
+                        // border-right: 1px solid #eee;
+                        padding: 0 0.8rem;
                         b{font-size: 0.8rem;font-weight: normal;}
                     }
                     .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;}
