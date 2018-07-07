@@ -23,7 +23,7 @@
                 <label>
                     <input :type="type" placeholder="请输登录入密码" class="register_content_input pwd" v-model="userPwd" @blur="checkLPsd" @input="changBGC" maxlength="20"><br>
                     <span class="tishixiaoxi disappear">6~20位数字、字母或特殊符号组合</span>
-                    <img src="../../assets/img/loginClear.png" class="LoginImg img2" @click="clear1" style="right: 2.1rem;top: 0.7rem;">
+                    <img src="../../assets/img/loginClear.png" class="LoginImg img2" @click="clear1" style="right: 2.5rem;top: 0.7rem;">
                     <img :src="imgSrc" class="LoginImg" @click="eyesTab">
                 </label>
                 <a href="javascript:" @click="findpassword">忘记密码?</a>

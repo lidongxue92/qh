@@ -157,7 +157,7 @@ export default {
         this.dz = dz
         console.log(this.dz)
         this.productdata();
-        this.token();
+        // this.token();
     },
     activated: function() {
         this.productdata()
@@ -167,18 +167,18 @@ export default {
         }, 300)
     },
     methods: {
-        token(){
-            if (!sessionStorage.token) {
-            this.$vux.alert.show({
-                title: '',
-                content: '请登录'
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-                this.$router.push({path:"/login",query: {redirect: 'your path'}})
-            }, 2000)
-            }
-        },
+        // token(){
+        //     if (!sessionStorage.token) {
+        //     this.$vux.alert.show({
+        //         title: '',
+        //         content: '请登录'
+        //     })
+        //     setTimeout(() => {
+        //         this.$vux.alert.hide()
+        //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+        //     }, 2000)
+        //     }
+        // },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
@@ -260,7 +260,7 @@ export default {
                 })
                 setTimeout(() => {
                     num.val(this.residueMoney)
-                    this.money = this.Money 
+                    this.money = this.Money
                     this.$vux.alert.hide()
                     $(".rightimg").attr('src',"../../../static/img/add.png");
                 }, 1000)

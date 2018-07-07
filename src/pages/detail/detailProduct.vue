@@ -159,7 +159,7 @@ export default {
     mounted () {
     },
     created() {
-        this.token();
+
     },
     activated: function() {
         this.productdata()
@@ -170,18 +170,6 @@ export default {
         }//回退上一级页面并刷新
     },
     methods: {
-        token(){
-            if (!sessionStorage.token) {
-            this.$vux.alert.show({
-                title: '',
-                content: '请登录'
-            })
-            setTimeout(() => {
-                this.$vux.alert.hide()
-                this.$router.push({path:"/login",query: {redirect: 'your path'}})
-            }, 2000)
-            }
-        },
         // 产品数据
         productdata(){
             const _this = this

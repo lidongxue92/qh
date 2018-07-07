@@ -13,7 +13,7 @@
       </div>
       <div class="assetTopBottom">
         <div class="atbLeft">
-          <h6>可用余额(元)</h6>
+          <h6>理财资产(元)</h6>
           <p class="numberChange avlBalance">{{asset.avlBalance}}</p>
         </div>
         <div class="atbRight">
