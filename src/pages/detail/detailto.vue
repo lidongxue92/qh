@@ -119,7 +119,7 @@ export default {
           const url = myPub.URL+`/product/getProductDetail` ;
           const params = new URLSearchParams();
           params.append('productId',id);
-          params.append('token',sessionStorage.token); 
+          params.append('token',sessionStorage.token);
           axios.post(url,params).then(response => {
             _this.$loading.hide();
             const data = response.data
@@ -183,7 +183,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;position: relative;height: 100%;
+    background: #f7f7f7;position: relative;height: auto;
     .product{
         background: url(~@/assets/img/bg.png);color: #fefefe;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}

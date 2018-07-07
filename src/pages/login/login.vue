@@ -957,9 +957,9 @@ export default {
           background: #2773FF;
           opacity: .5;
       }
-       .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none;}
+       .bg{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.5);display: none; z-index: 1;}
         .toast{
-            position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;
+            position: absolute;top: 8%;left: 12%;width: 76%;background: #fff;border-radius: 5px;text-align: center;display: none;z-index: 1;
             img{width: 100%;}
             .right{position: absolute;top: -1rem;right: -1rem;width: 1rem;height: 1rem;}
             .button{position: absolute;bottom: 1rem;width: 90%;height: 2.5rem;line-height: 2.5rem;color: #fff;background: #FFA303;left: 5%;border-radius: 30px;border: 0;}

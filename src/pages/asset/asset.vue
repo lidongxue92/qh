@@ -5,7 +5,7 @@
       <div class="title">
         <div @click="zhezhaoShow"><span class="head"><img src="../../assets/img/icon_head@2x.png"></span></div>
         <div><h1>资产</h1></div>
-        <div @click="linkToMsg"><span class="message"><img src="../../assets/img/icon_xiaoxi@2x.png"></span></div>
+        <div @click="linkToMsg"><span class="message"><img :src="imgMsg"></span></div>
       </div>
       <div class="assetTopMain">
         <h5>总资产(元) <span @click="eyesTab"><img :src="imgSrc"></span></h5>
@@ -89,7 +89,7 @@
           <div>
             <b></b>
             <span>冻结金额</span>
-            <p class="numberChange">{{asset.frzBalance}}</p>
+            <p class="numberChange frzBalance">{{asset.frzBalance}}</p>
           </div>
         </div>
       </div>
@@ -120,11 +120,12 @@ export default {
     },
     data(){
     　　return {
-            imgSrc:"../../../static/img/openEyes.png",
+            imgSrc:"./static/img/openEyes.png",
             totalMoney:0.00,
             numberChange: 0.00,
             asset:'{}',
-            totalMoney:''
+            totalMoney:'',
+            imgMsg:"./static/img/xiaoXi.png"
     　　　}
     　},
     filters: {
@@ -226,16 +227,45 @@ export default {
             }
         },
         // 数据
-      product(){
-        const _this = this
-        _this.$loading.show();
-        const url = myPub.URL+`/user/getAccountOverview` ;
-        const params = new URLSearchParams();
-        params.append('token',sessionStorage.token);
-        axios.post(url,params).then(response => {
-            _this.$loading.hide();
+        product(){
+            const _this = this
+            _this.$loading.show();
+            const url = myPub.URL+`/user/getAccountOverview` ;
+            const params = new URLSearchParams();
+            params.append('token',sessionStorage.token);
+            axios.post(url,params).then(response => {
+                _this.$loading.hide();
+                const data = response.data
+                console.log(response.data)
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                this.asset = data.Account
+                this.lczc = this.asset.lczc
+                }
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        // 消息
+        msg(){
+            const _this = this
+            const url = myPub.URL+`/msg/getMessageList` ;
+            const params = new URLSearchParams();
+            params.append('token',sessionStorage.token);
+            params.append('pageSize','10');
+            params.append('curPagel','1');
+            axios.post(url,params).then(response => {
             const data = response.data
-            console.log(response.data)
             if (data.result == '400') {
                 this.$vux.alert.show({
                     title: '',
@@ -246,51 +276,20 @@ export default {
                     this.$router.push({path:"/login",query: {redirect: 'your path'}})
                 }, 3000)
             }
-            if (data.result == '200') {
-              this.asset = data.Account
-              this.lczc = this.asset.lczc
+            if (data.unReadNum != '0') {
+                this.imgMsg = './static/img/Messages@2x.png';
             }
-
-        }).catch((err) => {
+            console.log(data)
+            }).catch((err) => {
             console.log(err)
-        })
-      },
-      // 消息
-      msg(){
-        const _this = this
-        const url = myPub.URL+`/msg/getMessageList` ;
-        const params = new URLSearchParams();
-        params.append('token',sessionStorage.token);
-        params.append('pageSize','10');
-        params.append('curPagel','1');
-        axios.post(url,params).then(response => {
-          const data = response.data
-          if (data.result == '400') {
-              this.$vux.alert.show({
-                  title: '',
-                  content: data.resultMsg
-              })
-              setTimeout(() => {
-                  this.$vux.alert.hide()
-                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
-              }, 3000)
-          }
-          if (data.unReadNum == '0') {
-              $(".imgleft img").attr("src",'../../../static/img/xiaoXi.png')
-            }else{
-              $(".imgleft img").attr("src",'../../../static/img/Messages@2x.png')
-          }
-          console.log(data)
-        }).catch((err) => {
-          console.log(err)
-        })
-      },
-    },
-    watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        }//回退上一级页面并刷新
-    },
+            })
+        },
+        },
+        watch: {
+            '$route' (to, from) {
+                this.$router.go(0);
+            }//回退上一级页面并刷新
+        },
     mounted() {
         /*ECharts图表*/
         var myChart = echarts.init(document.getElementById('main'));
