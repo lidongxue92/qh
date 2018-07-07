@@ -419,7 +419,7 @@ export default {
                     background: url(~@/assets/img/red.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
@@ -458,7 +458,7 @@ export default {
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
@@ -497,7 +497,7 @@ export default {
                     background: url(~@/assets/img/pageadd.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
@@ -536,7 +536,7 @@ export default {
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;bottom: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}

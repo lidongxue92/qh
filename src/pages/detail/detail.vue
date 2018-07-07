@@ -8,7 +8,7 @@
             </div>
             <div class="right">
                 <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
-                <p>开放额度&emsp;<span>{{product.openLimit}}万元</span></p>
+                <p>开放额度&emsp;<span>{{product.openLimit}}元</span></p>
                 <span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
@@ -151,11 +151,14 @@ export default {
     },
     computed: {
     },
+    mounted () {
+    },
     created() {
         const dz = this.$route.query.dz
         this.dz = dz
         console.log(this.dz)
         this.productdata();
+        // this.token();
     },
     activated: function() {
         this.productdata()
@@ -172,6 +175,18 @@ export default {
         }, 300)
     },
     methods: {
+        // token(){
+        //     if (!sessionStorage.token) {
+        //     this.$vux.alert.show({
+        //         title: '',
+        //         content: '请登录'
+        //     })
+        //     setTimeout(() => {
+        //         this.$vux.alert.hide()
+        //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+        //     }, 2000)
+        //     }
+        // },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
@@ -248,15 +263,15 @@ export default {
                 }, 1000)
             }else if (value < parseFloat(this.Money)) {
                 $(".leftimg").attr('src',"./static/img/cont.png")
-                this.$vux.alert.show({
-                    content: "投资金额不能小于起投金额"
-                })
-                setTimeout(() => {
-                    num.val(this.residueMoney)
-                    this.money = this.Money
-                    this.$vux.alert.hide()
-                    $(".rightimg").attr('src',"./static/img/add.png");
-                }, 1000)
+                // this.$vux.alert.show({
+                //     content: "投资金额不能小于起投金额"
+                // })
+                // setTimeout(() => {
+                //     num.val(this.residueMoney)
+                //     this.money = this.Money
+                //     this.$vux.alert.hide()
+                //     $(".rightimg").attr('src',"./static/img/add.png");
+                // }, 1000)
             }else{
                 this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))
                 console.log (this.residueMoney)
@@ -329,42 +344,58 @@ export default {
             }
       },
       tost(){
-            const _this = this
-            _this.$loading.show();
-            const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-            const id = this.id
-            const orderMoney = this.money
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('productId',id);
-            params.append('clientType','h5');
-            params.append('orderMoney',orderMoney);
-            params.append('payType','1');
-            axios.post(url,params).then(res => {
-                console.log(res.data)
-                const data = res.data
-                _this.$loading.hide();
-                //     if (data.result == '400') {
-                //     this.$vux.alert.show({
-                //         title: '',
-                //         content: data.resultMsg
-                //     })
-                //     setTimeout(() => {
-                //         this.$vux.alert.hide()
-                //         this.$router.push({path:"/login"})
-                //     }, 3000)
-                // }
-                if(res.data.result == 200){
-                    this.isshow = true
-                    this.timer()
-                }
-                if(res.data.result == 302){
-                    $(".toast").css("display","block")
-                    $(".bg").css("display","block")
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
+            const num = $(".money")
+            const value = num.val()
+            if (value < parseFloat(this.residueMoney)) {
+                $(".rightimg").attr('src',"./static/img/add2.png");
+                this.$vux.alert.show({
+                    content: "投资金额不能小于起投金额"
+                })
+                setTimeout(() => {
+                    num.val(this.residueMoney)
+                    this.money = this.Money
+                    this.$vux.alert.hide()
+                    $(".leftimg").attr('src',"./static/img/cont.png")
+                    $(".rightimg").attr('src',"./static/img/add.png")
+                }, 1000) 
+            }else{
+                const _this = this
+                _this.$loading.show();
+                const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+                const id = this.id
+                const orderMoney = this.money
+                var params = new URLSearchParams();
+                params.append('token',sessionStorage.getItem("token"));
+                params.append('productId',id);
+                params.append('clientType','h5');
+                params.append('orderMoney',orderMoney);
+                params.append('payType','1');
+                axios.post(url,params).then(res => {
+                    console.log(res.data)
+                    const data = res.data
+                    _this.$loading.hide();
+                    if (data.result == '400') {
+                        this.$vux.alert.show({
+                            title: '',
+                            content: data.resultMsg
+                        })
+                        setTimeout(() => {
+                            this.$vux.alert.hide()
+                            this.$router.push({path:"/login"})
+                        }, 3000)
+                    }
+                    if(res.data.result == 200){
+                        this.isshow = true
+                        this.timer()
+                    }
+                    if(res.data.result == 302){
+                        $(".toast").css("display","block")
+                        $(".bg").css("display","block")
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
       },
       // 开户
       go(){
@@ -432,12 +463,6 @@ export default {
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
-
-                if (this.product.openLimit != "") {
-                    this.product.openLimit = this.product.openLimit/10000;
-                    console.log(this.product.openLimit);
-
-                }
 
 
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
