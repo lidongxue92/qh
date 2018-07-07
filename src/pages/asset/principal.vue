@@ -22,13 +22,14 @@
             <li class="going" @click="going">投标中</li>
             <li class="had" @click="had">已兑付</li>
         </ul>
-        <div class="nodata" v-if="isshow1">
+
+        <div class="nodata" v-if="isshowHas">
             <img src="~@/assets/img/no_data.png">
             <p>您还没有持有理财产品哦</p>
             <p>赶紧去产品中心挑选吧~</p>
             <button class="button" @click="category">去理财</button>
         </div>
-        <div class="Data" v-if="isshow2">
+        <div class="Data" v-else>
             <ul class="datalist">
                 <li @click="assetdetail(item.productId)"  v-for="(item,index) in Product" :key="index">
                     <h5>{{item.productName}}<span>{{item.orderBuyTime}}</span></h5>
@@ -68,19 +69,19 @@ export default {
         isshow3:false,
         isshow4:false,
         isshow5:false,
-        money:'',
-        Account:{}
+        Account:{},
+        isshowHas: true,
 　　  }
 　　},
     created() {
         this.lczc = this.$route.query.lazc;
-        this.product('1,2','0,1,2',0);
-        const url = myPub.URL+`/user/getAccountOverview` ;
+
+          const url = myPub.URL+`/user/getAccountOverview` ;
           const params = new URLSearchParams();
           params.append('token',sessionStorage.token);
           axios.post(url,params).then(res => {
                this.Account = res.data.Account;
-                // console.log(this.Account);
+                // console.log(res);
                 if (res.data.result == '400') {
                   this.$vux.alert.show({
                       title: '',
@@ -90,10 +91,47 @@ export default {
                       this.$vux.alert.hide()
                       this.$router.push({path:"/login",query: {redirect: 'your path'}})
                   }, 3000)
+                }else if (res.data.result == 200) {
+                    this.isshow1 = true;
+                    this.isshow2 = false;
                 }
           }).catch((err) => {
               console.log(err)
-          })
+          });
+
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('czlx',1);
+            params1.append('status',"1,2");
+            params1.append('productFullStatus',"0,1,2");
+            params1.append('orderType',0);
+            axios.post(url1,params1).then(res => {
+                    console.log(res);
+
+                this.Product = res.data.Product;
+                    if (res.data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                    }else if (res.data.result == 200) {
+                        if (res.data.totalCount == 0) {
+                            this.isshowHas = true;
+                        }else{
+                            this.isshowHas = false;
+                        }
+                    }
+            }).catch((err) => {
+                console.log(err)
+            })
+
     },
     methods:{
         goBack() {
@@ -113,60 +151,116 @@ export default {
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
-            this.product('1,2','0,1,2',0);
-        },
-        going(){
-            const _this = this
-            $(".going").addClass('active')
-            $(".has").removeClass('active')
-            $(".had").removeClass('active')
-            this.product(6,'0,2',0);
-        },
-        had(){
-            const _this = this
-            $(".had").addClass('active')
-            $(".has").removeClass('active')
-            $(".going").removeClass('active')
-            _this.isshow4 = true
-            this.product(3,'0,1,2','0,1')
-        },
-        product(status,productFullStatus,orderType){
-            const _this = this
-            _this.$loading.show();
-            const url = myPub.URL+`/user/getUserAssetsList` ;
-            const params = new URLSearchParams();
-            params.append('curPage','1');
-            params.append('pageSize','10');
-            params.append('status',status);
-            params.append('token',sessionStorage.token);
-            params.append('productFullStatus',productFullStatus);
-            params.append('czlx','1');
-            params.append('orderType',orderType);
-            params.append('clientType','h5');
-            axios.post(url,params).then(response => {
-                _this.$loading.hide();
-                const data = response.data
-                console.log(response)
-                if (data.result == '400') {
+
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('czlx',1);
+            params1.append('status',"1,2");
+            params1.append('productFullStatus',"0,1,2");
+            params1.append('orderType',0);
+            axios.post(url1,params1).then(res => {
+                    console.log(res);
+
+                this.Product = res.data.Product;
+                    if (res.data.result == '400') {
                     this.$vux.alert.show({
                         title: '',
-                        content: data.resultMsg
+                        content: res.data.resultMsg
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
                         this.$router.push({path:"/login",query: {redirect: 'your path'}})
                     }, 3000)
-                }
-                if (data.result == '200') {
-                    // console.log(sessionStorage.token)
-                    this.Product = data.Product
-                    this.money = data
-                    if (data.Product.length <= 0){
-                    this.isshow1 = true
-                    this.isshow2 = false
+                    }else if (res.data.result == 200) {
+                        if (res.data.totalCount == 0) {
+                            this.isshowHas = true;
+                        }else{
+                            this.isshowHas = false;
+                        }
+                    }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        going(){
+            $(".going").addClass('active')
+            $(".has").removeClass('active')
+            $(".had").removeClass('active')
+
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('czlx',1);
+            params1.append('status',"6,7");
+            params1.append('productFullStatus',"0,2");
+            params1.append('orderType',0);
+            axios.post(url1,params1).then(res => {
+                    console.log(res);
+
+                this.Product = res.data.Product;
+                    if (res.data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                    }else if (res.data.result == 200) {
+                        if (res.data.totalCount == 0) {
+                            this.isshowHas = true;
+                        }else{
+                            this.isshowHas = false;
+                        }
+                        $(".productStatus").each(function (i,n) {
+                            if ($(".productStatus").eq(i).text() == '6') {
+                                $(".img1").eq(i).css("display","inline-block")
+                            }
+                        })
+                    }
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        had(){
+            const _this = this
+            $(".had").addClass('active')
+            $(".going").removeClass('active')
+            $(".has").removeClass('active')
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('status',3);
+            params1.append('productFullStatus',"0,1,2");
+            params1.append('czlx',1);
+            params1.append('orderType',"0,1");
+            params1.append('clientType','h5');
+            axios.post(url1,params1).then(res => {
+                console.log(res);
+
+                this.Product = res.data.Product;
+                if (res.data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: res.data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                }, 3000)
+                }else if (res.data.result == 200) {
+                    if (res.data.totalCount == 0) {
+                        this.isshowHas = true;
                     }else{
-                        this.isshow1 = false
-                    this.isshow2 = true
+                        this.isshowHas = false;
                     }
                     $(".productStatus").each(function (i,n) {
                         if ($(".productStatus").eq(i).text() == '6') {
@@ -174,11 +268,10 @@ export default {
                         }
                     })
                 }
-
             }).catch((err) => {
                 console.log(err)
             })
-        }
+        },
     },
     filters: {
         numFilter(value) {
