@@ -224,8 +224,13 @@ export default {
                 console.log (this.residueMoney)
                 $(".leftimg").attr('src',"./static/img/add1.png")
                 if (sessionStorage.redPacketMoney) {
-                    this.totalCount = sessionStorage.redPacketMoney
-                }else{
+                    $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
+                    this.Interest()
+                }else if (sessionStorage.incrMoney) {
+                    $(".usered b").html(sessionStorage.incrMoney+'%加息券')
+                    this.Interest()
+                }
+                else{
                     this.welfare()
                     this.Interest()
                 }
@@ -239,8 +244,13 @@ export default {
                 this.money = (parseFloat(this.money)-parseFloat(this.amountIncrease))
                 console.log (this.money+'00')
                 if (sessionStorage.redPacketMoney) {
-                    this.totalCount = sessionStorage.redPacketMoney
-                }else{
+                    $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
+                    this.Interest()
+                }else if (sessionStorage.incrMoney) {
+                    $(".usered b").html(sessionStorage.incrMoney+'%加息券')
+                    this.Interest()
+                }
+                else{
                     this.welfare()
                     this.Interest()
                 }
@@ -270,8 +280,13 @@ export default {
                 console.log (this.residueMoney)
                 $(".leftimg").attr('src',"./static/img/add1.png")
                 if (sessionStorage.redPacketMoney) {
-                    this.totalCount = sessionStorage.redPacketMoney
-                }else{
+                    $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
+                    this.Interest()
+                }else if (sessionStorage.incrMoney) {
+                    $(".usered b").html(sessionStorage.incrMoney+'%加息券')
+                    this.Interest()
+                }
+                else{
                     this.welfare()
                     this.Interest()
                 }
@@ -297,6 +312,9 @@ export default {
       Interest(){
             var newAddMoney = this.money;//金额
             var lilv = this.Annual / 100;//年利率
+            if (sessionStorage.incrMoney) {
+                var lilv = (Number(this.Annual)+Number(sessionStorage.incrMoney)) / 100;//年利率
+            }
             //求取预期到期收益
             var month = parseInt(this.day / 30); // 总共整月数 (还款月数)
             var monthYuShu = this.day % 30; // 多余的天数
@@ -528,7 +546,13 @@ export default {
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
                 $(".after").css("width",jd+'%');
-
+                if (data.ProductInfo.interestType == '3') {
+                    this.isshow3 = true
+                    this.isshow4 = false
+                }else{
+                    this.isshow3 = false
+                    this.isshow4 = true
+                }
             }
           }).catch((err) => {
             console.log(err)
