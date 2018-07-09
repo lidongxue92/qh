@@ -47,11 +47,7 @@
                     </span>
                     <span class="fr">
                         到帐日
-<<<<<<< HEAD
                         <b>{{dzr}}</b>
-=======
-                        <b>{{product.dqr}}</b>
->>>>>>> 6449868467c4c67b3fbe4db56104967437423bc1
                     </span>
                 </p>
                 <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
@@ -175,6 +171,10 @@ export default {
             setTimeout(() => {
                 if (sessionStorage.redPacketMoney) {
                     this.totalCount = sessionStorage.redPacketMoney
+                }else{
+                    sessionStorage.removeItem("redPacketMoney");
+                    sessionStorage.removeItem("packetId");
+                    sessionStorage.removeItem("incrId");
                 }
                 sessionStorage.removeItem("redPacketMoney");
             }, 200)
@@ -366,6 +366,12 @@ export default {
                 params.append('clientType','h5');
                 params.append('orderMoney',orderMoney);
                 params.append('payType','1');
+                if (sessionStorage.packetId) {
+                    params.append('packetId',sessionStorage.packetId);
+                }
+                if (sessionStorage.incrIdf) {
+                    params.append('incrIdf',sessionStorage.incrIdf);
+                }
                 axios.post(url,params).then(res => {
                     console.log(res.data)
                     const data = res.data
