@@ -519,10 +519,11 @@ export default {
     .zhezhao{background: rgba(0, 0, 0, .3);position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 600;display: none}
 
     .act{
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50% 50%;
         img{
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50% 50%;
+            width: 100%;
         }
     }
 }
