@@ -13,7 +13,7 @@
                 <li>实际支付金额 <span class="c-FFA303">{{product.payMoney}}</span></li>
             </ul>
         </div>
-        <button class="button" @click="buy">确认支付</button>
+        <button class="button" @click.once="buy">确认支付</button>
         <div class="box" style="display:none;">
             <form  name="regSubmit" method="post" :action="ChinaPnrServer">
             <input type='text' name='Version' :value='Version'> Version

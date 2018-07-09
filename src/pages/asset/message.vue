@@ -161,7 +161,7 @@ export default {
                     axios.post(url,params).then(res => {
                         console.log(res);
                         if (res.data.result == 200) {
-                            $(".msgTitle").css("color","#666")
+                            $(".msgTitle").css("color","#999")
                         }
                     }).catch((err) => {
                         console.log(err)

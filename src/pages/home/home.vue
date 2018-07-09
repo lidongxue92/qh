@@ -521,9 +521,8 @@ export default {
     .act{
         width: 2rem;
         height: 2rem;
-        border-radius: 50% 50%;
         img{
-            width: 100%;
+            border-radius: 50% 50%;
         }
     }
 }

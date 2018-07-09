@@ -172,9 +172,9 @@ export default {
                     // 性别
                     $(".creditorSex").each(function (i) {
                         if (data.User.creditorSex != 1) {
-                            $(".creditorSex").eq(i).text("女")
-                        }else{
                             $(".creditorSex").eq(i).text("男")
+                        }else{
+                            $(".creditorSex").eq(i).text("女")
                         }
                     })
 
