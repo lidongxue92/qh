@@ -31,7 +31,7 @@
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red(product.productId,product.period)">
-                    <span class="fl">红包卡券</span><span class="fr usered">{{totalCount}}&emsp;<img src="~@/assets/img/right.png"></span>
+                    <span class="fl">红包卡券</span><span class="fr usered"><b style="font-weight: normal;">{{totalCount}}个可用</b>&emsp;<img src="~@/assets/img/right.png"></span>
                 </p>
                 <p class="word">
                     <span class="fl">预期收益</span><span class="fr c-FFA303"><b class="rate1"></b>&ensp;元</span>
@@ -167,16 +167,16 @@ export default {
         setTimeout(() => {
             this.welfare()
             this.Interest()
-
             setTimeout(() => {
                 if (sessionStorage.redPacketMoney) {
-                    this.totalCount = sessionStorage.redPacketMoney
-                }else{
-                    sessionStorage.removeItem("redPacketMoney");
-                    sessionStorage.removeItem("packetId");
-                    sessionStorage.removeItem("incrId");
+                    console.log(sessionStorage.packetId+"红包")
+                    $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
+                    $(".usered b").css('color','#FFA303')
+                }else if (sessionStorage.incrMoney) {
+                    console.log(sessionStorage.incrId+"加息券")
+                    $(".usered b").html(sessionStorage.incrMoney+'%加息券')
+                    $(".usered b").css('color','#FFA303')
                 }
-                sessionStorage.removeItem("redPacketMoney");
             }, 200)
         }, 300)
     },
@@ -223,23 +223,30 @@ export default {
                 this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))
                 console.log (this.residueMoney)
                 $(".leftimg").attr('src',"./static/img/add1.png")
-                this.welfare()
-                this.Interest()
+                if (sessionStorage.redPacketMoney) {
+                    this.totalCount = sessionStorage.redPacketMoney
+                }else{
+                    this.welfare()
+                    this.Interest()
+                }
             }
         },
         cont(){
             const _this = this
             const num = $(".money")
             const value = num.val()
-            if (value >= parseFloat(this.Money)) {
+            if (value >parseFloat(this.Money)) {
                 this.money = (parseFloat(this.money)-parseFloat(this.amountIncrease))
                 console.log (this.money+'00')
-                this.welfare()
-                this.Interest();
+                if (sessionStorage.redPacketMoney) {
+                    this.totalCount = sessionStorage.redPacketMoney
+                }else{
+                    this.welfare()
+                    this.Interest()
+                }
                 $(".rightimg").attr('src',"./static/img/add.png");
             }else{
                 $(".leftimg").attr('src',"./static/img/cont.png");
-
             }
         },
         // 输入框
@@ -259,21 +266,15 @@ export default {
                 }, 1000)
             }else if (value < parseFloat(this.Money)) {
                 $(".leftimg").attr('src',"./static/img/cont.png")
-                // this.$vux.alert.show({
-                //     content: "投资金额不能小于起投金额"
-                // })
-                // setTimeout(() => {
-                //     num.val(this.residueMoney)
-                //     this.money = this.Money
-                //     this.$vux.alert.hide()
-                //     $(".rightimg").attr('src',"./static/img/add.png");
-                // }, 1000)
             }else{
-                this.money = (parseFloat(this.money)+parseFloat(this.amountIncrease))
                 console.log (this.residueMoney)
                 $(".leftimg").attr('src',"./static/img/add1.png")
-                this.welfare()
-                this.Interest()
+                if (sessionStorage.redPacketMoney) {
+                    this.totalCount = sessionStorage.redPacketMoney
+                }else{
+                    this.welfare()
+                    this.Interest()
+                }
             }
         },
         timer() {
@@ -342,61 +343,73 @@ export default {
       tost(){
             const num = $(".money")
             const value = num.val()
-            if (value < parseFloat(this.Money)) {
-                $(".rightimg").attr('src',"./static/img/add2.png");
+            if (value%this.Money === 0) {
+                if (value < parseFloat(this.Money)) {
+                    $(".rightimg").attr('src',"./static/img/add2.png");
+                    this.$vux.alert.show({
+                        content: "投资金额不能小于起投金额"
+                    })
+                    setTimeout(() => {
+                        num.val(this.residueMoney)
+                        this.money = this.Money
+                        this.$vux.alert.hide()
+                        $(".leftimg").attr('src',"./static/img/cont.png")
+                        $(".rightimg").attr('src',"./static/img/add.png")
+                    }, 1000)
+                }else{
+                    const _this = this
+                    _this.$loading.show();
+                    const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+                    const id = this.id
+                    const orderMoney = this.money
+                    var params = new URLSearchParams();
+                    params.append('token',sessionStorage.getItem("token"));
+                    params.append('productId',id);
+                    params.append('clientType','h5');
+                    params.append('orderMoney',orderMoney);
+                    params.append('payType','1');
+                    if (sessionStorage.packetId) {
+                        params.append('packetId',sessionStorage.packetId);
+                    }
+                    if (sessionStorage.incrId) {
+                        params.append('incrId',sessionStorage.incrId);
+                    }
+                    axios.post(url,params).then(res => {
+                        console.log(res.data)
+                        const data = res.data
+                        _this.$loading.hide();
+                        if (data.result == '400') {
+                            this.$vux.alert.show({
+                                title: '',
+                                content: data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                                this.$router.push({path:"/login"})
+                            }, 3000)
+                        }
+                        if(res.data.result == 200){
+                            this.isshow = true
+                            this.timer()
+                        }
+                        if(res.data.result == 302){
+                            $(".toast").css("display","block")
+                            $(".bg").css("display","block")
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }
+            }else{
                 this.$vux.alert.show({
-                    content: "投资金额不能小于起投金额"
+                    title: '',
+                    content: '投资金额必须是起投金额的整数倍,请重新输入'
                 })
                 setTimeout(() => {
-                    num.val(this.residueMoney)
-                    this.money = this.Money
                     this.$vux.alert.hide()
+                    this.money = this.Money
                     $(".leftimg").attr('src',"./static/img/cont.png")
-                    $(".rightimg").attr('src',"./static/img/add.png")
-                }, 1000)
-            }else{
-                const _this = this
-                _this.$loading.show();
-                const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-                const id = this.id
-                const orderMoney = this.money
-                var params = new URLSearchParams();
-                params.append('token',sessionStorage.getItem("token"));
-                params.append('productId',id);
-                params.append('clientType','h5');
-                params.append('orderMoney',orderMoney);
-                params.append('payType','1');
-                if (sessionStorage.packetId) {
-                    params.append('packetId',sessionStorage.packetId);
-                }
-                if (sessionStorage.incrIdf) {
-                    params.append('incrIdf',sessionStorage.incrIdf);
-                }
-                axios.post(url,params).then(res => {
-                    console.log(res.data)
-                    const data = res.data
-                    _this.$loading.hide();
-                    if (data.result == '400') {
-                        this.$vux.alert.show({
-                            title: '',
-                            content: data.resultMsg
-                        })
-                        setTimeout(() => {
-                            this.$vux.alert.hide()
-                            this.$router.push({path:"/login"})
-                        }, 3000)
-                    }
-                    if(res.data.result == 200){
-                        this.isshow = true
-                        this.timer()
-                    }
-                    if(res.data.result == 302){
-                        $(".toast").css("display","block")
-                        $(".bg").css("display","block")
-                    }
-                }).catch((err) => {
-                    console.log(err);
-                });
+                }, 3000)
             }
       },
       // 开户
@@ -537,11 +550,16 @@ export default {
                 const data = res.data
                 this.free= data
                 this.totalCount = this.free.totalCount
+                $(".usered b").html(this.totalCount+'个可用')
             }).catch((err) => {
                 console.log(err);
             });
         }
     },
+    deactivated: function() {
+        sessionStorage.removeItem("redPacketMoney");
+        sessionStorage.removeItem("incrMoney");
+     },
     components: {
         PopupPicker,
         Tab,
@@ -635,6 +653,9 @@ export default {
                     float: right;color: #999;font-size:0.7rem;
                     img{width: 0.4rem;height: 0.7rem;}
                     b{font-size: 1.25rem;font-weight: normal;color: #FFA303}
+                }
+                .usered{
+                    b{font-size: 0.8rem!important;color: #999}
                 }
                 .c-FFA303{color: #FFA303;position: relative;bottom: 0.3rem;}
             }

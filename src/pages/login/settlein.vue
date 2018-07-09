@@ -371,9 +371,9 @@ export default {
            axios.post(url,params).then(response => {
               console.log(response)
               if (response.data.result == '302') {
+                $(".img3").css("display","none");
                 this.isshow1 = true;
                 this.isshow = false;
-                $(".img3").css('display','none')
                 // 手机号脱敏
                 const tel = $('.register_content_input').val()
                 const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
