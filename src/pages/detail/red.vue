@@ -97,7 +97,7 @@
                             <div class="center">
                                 <p class="left"><b>{{item.incrMoney}}%</b></p>
                                 <p class="right">
-                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.incrMoney}}</b>元可使用</span>
                                     <span class="invest">投资满<b class="investMoney" style="font-weight: normal;">{{item.applyDays}}</b>天可使用</span>
                                 </p>
                             </div>
@@ -130,7 +130,7 @@
                             <div class="center">
                                 <p class="left"><b>{{item.incrMoney}}%</b></p>
                                 <p class="right">
-                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.incrMoney}}</b>元可使用</span>
                                     <span class="invest">投资满<b class="investMoney" style="font-weight: normal;">{{item.applyDays}}</b>天可使用</span>
                                 </p>
                             </div>
@@ -470,7 +470,7 @@ export default {
                         .invest{opacity: 0}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.9rem;position: relative;display: block;position: relative;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1.5rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
@@ -479,12 +479,12 @@ export default {
                     li{
                         padding: 1rem 1rem;
                         .left{
-                            width: 23%;bottom: 1rem;
+                            width: 23%;
                             b{font-size: 1rem;}
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;
                         }
                     }
                 }
@@ -509,7 +509,7 @@ export default {
                         .invest{opacity: 0}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.9rem;position: relative;display: block;position: relative;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1.5rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
@@ -518,12 +518,12 @@ export default {
                     li{
                         padding: 1rem 1rem;
                         .left{
-                            width: 23%;bottom: 1rem;
+                            width: 23%;
                             b{font-size: 1rem;}
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;
                         }
                     }
                 }
@@ -548,7 +548,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.6rem;position: relative;display: block;position: relative;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1.5rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #C79B5A;color: #C79B5A;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
@@ -557,12 +557,12 @@ export default {
                     li{
                         padding: 1rem 1rem;
                         .left{
-                            width: 23%;bottom: 1rem;
+                            width: 23%;
                             b{font-size: 1rem;}
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;
                         }
                     }
                 }
@@ -587,7 +587,7 @@ export default {
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.6rem;position: relative;display: block;position: relative;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1.5rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
                         .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
@@ -596,12 +596,12 @@ export default {
                     li{
                         padding: 1rem 1rem;
                         .left{
-                            width: 23%;bottom: 1rem;
+                            width: 23%;
                             b{font-size: 1rem;}
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;
                         }
                     }
                 }

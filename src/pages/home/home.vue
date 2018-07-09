@@ -470,7 +470,7 @@ export default {
     }
     .mt5{margin-top: 5rem;}
     .middle{
-        margin-top: 7rem;
+        margin-top:8rem;
         .productlist{
             li{
                 background: #fff;margin-top: 10px;padding:1rem;min-height: 8rem;
