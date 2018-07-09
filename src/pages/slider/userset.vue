@@ -1,12 +1,14 @@
 <template>
     <div class="detail page">
-        <top v-bind:title="title"></top>
+        <topComponent title='账户设置' :showLeft='false'>
+        <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+    </topComponent>
         <div class="middle">
             <ul class="list">
                 <li @click="security">安全设置 <img src="~@/assets/img/right.png"></li>
                 <li>
                     实名认证
-                    <img src="~@/assets/img/right.png"> 
+                    <img src="~@/assets/img/right.png">
                     <span v-if="isshow" class="c-FFA303"  @click="nameInfo">已认证 &emsp;</span>
                     <span v-else class="c-FFA303"  @click="nameset">未认证 &emsp;</span>
                 </li>
@@ -22,17 +24,17 @@
 
 <!-- 开户 -->
     <div class="box" style="display:none;">
-        <form  name="regSubmit" method="post" :action="ChinaPnrServer"> 
+        <form  name="regSubmit" method="post" :action="ChinaPnrServer">
              <input type='text' name='Version'  :value='Version'>
              <input type='text' name='CmdId'  :value='CmdId'>
              <input type='text' name='MerCustId' :value='MerCustId'>
-             <input type='text' name='RetUrl'  :value='RetUrl'> 
+             <input type='text' name='RetUrl'  :value='RetUrl'>
              <input type='text' name='BgRetUrl' :value='BgRetUrl'>
              <input type='text' name='UsrId'  :value='UsrId'>
              <input type='text' name='UsrMp' :value='UsrMp'>
              <input type='text' name='PageType'  :value='PageType'>
-             <input type='text' name='ChkValue'  :value='ChkValue'>    
-             <input type='text' name='MerPriv' :value='MerPriv'> 
+             <input type='text' name='ChkValue'  :value='ChkValue'>
+             <input type='text' name='MerPriv' :value='MerPriv'>
         </form>
     </div>
 
@@ -47,7 +49,7 @@ import axios from 'axios';
 import * as myPub from '@/assets/js/public.js'
 import $ from 'jquery'
 import { mapState, mapMutations, mapGetters } from 'vuex'
-import top from '../../components/common/top1'
+import topComponent from '../../components/common/top'
 export default {
     name: 'detail',
     directives: {
@@ -57,11 +59,10 @@ export default {
         return {
             product: null,
             money:'1000',
-            title:'账户设置',
             isshow: false,
 
             // 三方开户数据
-            ChinaPnrServer : "", 
+            ChinaPnrServer : "",
             Version : "",
             CmdId : "",
             MerCustId : "",
@@ -80,7 +81,7 @@ export default {
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
         params.append('clientType','h5');
-        
+
         axios.post(url,params).then(res => {
             // console.log(res.data);
             this.ChinaPnrServer = res.data.chinaPnrServer;
@@ -105,6 +106,9 @@ export default {
 
     },
     methods: {
+        goBack(){
+            this.$router.push({ path: '/' })
+        },
         security() {
             this.$router.push({ path: '/page/security' })
         },
@@ -117,7 +121,7 @@ export default {
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('clientType','h5');
-            
+
             axios.post(url,params).then(res => {
                 // console.log(res.data);
                 this.ChinaPnrServer = res.data.chinaPnrServer;
@@ -135,9 +139,9 @@ export default {
                 if(res.data.result == 200){
                     //提交from表单
                     setTimeout(() => {
-                        document.regSubmit.submit();                        
+                        document.regSubmit.submit();
                     }, 1000)
-                    
+
                 }
 
             }).catch((err) => {
@@ -176,7 +180,7 @@ export default {
         Toast,
         XAddress,
         XButton,
-        top
+        topComponent
     },
     watch: {
       '$route' (to, from) {

@@ -43,7 +43,7 @@
                     </p>
                     <span class="productStatus" style="position: absolute;opacity: 0;">{{item.productStatus}}</span>
                     <img class="img1" src="~@/assets/img/lost.png">
-                    <img v-if="isshow4" src="~@/assets/img/had.png">
+                    <img class="isshow4" v-if="isshow4" src="~@/assets/img/had.png">
                     <img v-if="isshow5" src="~@/assets/img/lost.png">
                 </li>
             </ul>
@@ -62,7 +62,7 @@ export default {
     data(){
 　　  return {
         Product:'',
-        imgSrc:"../../../static/img/openEyes.png",
+        imgSrc:"./static/img/openEyes.png",
         isShow: false,
         isshow1:false,
         isshow2:true,
@@ -99,68 +99,8 @@ export default {
           }).catch((err) => {
               console.log(err)
           });
-            const url1 = myPub.URL+`/user/getUserAssetsList` ;
-            const _this = this
-            const params1 = new URLSearchParams();
-            _this.$loading.show();
-            params1.append('token',sessionStorage.token);
-            params1.append('curPage',1);
-            params1.append('pageSize',9);
-            params1.append('czlx',1);
-            params1.append('status',"1,2");
-            params1.append('productFullStatus',"0,1,2");
-            params1.append('orderType',0);
-            axios.post(url1,params1).then(res => {
-                    console.log(res);
-                    _this.$loading.hide();
-                this.Product = res.data.Product;
-                    if (res.data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                    }else if (res.data.result == 200) {
-                        this.totalCount = res.data.totalCount
-                        if (res.data.totalCount == 0) {
-                            this.isshowHas = true;
-                        }else{
-                            console.log(this.totalCount)
-                            const url1 = myPub.URL+`/user/getUserAssetsList` ;
-                            const _this = this
-                            const params1 = new URLSearchParams();
-                            _this.$loading.show();
-                            params1.append('token',sessionStorage.token);
-                            params1.append('curPage',1);
-                            params1.append('pageSize',this.totalCount);
-                            params1.append('czlx',1);
-                            params1.append('status',"1,2");
-                            params1.append('productFullStatus',"0,1,2");
-                            params1.append('orderType',0);
-                            axios.post(url1,params1).then(res => {
-                                console.log(res);
-                                 _this.$loading.hide();
-                               if (res.data.result == 200) {
-                                    this.totalCount = res.data.totalCount
-                                    this.Product = res.data.Product
-                                    if (res.data.totalCount == 0) {
-                                        this.isshowHas = true;
-                                    }else{
-                                        this.isshowHas = false;
-                                    }
-                                }
-                            }).catch((err) => {
-                                console.log(err)
-                            })
-                        }
-                    }
-            }).catch((err) => {
-                console.log(err)
-            })
 
+        //   this.cyz();
     },
     filters: {
         numFilter(value) {
@@ -185,173 +125,16 @@ export default {
             this.$router.push({ path: '/page/Transfer' })
         },
         has(){
-            const _this = this
             $(".has").addClass('active')
             $(".going").removeClass('active')
             $(".had").removeClass('active')
-            this.product('1,2','0,1,2',0,10);
-            setTimeout(() => {
-                const url1 = myPub.URL+`/user/getUserAssetsList` ;
-                const params1 = new URLSearchParams();
-                params1.append('token',sessionStorage.token);
-                params1.append('curPage',1);
-                params1.append('pageSize',this.totalCount);
-                params1.append('czlx',1);
-                params1.append('status',"1,2");
-                params1.append('productFullStatus',"0,1,2");
-                params1.append('orderType',0);
-                axios.post(url1,params1).then(res => {
-                        console.log(res);
-
-                    this.Product = res.data.Product;
-                        if (res.data.result == '400') {
-                        this.$vux.alert.show({
-                            title: '',
-                            content: res.data.resultMsg
-                        })
-                        setTimeout(() => {
-                            this.$vux.alert.hide()
-                            this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                        }, 3000)
-                        }else if (res.data.result == 200) {
-                            if (res.data.totalCount == 0) {
-                                this.isshowHas = true;
-                            }else{
-                                this.isshowHas = false;
-                            }
-                        }
-                }).catch((err) => {
-                    console.log(err)
-                })
-            }, 1200)
+            this.cyz();
         },
         going(){
-            const _this = this
-            _this.$loading.show();
             $(".going").addClass('active')
             $(".had").removeClass('active')
-            $(".has").removeClass('active')
-            const url1 = myPub.URL+`/user/getUserAssetsList` ;
-            const params1 = new URLSearchParams();
-            params1.append('token',sessionStorage.token);
-            params1.append('curPage',1);
-            params1.append('pageSize',10);
-            params1.append('status',6);
-            params1.append('productFullStatus',"0,2");
-            params1.append('czlx',1);
-            params1.append('orderType',0);
-            params1.append('clientType','h5');
-            axios.post(url1,params1).then(res => {
-                console.log(res);
-                _this.$loading.hide();
-                this.Product = res.data.Product;
-                if (res.data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: res.data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-                }else if (res.data.result == 200) {
-                    this.totalCount = res.data.totalCount
-                    this.isshow4 = true
-                    if (res.data.totalCount == 0) {
-                        this.isshowHas = true;
-                    }else{
-                        console.log(this.totalCount)
-                        const url1 = myPub.URL+`/user/getUserAssetsList` ;
-                        const _this = this
-                        const params1 = new URLSearchParams();
-                        _this.$loading.show();
-                        params1.append('token',sessionStorage.token);
-                        params1.append('curPage',1);
-                        params1.append('pageSize',this.totalCount);
-                        params1.append('czlx',1);
-                        params1.append('status',6);
-                        params1.append('productFullStatus',"0,2");
-                        params1.append('orderType',0);
-                        params1.append('clientType','h5');
-                        axios.post(url1,params1).then(res => {
-                            console.log(res);
-                             _this.$loading.hide();
-                           if (res.data.result == 200) {
-                                this.totalCount = res.data.totalCount
-                                this.Product = res.data.Product
-                                if (res.data.totalCount == 0) {
-                                    this.isshowHas = true;
-                                }else{
-                                    this.isshowHas = false;
-                                }
-                            }
-                        }).catch((err) => {
-                            console.log(err)
-                        })
-                    }
-                    $(".productStatus").each(function (i,n) {
-                        if ($(".productStatus").eq(i).text() == '6') {
-                            $(".img1").eq(i).css("display","inline-block")
-                        }
-                    })
-                }
-            }).catch((err) => {
-                console.log(err)
-            })
-        },
-        product(pageSize,czlx,status,productFullStatus,orderType){
-            const _this = this
-            _this.$loading.show();
-             _this.pageSize = 9
-            const url = myPub.URL+`/user/getUserAssetsList` ;
-            const params = new URLSearchParams();
-            params.append('curPage','1');
-            params.append('pageSize',pageSize);
-            params.append('status',status);
-            params.append('token',sessionStorage.token);
-            params.append('productFullStatus',productFullStatus);
-            params.append('czlx','1');
-            params.append('orderType',orderType);
-            params.append('clientType','h5');
-            axios.post(url,params).then(response => {
-                _this.$loading.hide();
-                const data = response.data
-                console.log(response)
-                if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: res.data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                }
-                if (data.result == '200') {
-                    // console.log(sessionStorage.token)
-                    this.Product = data.Product
-                    this.money = data
-                    this.totalCount = data.totalCount
-                    console.log(this.totalCount)
-                    if (data.Product.length <= 0){
-                    this.isshow1 = true
-                    this.isshow2 = false
-                    }else if (res.data.result == 200) {
-                        if (res.data.totalCount == 0) {
-                            this.isshowHas = true;
-                        }else{
-                            this.isshowHas = false;
-                        }
-                        $(".productStatus").each(function (i,n) {
-                            if ($(".productStatus").eq(i).text() == '6') {
-                                $(".img1").eq(i).css("display","inline-block")
-                            }
-                        })
-                    }
-                }
-            }).catch((err) => {
-                console.log(err)
-            })
+            $(".has").removeClass('active');
+            this.tbz();
         },
         had(){
             const _this = this
@@ -427,6 +210,143 @@ export default {
                 console.log(err)
             })
         },
+
+        // 持有
+        cyz(){
+            //持有数据
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const _this = this
+            const params1 = new URLSearchParams();
+            _this.$loading.show();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('czlx',1);
+            params1.append('status',"1,2");
+            params1.append('productFullStatus',"0,1,2");
+            params1.append('orderType',0);
+            axios.post(url1,params1).then(res => {
+                    console.log(res);
+                    _this.$loading.hide();
+                this.Product = res.data.Product;
+                    if (res.data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                    }else if (res.data.result == 200) {
+                        this.totalCount = res.data.totalCount
+                        if (res.data.totalCount == 0) {
+                            this.isshowHas = true;
+                        }else{
+                            console.log(this.totalCount)
+                            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                            const _this = this
+                            const params1 = new URLSearchParams();
+                            _this.$loading.show();
+                            params1.append('token',sessionStorage.token);
+                            params1.append('curPage',1);
+                            params1.append('pageSize',this.totalCount);
+                            params1.append('czlx',1);
+                            params1.append('status',"1,2");
+                            params1.append('productFullStatus',"0,1,2");
+                            params1.append('orderType',0);
+                            axios.post(url1,params1).then(res => {
+                                console.log(res);
+                                 _this.$loading.hide();
+                               if (res.data.result == 200) {
+                                   $(".isshow4").hide();
+                                   $(".img1").hide();
+                                    this.totalCount = res.data.totalCount
+                                    this.Product = res.data.Product
+                                    if (res.data.totalCount == 0) {
+                                        this.isshowHas = true;
+                                    }else{
+                                        this.isshowHas = false;
+                                    };
+                                }
+                            }).catch((err) => {
+                                console.log(err)
+                            })
+                        }
+                    }
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
+        // 投标中
+        tbz(){
+            const _this = this;
+            _this.$loading.show();
+            const url1 = myPub.URL+`/user/getUserAssetsList` ;
+            const params1 = new URLSearchParams();
+            params1.append('token',sessionStorage.token);
+            params1.append('curPage',1);
+            params1.append('pageSize',9);
+            params1.append('czlx',1);
+            params1.append('status',"6,7");
+            params1.append('productFullStatus',"0,2");
+            params1.append('orderType',0);
+            axios.post(url1,params1).then(res => {
+                console.log(res);
+                _this.$loading.hide();
+                this.Product = res.data.Product;
+                if (res.data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }else if (res.data.result == 200) {
+                    this.totalCount = res.data.totalCount
+                    this.isshow4 = false;
+                    if (res.data.totalCount == 0) {
+                        this.isshowHas = true;
+                    }else{
+                        console.log(this.totalCount)
+                        const url1 = myPub.URL+`/user/getUserAssetsList` ;
+                        const _this = this
+                        const params1 = new URLSearchParams();
+                        _this.$loading.show();
+                        params1.append('token',sessionStorage.token);
+                        params1.append('curPage',1);
+                        params1.append('pageSize',9);
+                        params1.append('czlx',1);
+                        params1.append('status',"6,7");
+                        params1.append('productFullStatus',"0,2");
+                        params1.append('orderType',0);
+                        axios.post(url1,params1).then(res => {
+                            console.log(res);
+                             _this.$loading.hide();
+                           if (res.data.result == 200) {
+                                this.Product = res.data.Product
+                                if (res.data.totalCount == 0) {
+                                    this.isshowHas = true;
+                                }else{
+                                    this.isshowHas = false;
+                                }
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        })
+                    }
+                    $(".productStatus").each(function (i,n) {
+                        if ($(".productStatus").eq(i).text() == '6') {
+                            $(".img1").eq(i).css("display","inline-block")
+                        }
+                    })
+                }
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     },
     filters: {
         numFilter(value) {
