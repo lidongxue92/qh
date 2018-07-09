@@ -389,8 +389,8 @@ export default {
         linkDetail(incrId,incrMoney){
             const id = this.$route.query.id
             if (id) {
-                sessionStorage.setItem("packetId",packetId);
-                sessionStorage.setItem("redPacketMoney",redPacketMoney);
+                sessionStorage.setItem("incrId",incrId);
+                sessionStorage.setItem("incrMoney",incrMoney);
                 this.$router.push({path:'/page/detail', query: { id: id }})
             }else{
                 this.$router.push({path:'/category'})

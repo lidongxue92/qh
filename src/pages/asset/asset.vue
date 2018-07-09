@@ -257,45 +257,87 @@ export default {
                       const zrje = Math.floor(Number(data.Account.zrje))
                       const avlBalance = Math.floor(Number(data.Account.avlBalance))
                       const frzBalance = Math.floor(Number(data.Account.frzBalance))
-                      var myChart = echarts.init(document.getElementById('main'));
-                    myChart.setOption({
-                      tooltip : { //提示框组件
-                        show:false,
-                      },
-                      color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
-                       series: [
-                          {
-                              name:'访问来源',
-                              type:'pie',
-                              clickable:false,
-                              radius: ['50%', '70%'],
-                              avoidLabelOverlap: false,
-                              legendHoverLink:false,
-                              hoverAnimation :false,
-                              label: {
-                                  normal: {
-                                      show: false,
-                                      position: 'center'
+                      if (lczc1 == '0.00' && dssy == '0.00' && zrje == '0.00' && avlBalance == '0.00' && frzBalance == '0.00') {
+                        var myChart = echarts.init(document.getElementById('main'));
+                          myChart.setOption({
+                          tooltip : { //提示框组件
+                            show:false,
+                          },
+                          color:['#eee'],  //手动设置每个图例的颜色
+                           series: [
+                              {
+                                  name:'访问来源',
+                                  type:'pie',
+                                  clickable:false,
+                                  radius: ['53%', '70%'],
+                                  avoidLabelOverlap: false,
+                                  legendHoverLink:false,
+                                  hoverAnimation :false,
+                                  label: {
+                                      normal: {
+                                          show: false,
+                                          position: 'center'
+                                      },
+                                      emphasis: {
+                                          show: false,
+                                      }
                                   },
-                                  emphasis: {
-                                      show: false,
-                                  }
-                              },
-                              labelLine: {
-                                  normal: {
-                                      show: false
-                                  }
-                              },
-                              data:[
-                                {value:lczc1, name:'待收本金'},
-                                {value:dssy, name:'待收收益'},
-                                {value:zrje, name:'转让金额'},
-                                {value:avlBalance, name:'账户余额'},
-                                {value:frzBalance, name:'冻结金额'}
-                            ]
-                          }
-                      ]
-                    });
+                                  labelLine: {
+                                      normal: {
+                                          show: false
+                                      }
+                                  },
+                                  data:[
+                                    {value:lczc1, name:'待收本金'},
+                                    {value:dssy, name:'待收收益'},
+                                    {value:zrje, name:'转让金额'},
+                                    {value:avlBalance, name:'账户余额'},
+                                    {value:frzBalance, name:'冻结金额'}
+                                ]
+                              }
+                          ]
+                        });
+                      }else{
+                        var myChart = echarts.init(document.getElementById('main'));
+                          myChart.setOption({
+                          tooltip : { //提示框组件
+                            show:false,
+                          },
+                          color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+                           series: [
+                              {
+                                  name:'访问来源',
+                                  type:'pie',
+                                  clickable:false,
+                                  radius: ['53%', '70%'],
+                                  avoidLabelOverlap: false,
+                                  legendHoverLink:false,
+                                  hoverAnimation :false,
+                                  label: {
+                                      normal: {
+                                          show: false,
+                                          position: 'center'
+                                      },
+                                      emphasis: {
+                                          show: false,
+                                      }
+                                  },
+                                  labelLine: {
+                                      normal: {
+                                          show: false
+                                      }
+                                  },
+                                  data:[
+                                    {value:lczc1, name:'待收本金'},
+                                    {value:dssy, name:'待收收益'},
+                                    {value:zrje, name:'转让金额'},
+                                    {value:avlBalance, name:'账户余额'},
+                                    {value:frzBalance, name:'冻结金额'}
+                                ]
+                              }
+                          ]
+                        });
+                      }
                   }, 500)
                 }
             }).catch((err) => {
