@@ -62,8 +62,6 @@ export default {
             this.$router.go(0);
         }//回退上一级页面并刷新
     },
-    created() {
-    },
     activated() {
         this.loadPageList()
     },
@@ -106,9 +104,9 @@ export default {
                 }
                 if (data.result == '200') {
                     this.Log = data.message
-                    console.log(this.Log);
+                    // console.log(this.Log);
                 }
-                console.log(data)
+                // console.log(data)
             }).catch((err) => {
                 console.log(err)
             })
@@ -156,20 +154,18 @@ export default {
             axios.post(url,params).then(response => {
                 const data = response.data
                 if (data.msgStatus != 0) {
-
-                    // const url = myPub.URL+`/msg/setMsgRead` ;
-                    // const params = new URLSearchParams();
-                    // params.append('token',sessionStorage.token);
-                    // params.append('pageSize','10');
-                    // params.append('curPagel','1');
-                    // axios.post(url,params).then(response => {
-                    //     const data = response.data
-                    //     if (data.msgStatus != 0) {
-
-                    //     }
-                    // }).catch((err) => {
-                    //     console.log(err)
-                    // })
+                    const url = myPub.URL+`/msg/setMsgRead` ;
+                    const params = new URLSearchParams();
+                    params.append('token',sessionStorage.token);
+                    params.append('msgTextId','');
+                    axios.post(url,params).then(res => {
+                        console.log(res);
+                        if (res.data.result == 200) {
+                            $(".msgTitle").css("color","#666")
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    })
                 }
             }).catch((err) => {
                 console.log(err)

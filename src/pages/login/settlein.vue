@@ -1,57 +1,59 @@
 <template>
   <div class="settlein">
-    <div class="phone" v-if='isshow'>
-      <div class="bg-img">
-        <h5><img @click="close" src="../../assets/img/close.png">注册</h5>
-        <img src="../../assets/img/logo@2x.png">
-      </div>
-      <div class="login_content1 ">
-        <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone" maxlength="11" @input="img1"><img @click="emipy" class="img img1" src="~@/assets/img/emipy.png">
-        </label>
-        <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC " maxlength="4" >
-          <img @click="emipy1" class="img img2" src="~@/assets/img/emipy.png" style="right: 40%;top: 0.8rem;">
-          <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-        </label>
-        <a class="user_login next" @click="next1">下一步</a>
-        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;margin-top: 0.8rem;" @click="login">已有账号,去登录</a>
-      </div>
-    </div>
 
-
-    <div class="list" v-if="isshow1">
-        <div class="regBgImg">
-            <div><img @click="closeREG" src="../../assets/img/leftBlack.png"></div>
-            <h5>注册</h5>
+    <div class="main">
+        <div class="phone" v-if='isshow'>
+            <div class="bg-img">
+                <h5><img @click="close" src="../../assets/img/close.png">注册</h5>
+                <img src="../../assets/img/logo@2x.png">
+            </div>
+            <div class="login_content1 ">
+                <label>
+                <input type="text" placeholder="请输入手机号" class="register_content_input phone" v-model= "phoneNumber" @blur="checkLPhone" maxlength="11" @input="img1"><img @click="emipy" class="img img1" src="~@/assets/img/emipy.png">
+                </label>
+                <label class="clearfix">
+                <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" @input="changBGC " maxlength="4" >
+                <img @click="emipy1" class="img img2" src="~@/assets/img/emipy.png" style="right: 40%;top: 0.8rem;">
+                <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+                </label>
+                <a class="user_login next" @click="next1">下一步</a>
+                <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;margin-top: 0.8rem;" @click="login">已有账号,去登录</a>
+            </div>
         </div>
-        <p>验证码已发送至手机号：<span class="span">{{tel}}</span></p>
 
-        <label class="clearfix" style="margin-top: 30px;">
-        <p style="border-bottom: 1px solid #eee">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6" @input="img3">
-          <img src="../../assets/img/loginClear.png" class="LoginImg img3" @click="emipy2" style="right: 40%">
-          <input type="button" :value="btnText"
-          :disabled="disabled"  @click="sendCode" class="verification"/></p>
-        </label>
-        <label>
-          <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres" maxlength="22" ><img src="../../assets/img/loginClear.png" class="LoginImg img4" @click="emipy3" style="right: 14%;top: 1.7rem;" >
-          <img :src="imgSrc" class="LoginImg" @click="eyesTab" style="top: 1.8rem;">
-        </label>
-        <label>
-            <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode " class="register_content_input inv" @input="img5">
-            <img src="../../assets/img/loginClear.png" class="LoginImg img5" @click="emipy5" style="right:1.5rem;top: 1.7rem;" >
-            <br>
-        </label>
-        <label class="Agreement"  v-for="(item,index) of items" :key="index">
-          <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
-          <span v-if='!isshow2'>请同意注册协议</span>
-        </label>
-        <a class="user_login res" @click="checkSmsCode">提交注册</a>
+        <div class="list" v-if="isshow1">
+            <div class="regBgImg">
+                <div><img @click="closeREG" src="../../assets/img/leftBlack.png"></div>
+                <h5>注册</h5>
+            </div>
+            <p>验证码已发送至手机号：<span class="span">{{tel}}</span></p>
+
+            <label class="clearfix" style="margin-top: 30px;">
+            <p style="border-bottom: 1px solid #eee">
+            <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6" @input="img3">
+            <img src="../../assets/img/loginClear.png" class="LoginImg img3" @click="emipy2" style="right: 40%">
+            <input type="button" :value="btnText"
+            :disabled="disabled"  @click="sendCode" class="verification"/></p>
+            </label>
+            <label>
+            <input :type="type" placeholder="设置登录密码" class="register_content_input res" v-model="LUserPsd" @blur="checkLPsd" @input="changres" maxlength="22" ><img src="../../assets/img/loginClear.png" class="LoginImg img4" @click="emipy3" style="right: 14%;top: 1.7rem;" >
+            <img :src="imgSrc" class="LoginImg" @click="eyesTab" style="top: 1.8rem;">
+            </label>
+            <label>
+                <input type="text" placeholder="请输入邀请码(选填)" v-model="invitationCode " class="register_content_input inv" @input="img5">
+                <img src="../../assets/img/loginClear.png" class="LoginImg img5" @click="emipy5" style="right:1.5rem;top: 1.7rem;" >
+                <br>
+            </label>
+            <label class="Agreement"  v-for="(item,index) of items" :key="index">
+            <span class="img img2"></span><input @click="check" class="check" type="checkbox" checked="true" />&ensp;我已阅读并同意<b class="c-2395FF" @click="toast1">《启航金服平台注册服务协议》</b>
+            <span v-if='!isshow2'>请同意注册协议</span>
+            </label>
+            <a class="user_login res" @click="checkSmsCode">提交注册</a>
+        </div>
     </div>
 
     <!-- 底部版权 -->
-    <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
+    <div class="banQuan">
       <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
       <p>@启航金服  理财有风险，投资需谨慎</p>
     </div>
@@ -636,6 +638,30 @@ export default {
 <style scoped lang="less">
 .settlein{
   padding: 1rem;position: relative;height: 100%;
+    .main{
+        height: auto;
+        padding-bottom: 2rem;
+        &:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+    }
+    .banQuan{
+        // background: #f69;
+        font-size: 0.8rem;
+        text-align: center;
+        color: #999;
+        margin-top: 2rem;
+        position: relative;
+        width: 100%;
+        bottom: 1rem;
+    }
+    @media screen and (max-width: 320px) {
+        .banQuan{position: relative;margin-top:8rem;}
+    }
+
+
   .bg-img{
     text-align: center;
     h5{

@@ -474,7 +474,8 @@ export default {
         },
         // 短信登陆
         msgLogin(){
-            if((this.checkLPhone() ==true)){
+            if((this.checkLPhone() ==true) && this.verifyCode != "" && this.picLyanzhengma != ""){
+                $(".login1").css("opacity","1");
                 //登陆
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
@@ -537,6 +538,15 @@ export default {
                 }).catch((err) => {
                 console.log(err)
                 })
+            }else{
+                $(".login1").css("opacity",".5");
+                this.$vux.alert.show({
+                    // title: '',
+                    content: "请检查信息是否输入正确"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                }, 3000)
             }
         },
 
@@ -887,7 +897,6 @@ export default {
       }
       .middle{
         margin-top: 2rem;
-        // height: 12rem;
         height: auto;
         padding-bottom: 2rem;
         &:after{

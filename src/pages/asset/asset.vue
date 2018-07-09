@@ -14,7 +14,7 @@
       <div class="assetTopBottom">
         <div class="atbLeft">
           <h6>理财资产(元)</h6>
-          <p class="numberChange avlBalance">{{asset.avlBalance}}</p>
+          <p class="numberChange investMoney">{{asset.investMoney}}</p>
         </div>
         <div class="atbRight">
           <h6>累计收益(元)</h6>
@@ -156,8 +156,8 @@ export default {
                 // 总额
                 const totalMoney = this.toDecimal2(Math.floor((this.asset.totalMoney)*100)/100);
                 $(".totalMoney").text(totalMoney);
-                //可用余额
-                const investMoney = this.toDecimal2(Math.floor((this.asset.investMoney)*100)/100);
+                //理财资产
+                const investMoney = this.toDecimal2(Math.floor((this.asset.lczc)*100)/100);
                 $(".investMoney").text(investMoney);
 
                 //累计收益
@@ -167,7 +167,6 @@ export default {
                 //待收本金
                 const lczc =  this.toDecimal2(Math.floor((this.asset.lczc)*100)/100);
                 $(".lczc").text(lczc);
-
                 //待收收益
                 const dssy = this.toDecimal2(Math.floor((this.asset.dssy)*100)/100);
                 $(".dssy").text(dssy);
@@ -313,21 +312,11 @@ export default {
         params.append('pageSize','10');
         params.append('curPagel','1');
         axios.post(url,params).then(response => {
-          const data = response.data
-          // if (data.result == '400') {
-          //     this.$vux.alert.show({
-          //         title: '',
-          //         content: data.resultMsg
-          //     })
-          //     setTimeout(() => {
-          //         this.$vux.alert.hide()
-          //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
-          //     }, 3000)
-          // }
-          if (data.unReadNum == '0') {
-              $(".imgleft img").attr("src",'./static/img/xiaoXi.png')
+          const data = response.data;
+          if (data.unReadNum == 0) {
+              this.imgMsg ='./static/img/xiaoXi.png';
             }else{
-              $(".imgleft img").attr("src",'./static/img/Messages@2x.png')
+                this.imgMsg ='./static/img/Messages@2x.png';
           }
           console.log(data)
         }).catch((err) => {
@@ -340,14 +329,6 @@ export default {
             this.$router.go(0);
         }//回退上一级页面并刷新
     },
-    mounted() {
-    },
-    watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        }//回退上一级页面并刷新
-    },
-
 }
 </script>
 

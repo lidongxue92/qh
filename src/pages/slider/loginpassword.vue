@@ -14,7 +14,7 @@
                     <img src="../../assets/img/loginClear.png" class="LoginClear1" @click="clear1">
                 </li>
             </ul>
-            <p>密码长度为8~32位，须包含数字、字母、符号至少2种或以上元素</p>
+            <p>密码长度为6~20位，须包含数字、字母、符号至少2种或以上元素</p>
             <button class="button" @click="sub">确认修改</button>
         </div>
     </div>
@@ -97,17 +97,19 @@ export default {
                 $(".middle p").addClass("disappear")
             }else if(this.pwd == this.surePwd){
                 $(".middle p").removeClass("disappear");
-                $(".middle p").text("密码长度为8~32位，须包含数字、字母、符号至少2种或以上元素")
+                $(".middle p").text("密码长度为6~20位，须包含数字、字母、符号至少2种或以上元素")
                 $(".button").css("opacity"," 1");
                 return true;
             }else{
                 $(".middle p").addClass("disappear");
                 $(".middle p").text("两次密码必须一致");
                 // $(".LoginClear1").show();
+                $(".button").css("opacity"," .5");
             }
         },
         sub(){
-            if (this.checkLPsd() == true && this.checkLPsd1() == true) {
+            if (this.checkLPsd() == true && this.checkLPsd1() == true && this.pwd == this.surePwd) {
+                $(".button").css("opacity"," 1");
                 const url = myPub.URL+`/pwd/updateUserLoginPwd` ;
                 const surePwd = Base64.encode(this.surePwd,'utf-8');
 

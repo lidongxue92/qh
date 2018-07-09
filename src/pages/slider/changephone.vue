@@ -5,9 +5,12 @@
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
                     <li>
-                        手机号&ensp;<input type="type" placeholder="请输入新的手机号" v-model="userPhone" @blur="checkLPhone" maxlength="11"></li>
+                        手机号&ensp;<input type="type" placeholder="请输入新的手机号" v-model="userPhone" @blur="checkLPhone" maxlength="11" @input="showTab" class="userPhone">
+                        <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
+                    </li>
                     <li>
                         验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode"  @input="changBGC" maxlength="6">
+                        <img src="../../assets/img/loginClear.png" class="LoginImg1" @click="clear2">
                         <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
                     </li>
                 </ul>
@@ -46,30 +49,36 @@ export default {
             tishis:"",
         }
     },
-    computed: {
-    },
-    mounted () {
-    },
-    created() {
-
-    },
-    activated() {
-        // this.getALLProducts()
-    },
     methods: {
         checkLPhone(){
             if(this.userPhone == ''){
                 this.tishis = "请输入手机号"
             }else if(this.userPhone.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
-                console.log(this.userPhone);
+                this.tishis = ""
                 return true;
             }else{
                 this.tishis = "请输入正确手机号"
             }
         },
+        clear(){
+            this.userPhone = "";
+            this.tishis = "请输入手机号"
+            $(".LoginImg").hide();
+        },
+        clear2(){
+            this.smsCode = "";
+            $(".LoginImg1").hide();
+        },
+        showTab(){
+            this.tishis = "";
+            var userPhone = $(".userPhone").val().length;
+            if (userPhone != 0) {
+                $(".LoginImg").show();
+            }
+        },
         // 手机号验证码
         sendCode() {
-            if (this.checkLPhone == true) {
+            if (this.checkLPhone() == true) {
                 this.time = 90
                 this.disabled = true;
                 this.timer()
@@ -116,10 +125,12 @@ export default {
         changBGC(){
             var pwdLen = $(".pwd").val().length;
             if (pwdLen >= 6) {
-                // console.log(pwdLen);
                 $(".button").css("opacity","1");
             }else{
                 $(".button").css("opacity",".5");
+            }
+            if (pwdLen != 0) {
+                $(".LoginImg1").show();
             }
         },
         sureChange(){
@@ -252,6 +263,16 @@ export default {
 
         }
         .button{border: 0;width: 90%;margin-left: 5%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;opacity: 0.5;margin-top: 2rem;}
+    }
+    .LoginImg,.LoginImg1{
+        width: 1rem /* 34/40 */;
+        position: absolute;
+        right: .8rem;
+        top: 1rem;
+        display: none;
+    }
+    .LoginImg1{
+        right: 8.5rem;
     }
 }
 </style>

@@ -329,11 +329,10 @@ export default {
                 console.log(res);
                 if (res.data.result == 200) {
                         this.$vux.alert.show({
-                            // title: '',
                             content: res.data.resultMsg
                         })
                         setTimeout(() => {
-                            // this.$vux.alert.hide()
+                            this.$vux.alert.hide();
                             this.$router.push({path:"/login",query:{phone:this.userPhone}});
                         }, 3000)
                 }

@@ -8,7 +8,7 @@
             </div>
             <div class="right">
                 <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
-                <p>开放额度&emsp;<span>{{product.openLimit}}元</span></p>
+                <p>开放额度&emsp;<span class="openLimit">{{product.openLimit}}万元</span></p>
                 <span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
@@ -17,7 +17,7 @@
                 </span>
             </p>&emsp;<span class="Percentage">已售{{product.xmjd}}%</span>
             <p class="note">
-                <span class="left1">剩余额度&emsp;<b>{{product.residueMoney}}</b></span>
+                <span class="left1">剩余额度&emsp;<b class="residueMoney">{{product.residueMoney}}万元</b></span>
                 <span class="right1">起投金额&emsp;<b>{{product.amountMin}}</b></span>
             </p>
         </div>
@@ -47,7 +47,11 @@
                     </span>
                     <span class="fr">
                         到帐日
+<<<<<<< HEAD
                         <b>{{dzr}}</b>
+=======
+                        <b>{{product.dqr}}</b>
+>>>>>>> 6449868467c4c67b3fbe4db56104967437423bc1
                     </span>
                 </p>
                 <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
@@ -68,7 +72,7 @@
                     :trail-width="1"
                     :stroke-color="['#36D1DC', '#5B86E5']"
                     trail-color="#ececec">
-                    <span style="color:#2395FF;font-size: 2.3rem;">00.0{{time}}</span>
+                    <span style="color:#2395FF;font-size: 2.3rem;">{{time}}s</span>
                   </x-circle>
                 </div>
               </div>
@@ -349,7 +353,7 @@ export default {
                     this.$vux.alert.hide()
                     $(".leftimg").attr('src',"./static/img/cont.png")
                     $(".rightimg").attr('src',"./static/img/add.png")
-                }, 1000) 
+                }, 1000)
             }else{
                 const _this = this
                 _this.$loading.show();
@@ -473,6 +477,22 @@ export default {
                 this.dzr = timestampToTime();
                 console.log(timestampToTime());//2014-06-18 10:33:24
 
+                if (this.product.openLimit != "") {
+                    if (this.product.openLimit < 10000) {
+                        $(".openLimit").text(this.product.openLimit + "元")
+                    }else{
+                        this.product.openLimit = this.product.openLimit/10000;
+                    }
+                    console.log(this.product.openLimit);
+                }
+                if (this.product.residueMoney != "") {
+                    if (this.product.residueMoney < 10000) {
+                        $(".residueMoney").text(this.product.residueMoney + "元")
+                    }else{
+                        this.product.residueMoney = this.product.residueMoney/10000;
+                    }
+                }
+
 
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
                     $(".activeLilv").text("%");
@@ -488,7 +508,8 @@ export default {
                 }
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
-                $(".after").css("width",jd+'%')
+                $(".after").css("width",jd+'%');
+
             }
           }).catch((err) => {
             console.log(err)
