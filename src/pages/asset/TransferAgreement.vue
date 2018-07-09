@@ -150,5 +150,13 @@ export default {
             margin-top: 1.3rem;
         }
     }
+    .agreementTitle{
+        text-align: center;
+    }
+    .agreementMain{
+        p{
+            color: #333;
+        }
+    }
 }
 </style>

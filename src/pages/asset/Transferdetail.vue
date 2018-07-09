@@ -139,32 +139,32 @@ export default {
           $(".tost").css("display","none");
 
             const _this = this;
-          const url = myPub.URL+`/user/getUserTransferProduct` ;
-          const params = new URLSearchParams();
-          params.append('token',sessionStorage.token);
-          params.append('orderId',this.$route.query.id);
-          params.append('diff',this.diff);
-          axios.post(url,params).then(res => {
-              _this.$loading.hide();
-              const data = res.data
-              console.log(res.data)
-              if (data.result == '400') {
-                  this.$vux.alert.show({
-                      title: '',
-                      content: data.resultMsg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                  }, 3000)
-              }
-              if (data.result == '200') {
-                this.$router.push({ path: '/page/Transfersuccess' });
-              }
+            const url = myPub.URL+`/user/getUserTransferProduct` ;
+            const params = new URLSearchParams();
+            params.append('token',sessionStorage.token);
+            params.append('orderId',this.$route.query.id);
+            params.append('diff',this.diff);
+            axios.post(url,params).then(res => {
+                _this.$loading.hide();
+                const data = res.data
+                console.log(res.data)
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
+                if (data.result == '200') {
+                    this.$router.push({ path: '/page/Transfersuccess'});
+                }
 
-          }).catch((err) => {
-              console.log(err)
-          })
+            }).catch((err) => {
+                console.log(err)
+            })
 
 
 
