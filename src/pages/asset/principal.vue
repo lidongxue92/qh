@@ -100,7 +100,7 @@ export default {
               console.log(err)
           });
 
-        //   this.cyz();
+          this.cyz();
     },
     filters: {
         numFilter(value) {

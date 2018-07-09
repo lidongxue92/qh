@@ -172,7 +172,7 @@ export default {
         },
         // 点击转让
         toZhuanRang(id){
-            this.$router.push({path:"/page/Transferdetail",query: {id: id}})
+            this.$router.push({path:"/page/TransferAgreement",query: {id: id}})
         },
     },
     components: {

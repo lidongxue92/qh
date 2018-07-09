@@ -62,7 +62,7 @@ export default {
     name: 'asset',
     data(){
 　　  return {
-        imgSrc:"../../../static/img/openEyes.png",
+        imgSrc:"./static/img/openEyes.png",
         totalMoney:1888800.01,
         numberChange: 10000.08,
         isshow: true,
