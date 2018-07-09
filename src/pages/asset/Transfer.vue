@@ -17,15 +17,15 @@
                     <li v-for="(item,index) in Product" :key="index">
                         <h5>{{item.productName}}<span>到期时间 <b>{{item.dueDate}}</b></span></h5>
                         <p>
-                            <span class="big">{{item.investMoney}}</span>
-                            <span>投资金额</span>
+                            <span class="big">{{item.investMoney | numFilter}}</span>
+                            <span>投资金额(元)</span>
                         </p>
                         <p>
-                            <span class="color">{{item.exceptedYield}}</span>
+                            <span class="color">{{item.exceptedYield | numFilter}}%</span>
                             <span>预计到期收益</span>
                         </p>
                         <p>
-                            <span class="button">转让</span>
+                            <span class="button" @click="toZhuanRang(item.orderId)">转让</span>
                             <span class="status">{{item.status}}</span>
                         </p>
                         <span class="img1"></span>
@@ -60,9 +60,18 @@ export default {
             is_show2:false
         }
     },
-    computed: {
-    },
     mounted () {
+        // 判断token
+        if (!sessionStorage.token) {
+            this.$vux.alert.show({
+                title: '',
+                content: '请登录'
+            })
+            setTimeout(() => {
+                this.$vux.alert.hide()
+                this.$router.push({path:"/login",query: {redirect: 'your path'}})
+            }, 2000)
+        }
     },
     created() {
         const id = this.$route.query.id
@@ -70,6 +79,15 @@ export default {
         if (id) {
             this.is_show2 = true
             this.is_show = false
+        }
+    },
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3)
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
         }
     },
     activated() {
@@ -90,7 +108,7 @@ export default {
         },
         Notransferable(){
             const _this = this
-            this.product('4,5','1','1')
+            this.product('4,5','1','1');
             this.is_show2 = true
             this.is_show = false
         },
@@ -138,9 +156,9 @@ export default {
                             $(".button").eq(i).text('已转让')
                         }else{
                             $(".button").eq(i).text('转让')
-                            $(".button").eq(i).click(function () {
-                                this.$router.push({ path: '/page/TransferAgreement' })
-                            })
+                            // $(".button").eq(i).click(function () {
+                            //     this.$router.push({path:"/page/detailProduct"})
+                            // })
                         }
 
                     })
@@ -150,7 +168,11 @@ export default {
           }).catch((err) => {
               console.log(err)
           })
-        }
+        },
+        // 点击转让
+        toZhuanRang(id){
+            this.$router.push({path:"/page/Transferdetail",query: {id: id}})
+        },
     },
     components: {
         PopupPicker,
