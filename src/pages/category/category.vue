@@ -9,7 +9,7 @@
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
                 <p class="Profit">{{item.annualYield}}%</p>
-                <p><span>剩余金额 &emsp; <b class="LCopenLimit">{{item.openLimit}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
+                <p><span>剩余金额 &emsp; <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
@@ -24,7 +24,7 @@
                           <p class="right">
                               <span class="day"><b>{{item.period}}</b>天</span>
                               <span class="status">{{item.status}}</span>
-                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b></span>
+                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal">元</i></span>
                           </p>
                       </div>
                       <img class="bg-img" src="~@/assets/img/full.png">
@@ -132,7 +132,7 @@ export default {
             $(".Transfertab").removeClass('active')
             this.pro('1',' ',10)
             setTimeout(() => {
-              this.pro(1,'',this.totalCount)
+              this.pro(1,'',this.totalCount);
             }, 500)
         },
         // 转让专区
@@ -168,14 +168,18 @@ export default {
                 this.totalCount = res.data.totalCount
                 console.log(this.totalCount);
 
-                $(".LCopenLimit").each(function (i) {
-                    var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
-                    if (LCopenLimit  != "" && LCopenLimit < 10000) {
-                        $(".LCopenLimit").eq(i).text(LCopenLimit + "元");
-                    }else{
-                        $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000 + "万元");
-                    }
-                });
+                // $(".LCopenLimit").each(function (i) {
+                //     var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                //     console.log(LCopenLimit);
+
+                //     if (LCopenLimit  != "" && LCopenLimit < 10000) {
+                //         $(".LCopenLimit").eq(i).text(LCopenLimit);
+                //         $(".danWei").eq(i).empty().append("元");
+                //     }else{
+                //         $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
+                //         $(".danWei").eq(i).empty().append("万元");
+                //     }
+                // });
                 setTimeout(() => {
                     $(".img").each(function (i,n) {
                       if ($(".img").eq(i).text() == '1') {
@@ -245,19 +249,32 @@ export default {
                         }
                       })
                     $(".status").each(function (i,n) {
-                    if ($(".status").eq(i).text() == '3') {
-                        $(".status").eq(i).css({"opacity":"1"})
-                        $(".status").eq(i).text('')
-                        $(".bg-img").eq(i).css("display","none")
-                        $(".bg").eq(i).css("display","none")
-                    }
-                    if ($(".status").eq(i).text() == '4') {
-                        $(".status").eq(i).css({"opacity":"1","color":"#999"})
-                        $(".status").eq(i).text('')
-                        $(".bg-img").eq(i).css("display","block")
-                        $(".bg").eq(i).css("display","block")
-                    }
-                    })
+                        if ($(".status").eq(i).text() == '3') {
+                            $(".status").eq(i).css({"opacity":"1"})
+                            $(".status").eq(i).text('')
+                            $(".bg-img").eq(i).css("display","none")
+                            $(".bg").eq(i).css("display","none")
+                        }
+                        if ($(".status").eq(i).text() == '4') {
+                            $(".status").eq(i).css({"opacity":"1","color":"#999"})
+                            $(".status").eq(i).text('')
+                            $(".bg-img").eq(i).css("display","block")
+                            $(".bg").eq(i).css("display","block")
+                        }
+                    });
+                    $(".LCopenLimit").each(function (i) {
+                        var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                        console.log(LCopenLimit);
+                        if (LCopenLimit  != "" && LCopenLimit < 10000) {
+                            $(".LCopenLimit").eq(i).text(LCopenLimit);
+
+                        }else{
+                            if (LCopenLimit >= 10000) {
+                                $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
+                                $(".danWei").eq(i).empty().append("万元");
+                            }
+                        }
+                    });
                 }, 500)
               }else if (data.result == '400') {
                     this.$vux.alert.show({
