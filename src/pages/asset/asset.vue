@@ -252,59 +252,54 @@ export default {
                   this.lczc = this.asset.lczc
                   this.asset = data.Account
                   this.lczc = this.asset.lczc
-                  const lczc = Math.floor(Number(data.Account.lczc))
-                  const dssy = Math.floor(Number(data.Account.dssy))
-                  const zrje = Math.floor(Number(data.Account.zrje))
-                  const avlBalance = Math.floor(Number(data.Account.avlBalance))
-                  const frzBalance = Math.floor(Number(data.Account.frzBalance))
-                  const all = Number(lczc)+Number(dssy)+Number(zrje)+Number(avlBalance)+Number(frzBalance)
-                  const lczc1 = Math.floor((lczc/all)*300)
-                  const dssy1 = Math.floor((dssy/all)*300)
-                  const zrje1 = Math.floor((zrje/all)*300)
-                  const avlBalance1 = Math.floor((avlBalance/all)*300)
-                  const frzBalance1 = Math.floor((frzBalance/all)*300)
-                  var myChart = echarts.init(document.getElementById('main'));
-                  myChart.setOption({
-                    tooltip : { //提示框组件
-                    show:false,
-                    },
-                    color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
-                     series: [
-                        {
-                            name:'访问来源',
-                            type:'pie',
-                            radius: ['50%', '70%'],
-                            avoidLabelOverlap: false,
-                            label: {
-                                normal: {
-                                    show: false,
-                                    position: 'center'
-                                },
-                                emphasis: {
-                                    show: true,
-                                    textStyle: {
-                                        fontSize: '30',
-                                        fontWeight: 'bold'
-                                    }
-                                }
-                            },
-                            labelLine: {
-                                normal: {
-                                    show: false
-                                }
-                            },
-                            data:[
-                              {value:lczc1, name:'待收本金'},
-                              {value:dssy1, name:'待收收益'},
-                              {value:zrje1, name:'转让金额'},
-                              {value:avlBalance1, name:'账户余额'},
-                              {value:frzBalance1, name:'冻结金额'}
-                          ]
-                        }
-                    ]
-                  });
+                  setTimeout(() => {
+                      const lczc1 = Math.floor(Number(this.asset.lczc))
+                      const dssy = Math.floor(Number(data.Account.dssy))
+                      const zrje = Math.floor(Number(data.Account.zrje))
+                      const avlBalance = Math.floor(Number(data.Account.avlBalance))
+                      const frzBalance = Math.floor(Number(data.Account.frzBalance))
+                      var myChart = echarts.init(document.getElementById('main'));
+                    myChart.setOption({
+                      tooltip : { //提示框组件
+                      show:false,
+                      },
+                      color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
+                       series: [
+                          {
+                              name:'访问来源',
+                              type:'pie',
+                              radius: ['50%', '70%'],
+                              avoidLabelOverlap: false,
+                              label: {
+                                  normal: {
+                                      show: false,
+                                      position: 'center'
+                                  },
+                                  emphasis: {
+                                      show: true,
+                                      textStyle: {
+                                          fontSize: '30',
+                                          fontWeight: 'bold'
+                                      }
+                                  }
+                              },
+                              labelLine: {
+                                  normal: {
+                                      show: false
+                                  }
+                              },
+                              data:[
+                                {value:lczc1, name:'待收本金'},
+                                {value:dssy, name:'待收收益'},
+                                {value:zrje, name:'转让金额'},
+                                {value:avlBalance, name:'账户余额'},
+                                {value:frzBalance, name:'冻结金额'}
+                            ]
+                          }
+                      ]
+                    });
+                  }, 500)
                 }
-
             }).catch((err) => {
                 console.log(err)
             })

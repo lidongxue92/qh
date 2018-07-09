@@ -126,6 +126,15 @@ export default {
                 }
                 if(res.data.result == 200){
                     this.product = data.buyInfo.detailInfo;
+                }else{
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.back()
+                    }, 3000)
                 }
             }).catch((err) => {
                 console.log(err);

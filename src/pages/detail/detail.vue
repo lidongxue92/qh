@@ -30,7 +30,7 @@
                     <input class="money" v-model= "money" v-on:input="changeVal()"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
-                <p class="word" @click="red(product.productId)">
+                <p class="word" @click="red(product.productId,product.period)">
                     <span class="fl">红包卡券</span><span class="fr usered">{{totalCount}}&emsp;<img src="~@/assets/img/right.png"></span>
                 </p>
                 <p class="word">
@@ -47,7 +47,7 @@
                     </span>
                     <span class="fr">
                         到帐日
-                        <b>{{dz}}</b>
+                        <b>{{dzr}}</b>
                     </span>
                 </p>
                 <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
@@ -133,6 +133,8 @@ export default {
             residueMoney:'',
             amountIncrease:"",
             totalCount:'',
+            dqr:'',
+            dzr:'',
 
 
             // 三方开户数据
@@ -165,36 +167,26 @@ export default {
         setTimeout(() => {
             this.welfare()
             this.Interest()
-            console.log(sessionStorage.redPacketMoney)
+
             setTimeout(() => {
-                console.log(sessionStorage.redPacketMoney)
                 if (sessionStorage.redPacketMoney) {
                     this.totalCount = sessionStorage.redPacketMoney
                 }
+                sessionStorage.removeItem("redPacketMoney");
             }, 200)
         }, 300)
     },
     methods: {
-        // token(){
-        //     if (!sessionStorage.token) {
-        //     this.$vux.alert.show({
-        //         title: '',
-        //         content: '请登录'
-        //     })
-        //     setTimeout(() => {
-        //         this.$vux.alert.hide()
-        //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
-        //     }, 2000)
-        //     }
-        // },
+
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
         log(id) {
             this.$router.push({ path: '/page/log',query: { id: id } })
         },
-        red(id) {
-            this.$router.push({ path: '/page/red', query: { id: id }})
+        red(id,proPeriod) {
+            const money = this.money
+            this.$router.push({ path: '/page/red', query: { id: id, proPeriod: proPeriod, money: money,}})
         },
         rightclose(){
           $(".bg").css("display","none")
@@ -346,7 +338,7 @@ export default {
       tost(){
             const num = $(".money")
             const value = num.val()
-            if (value < parseFloat(this.residueMoney)) {
+            if (value < parseFloat(this.Money)) {
                 $(".rightimg").attr('src',"./static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额不能小于起投金额"
@@ -463,13 +455,28 @@ export default {
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
+                const dqr = data.ProductInfo.dqr
+                var stringTime = dqr + " 10:21:12";
+                var timestamp2 = Date.parse(new Date(stringTime))+86400;
+                timestamp2 = timestamp2 / 1000; 
+                console.log(stringTime + "的时间戳为：" + timestamp2);
+                function timestampToTime(timestamp) {
+                    var date = new Date(timestamp2 * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    const Y = date.getFullYear() + '-';
+                    const M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                    const D = (date.getDate() +1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1);
+                    const h = date.getHours() + ':';
+                    const m = date.getMinutes() + ':';
+                    const s = date.getSeconds();
+                    return Y+M+D;
+                }
+                this.dzr = timestampToTime();
+                console.log(timestampToTime());//2014-06-18 10:33:24
 
 
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
                     $(".activeLilv").text("%");
                 }
-
-
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
                 }else if (this.product.productType == '22') {

@@ -214,40 +214,30 @@ export default {
       emipy(){
         this.phoneNumber = ''
         $(".next").css("opacity",".5");
-        setTimeout(() => {
           $(".img1").css("display","none")
-        }, 500)
       },
       // 清空图形验证码
       emipy1(){
         this.picLyanzhengma = ''
         $(".next").css("opacity",".5");
-        setTimeout(() => {
           $(".img2").css("display","none")
-        }, 500)
       },
       // 清空手机验证码
       emipy2(){
         this.verifyCode = ''
         $(".res").css("opacity",".5");
-        setTimeout(() => {
           $(".img3").css("display","none")
-        }, 500)
       },
       // 清空登录密码
       emipy3(){
         this.LUserPsd = ''
         $(".res").css("opacity",".5");
-        setTimeout(() => {
           $(".img4").css("display","none")
-        }, 500)
       },
       // 清空邀请码
       emipy5(){
         this.invitationCode = ''
-        setTimeout(() => {
           $(".img5").css("display","none")
-        }, 500)
       },
       img5(){
         const leng = this.invitationCode.length
@@ -381,7 +371,7 @@ export default {
               if (response.data.result == '302') {
                 this.isshow1 = true;
                 this.isshow = false;
-
+                $(".img3").css('display','none')
                 // 手机号脱敏
                 const tel = $('.register_content_input').val()
                 const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
@@ -501,7 +491,10 @@ export default {
                   })
                   setTimeout(() => {
                       this.$vux.alert.hide()
-                  },  1000)
+                      $(".img3").css('display','none')
+                      this.verifyCode = ''
+                      this.sendCode()
+                  }, 2000)
                 }
           }).catch((err) => {
             console.log(err)
