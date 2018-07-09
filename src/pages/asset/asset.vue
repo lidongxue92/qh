@@ -260,26 +260,25 @@ export default {
                       var myChart = echarts.init(document.getElementById('main'));
                     myChart.setOption({
                       tooltip : { //提示框组件
-                      show:false,
+                        show:false,
                       },
                       color:['#41A8FF','#86C8FF','#FF8B13','#FFB971','#FF8A77'],  //手动设置每个图例的颜色
                        series: [
                           {
                               name:'访问来源',
                               type:'pie',
+                              clickable:false,
                               radius: ['50%', '70%'],
                               avoidLabelOverlap: false,
+                              legendHoverLink:false,
+                              hoverAnimation :false,
                               label: {
                                   normal: {
                                       show: false,
                                       position: 'center'
                                   },
                                   emphasis: {
-                                      show: true,
-                                      textStyle: {
-                                          fontSize: '30',
-                                          fontWeight: 'bold'
-                                      }
+                                      show: false,
                                   }
                               },
                               labelLine: {

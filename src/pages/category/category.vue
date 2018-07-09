@@ -168,18 +168,6 @@ export default {
                 this.totalCount = res.data.totalCount
                 console.log(this.totalCount);
 
-                // $(".LCopenLimit").each(function (i) {
-                //     var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
-                //     console.log(LCopenLimit);
-
-                //     if (LCopenLimit  != "" && LCopenLimit < 10000) {
-                //         $(".LCopenLimit").eq(i).text(LCopenLimit);
-                //         $(".danWei").eq(i).empty().append("元");
-                //     }else{
-                //         $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
-                //         $(".danWei").eq(i).empty().append("万元");
-                //     }
-                // });
                 setTimeout(() => {
                     $(".img").each(function (i,n) {
                       if ($(".img").eq(i).text() == '1') {
@@ -226,7 +214,7 @@ export default {
                           }
                         })
                       }
-                    })
+                    });
                     $(".Property").each(function (i,n) {
                         if ($(".Property").eq(i).text() == '18') {
                             $(".Property").eq(i).css({"opacity":"1"})
@@ -247,7 +235,7 @@ export default {
                               $(".img").eq(i).addClass('img3')
                               $(".img").eq(i).text('转让产品')
                         }
-                      })
+                    });
                     $(".status").each(function (i,n) {
                         if ($(".status").eq(i).text() == '3') {
                             $(".status").eq(i).css({"opacity":"1"})
