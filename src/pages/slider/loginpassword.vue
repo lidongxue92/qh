@@ -104,6 +104,7 @@ export default {
                 $(".middle p").addClass("disappear");
                 $(".middle p").text("两次密码必须一致");
                 // $(".LoginClear1").show();
+                $(".button").css("opacity"," .5");
             }
         },
         sub(){
