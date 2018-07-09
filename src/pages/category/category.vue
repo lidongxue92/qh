@@ -262,6 +262,18 @@ export default {
                     };
                   }, 200);
 
+                $(".LCopenLimit").each(function (i) {
+                    var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                    if (LCopenLimit != "" && LCopenLimit < 10000) {
+                        $(".LCopenLimit").eq(i).text(LCopenLimit);
+                        $(".danWei").eq(i).empty().append("元")
+                    }else{
+                        if (LCopenLimit >= 10000) {
+                            $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
+                            $(".danWei").eq(i).empty().append("万元")
+                        }
+                    }
+                });
 
                 }else if (data.result == '400') {
                 this.$vux.alert.show({
