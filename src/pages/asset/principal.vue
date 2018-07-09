@@ -105,8 +105,9 @@ export default {
     filters: {
         numFilter(value) {
             // 截取当前数据到小数点后三位
-            let transformVal = Number(value).toFixed(3)
-            let realVal = transformVal.substring(0, transformVal.length - 1)
+            let transformVal = Number(value)
+            
+            let realVal = Math.floor(transformVal)
             // num.toFixed(3)获取的是字符串
             return Number(realVal)
         }

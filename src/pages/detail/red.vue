@@ -32,12 +32,15 @@
                             <p class="title">{{item.redPacketName}}</p>
                             <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                             <p class="right">
-                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                <span>投资满<b class="investMoney" style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                <span>使用条件：投资满<b style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                <span class="invest">投资满<b class="investMoney" style="font-weight: normal;">{{item.applyDays}}</b>天可使用</span>
                             </p>
                         </div>
-                        <p class="note">有效期至：{{item.endDate}}
-                        <span class="button"></span><span class="status">{{item.status}}</span></p>
+                        <div class="note">有效期：
+                            <span>{{item.startDate}}</span>
+                            <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
+                            <span class="button"></span><span class="status">{{item.status}}</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -56,18 +59,21 @@
                         <span class="button">已使用</span></p>
                     </li> -->
                    <li v-for="(item,index) in product" :key="index">
-                       <div class="clearfix">
+                        <div class="clearfix">
                             <p class="title">{{item.redPacketName}}</p>
-                            <div class="center">
+                             <div class="center">
                                 <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                                 <p class="right">
-                                    <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                    <span>投资满<b class="investMoney" style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                    <span class="invest">投资满<b class="investMoney" style="font-weight: normal;">{{item.applyDays}}</b>天可使用</span>
                                 </p>
                             </div>
                         </div>
-                        <p class="note">有效期至：{{item.endDate}}
-                        <span class="button"></span><span class="status">{{item.status}}</span></p>
+                        <div class="note">有效期：
+                            <span>{{item.startDate}}</span>
+                            <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
+                            <span class="button"></span><span class="status">{{item.status}}</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -85,22 +91,22 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button"></span></p>
                     </li> -->
-                    <li v-for="(item,index) in addpro" @click="linkDetail1(item.welfareId,item.incrMoney)" :key="index">
+                    <li v-for="(item,index) in addpro" @click="linkDetail(item.welfareId,item.incrMoney)">
                         <div class="clearfix">
                             <p class="title">{{item.incrName}}</p>
                             <div class="center">
-                                <p class="left"><b>{{item.incrMoney}}</b>%</p>
+                                <p class="left"><b>{{item.incrMoney}}%</b></p>
                                 <p class="right">
-                                    <span>使用条件：投资满{{item.incrName}}元可使用</span>
-                                    <span>投资满{{item.incrName}}元可使用</span>
+                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                    <span class="invest">投资满<b class="investMoney" style="font-weight: normal;">{{item.applyDays}}</b>天可使用</span>
                                 </p>
                             </div>
                         </div>
-                        <p class="note">
-                            有效期至：{{item.endDate}}
-                            <span class="button"></span>
-                            <span class="status">{{item.status}}</span>
-                        </p>
+                        <div class="note">有效期：
+                            <span>{{item.startDate}}</span>
+                            <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
+                            <span class="button"></span><span class="status">{{item.status}}</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -120,20 +126,20 @@
                     </li> -->
                      <li v-for="(item,index) in addpro" :key="index">
                         <div class="clearfix">
-                            <p class="title">{{item.redPacketName}}</p>
+                            <p class="title">{{item.incrName}}</p>
                             <div class="center">
-                                <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                                <p class="left"><b>{{item.incrMoney}}%</b></p>
                                 <p class="right">
-                                    <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                    <span>投资满{{item.investMoney}}元可使用</span>
+                                    <span>使用条件：投资满<b style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                    <span class="invest">投资满<b class="investMoney" style="font-weight: normal;">{{item.applyDays}}</b>天可使用</span>
                                 </p>
                             </div>
                         </div>
-                        <p class="note">
-                            有效期至：{{item.endDate}}
-                            <span class="button"></span>
-                            <span class="status">{{item.status}}</span>
-                        </p>
+                        <div class="note">有效期：
+                            <span>{{item.startDate}}</span>
+                            <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
+                            <span class="button"></span><span class="status">{{item.status}}</span>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -180,7 +186,8 @@ export default {
             isshow4:false,
             isshow5:false,
             isshow6:false,
-            id:''
+            id:'',
+            isshow7:true
         }
     },
     computed: {
@@ -255,10 +262,10 @@ export default {
             params.append('token',sessionStorage.getItem("token"));
             params.append('status',status);
             params.append('curPage','1');
-            params.append('pageSize','10');
+            params.append('pageSize','50');
             if (proPeriod) {
-                params.append('proPeriod',proPeriod);
-                params.append('transMoney',transMoney);
+                params.append('proPeriod','10');
+                params.append('transMoney','10');
             }
             axios.post(url,params).then(res => {
                 console.log(res.data)
@@ -296,6 +303,14 @@ export default {
                                 $(".button").eq(i).text('已下架')
                             }
                         })
+                        $(".investMoney").each(function (b) {
+                                console.log($(".investMoney").eq(b).text())
+                                if ($(".investMoney").eq(b).text() == '0') {
+                                    $(".invest").eq(b).css("opacity",'0')
+                                }else{
+                                    $(".invest").eq(b).css("opacity",'1')
+                                }
+                            })
                     }, 200)
                 }
             }).catch((err) => {
@@ -310,7 +325,7 @@ export default {
             params.append('token',sessionStorage.getItem("token"));
             params.append('status',status);
             params.append('curPage','1');
-            params.append('pageSize','10');
+            params.append('pageSize','50');
             axios.post(url,params).then(res => {
                 console.log(res.data)
                 const data = res.data
@@ -337,7 +352,6 @@ export default {
                                 $(".button").eq(i).text('未到期')
                             }
                             if ($(".status").eq(i).text() == '3') {
-                                console.log(i)
                                 $(".button").eq(i).text('立即使用')
                             }
                             if ($(".status").eq(i).text() == '4') {
@@ -346,9 +360,15 @@ export default {
                             if ($(".status").eq(i).text() == '5') {
                                 $(".button").eq(i).text('已下架')
                             }
+                            $(".investMoney").each(function (b) {
+                                if ($(".investMoney").eq(b).text() == '0') {
+                                    $(".invest").eq(b).css("opacity",'0')
+                                }else{
+                                    $(".invest").eq(b).css("opacity",'1')
+                                }
+                            })
                         })
                     }, 200)
-
                 }
             }).catch((err) => {
                 console.log(err);
@@ -356,19 +376,25 @@ export default {
         },
         // 红包使用情况
         linkDetail1(packetId,redPacketMoney){
-            sessionStorage.setItem("packetId",packetId);
-            sessionStorage.setItem("redPacketMoney",redPacketMoney);
             const id = this.$route.query.id
-            this.$router.push({path:'/page/detail', query: { id: id }})
-
+            if (id) {
+                sessionStorage.setItem("packetId",packetId);
+                sessionStorage.setItem("redPacketMoney",redPacketMoney);
+                this.$router.push({path:'/page/detail', query: { id: id }})
+            }else{
+                this.$router.push({path:'/category'})
+            }
         },
         // 加息券使用情况
-        linkDetail(incrId,redPacketMoney){
-            sessionStorage.setItem("incrId",packetId);
-            sessionStorage.setItem("redPacketMoney",incrMoney);
+        linkDetail(incrId,incrMoney){
             const id = this.$route.query.id
-            alert(id)
-            this.$router.push({path:'/page/detail', query: { id: id }})
+            if (id) {
+                sessionStorage.setItem("packetId",packetId);
+                sessionStorage.setItem("redPacketMoney",redPacketMoney);
+                this.$router.push({path:'/page/detail', query: { id: id }})
+            }else{
+                this.$router.push({path:'/category'})
+            }
         },
     },
     components: {
@@ -434,18 +460,19 @@ export default {
                     background: url(~@/assets/img/red.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;min-height: 3rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
                     .right{
-                        display: inline-block;width: 66%;
+                        display: inline-block;width: 66%;min-height: 3rem;
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
+                        .invest{opacity: 0}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top:1rem;position: relative;display: block;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.9rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
-                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;}
+                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
                 }
                 @media screen and (max-width: 320px) {
@@ -457,8 +484,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 1rem;
-                            .button{position: relative;bottom: 0.3rem;}
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
                         }
                     }
                 }
@@ -473,18 +499,19 @@ export default {
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;min-height: 3rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
                     .right{
-                        display: inline-block;width: 66%;
+                        display: inline-block;width: 66%;min-height: 3rem;
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
+                        .invest{opacity: 0}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;display: block;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.9rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
-                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
+                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
                 }
                 @media screen and (max-width: 320px) {
@@ -496,8 +523,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 0.5rem;
-                            .button{position: relative;bottom: 0.3rem;}
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
                         }
                     }
                 }
@@ -512,18 +538,19 @@ export default {
                     background: url(~@/assets/img/pageadd.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;min-height: 3rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
                     .right{
                         display: inline-block;width: 66%;
+                        .invest{opacity: 0}
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #333;padding: 0;margin-top: 1rem;position: relative;display: block;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.6rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
-                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #C79B5A;color: #C79B5A;text-align: center;line-height: 1.4rem;}
+                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #C79B5A;color: #C79B5A;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
                 }
                 @media screen and (max-width: 320px) {
@@ -535,8 +562,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 1rem;
-                            .button{position: relative;bottom: 0.3rem;}
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
                         }
                     }
                 }
@@ -551,18 +577,19 @@ export default {
                     background: url(~@/assets/img/historyred.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
-                        color: #fff;display: inline-block;width: 30%;position: relative;top: 0.5rem;
+                        color: #fff;display: inline-block;width: 30%;position: relative;min-height: 3rem;
                         b{font-size: 1.6rem;color: #fff;}
                     }
                     .left:after{content: '';display: inline-block;position: absolute;width: 1px;height: 50%;background-color: #fff;top: 25%;right: 0;}
                     .right{
                         display: inline-block;width: 66%;
+                        .invest{opacity: 0}
                         span{display:inline-block; width: 100%;font-size: 0.6rem;color: #fff;padding-left: 0.8rem;}
                     }
                     .note{
-                        font-size: 0.6rem;color: #999;padding: 0;margin-top: 1rem;position: relative;display: block;
+                        font-size: 0.6rem;color: #333;padding: 0;margin-top:0.6rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
-                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;}
+                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
                 }
                 @media screen and (max-width: 320px) {
@@ -574,8 +601,7 @@ export default {
                         }
                         .right{width: 75%;}
                         .note{
-                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top: 1rem;
-                            .button{position: relative;bottom: 0.3rem;}
+                            font-size: 0.6rem;color: #333;padding: 0rem;margin-top:0.6rem;position: relative;bottom: 1.5rem;
                         }
                     }
                 }
@@ -583,7 +609,8 @@ export default {
         }
     }
     .titlenote{position: absolute;top: 0.8rem;right: 0.5rem;color: #fff;font-size: 0.8rem;}
-    .notes{
+    .notes{font-size: 0.7rem;color: #FFA303;text-align: center;position:relative;top: 1rem;width: 100%;padding-bottom: 1rem;}
+    /*.notes{
         font-size: 0.7rem;
         color: #FFA303;
         text-align: center;
@@ -591,10 +618,10 @@ export default {
         top: 1rem;width: 100%;
         padding-bottom: 1rem;
         background: #f6f6f6;
-    }
+    }*/
     .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);left: 0;top: 0;display: none;}
     .toast{
-        position: absolute;width: 80%;margin-left: 10%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 15%;display: none;
+        position: absolute;width: 80%;margin-left: 10%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 10%;display: none;
         h5{font-size: 0.9rem;color: #fff;text-align: center;background: #2B9AFF;font-weight:normal;padding: 0.5rem 0.8rem;span{position: absolute;top: 0.2rem;right: 0.5rem;}}
         h6{
             font-weight: normal;font-size: 0.8rem;color: #333;padding: 0 0.8rem;margin-top: 1rem;

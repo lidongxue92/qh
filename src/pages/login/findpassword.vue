@@ -335,14 +335,21 @@ export default {
       },
       sub(){
         if( this.checkLPsd() == true && this.checkLPsd1() == true){
-            const url = myPub.URL+`/pwd/findPwd` ;
-            var params = new URLSearchParams();
-            params.append('phone',this.userPhone);
-            params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
-            params.append('smsCode',this.verifyCode);
-            axios.post(url,params).then(res => {
-                console.log(res);
-                if (res.data.result == 200) {
+
+          const url = myPub.URL+`/check/checkPhone` ;
+          var params = new URLSearchParams();
+          params.append('phone',this.userPhone);;
+           axios.post(url,params).then(response => {
+              console.log(response)
+              if (response.data.result == '302') {
+                const url = myPub.URL+`/pwd/findPwd` ;
+                var params = new URLSearchParams();
+                params.append('phone',this.userPhone);
+                params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
+                params.append('smsCode',this.verifyCode);
+                axios.post(url,params).then(res => {
+                    console.log(res);
+                    if (res.data.result == 200) {
                         this.$vux.alert.show({
                             content: res.data.resultMsg
                         })
@@ -350,11 +357,34 @@ export default {
                             this.$vux.alert.hide();
                             this.$router.push({path:"/login",query:{phone:this.userPhone}});
                         }, 3000)
-                }
+                    }
 
-            }).catch((err) => {
+                }).catch((err) => {
+                console.log(err)
+                })
+              }
+              if (response.data.result == '301') {
+                  this.$vux.alert.show({
+                  title: '',
+                  content: '手机号验证码不正确,请重新输入'
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.sendCode()
+                }, 3000)
+              }else{
+                this.$vux.alert.show({
+                  title: '',
+                  content: response.data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.sendCode()
+                }, 3000)
+              }
+          }).catch((err) => {
             console.log(err)
-            })
+          })
           }
       }
 

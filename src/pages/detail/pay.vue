@@ -9,7 +9,7 @@
                 <li>订单号 <span>{{product.orderCode}}</span></li>
                 <li>应付金额 <span>{{product.transAmt}}元</span></li>
                 <li>抵扣金额 <span class="c-FFA303">-{{product.redPacketMoney}}</span></li>
-                <li>加息利率<span class="c-FFA303">{{product.IiRate}}</span></li>
+                <li>加息利率<span class="c-FFA303">{{product.IiRate}}%</span></li>
                 <li>实际支付金额 <span class="c-FFA303">{{product.payMoney}}</span></li>
             </ul>
         </div>
@@ -123,8 +123,8 @@ export default {
             if (sessionStorage.packetId) {
                 params.append('packetId',sessionStorage.packetId);
             }
-            if (sessionStorage.incrIdf) {
-                params.append('incrIdf',sessionStorage.incrIdf);
+            if (sessionStorage.incrId) {
+                params.append('incrId',sessionStorage.incrId);
             }
             axios.post(url,params).then(res => {
                 console.log(res.data)
@@ -173,8 +173,8 @@ export default {
             if (sessionStorage.packetId) {
                 params.append('packetId',sessionStorage.packetId);
             }
-            if (sessionStorage.incrIdf) {
-                params.append('incrIdf',sessionStorage.incrIdf);
+            if (sessionStorage.incrId) {
+                params.append('incrId',sessionStorage.incrId);
             }
             axios.post(url,params).then(res => {
                 _this.$loading.hide();
@@ -228,6 +228,10 @@ export default {
             });
         },
     },
+    deactivated: function() {
+        sessionStorage.removeItem("packetId");
+        sessionStorage.removeItem("incrId");
+     },
     components: {
         PopupPicker,
         Tab,

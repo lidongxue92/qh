@@ -72,7 +72,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in list"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img3">固收产品</span></h5>
+                   <h5>{{item.productName}} <span>固定期限 省心理财</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
