@@ -25,7 +25,7 @@
                           <p class="right">
                               <span class="day"><b>{{item.period}}</b>天</span>
                               <span class="status">{{item.status}}</span>
-                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal">元</i></span>
+                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>
                           </p>
                       </div>
                       <img class="bg-img" src="~@/assets/img/full.png">
@@ -50,7 +50,7 @@
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b>天</span>
                             <span class="status">{{item.status}}</span>
-                            <span class="Quota">剩余金额<b>{{item.openLimit}}</b>元</span>
+                            <span class="Quota">剩余金额<b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>
                         </p>
                     </div>
                     <img class="bg-img" src="~@/assets/img/full.png">
@@ -168,8 +168,9 @@ export default {
               if (data.result == '200') {
                 this.datalist = res.data.Product
                 this.totalCount = res.data.totalCount
-                console.log(this.datalist[0])
-                console.log(this.totalCount);
+                // console.log(this.datalist[0])
+                // console.log(this.totalCount);
+
                 setTimeout(() => {
                     $(".img").each(function (b,n) {
                       if ($(".img").eq(b).text() == '1') {
@@ -259,8 +260,9 @@ export default {
                     if (this.datalist[0].isHot == '1') {
                       $(".Propagan").text('热销火爆 稳定收益')
                     };
+                  }, 200);
 
-                    $(".LCopenLimit").each(function (i) {
+                  $(".LCopenLimit").each(function (i) {
                         var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
                         if (LCopenLimit != "" && LCopenLimit < 10000) {
                             $(".LCopenLimit").eq(i).text(LCopenLimit);
@@ -272,10 +274,7 @@ export default {
                             }
                         }
                     });
-
-                  }, 200)
-                }
-              if (data.result == '400') {
+                }else if (data.result == '400') {
                 this.$vux.alert.show({
                     title: '',
                     content: data.resultMsg
