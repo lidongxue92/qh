@@ -97,6 +97,16 @@ export default {
               if (data.result == '200') {
                 this.Product = data.Product;
                 this.diff = this.Product.diff;
+                this.Product.yieldDistribType =
+                $(".shouYi").each(function (i) {
+                    if (data.Product.yieldDistribType == 1) {
+                        $(".shouYi").eq(i).text("到期兑付本金收益")
+                    }else if (data.Product.yieldDistribType == 2) {
+                        $(".shouYi").eq(i).text("先息后本")
+                    }else if (data.Product.yieldDistribType == 3) {
+                        $(".shouYi").eq(i).text("等额本息")
+                    }
+                })
               }
 
           }).catch((err) => {

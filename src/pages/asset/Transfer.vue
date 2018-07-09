@@ -102,14 +102,15 @@ export default {
         },
         Transferable(){
             const _this = this
+            this.isshow3 = false
             this.is_show2 = false
             this.is_show = true
             this.product('1,2','2','0')
         },
         Notransferable(){
-            const _this = this
+            const _this = this;
             this.product('4,5','1','1');
-            this.is_show2 = true
+            this.is_show2 = false
             this.is_show = false
         },
         product(status,cx,order){
@@ -194,7 +195,12 @@ export default {
         XAddress,
         XButton,
         top
-    }
+    },
+    watch: {
+        '$route' (to, from) {
+            this.$router.go(0);
+        }//回退上一级页面并刷新
+    },
 }
 </script>
 
@@ -202,7 +208,7 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;height:100%;
+    background: #f7f7f7;height:auto;
     .middle{
         margin-top: 0.5rem;
         .nodata{
