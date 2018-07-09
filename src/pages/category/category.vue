@@ -9,7 +9,7 @@
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span>新手福利高预期收益</span></h5>
                 <p class="Profit">{{item.annualYield}}%</p>
-                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>元</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
+                <p><span>剩余金额 &emsp; <b class="LCopenLimit">{{item.openLimit}}</b></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
@@ -18,13 +18,13 @@
                       <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
-                              <span class="Profit">{{item.annualYield}}<b v-if="isshow2">{{item.profit}}</b>%</span>
+                              <span class="Profit">{{item.annualYield}}%<b v-if="isshow2">+ <i style="font-style:normal">{{item.actAnnualYield}}</i>%</b></span>
                               <span>历史年化收益率</span>
                           </p>
                           <p class="right">
                               <span class="day"><b>{{item.period}}</b>天</span>
                               <span class="status">{{item.status}}</span>
-                              <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
+                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b></span>
                           </p>
                       </div>
                       <img class="bg-img" src="~@/assets/img/full.png">
@@ -163,20 +163,19 @@ export default {
             _this.$loading.hide();
               console.log(res.data);
               const data = res.data
-              if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-              }
               if (data.result == '200') {
                 this.datalist = res.data.Product
                 this.totalCount = res.data.totalCount
-                console.log(this.totalCount)
+                console.log(this.totalCount);
+
+                $(".LCopenLimit").each(function (i) {
+                    var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                    if (LCopenLimit  != "" && LCopenLimit < 10000) {
+                        $(".LCopenLimit").eq(i).text(LCopenLimit + "元");
+                    }else{
+                        $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000 + "万元");
+                    }
+                });
                 setTimeout(() => {
                     $(".img").each(function (i,n) {
                       if ($(".img").eq(i).text() == '1') {
@@ -279,18 +278,18 @@ export default {
             event.innerText = datalist
         },
         // 判断token
-        // token(){
-        //     if (!sessionStorage.token) {
-        //       this.$vux.alert.show({
-        //           title: '',
-        //           content: '请登录'
-        //       })
-        //       setTimeout(() => {
-        //           this.$vux.alert.hide()
-        //           this.$router.push({path:"/login",query: {redirect: 'your path'}})
-        //       }, 2000)
-        //     }
-        // },
+        token(){
+            if (!sessionStorage.token) {
+              this.$vux.alert.show({
+                  title: '',
+                  content: '请登录'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
+              }, 2000)
+            }
+        },
         menu() {
           this.scroll = document.body.scrollTop;
           console.log(this.scroll)

@@ -43,6 +43,7 @@
             <label style="margin-top: 10px;">
                 <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
                 <span class="tishixiaoxi disappear1">请输入密码。</span>
+                <img :src="imgSrc1" class="LoginImg" @click="eyesTab1">
                 <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
             </label>
             <p style="font-size: 0.8rem;color: #999">密码长度为6-20位,须包含数字;字母;符号;至少2种或以上元素;且不包含空格</p>
@@ -87,7 +88,9 @@ export default {
         ],
         isshow2:'true',
         imgSrc:"./static/img/closeEyes.png",
+        imgSrc1:"./static/img/closeEyes.png",
         type:"password",
+        type1:"password",
       }
     },
     methods:{
@@ -129,6 +132,15 @@ export default {
             }else{
                 this.imgSrc = "./static/img/loginEyes.png";
                 this.type = "text"
+            }
+        },
+        eyesTab1(){
+            if (this.imgSrc1 == "./static/img/loginEyes.png") {
+                this.imgSrc1 = "./static/img/closeEyes.png";
+                this.type1 = "password"
+            }else{
+                this.imgSrc1 = "./static/img/loginEyes.png";
+                this.type1 = "text"
             }
         },
         changeBGC(){

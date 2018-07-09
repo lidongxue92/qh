@@ -29,7 +29,7 @@
                     </li>
                     <li class="act">
                         <a href="javascript:" style="color: #333">
-                            <img src="~@/assets/img/icon_huo@2x.png">
+                            <img :src="activeImg">
                             <p></p>
                         </a>
                     </li>
@@ -140,6 +140,7 @@ export default {
               items:'',
               page: [1, 2, 3, 4, 5],
             residueMoney1:"",
+            activeImg:"./static/img/icon_huo@2x.png"
         }
     },
     created() {
@@ -228,7 +229,7 @@ export default {
                  str.push(obj);
              }
              this.demo02_list = str
-            console.log(data)
+            // console.log(data)
           }).catch((err) => {
             console.log(err)
           })
@@ -246,7 +247,7 @@ export default {
             axios.post(url,params).then(response => {
                 _this.$loading.hide();
                 const data = response.data
-                console.log(data)
+                // console.log(data)
                 if (data.result == '400') {
                     this.$vux.alert.show({
                         title: '',
@@ -261,9 +262,6 @@ export default {
                     _this.newlist = data.XsInfo;
                     _this.hotlist = data.HotInfo;
                     _this.list = data.GsInfo;
-
-
-
 
                     setTimeout(() => {
                         $(".residueMoney").each(function (i) {
@@ -323,9 +321,9 @@ export default {
             $(".act a").attr("href",response.data.activityLink)
             $(".act p").text(response.data.activityName)
 
-            // if (response.data.activityIcon != "") {
-            //     // $(".act img").attr("src",response.data.activityIcon)
-            // }
+            if (data.activityIcon != "") {
+                this.activeImg = data.activityIcon;
+            }
 
 
           }).catch((err) => {
@@ -367,7 +365,7 @@ export default {
             }else{
                 this.isshow3 = true
             }
-            console.log(data)
+            // console.log(data)
           }).catch((err) => {
             console.log(err)
           })
@@ -382,7 +380,7 @@ export default {
             const data = response.data
             this.items = data.InfoManage;
 
-            console.log(data)
+            // console.log(data)
           }).catch((err) => {
             console.log(err)
           })
@@ -519,5 +517,13 @@ export default {
     }
     .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;margin-bottom: 4rem;background: #f7f7f7;}
     .zhezhao{background: rgba(0, 0, 0, .3);position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 600;display: none}
+
+    .act{
+        img{
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50% 50%;
+        }
+    }
 }
 </style>

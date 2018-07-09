@@ -302,7 +302,9 @@ export default {
                 width: 50%;
                 background: none;
                 border: none;
-                padding: .8rem 0;
+                height: 2.5rem;
+                line-height: 2rem;
+
             }
             .sure{
                 background: #2773FF;

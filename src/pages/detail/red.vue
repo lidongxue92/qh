@@ -27,7 +27,7 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
                     </li> -->
-                    <li v-for="(item,index) in product" @click="linkDetail1(item.welfareId,item.redPacketMoney)">
+                    <li v-for="(item,index) in product" @click="linkDetail1(item.welfareId,item.redPacketMoney)" :key="index">
                         <div class="clearfix">
                             <p class="title">{{item.redPacketName}}</p>
                             <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
@@ -55,14 +55,16 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">已使用</span></p>
                     </li> -->
-                   <li v-for="(item,index) in product">
+                   <li v-for="(item,index) in product" :key="index">
                        <div class="clearfix">
                             <p class="title">{{item.redPacketName}}</p>
-                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                            <p class="right">
-                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                <span>投资满<b class="investMoney" style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
-                            </p>
+                            <div class="center">
+                                <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                                <p class="right">
+                                    <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                    <span>投资满<b class="investMoney" style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
+                                </p>
+                            </div>
                         </div>
                         <p class="note">有效期至：{{item.endDate}}
                         <span class="button"></span><span class="status">{{item.status}}</span></p>
@@ -83,14 +85,16 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button"></span></p>
                     </li> -->
-                    <li v-for="(item,index) in addpro" @click="linkDetail1(item.welfareId,item.incrMoney)">
+                    <li v-for="(item,index) in addpro" @click="linkDetail1(item.welfareId,item.incrMoney)" :key="index">
                         <div class="clearfix">
                             <p class="title">{{item.incrName}}</p>
-                            <p class="left">¥<b>{{item.incrMoney}}</b></p>
-                            <p class="right">
-                                <span>使用条件：投资满{{item.incrName}}元可使用</span>
-                                <span>投资满{{item.incrName}}元可使用</span>
-                            </p>
+                            <div class="center">
+                                <p class="left"><b>{{item.incrMoney}}</b>%</p>
+                                <p class="right">
+                                    <span>使用条件：投资满{{item.incrName}}元可使用</span>
+                                    <span>投资满{{item.incrName}}元可使用</span>
+                                </p>
+                            </div>
                         </div>
                         <p class="note">
                             有效期至：{{item.endDate}}
@@ -114,14 +118,16 @@
                         <p class="note">有效期至：2017.12.12 00:00
                         <span class="button">立即使用</span></p>
                     </li> -->
-                     <li v-for="(item,index) in addpro">
+                     <li v-for="(item,index) in addpro" :key="index">
                         <div class="clearfix">
                             <p class="title">{{item.redPacketName}}</p>
-                            <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
-                            <p class="right">
-                                <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                <span>投资满{{item.investMoney}}元可使用</span>
-                            </p>
+                            <div class="center">
+                                <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
+                                <p class="right">
+                                    <span>使用条件：投资满{{item.investMoney}}元可使用</span>
+                                    <span>投资满{{item.investMoney}}元可使用</span>
+                                </p>
+                            </div>
                         </div>
                         <p class="note">
                             有效期至：{{item.endDate}}
@@ -342,7 +348,7 @@ export default {
                             }
                         })
                     }, 200)
-                    
+
                 }
             }).catch((err) => {
                 console.log(err);
@@ -354,7 +360,7 @@ export default {
             sessionStorage.setItem("redPacketMoney",redPacketMoney);
             const id = this.$route.query.id
             this.$router.push({path:'/page/detail', query: { id: id }})
-            
+
         },
         // 加息券使用情况
         linkDetail(incrId,redPacketMoney){
@@ -404,7 +410,9 @@ export default {
     zoom:1;
 }
 .detail {
-    background: #f7f7f7;height:auto;position: relative;
+    background: #f7f7f7;
+    height:auto;
+    position: relative;
     .tab{
         background: #fff;margin-top: 1rem;
         li{list-style: none;width: 49%;text-align: center;font-size: 0.9rem;line-height: 2.5rem;height: 2.5rem;color: #999;display: inline-block;}
@@ -575,7 +583,15 @@ export default {
         }
     }
     .titlenote{position: absolute;top: 0.8rem;right: 0.5rem;color: #fff;font-size: 0.8rem;}
-    .notes{font-size: 0.7rem;color: #FFA303;text-align: center;position:relative;top: 1rem;width: 100%;padding-bottom: 1rem}
+    .notes{
+        font-size: 0.7rem;
+        color: #FFA303;
+        text-align: center;
+        position:relative;
+        top: 1rem;width: 100%;
+        padding-bottom: 1rem;
+        background: #f6f6f6;
+    }
     .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);left: 0;top: 0;display: none;}
     .toast{
         position: absolute;width: 80%;margin-left: 10%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 20%;display: none;

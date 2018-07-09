@@ -357,9 +357,9 @@ export default {
                 params.append('msgType','1');
                 axios.post(url,params).then(res => {
                     console.log(res);
-                    if (condition) {
+                    // if (condition) {
 
-                    }
+                    // }
 
                 }).catch((err) => {
                     console.log(err)
