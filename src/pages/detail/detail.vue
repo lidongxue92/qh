@@ -427,6 +427,7 @@ export default {
                     this.$vux.alert.hide()
                     this.money = this.Money
                     $(".leftimg").attr('src',"./static/img/cont.png")
+                    this.Interest()
                 }, 3000)
             }
       },
@@ -724,7 +725,7 @@ export default {
         border-radius: 30px;
     }
     .tost{
-        position: absolute;width: 100%;height: 100%;z-index: 11;background: #f6f6f6;top: 0;text-align: center;
+        position: absolute;width: 100%;height: 150%;z-index: 11;background: #f6f6f6;top: 0;text-align: center;
         .bottom{background: #80BFFF;position: fixed;bottom:2rem;left: 0;}
     }
     .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);top:0;left: 0;z-index: 11;display: none;}
