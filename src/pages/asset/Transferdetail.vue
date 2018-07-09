@@ -4,43 +4,43 @@
     <div class="assetTop">
       <div class="title">
         <img src="~@/assets/img/left.png" @click="goBack">
-        <span>产品名称</span>
+        <span>{{Product.productName}}</span>
       </div>
       <div class="assetTopMain">
-        <h5>投资本金(元) <span><img :src="imgSrc"></span></h5>
-        <p class="totalMoney numberChange">{{totalMoney}}</p>
+        <h5>投资本金(元)</h5>
+        <p class="totalMoney numberChange">{{Product.investMoney | numFilter}}</p>
       </div>
       <ul class="assetBottom">
           <li class="tl">
               <span>预计到期收益(元)</span>
-              <span class="big">1000000.36</span>
+              <span class="big">{{Product.exceptedYield | numFilter}}</span>
           </li>
           <li class="middle">
               <span>产品期限(天)</span>
-              <span class="big">365</span>
+              <span class="big">{{Product.productPeriod}}天</span>
           </li>
           <li class="tr">
               <span>平均历史年化收益</span>
-              <span class="big">8.8%+0.4%</span>
+              <span class="big">{{Product.annualYield | numFilter}}%</span>
           </li>
       </ul>
     </div>
     <!-- 标 -->
     <div class="list">
         <ul>
-            <li>到期日 <span class="color">2017.12.30</span></li>
-            <li>起息日 <span>2017.12.12</span></li>
-            <li>投资日 <span>2017.12.12</span></li>
-            <li>收益方式 <span>到期还本付息</span></li>
+            <li>到期日 <span class="color">{{Product.dueDate}}</span></li>
+            <li>起息日 <span>{{Product.interestDate}}</span></li>
+            <li>投资日 <span>{{Product.buyTime}}</span></li>
+            <li>收益方式 <span class="shouYi"></span></li>
         </ul>
         <ul>
-            <li>已持有天数 <span>200天</span></li>
-            <li>剩余天数<span  class="color">165天</span></li>
-            <li>转让日期 <span>2017.12.12</span></li>
-            <li>当日转让结算利率<span  class="color">6.5%</span></li>
-            <li>当日转让结算收益<span  class="color">4500.58元</span></li>
-            <li>转让成功后本息合计<span  class="color">1004500.58元</span></li>
-            <li>转让手续费<span  class="color">880.00元</span></li>
+            <li>已持有天数 <span>{{Product.diff}}天</span></li>
+            <li>剩余天数<span  class="color">{{Product.syts}}天</span></li>
+            <li>转让日期 <span>{{Product.orderZrDate}}</span></li>
+            <li>当日转让结算利率<span  class="color">{{Product.drzrjs | numFilter}}%</span></li>
+            <li>当日转让结算收益<span  class="color">{{Product.zrsy | numFilter}}元</span></li>
+            <li>转让成功后本息合计<span  class="color">{{Product.zrbx | numFilter}}元</span></li>
+            <li>转让手续费<span  class="color">{{Product.zrsxf | numFilter}}元</span></li>
         </ul>
     </div>
     <span class="button" @click="sub">提交转让</span>
@@ -48,7 +48,7 @@
       <img src="~@/assets/img/face.png"><span class="close" @click="close">&Chi;</span>
       <p>主人你就真的狠心不要我了么？</p>
       <span class="left" @click="leftclose">狠心转让</span><span class="right" @click="rightclose">我在想想</span>
-    </div> 
+    </div>
     <div class="bg"></div>
   </div>
 </template>
@@ -62,15 +62,66 @@ export default {
     name: 'asset',
     data(){
 　　  return {
-        imgSrc:"../../../static/img/openEyes.png",
+        imgSrc:"./static/img/openEyes.png",
         totalMoney:1888800.01,
         numberChange: 10000.08,
         isshow: true,
         isshow1:false,
         isshow2:false,
         isshow3:true,
+        Product:[],
+        diff:'',
 　　  }
 　　},
+    created() {
+        const _this = this
+          _this.$loading.show();
+          const url = myPub.URL+`/user/getUserAssetsInfo` ;
+          const params = new URLSearchParams();
+          params.append('token',sessionStorage.token);
+          params.append('orderId',this.$route.query.id);
+          axios.post(url,params).then(res => {
+              _this.$loading.hide();
+              const data = res.data
+              console.log(res.data)
+              if (data.result == '400') {
+                  this.$vux.alert.show({
+                      title: '',
+                      content: data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                      this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                  }, 3000)
+              }
+              if (data.result == '200') {
+                this.Product = data.Product;
+                this.diff = this.Product.diff;
+                this.Product.yieldDistribType =
+                $(".shouYi").each(function (i) {
+                    if (data.Product.yieldDistribType == 1) {
+                        $(".shouYi").eq(i).text("到期兑付本金收益")
+                    }else if (data.Product.yieldDistribType == 2) {
+                        $(".shouYi").eq(i).text("先息后本")
+                    }else if (data.Product.yieldDistribType == 3) {
+                        $(".shouYi").eq(i).text("等额本息")
+                    }
+                })
+              }
+
+          }).catch((err) => {
+              console.log(err)
+          })
+    },
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3);
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
+        }
+    },
     methods:{
         goBack() {
             this.$router.back()
@@ -85,30 +136,18 @@ export default {
         },
         leftclose(){
           $(".bg").css("display","none")
-          $(".tost").css("display","none")
-          this.$router.push({ path: '/page/Transfersuccess' })
-        },
-        close(){
-          $(".bg").css("display","none")
-          $(".tost").css("display","none")
-        },
-        Transfers(){
-           const _this = this
-          _this.$loading.show();
-          const url = myPub.URL+`/user/getUserAssetsInfo` ;
+          $(".tost").css("display","none");
+
+            const _this = this;
+          const url = myPub.URL+`/user/getUserTransferProduct` ;
           const params = new URLSearchParams();
-          params.append('curPage','1');
-          params.append('pageSize','10');
-          params.append('status',status);
           params.append('token',sessionStorage.token);
-          params.append('productFullStatus','0,1');
-          params.append('czlx',cx);
-          params.append('orderType',order);
-          params.append('clientType','h5');
-          axios.post(url,params).then(response => {
+          params.append('orderId',this.$route.query.id);
+          params.append('diff',this.diff);
+          axios.post(url,params).then(res => {
               _this.$loading.hide();
-              const data = response.data
-              console.log(response.data)
+              const data = res.data
+              console.log(res.data)
               if (data.result == '400') {
                   this.$vux.alert.show({
                       title: '',
@@ -120,13 +159,22 @@ export default {
                   }, 3000)
               }
               if (data.result == '200') {
-                // this.Product = data.Product
+                this.$router.push({ path: '/page/Transfersuccess' });
               }
 
           }).catch((err) => {
               console.log(err)
           })
-        }
+
+
+
+
+
+        },
+        close(){
+          $(".bg").css("display","none")
+          $(".tost").css("display","none")
+        },
     },
     mounted() {
     }
@@ -143,6 +191,7 @@ export default {
   }
 .asset{
     background: #f6f6f6;padding-bottom: 1rem;position: relative;
+    height: auto;
     /*资产头部*/
     .assetTop{
         width: 100%;
@@ -196,7 +245,7 @@ export default {
     }
     .list{
       position: relative;
-      ul{ 
+      ul{
         padding: 0 0.8rem;background: #fff;margin-top: 0.8rem;
         li{
             line-height: 2.5rem;height: 2.5rem;font-size: 0.8rem;color: #666;border-bottom: 1px solid #eee;

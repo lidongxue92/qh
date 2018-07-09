@@ -1,60 +1,64 @@
 <template>
 <div class="settlein">
-      <topComponent title='密码找回' :showLeft='false'>
-            <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
-        </topComponent>
+    <topComponent title='密码找回' :showLeft='false'>
+        <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+    </topComponent>
 
-    <div class="phone" v-if='isshow'>
-      <div class="login_content1 ">
-        <label>
-          <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
-          <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
-          <span class="tishixiaoxi disappear">请输入手机号。</span>
-        </label>
-        <label class="clearfix">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4" @input="changeBGC">
-          <img @click="emipy" class="img" src="~@/assets/img/emipy.png" style="right: 40%;">
-          <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
-            <span class="tishixiaoxi disappear">请输入验证码。</span>
-        </label>
-        <a class="user_login next" @click="next">下一步</a>
-        <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
-      </div>
-    </div>
+    <div class="main">
+        <div class="phone" v-if='isshow'>
+            <div class="login_content1 ">
+                <label>
+                <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
+                <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
+                <span class="tishixiaoxi disappear">请输入手机号。</span>
+                </label>
+                <label class="clearfix">
+                <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4" @input="changeBGC">
+                <img @click="emipy" class="img" src="~@/assets/img/emipy.png" style="right: 40%;">
+                <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
+                    <span class="tishixiaoxi disappear">请输入验证码。</span>
+                </label>
+                <a class="user_login next" @click="next">下一步</a>
+                <a href="javascript:" style="color: #FFA303;display: inline-block;width: 100%;text-align: center;font-size: 0.8rem;" @click="login">已有账号,去登录</a>
+            </div>
+        </div>
 
-    <div class="list" v-if="isshow1">
-      <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;"></h5>
-      <h5>短信验证码已发送至：<span class="span">{{tel}}</span></h5>
-      <label class="clearfix" style="margin-top: 30px;">
-          <p style="border-bottom: 1px solid #eee">
-          <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
-          <img src="../../assets/img/loginClear.png" class="img" @click="emipy2" style="right: 40%">
-          <input type="button" :value="btnText"
-          :disabled="disabled"  @click="sendCode" class="verification"/></p>
-          <span class="tishixiaoxi disappear" >请输入验证码。</span>
-      </label>
-        <label style="margin-top: 10px; position: relative;">
-            <input :type="type" placeholder="请输入新密码" class="register_content_input" v-model="newUserPwd" @blur="checkLPsd"><br>
-            <span class="tishixiaoxi disappear">请输入新密码。</span>
-            <img :src="imgSrc" class="LoginImg" @click="eyesTab">
-            <img src="../../assets/img/loginClear.png" class="img" @click="emipy3" style="right: 12%">
-        </label>
-        <label style="margin-top: 10px;">
-            <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
-            <span class="tishixiaoxi disappear1">请输入密码。</span>
-            <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
-        </label>
-        <p style="font-size: 0.8rem;color: #999">密码长度为6-20位,须包含数字;字母;符号;至少2种或以上元素;且不包含空格</p>
-        <a class="user_login" @click="sub">确认提交</a>
+        <div class="list" v-if="isshow1">
+            <h5 style="text-align: center;font-size: 1rem;padding-bottom: 2rem;"></h5>
+            <h5>短信验证码已发送至：<span class="span">{{tel}}</span></h5>
+            <label class="clearfix" style="margin-top: 30px;">
+                <p style="border-bottom: 1px solid #eee">
+                <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
+                <img src="../../assets/img/loginClear.png" class="img" @click="emipy2" style="right: 40%">
+                <input type="button" :value="btnText"
+                :disabled="disabled"  @click="sendCode" class="verification"/></p>
+                <span class="tishixiaoxi disappear" >请输入验证码。</span>
+            </label>
+            <label style="margin-top: 10px; position: relative;">
+                <input :type="type" placeholder="请输入新密码" class="register_content_input" v-model="newUserPwd" @blur="checkLPsd"><br>
+                <span class="tishixiaoxi disappear">请输入新密码。</span>
+                <img :src="imgSrc" class="LoginImg" @click="eyesTab">
+                <img src="../../assets/img/loginClear.png" class="img" @click="emipy3" style="right: 12%">
+            </label>
+            <label style="margin-top: 10px;">
+                <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
+                <span class="tishixiaoxi disappear1">请输入密码。</span>
+                <img :src="imgSrc1" class="LoginImg" @click="eyesTab1">
+                <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
+            </label>
+            <p style="font-size: 0.8rem;color: #999">密码长度为6-20位,须包含数字;字母;符号;至少2种或以上元素;且不包含空格</p>
+            <a class="user_login" @click="sub">确认提交</a>
+        </div>
     </div>
 
         <!-- 底部版权 -->
-    <div style="position: fixed;bottom: 1rem; text-align: center;font-size: 0.8rem;color: #999;width: 100%;left: 0;">
+    <div class="banQuan">
       <p>©2018 途粒 (上海) 金融信息服务有限公司 版权所有</p>
       <p>@启航金服  理财有风险，投资需谨慎</p>
     </div>
 </div>
 </template>
+
 <script>
 import { XInput, Group, XButton, Cell, Toast, base64 } from 'vux'
 import axios from 'axios'
@@ -84,7 +88,9 @@ export default {
         ],
         isshow2:'true',
         imgSrc:"./static/img/closeEyes.png",
+        imgSrc1:"./static/img/closeEyes.png",
         type:"password",
+        type1:"password",
       }
     },
     methods:{
@@ -126,6 +132,15 @@ export default {
             }else{
                 this.imgSrc = "./static/img/loginEyes.png";
                 this.type = "text"
+            }
+        },
+        eyesTab1(){
+            if (this.imgSrc1 == "./static/img/loginEyes.png") {
+                this.imgSrc1 = "./static/img/closeEyes.png";
+                this.type1 = "password"
+            }else{
+                this.imgSrc1 = "./static/img/loginEyes.png";
+                this.type1 = "text"
             }
         },
         changeBGC(){
@@ -645,6 +660,28 @@ export default {
 </style>
 <style scoped lang="less">
 .settlein{
+    .main{
+        height: auto;
+        padding-bottom: 2rem;
+        &:after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+    }
+    .banQuan{
+        // background: #f69;
+        font-size: 0.8rem;
+        text-align: center;
+        color: #999;
+        margin-top: 2rem;
+        position: relative;
+        width: 100%;
+        bottom: 1rem;
+    }
+    @media screen and (max-width: 320px) {
+        .banQuan{position: relative;margin-top:8rem;}
+    }
   .bg-img{
     text-align: center;
     h5{

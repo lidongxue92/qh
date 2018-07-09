@@ -9,7 +9,7 @@
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span class="Propagan"></span></h5>
                 <p class="Profit">{{item.annualYield}}%</p>
-                <p><span>剩余金额 &emsp; <b>{{item.openLimit}}</b>元</span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
+                <p><span>剩余金额 &emsp; <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
             <div class="middle">
@@ -25,7 +25,7 @@
                           <p class="right">
                               <span class="day"><b>{{item.period}}</b>天</span>
                               <span class="status">{{item.status}}</span>
-                              <span class="Quota">剩余金额 <b>{{item.openLimit}}</b></span>
+                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal">元</i></span>
                           </p>
                       </div>
                       <img class="bg-img" src="~@/assets/img/full.png">
@@ -134,7 +134,7 @@ export default {
             $(".Transfertab").removeClass('active')
             this.pro('1',' ',50)
             setTimeout(() => {
-              this.pro(1,'',this.totalCount)
+              this.pro(1,'',this.totalCount);
             }, 500)
         },
         // 转让专区
@@ -165,31 +165,23 @@ export default {
             _this.$loading.hide();
               console.log(res.data);
               const data = res.data
-              if (data.result == '400') {
-                this.$vux.alert.show({
-                    title: '',
-                    content: data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                }, 3000)
-              }
               if (data.result == '200') {
                 this.datalist = res.data.Product
                 this.totalCount = res.data.totalCount
                 console.log(this.datalist[0])
+                console.log(this.totalCount);
                 setTimeout(() => {
                     $(".img").each(function (b,n) {
                       if ($(".img").eq(b).text() == '1') {
-                        $(".img").eq(b).css("opacity","1")
-                        $(".img").eq(b).addClass('img2')
-                        $(".img").eq(b).text('热销产品')
-                        $(".Propaganda").eq(b).text('热销火爆 稳定收益')
-                        $(".Profit2").eq(i).css("display",'none')
-                        $(".Profit1").eq(i).css("display",'block')
-                      }
-                      $(".Property").each(function (i,n) {
+                          $(".img").eq(b).css("opacity","1")
+                          $(".img").eq(b).addClass('img2')
+                          $(".img").eq(b).text('热销产品')
+                          $(".Propaganda").eq(b).text('热销火爆 稳定收益')
+                          $(".Profit2").eq(i).css("display",'none')
+                          $(".Profit1").eq(i).css("display",'block')
+                        }
+                      });
+                    $(".Property").each(function (i,n) {
                         if ($(".Property").eq(i).text() == '18') {
                             $(".Property").eq(i).css("opacity","1")
                             $(".Property").eq(i).text('不可转让')
@@ -230,36 +222,14 @@ export default {
                             $(".Profit1").eq(i).css("display",'none')
                             $(".Profit2").eq(i).css("display",'block')
                         }
-                      })
-                      $(".actAnnual").each(function (s) {
+                      });
+                    $(".actAnnual").each(function (s) {
                         if ($(".actAnnual").eq(s).text() == '0%') {
                           $(".actAnnual").eq(s).css("display","none")
                         }else{
                           $(".actAnnual").eq(s).css("display","inline-block")
                         }
                       })
-                    })
-                    // $(".Property").each(function (i,n) {
-                    //     if ($(".Property").eq(i).text() == '18') {
-                    //         $(".Property").eq(i).css("opacity","1")
-                    //         $(".Property").eq(i).text('不可转让')
-                    //     }
-                    //     if ($(".Property").eq(i).text() == '3') {
-                    //         $(".Property").eq(i).css("opacity","1")
-                    //         $(".Property").eq(i).text('不可转让')
-                    //     }
-                    //     if ($(".Property").eq(i).text() == '22') {
-                    //         $(".Property").eq(i).css("opacity","1")
-                    //         $(".Property").eq(i).text('不可转让')
-                    //     }
-                    //     if ($(".Property").eq(i).text() == '19') {
-                    //         $(".Property").eq(i).css("opacity","1")
-                    //         $(".Property").eq(i).text('可转让')
-                    //         $(".img").eq(i).css("opacity","1")
-                    //           $(".img").eq(i).addClass('img3')
-                    //           $(".img").eq(i).text('转让产品')
-                    //     }
-                    //   })
                     $(".status").each(function (i,n) {
                       if ($(".status").eq(i).text() == '3') {
                           $(".status").eq(i).css({"opacity":"1"})
@@ -273,7 +243,7 @@ export default {
                           $(".bg-img").eq(i).css("display","block")
                           $(".bg").eq(i).css("display","block")
                       }
-                    })
+                    });
                     if (this.datalist[0].productType == '3' && this.datalist[0].isHot == '0') {
                       $(".Propagan").text('新手福利预期高收益')
                     }
@@ -289,8 +259,9 @@ export default {
                     if (this.datalist[0].isHot == '1') {
                       $(".Propagan").text('热销火爆 稳定收益')
                     }
-                }, 200)
-              }else if (data.result == '400') {
+                  }, 200)
+                }
+              if (data.result == '400') {
                 this.$vux.alert.show({
                     title: '',
                     content: data.resultMsg
@@ -308,18 +279,18 @@ export default {
             event.innerText = datalist
         },
         // 判断token
-        // token(){
-        //     if (!sessionStorage.token) {
-        //       this.$vux.alert.show({
-        //           title: '',
-        //           content: '请登录'
-        //       })
-        //       setTimeout(() => {
-        //           this.$vux.alert.hide()
-        //           this.$router.push({path:"/login",query: {redirect: 'your path'}})
-        //       }, 2000)
-        //     }
-        // },
+        token(){
+            if (!sessionStorage.token) {
+              this.$vux.alert.show({
+                  title: '',
+                  content: '请登录'
+              })
+              setTimeout(() => {
+                  this.$vux.alert.hide()
+                  this.$router.push({path:"/login",query: {redirect: 'your path'}})
+              }, 2000)
+            }
+        },
         menu() {
           this.scroll = document.body.scrollTop;
           console.log(this.scroll)

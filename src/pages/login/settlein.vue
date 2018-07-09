@@ -399,20 +399,20 @@ export default {
       },
       // 手机号验证码
       sendCode() {
-        console.log('点击验证码触发')
-        this.time = 90
-        this.disabled = true
-        this.timer()
-         // 获取验证
-          const url = myPub.URL+`/three/getSmsCode` ;
-          var params = new URLSearchParams();
-          params.append('phone',this.phoneNumber);
-          params.append('msgType','1');
-          axios.post(url,params).then(response => {
-                console.log(response);
-          }).catch((err) => {
-            console.log(err)
-          })
+            console.log('点击验证码触发')
+            this.time = 90
+            this.disabled = true
+            this.timer()
+            // 获取验证
+            const url = myPub.URL+`/three/getSmsCode` ;
+            var params = new URLSearchParams();
+            params.append('phone',this.phoneNumber);
+            params.append('msgType','1');
+            axios.post(url,params).then(response => {
+                    console.log(response);
+            }).catch((err) => {
+                console.log(err)
+            })
         },
 
       timer() {

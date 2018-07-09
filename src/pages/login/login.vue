@@ -45,8 +45,7 @@
                 <label class="clearfix" style="margin-top: 30px;">
                   <input type="text" placeholder="请输入验证码" class="yanzhengma_input pwd1" v-model="verifyCode" maxlength="6" @input="changBGC1">
                   <img src="../../assets/img/loginClear.png" class="LoginImg img4" @click="clear4" style="right: 40%">
-                  <input type="button" :value="btnText"
-                      :disabled="disabled"  @click="sendCode" class="verification"/> <br>
+                  <input type="button" :value="btnText" :disabled="disabled"  @click="sendCode" class="verification"/><br>
                 </label>
                 <button class="login1" @click="msgLogin" style="padding-top: 0;">登录</button>
                 <a class="user_login" @click="settlein" style="background: #2773FF;opacity: 1">注册</a>
@@ -254,13 +253,6 @@ export default {
         },
         checkLPhone1(){
             if(this.userPhone1 == ''){
-              //   this.$vux.alert.show({
-              //   title: '',
-              //   content: '请输入手机号'
-              // })
-              // setTimeout(() => {
-              //     this.$vux.alert.hide()
-              // }, 1000)
               return false
             }else if(this.userPhone1.search(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/)==0){
                 $(".middle span:eq(0)").addClass("disappear")
@@ -353,23 +345,26 @@ export default {
         },
         // 手机号验证码
         sendCode() {
-            if ( this.checkLPhone() == true && this.checkLpicma() == true) {
+            if ( this.checkLPhone1() == true) {
                 // console.log('点击验证码触发')
-            this.time = 90
-            this.disabled = true
-            this.timer()
-                // 获取验证
-              const url = myPub.URL+`/three/getSmsCode` ;
-              var params = new URLSearchParams();
-              params.append('phone',this.userPhone);
-              params.append('msgType','1');
-              axios.post(url,params).then(res => {
-                    // console.log(res);
+                this.time = 90
+                this.disabled = true
+                this.timer()
+                    // 获取验证
+                const url = myPub.URL+`/three/getSmsCode` ;
+                var params = new URLSearchParams();
+                params.append('phone',this.userPhone1);
+                params.append('msgType','1');
+                axios.post(url,params).then(res => {
+                    console.log(res);
+                    // if (condition) {
 
-              }).catch((err) => {
-                console.log(err)
-              })
-            }
+                    // }
+
+                }).catch((err) => {
+                    console.log(err)
+                })
+                }
         },
         timer() {
             if (this.time > 0) {
@@ -378,7 +373,7 @@ export default {
                 setTimeout(this.timer, 1000)
             } else {
                 this.time = 0
-                this.btnText = '获取验证码'
+                this.btnText = '发送验证码'
                 this.disabled = false
             }
         },
@@ -474,14 +469,14 @@ export default {
         },
         // 短信登陆
         msgLogin(){
-            if((this.checkLPhone() ==true) && this.verifyCode != "" && this.picLyanzhengma != ""){
+            if((this.checkLPhone1() ==true) && this.verifyCode != "" && this.picLyanzhengma != ""){
                 $(".login1").css("opacity","1");
                 //登陆
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
 
                 var params = new URLSearchParams();
-                params.append('phone',this.userPhone);
+                params.append('phone',this.userPhone1);
                 params.append('smsCode',this.verifyCode);
                 params.append('loginType',2);
                 params.append('clientType','h5');

@@ -12,7 +12,7 @@
                 <li><h5>借款人信息</h5></li>
                 <li>姓名 <span>{{user.creditorName}}</span></li>
                 <li>身份证号 <span>{{user.creditorIdCard}}</span></li>
-                <li>性别 <span>{{user.creditorSex}}</span></li>
+                <li>性别 <span class="creditorSex">男</span></li>
                 <li>借款用途 <span>{{user.assetFundsUse}}</span></li>
                 <li>年龄 <span>{{user.creditorAge}}</span></li>
                 <li>婚姻状况 <span v-if="isshow1">未婚</span><span v-if="isshow2">已婚</span><span v-if="isshow3">离异</span></li>
@@ -169,6 +169,16 @@ export default {
                         this.isshow2 = false
                         this.isshow3 = true
                     }
+                    // 性别
+                    $(".creditorSex").each(function (i) {
+                        if (data.User.creditorSex != 1) {
+                            $(".creditorSex").eq(i).text("男")
+                        }else{
+                            $(".creditorSex").eq(i).text("女")
+                        }
+                    })
+
+
                     // 判断asset数据是否存在
                     const pro = '<li style="color:#FFA303;">通过</li>'
                     if (data.asset.creditorIdCard) {
