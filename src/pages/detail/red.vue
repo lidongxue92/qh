@@ -33,7 +33,7 @@
                             <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                             <p class="right">
                                 <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                <span>投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满<b class="investMoney" style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
                             </p>
                         </div>
                         <p class="note">有效期至：{{item.endDate}}
@@ -61,7 +61,7 @@
                             <p class="left">¥<b>{{item.redPacketMoney}}</b></p>
                             <p class="right">
                                 <span>使用条件：投资满{{item.investMoney}}元可使用</span>
-                                <span>投资满{{item.investMoney}}元可使用</span>
+                                <span>投资满<b class="investMoney" style="font-weight: normal;">{{item.investMoney}}</b>元可使用</span>
                             </p>
                         </div>
                         <p class="note">有效期至：{{item.endDate}}
@@ -243,11 +243,17 @@ export default {
             const _this = this
             _this.$loading.show();
             const url = myPub.URL+`/welfare/getMyRedPacketList`;
+            const proPeriod = this.$route.query.proPeriod
+            const transMoney = this.$route.query.money
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('status',status);
             params.append('curPage','1');
             params.append('pageSize','10');
+            if (proPeriod) {
+                params.append('proPeriod',proPeriod);
+                params.append('transMoney',transMoney);
+            }
             axios.post(url,params).then(res => {
                 console.log(res.data)
                 const data = res.data
@@ -348,6 +354,7 @@ export default {
             sessionStorage.setItem("redPacketMoney",redPacketMoney);
             const id = this.$route.query.id
             this.$router.push({path:'/page/detail', query: { id: id }})
+            
         },
         // 加息券使用情况
         linkDetail(incrId,redPacketMoney){
@@ -397,7 +404,7 @@ export default {
     zoom:1;
 }
 .detail {
-    background: #f7f7f7;height:100%;position: relative;
+    background: #f7f7f7;height:auto;position: relative;
     .tab{
         background: #fff;margin-top: 1rem;
         li{list-style: none;width: 49%;text-align: center;font-size: 0.9rem;line-height: 2.5rem;height: 2.5rem;color: #999;display: inline-block;}

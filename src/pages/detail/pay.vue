@@ -142,6 +142,15 @@ export default {
                 }
                 if(res.data.result == 200){
                     this.product = data.buyInfo.detailInfo;
+                }else{
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.back()
+                    }, 3000)
                 }
             }).catch((err) => {
                 console.log(err);
@@ -266,6 +275,7 @@ export default {
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, .5);
+        display: none;
     }
     .tost{
         position: absolute;
@@ -278,6 +288,7 @@ export default {
         border-radius: .8rem;
         font-size: .9rem;
         text-align: center;
+        display: none;
         p{
             width: 90%;
             margin: 0 auto;
