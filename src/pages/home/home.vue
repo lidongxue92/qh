@@ -53,7 +53,7 @@
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
                             <!-- <span class="status">可加入</span> -->
-                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
+                            <span class="Quota">剩余金额 <b class="residueMoney">{{item.residueMoney}}</b></span>
                         </p>
                     </div>
                 </li>
@@ -67,7 +67,7 @@
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
                             <span class="status">{{item.productProperty}}</span>
-                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
+                            <span class="Quota">剩余金额 <b class="residueMoney1">{{item.residueMoney}}</b></span>
                         </p>
                     </div>
                 </li>
@@ -81,7 +81,7 @@
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
                             <span class="status">{{item.productProperty}}</span>
-                            <span class="Quota">剩余金额 <b>{{item.residueMoney}}元</b></span>
+                            <span class="Quota">剩余金额 <b class="residueMoney2">{{item.residueMoney}}</b></span>
                         </p>
                     </div>
                 </li>
@@ -138,7 +138,8 @@ export default {
 
             animate:false,
               items:'',
-              page: [1, 2, 3, 4, 5]
+              page: [1, 2, 3, 4, 5],
+            residueMoney1:"",
         }
     },
     created() {
@@ -257,10 +258,43 @@ export default {
                     }, 3000)
                 }
                 if (data.result == '200') {
-                    _this.newlist = data.XsInfo
-                    _this.hotlist = data.HotInfo
-                    _this.list = data.GsInfo
+                    _this.newlist = data.XsInfo;
+                    _this.hotlist = data.HotInfo;
+                    _this.list = data.GsInfo;
+
+
+
+
                     setTimeout(() => {
+                        $(".residueMoney").each(function (i) {
+                            var residueMoney = Number($(".residueMoney").eq(i).text());
+                            if (residueMoney  != "" && residueMoney < 10000) {
+                                $(".residueMoney").eq(i).text(residueMoney + "元");
+                            }else{
+                                 $(".residueMoney").eq(i).text(Number($(".residueMoney").eq(i).text())/10000 + "万元");
+                            }
+                        });
+
+
+                        $(".residueMoney1").each(function (i) {
+                            var residueMoney1 = Number($(".residueMoney1").eq(i).text());
+                            if (residueMoney1  != "" && residueMoney1 < 10000) {
+                                $(".residueMoney1").eq(i).text(residueMoney1 + "元");
+                            }else{
+                                 $(".residueMoney1").eq(i).text(Number($(".residueMoney1").eq(i).text())/10000 + "万元");
+                            }
+                        });
+                        $(".residueMoney2").each(function (i) {
+                            var residueMoney2 = Number($(".residueMoney2").eq(i).text());
+                            if (residueMoney2 != "" && residueMoney2 < 10000) {
+                                $(".residueMoney2").eq(i).text(residueMoney2 + "元");
+                            }else{
+                                $(".residueMoney2").eq(i).text(Number($(".residueMoney2").eq(i).text())/10000 + "万元");
+                            }
+                        });
+
+
+
                         $(".status").each(function (i) {
                         if ($(".status").eq(i).text() == '1') {
                             $(".status").eq(i).text('不可转让')
@@ -383,7 +417,7 @@ export default {
 </style>
 <style scoped lang="less">
 .home {
-    background: #f7f7f7;color: #333;height: 100%;
+    background: #f6f6f6;color: #333;height: auto;
     .index_banner{
         width:100%;position: relative;
         .imgright{position: absolute;left: 1rem;top: 1rem;z-index: 11;width: 2rem;height: 2rem;}
