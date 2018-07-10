@@ -311,9 +311,10 @@ export default {
          }
     },
     watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        }//回退上一级页面并刷新
+      '$route' (to, from) {
+          this.$router.go(0);
+          window.location.reload()
+      }
     },
     components: {
         top,
