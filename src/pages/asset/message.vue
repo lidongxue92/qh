@@ -93,10 +93,11 @@ export default {
             const url = myPub.URL+`/msg/getMessageList` ;
             const params = new URLSearchParams();
             params.append('token',sessionStorage.token);
-            params.append('pageSize','10');
+            params.append('pageSize','50');
             params.append('curPagel','1');
             axios.post(url,params).then(response => {
                 const data = response.data
+                console.log(data)
                 _this.$loading.hide();
                 if (data.result == '400') {
                     this.$vux.alert.show({
@@ -110,6 +111,12 @@ export default {
                 }
                 if (data.result == '200') {
                     this.Log = data.message
+                    setTimeout(() => {
+                        if (data.unReadNum == '0') {
+                            $(".msgTitle").css("color","#999")
+                        }
+                    }, 200)
+                    
                 }
                 // console.log(data)
             }).catch((err) => {
@@ -126,7 +133,7 @@ export default {
             const url = myPub.URL+`/index/getInfoManageList` ;
             const params = new URLSearchParams();
             params.append('imType','2');
-            params.append('pageSize','10');
+            params.append('pageSize','50');
             params.append('curPagel','1');
             axios.post(url,params).then(response => {
                 const data = response.data
@@ -156,7 +163,7 @@ export default {
             _this.$loading.show();
             const params = new URLSearchParams();
             params.append('token',sessionStorage.token);
-            params.append('pageSize','10');
+            params.append('pageSize','50');
             params.append('curPagel','1');
             axios.post(url,params).then(response => {
                 _this.$loading.hide();

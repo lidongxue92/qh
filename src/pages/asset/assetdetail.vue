@@ -26,8 +26,8 @@
       </ul>
     </div>
     <div class="assetTop2" v-if="isshow3">
-      <p class="rpMoney">红包金额　-{{Product.rpMoney}}</p>
-      <p class="increaseMoney">加息券　+{{Product.increaseMoney}}%</p>
+      <p class="rpMoney">红包金额　-<b class="rpMoney">{{Product.rpMoney}}</b></p>
+      <p class="increaseMoney">加息券　+<b class="increaseMoney">{{Product.increaseMoney}}</b>%</p>
     </div>
     <!-- 标 -->
     <div class="list" v-if ='isshow4' >
@@ -91,7 +91,6 @@ export default {
         if (status == '投标中') {
           this.isshow4 = false
           this.isshow5 = true
-          this.isshow3 = false
         }
         if (status == '持有中') {
           this.isshow4 = true
@@ -100,7 +99,6 @@ export default {
         if (status == '已兑付') {
           this.isshow4 = true
           this.isshow5 = false
-          this.isshow3 = false
           this.isshow2 = true
         }
     },
@@ -139,6 +137,17 @@ export default {
               if (data.result == '200') {
                 this.Product = data.Product
                 setTimeout(() => {
+                  // 判断红包 加息券
+                  if (this.Product.increaseMoney == '') {
+                    $(".increaseMoney").css("opacity",'0')
+                  }
+                  if (this.Product.rpMoney == '0') {
+                    $(".rpMoney").css("opacity",'0')
+                  }
+                  if (this.Product.increaseMoney == '' && this.Product.rpMoney == '0') {
+                    this.isshow3 = false
+                  }
+
                     if (this.Product.yieldDistribType == '1') {
                     $(".Profit").html('到期兑付本金收益')
                     }
