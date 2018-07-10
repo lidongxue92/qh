@@ -209,9 +209,10 @@ export default {
 @import '~vux/src/styles/center.less';
 @import '~vux/src/styles/close.less';
 .detail {
-    background: #f7f7f7;height:auto;
+    background: #f6f6f6;height:auto;
     .middle{
         margin-top: 0.5rem;
+        background: #f6f6f6;height:100%;
         .nodata{
             text-align: center;
             img{margin-top: 3rem;width: 4.2rem;height: 4.5rem;}
