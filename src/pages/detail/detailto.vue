@@ -152,7 +152,8 @@ export default {
             if (data.result == '200') {
                 this.product = data.ProductInfo
                 this.title = this.product.productName
-                this.baseAnnualYield = Number(this.product.baseAnnualYield)+Number(this.product.actAnnualYield)
+                this.baseAnnualYield = Number(this.product.actAnnualYield);
+                // umber(this.product.baseAnnualYield)+
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
                 $(".after").css("width",jd+'%')
