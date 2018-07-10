@@ -322,7 +322,7 @@ export default {
                             $(".LCopenLimit").eq(i).text(LCopenLimit);
                             $(".danWei").eq(i).empty().append("元");
                             var reg = /.*\..*/;
-                            if (reg.test(LCopenLimit) == true) {
+                            if (reg.test(LCopenLimit) == true || LCopenLimit == 1) {
                                 $(".danWei").eq(i).empty().append("万元");
                             }
                         }else{
@@ -331,8 +331,6 @@ export default {
                         }
                     });
                   }, 200);
-
-
 
                 }else if (data.result == '400') {
                 this.$vux.alert.show({
@@ -372,7 +370,7 @@ export default {
     watch: {
       '$route' (to, from) {
           this.$router.go(0);
-          window.location.reload()
+        //   window.location.reload()
       }
     },
     components: {
@@ -484,7 +482,7 @@ export default {
         }
         .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
       }
-      
+
     }
     .Transfer{
       .middle{padding-bottom: 3rem;

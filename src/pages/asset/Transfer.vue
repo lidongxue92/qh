@@ -128,7 +128,8 @@ export default {
         Notransferable(){
             const _this = this;
             this.product('4,5','1','1');
-            this.is_show2 = true
+            this.isshow3 = true;
+            this.is_show2 = true;
             this.is_show = false
         },
         product(status,cx,order){
@@ -184,7 +185,7 @@ export default {
                             $(".1").css("display","inline-block")
                             $(".2").css("display","none")
                             $(".3").css("display","none")
-                        }   
+                        }
                     })
                   }, 300)
               }
@@ -193,7 +194,7 @@ export default {
               console.log(err)
           })
         },
-        
+
     },
     components: {
         PopupPicker,
