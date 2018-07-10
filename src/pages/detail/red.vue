@@ -405,7 +405,11 @@ export default {
         // 返回产品
         Detail(){
             const id = this.$route.query.id
-            this.$router.push({path:'/page/detail', query: { id: id }})
+            if (id) {
+                this.$router.push({path:'/page/detail', query: { id: id }})
+            }else{
+                this.$router.push({path:'/category'})
+            }
         },
     },
     components: {
@@ -546,7 +550,7 @@ export default {
             .list{
                 margin-top: 0.8rem;
                 li{
-                    background: url(~@/assets/img/pageadd.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
+                    background: url(./static/img/pageadd.png);list-style: none;height:7rem;background-size: 100%;padding:1.5rem 2rem;background-repeat:no-repeat;
                     .title{font-size: 0.8rem;color: #fff;height: 20px}
                     .left{
                         color: #fff;display: inline-block;width: 30%;position: relative;min-height: 3rem;

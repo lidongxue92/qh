@@ -57,7 +57,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="status">{{item.productProperty}}</span><span class="img img2">热销产品</span></h5>
+                   <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>热销火爆 高收益</span><span class="status">{{item.productProperty}}</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -70,7 +70,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in list"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5>{{item.productName}} <span>固定期限 省心理财</span><span class="status">{{item.productProperty}}</span><span class="img img3">固收产品</span></h5>
+                   <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>固定期限 省心理财</span><span class="status">{{item.productProperty}}</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -303,12 +303,12 @@ export default {
 
                         $(".status").each(function (i) {
                         if ($(".status").eq(i).text() == '1') {
-                            $(".status").eq(i).text('不可加入')
+                            $(".status").eq(i).text('不可转让')
                         }
                         })
                         $(".status").each(function (i) {
                             if ($(".status").eq(i).text() == '2') {
-                                $(".status").eq(i).text('可加入')
+                                $(".status").eq(i).text('可转让')
                             }
                         })
                     }, 200)

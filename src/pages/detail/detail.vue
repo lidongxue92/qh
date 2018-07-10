@@ -164,6 +164,8 @@ export default {
     },
     activated: function() {
         this.productdata()
+        this.welfare()
+        this.Interest()
         setTimeout(() => {
             this.welfare()
             this.Interest()

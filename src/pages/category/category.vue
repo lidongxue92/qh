@@ -15,7 +15,7 @@
             <div class="middle">
                <ul class="productlist">
                     <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy :key="index">
-                      <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;top: -0.7rem;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
+                      <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
                       <div>
                           <p class="left">
                               <span class="Profit Profit1">{{item.baseAnnualYield}}<b style="font-weight: normal;color: #FFA303">%<span class="actAnnual">+{{item.actAnnualYield}}%</span></b></span>
