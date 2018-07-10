@@ -6,7 +6,7 @@
 const config = {
 
   //开发环境
-  developUrl: `https://api.qihangjf.com/interface/`, //开发环境
+  developUrl: `https://api.qihangjf.com/interface`, //开发环境
   developWsUrl: ``,
   developAppId: 'wxb7146031bd5bbc93 ',
 

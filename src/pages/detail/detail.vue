@@ -178,6 +178,7 @@ export default {
                     $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
                     $(".usered b").css('color','#FFA303')
                     const money = this.$route.query.money
+                    if (money) {}
                     this.money = money
                     this.Interest()
                 }else if (sessionStorage.incrMoney) {
@@ -278,9 +279,11 @@ export default {
                 }
                 if (sessionStorage.redPacketMoney) {
                     $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
+                    this.welfare()
                     this.Interest()
                 }else if (sessionStorage.incrMoney) {
                     $(".usered b").html(sessionStorage.incrMoney+'%加息券')
+                    this.welfare()
                     this.Interest()
                 }
                 else{
@@ -368,7 +371,10 @@ export default {
             var newAddMoney = this.money;//金额
             var lilv = this.Annual / 100;//年利率
             if (sessionStorage.incrMoney) {
-                var lilv = (Number(this.Annual)+Number(sessionStorage.incrMoney)) / 100;//年利率
+                const addli = sessionStorage.incrMoney / 100
+                const day = this.day
+                var  Mon =  (addli*newAddMoney*day)/365
+                console.log(Mon)
             }
             //求取预期到期收益
             var month = parseInt(this.day / 30); // 总共整月数 (还款月数)
@@ -378,7 +384,12 @@ export default {
             if ($(".Type").text() == '2') {
                 var lilvMouth = Math.floor((lilv / 12)*1000000)/1000000; // 月利率
                 var lilvDay = Math.floor((lilv / 365) * 1000000) / 1000000;; // 日利率
-                var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000; // 总月数的收益
+                if(Mon){
+                    var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000 + Mon; // 总月数的收益
+                }else{
+                     var totalMonth = Math.floor((newAddMoney * lilvMouth * month) * 1000000) / 1000000
+                }
+
                 // 总收益 = 总月数的收益 + 剩余天数的收益;
                 var total = this.toDecimal2(Math.floor(totalMonth * 100) / 100);
                 $(".rate1").text(total)
@@ -396,19 +407,36 @@ export default {
                 // console.log(totalMonth);
                 // 剩余天数的收益
                 var daily = Math.floor((newAddMoney * lilvDay * monthYuShu) * 100) / 100;
-                var total = this.toDecimal2(Math.floor((totalMonth + daily)*100) / 100); // 预计到期收益
+                if(Mon){
+                    var total = this.toDecimal2(Math.floor((totalMonth + daily + Mon)*100) / 100); 
+                }else{
+                    var total = this.toDecimal2(Math.floor((totalMonth + daily )*100) / 100); // 预计到期收益
+                }
+                
                 // console.log(total);
                 $(".rate1").text(total)
             }
             if ($(".Type").text() == '1') {
                 if (this.productType == 19) {
                     var zrLilv = this.actAnnualYield / 100;
-                    var total = (Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
-                    console.log(zrLilv);
+                    const total1 =((newAddMoney * zrLilv / 365 * this.day) * 100) / 100
+                    if(Mon){
+                        var total = Math.floor(total1 + Mon);
+                    }else{
+                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon);
+                    }
+                    console.log(total1);
                     $(".rate1").text(total)
                 }else{
-                    var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
-                    console.log(newAddMoney);
+                    // var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
+                    const total1 =((newAddMoney * zrLilv / 365 * this.day) * 100) / 100
+                    // var total = this.toDecimal2(Math.floor(total1 + Mon));
+                    if(Mon){
+                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon);
+                    }else{
+                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
+                    }
+                    console.log(total1);
                     $(".rate1").text(total)
                 }
             }

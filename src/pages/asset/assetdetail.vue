@@ -27,7 +27,7 @@
     </div>
     <div class="assetTop2" v-if="isshow3">
       <p class="rpMoney">红包金额　-<b class="rpMoney">{{Product.rpMoney}}</b></p>
-      <p class="increaseMoney">加息券　+<b class="increaseMoney">{{Product.increaseMoney}}</b>%</p>
+      <p class="increaseMoney">加息券　+<b class="increaseMoney">{{Product.increaseRate}}</b>%</p>
     </div>
     <!-- 标 -->
     <div class="list" v-if ='isshow4' >
@@ -38,7 +38,7 @@
             <li>收益方式 <span class="Profit">{{Product.interestType}}</span></li>
         </ul>
         <img v-if="isshow2" src="~@/assets/img/had.png">
-        <div class="product" v-if="isshow3">
+        <div class="product" v-if="isshow7">
             <h5>资金去向 <span></span></h5>
             <p v-if="isshow" @click="linkTodetail1(Product.productId)">{{Product.productName}} <img class="img" src="~@/assets/img/right.png"></p>
         </div>
@@ -78,7 +78,8 @@ export default {
         Product:'',
         totalCount:'',
         isshow4:true,
-        isshow5:false
+        isshow5:false,
+        isshow7:true,
 　　  }
 　　},
     created() {
@@ -91,15 +92,18 @@ export default {
         if (status == '投标中') {
           this.isshow4 = false
           this.isshow5 = true
+          this.isshow2 = false
+          this.isshow7 = false
         }
         if (status == '持有中') {
           this.isshow4 = true
           this.isshow5 = false
+          this.isshow2 = false
         }
         if (status == '已兑付') {
           this.isshow4 = true
           this.isshow5 = false
-          this.isshow2 = true
+          this.isshow7 = false
         }
     },
     methods:{

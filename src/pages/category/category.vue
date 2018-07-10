@@ -8,7 +8,8 @@
         <div class="Conduct" v-if='isshow'>
             <div class="top" v-for="(item,index) in datalist" v-if="index == 0"  :key="index">
                 <h5>{{item.productName}}<span class="Propagan"></span></h5>
-                <p class="Profit">{{item.annualYield}}%</p>
+                <span class="Profit Profit1" style="text-align: center;">{{item.baseAnnualYield}}<b style="font-weight: normal;color: #FFA303;font-size: 0.8rem">%<span class="actAnnual">+{{item.actAnnualYield}}%</span></b></span>
+                <span class="Profit Profit2">{{item.baseAnnualYield}}<b style="font-weight: normal;">%-</b>{{item.actAnnualYield}}<b >%</b></span>
                 <p><span>剩余金额 &emsp; <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>&emsp; | &emsp;<span>理财期限  &emsp; <b>{{item.period}}</b>天</span></p>
                 <button class="button" @click="linktoDetail(item.productId,item.qcdz)">立即投资</button>
             </div>
@@ -290,20 +291,29 @@ export default {
                     });
                     if (this.datalist[0].productType == '3' && this.datalist[0].isHot == '0') {
                       $(".Propagan").text('新手福利预期高收益')
+                      $(".top .Profit2").css("display","none")
                     }
                     if (this.datalist[0].productType == '18' && this.datalist[0].isHot == '0') {
                       $(".Propagan").text('固定期限 省心理财')
+                      $(".top .Profit2").css("display","none")
                     }
                     if (this.datalist[0].productType == '22' && this.datalist[0].isHot == '0') {
-                      $(".Propagan").text('固定期限 省心理财')
+                      $(".Propagan").text('热销火爆 稳定收益')
+                      $(".top .Profit2").css("display","none")
                     }
                     if (this.datalist[0].productType == '19' && this.datalist[0].isHot == '0') {
                       $(".Propagan").text('转让灵活 周转无忧')
+                      $(".top .Profit1").css("display","none")
                     }
                     if (this.datalist[0].isHot == '1') {
                       $(".Propagan").text('热销火爆 稳定收益')
+                      $(".top .Profit2").css("display","none")
                     };
-
+                    if (this.datalist[0].openLimit / 10000 >= 1) {
+                        $(".top .LCopenLimit").text(this.datalist[0].openLimit / 10000 +'万元')
+                      }else{
+                        $(".top .LCopenLimit").text(this.datalist[0].openLimit+'元')
+                      }
                     for (var i = 0; i < this.datalist.length; i++) {
                       // console.log(this.datalist[i].openLimit)
                       if (this.datalist[i].openLimit / 10000 >= 1) {
