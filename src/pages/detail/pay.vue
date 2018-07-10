@@ -5,12 +5,12 @@
         </topComponent>
         <div class="middle">
             <ul class="list">
-                <li>产品名称<span>{{product.productName}}</span></li>
-                <li>订单号 <span>{{product.orderCode}}</span></li>
-                <li>应付金额 <span>{{product.transAmt}}元</span></li>
-                <li>抵扣金额 <span class="c-FFA303">-{{product.redPacketMoney}}</span></li>
-                <li>加息利率<span class="c-FFA303">{{product.IiRate}}%</span></li>
-                <li>实际支付金额 <span class="c-FFA303">{{product.payMoney}}</span></li>
+                <li>产品名称<span>{{ZFproductName}}</span></li>
+                <li>订单号 <span>{{ZForderCode}}</span></li>
+                <li>应付金额 <span>{{ZFtransAmt}}元</span></li>
+                <li>抵扣金额 <span class="c-FFA303">-{{ZFredPacketMoney}}</span></li>
+                <li>加息利率<span class="c-FFA303">{{ZFIiRate}}%</span></li>
+                <li>实际支付金额 <span class="c-FFA303">{{ZFpayMoney}}</span></li>
             </ul>
         </div>
         <button class="button" @click.once="buy">确认支付</button>
@@ -69,6 +69,15 @@ export default {
             BorrowerDetailsStr:'',
             packetId:sessionStorage.packetId,
             incrId:sessionStorage.incrIdf,
+
+            // 页面数据
+            ZFproductName: '',
+            ZForderCode:'',
+            ZFtransAmt:'',
+            ZFredPacketMoney:'',
+            ZFIiRate:'',
+            ZFpayMoney:'',
+
             // 三方开户数据
             ChinaPnrServer : "",
             Version : "",
@@ -88,14 +97,32 @@ export default {
             ReqExt :""
         }
     },
-    activated: function(){
-        this.productdata()
-    },
-    watch: {
-      '$route' (to, from) {
-          this.$router.go(0);
-          window.location.reload()
-      }
+    created() {
+
+        this.ChinaPnrServer = sessionStorage.ChinaPnrServer;
+        this.Version = sessionStorage.Version;
+        this.CmdId = sessionStorage.CmdId;
+        this.OrdId = sessionStorage.OrdId;
+        this.OrdDate = sessionStorage.OrdDate;
+        this.TransAmt = sessionStorage.TransAmt;
+        this.MaxTenderRate = sessionStorage.BorrowerDetails;
+        this.BorrowerDetails = sessionStorage.BorrowerDetails;
+        this.IsFreeze = sessionStorage.IsFreeze;
+        this.MerCustId = sessionStorage.MerCustId;
+        this.UsrCustId = sessionStorage.UsrCustId;
+        this.PageType = sessionStorage.PageType;
+        this.ChkValue = sessionStorage.ChkValue;
+        this.BgRetUrl = sessionStorage.BgRetUrl;
+        this.FreezeOrdId = sessionStorage.FreezeOrdId;
+        this.ReqExt = sessionStorage.ReqExt;
+        // 视图
+        this.ZFproductName = sessionStorage.productName;
+        this.ZForderCode = sessionStorage.orderCode;
+        this.ZFtransAmt = sessionStorage.transAmt;
+        this.ZFredPacketMoney = sessionStorage.redPacketMoney;
+        this.ZFIiRate = sessionStorage.IiRate;
+        this.ZFpayMoney = sessionStorage.payMoney;
+
     },
     methods: {
         goBack(){
@@ -109,57 +136,6 @@ export default {
         yes(){
             this.$router.back();
         },
-        productdata(){
-            const _this = this
-            _this.$loading.show();
-            const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-            const id = this.$route.query.id
-            const orderMoney = this.$route.query.money
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('productId',id);
-            params.append('clientType','h5');
-            params.append('orderMoney',orderMoney);
-            params.append('payType','1');
-            if (sessionStorage.packetId) {
-                params.append('packetId',sessionStorage.packetId);
-                sessionStorage.removeItem("incrId");
-
-            }else if (sessionStorage.incrId) {
-                params.append('incrId',sessionStorage.incrId);
-                sessionStorage.removeItem("packetId");
-            }
-            axios.post(url,params).then(res => {
-                console.log(res.data)
-                const data = res.data
-                _this.$loading.hide();
-                    if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login"})
-                    }, 3000)
-                }
-                if(res.data.result == 200){
-                    this.product = data.buyInfo.detailInfo;
-                }else{
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.back()
-                    }, 3000)
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
-
         // 三方购买
         buy(){
             const _this = this
@@ -221,7 +197,7 @@ export default {
                     }
                     //提交from表单
                     setTimeout(() => {
-                        console.log(this.PageType)
+                        console.log(this.PageType);
                         document.regSubmit.submit();
                     }, 500)
 
