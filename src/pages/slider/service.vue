@@ -122,10 +122,13 @@ export default {
                     console.log(err);
                 });
             }else{
-                console.log("11111");
-
+                this.$vux.alert.show({
+                    content: "请输入正确的字符"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide();
+                },3000)
             }
-
 
         }
     }

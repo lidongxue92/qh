@@ -38,7 +38,7 @@
                         <span>投资金额(元)</span>
                     </p>
                     <p class="right">
-                        <span class="color">{{item.exceptedYield | numFilter}}</span>
+                        <span class="color exceptedYield">{{item.exceptedYield | numFilter}}</span>
                         <span>预计到期收益(元)</span>
                     </p>
                     <span class="productStatus" style="position: absolute;opacity: 0;">{{item.productStatus}}</span>
@@ -101,16 +101,6 @@ export default {
           });
 
           this.cyz();
-    },
-    filters: {
-        numFilter(value) {
-            // 截取当前数据到小数点后三位
-            let transformVal = Number(value)
-            
-            let realVal = Math.floor(transformVal)
-            // num.toFixed(3)获取的是字符串
-            return Number(realVal)
-        }
     },
     methods:{
         goBack() {
@@ -332,7 +322,7 @@ export default {
                                     this.isshowHas = true;
                                 }else{
                                     this.isshowHas = false;
-                                }
+                                };
                             }
                         }).catch((err) => {
                             console.log(err)
@@ -352,13 +342,24 @@ export default {
     filters: {
         numFilter(value) {
             // 截取当前数据到小数点后三位
-            let transformVal = Number(value).toFixed(3)
-            let realVal = transformVal.substring(0, transformVal.length - 1)
+            let transformVal = Number(value).toFixed(4)
+            let realVal = transformVal.substring(0, transformVal.length - 1);
+            let val = Math.floor(realVal*100)/100;
+
+            var num = val + "";
+            var len = num.split(".")[1].length;
+            if (len == 1) {
+                var newNum = num + 0;
+                console.log(newNum);
+            }else{
+                var newNum = Number(num);
+            }
+
             // num.toFixed(3)获取的是字符串
-            return Number(realVal)
+            // return Number(newNum);
+            return newNum;
         }
     },
-
     watch: {
         '$route' (to, from) {
             this.$router.go(0);

@@ -21,7 +21,7 @@
           </li>
           <li class="tr">
               <span>平均历史年化收益</span>
-              <span class="big">{{Product.annualYield}}%</span>
+              <span class="big">{{Product.annualYield | numFilter}}%</span>
           </li>
       </ul>
     </div>
@@ -67,26 +67,12 @@ export default {
         totalCount:''
 　　  }
 　　},
-    filters: {
-        numFilter(value) {
-            // 截取当前数据到小数点后三位
-            let transformVal = Number(value).toFixed(3)
-            let realVal = transformVal.substring(0, transformVal.length - 1)
-            // num.toFixed(3)获取的是字符串
-            return Number(realVal)
-        }
-    },
     created() {
         this.lczc = this.$route.query.lazc;
         this.product();
         //冻结金额
         const frzBalance = this.toDecimal2(Math.floor((this.Product.annualYield)*100)/100);
         $(".tr .big").text(frzBalance);
-    },
-    watch: {
-        '$route' (to, from) {
-            this.$router.go(0);
-        }//回退上一级页面并刷新
     },
     methods:{
         goBack() {
@@ -153,7 +139,26 @@ export default {
           })
         }
     },
-    mounted() {
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(4)
+            let realVal = transformVal.substring(0, transformVal.length - 1);
+            // let val = Math.floor(realVal*100)/100;
+
+            var num = realVal + "";
+            var number = num.split(".")[0];//整数位
+            var len = num.split(".")[1];//小数
+            console.log(len);
+            if (len.length >= 3) {
+                var newNum = len.substr(0,2);
+                newNum = number + "." + newNum;
+                console.log(newNum);
+            }else{
+                var newNum = Number(num);
+            }
+            return newNum;
+        }
     },
     watch: {
         '$route' (to, from) {
