@@ -96,10 +96,17 @@ export default {
       const status = '1'
       const a = ' '
       this.pro(status,a,50)
+      setTimeout(() => {
+        this.pro(status,a,this.totalCount)
+      }, 1000)
     },
     activated() {
       const status = '1'
-      const a = '18'
+      const a = ' '
+      this.pro(status,a,50)
+      setTimeout(() => {
+        this.pro(status,a,this.totalCount)
+      }, 1000)
     },
     beforeMount() {
        //获取url
@@ -169,8 +176,7 @@ export default {
                 this.datalist = res.data.Product
                 this.totalCount = res.data.totalCount
                 // console.log(this.datalist[0])
-                // console.log(this.totalCount);
-
+                console.log(this.totalCount);
                 setTimeout(() => {
                     $(".img").each(function (b,n) {
                       if ($(".img").eq(b).text() == '1') {

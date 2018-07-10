@@ -44,7 +44,7 @@
        <div class="middle">
            <ul class="productlist">
                 <li v-for="(item,index) in newlist" @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                    <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
+                    <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span class="status">{{item.productProperty}}</span><span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
                         <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -52,13 +52,12 @@
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
-                            <!-- <span class="status">可加入</span> -->
                             <span class="Quota">剩余金额 <b class="residueMoney">{{item.residueMoney}}</b></span>
                         </p>
                     </div>
                 </li>
                 <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
+                   <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="status">{{item.productProperty}}</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -66,13 +65,12 @@
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
-                            <span class="status">{{item.productProperty}}</span>
                             <span class="Quota">剩余金额 <b class="residueMoney1">{{item.residueMoney}}</b></span>
                         </p>
                     </div>
                 </li>
                 <li v-for="(item,index) in list"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5>{{item.productName}} <span>固定期限 省心理财</span><span class="img img3">固收产品</span></h5>
+                   <h5>{{item.productName}} <span>固定期限 省心理财</span><span class="status">{{item.productProperty}}</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -80,7 +78,6 @@
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b> 天</span>
-                            <span class="status">{{item.productProperty}}</span>
                             <span class="Quota">剩余金额 <b class="residueMoney2">{{item.residueMoney}}</b></span>
                         </p>
                     </div>
@@ -306,12 +303,12 @@ export default {
 
                         $(".status").each(function (i) {
                         if ($(".status").eq(i).text() == '1') {
-                            $(".status").eq(i).text('不可转让')
+                            $(".status").eq(i).text('不可加入')
                         }
                         })
                         $(".status").each(function (i) {
                             if ($(".status").eq(i).text() == '2') {
-                                $(".status").eq(i).text('可转让')
+                                $(".status").eq(i).text('可加入')
                             }
                         })
                     }, 200)
@@ -488,6 +485,7 @@ export default {
                 h5{
                     border-bottom: 1px solid #eee;font-weight: normal;font-size: 0.8rem;height: 2.2rem;position: relative;
                     .prodecttitle{display: inline-block;max-width: 5.5rem;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;position: relative;top: 0.3rem;}
+                    .status{color: #FFA303;font-size: 0.6rem;padding:0 0.5rem;border: 1px solid #FFA303;border-radius:35px;position: absolute;right: 5.1rem;top: 0.3rem;}
                     span{color: #999;margin-left: 10px;font-size: 0.6rem;}
                     .img{
                         float: right;
@@ -517,7 +515,6 @@ export default {
                         padding: 0 0.8rem;
                         b{font-size: 0.8rem;font-weight: normal;}
                     }
-                    .status{color: #FFA303;font-size: 0.6rem;padding:0 0.8rem;border-left: 1px solid #eee;}
                     .Quota{
                         display: inline-block;width: 100%;font-size: 0.6rem;padding: 0 0.8rem;color: #999;
                         b{font-weight: normal;color: #333;font-size: 0.9rem;}

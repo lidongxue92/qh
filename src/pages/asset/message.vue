@@ -147,11 +147,14 @@ export default {
         },
         allRead(){
             const url = myPub.URL+`/msg/getMessageList` ;
+            const _this = this
+            _this.$loading.show();
             const params = new URLSearchParams();
             params.append('token',sessionStorage.token);
             params.append('pageSize','10');
             params.append('curPagel','1');
             axios.post(url,params).then(response => {
+                _this.$loading.hide();
                 const data = response.data
                 if (data.msgStatus != 0) {
                     const url = myPub.URL+`/msg/setMsgRead` ;
