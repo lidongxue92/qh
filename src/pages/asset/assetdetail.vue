@@ -25,24 +25,36 @@
           </li>
       </ul>
     </div>
-    <div class="assetTop2">
+    <div class="assetTop2" v-if="isshow3">
       <p class="rpMoney">红包金额　-{{Product.rpMoney}}</p>
       <p class="increaseMoney">加息券　+{{Product.increaseMoney}}%</p>
     </div>
     <!-- 标 -->
-    <div class="list">
+    <div class="list" v-if ='isshow4' >
         <ul>
             <li>到期日 <span>{{Product.dueDate}}</span></li>
             <li>起息日 <span>{{Product.interestDate}}</span></li>
             <li>投资日 <span>{{Product.buyTime}}</span></li>
-            <li>收益方式 <span class="Profit">到期还本付息</span></li>
+            <li>收益方式 <span class="Profit">{{Product.interestType}}</span></li>
         </ul>
         <img v-if="isshow2" src="~@/assets/img/had.png">
         <div class="product" v-if="isshow3">
             <h5>资金去向 <span></span></h5>
             <p v-if="isshow" @click="linkTodetail1(Product.productId)">{{Product.productName}} <img class="img" src="~@/assets/img/right.png"></p>
         </div>
-        <p class="note" v-if="!isshow">流标，标的募集未满额</p>
+    </div>
+    <div class="list" v-if ='isshow5'>
+        <ul>
+            <li>预计满标日<span>{{Product.fullDate}}</span></li>
+            <li>投资日 <span>{{Product.buyTime}}</span></li>
+            <li>计息方式<span class="interest">{{Product.interestType}}</span></li>
+            <li>收益方式 <span class="Profit">{{Product.yieldDistribType}}</span></li>
+        </ul>
+        <img v-if="isshow2" src="~@/assets/img/had.png">
+        <div class="product">
+            <h5>投资状态 <span class="DistribType">{{Product.status}}</span></h5>
+        </div>
+        <p class="note" v-if = '!isshow'>流标，标的募集未满额</p>
     </div>
   </div>
 </template>
@@ -64,7 +76,9 @@ export default {
         isshow2:false,
         isshow3:true,
         Product:'',
-        totalCount:''
+        totalCount:'',
+        isshow4:true,
+        isshow5:false
 　　  }
 　　},
     created() {
@@ -73,6 +87,22 @@ export default {
         //冻结金额
         const frzBalance = this.toDecimal2(Math.floor((this.Product.annualYield)*100)/100);
         $(".tr .big").text(frzBalance);
+        const status = this.$route.query.status
+        if (status == '投标中') {
+          this.isshow4 = false
+          this.isshow5 = true
+          this.isshow3 = false
+        }
+        if (status == '持有中') {
+          this.isshow4 = true
+          this.isshow5 = false
+        }
+        if (status == '已兑付') {
+          this.isshow4 = true
+          this.isshow5 = false
+          this.isshow3 = false
+          this.isshow2 = true
+        }
     },
     methods:{
         goBack() {
@@ -108,18 +138,53 @@ export default {
               }
               if (data.result == '200') {
                 this.Product = data.Product
-                if (this.Product.yieldDistribType == '1') {
-                  $(".Profit").html('到期兑付本金收益')
-                }
-                if (this.Product.yieldDistribType == '2') {
-                  $(".Profit").html('先息后本')
-                }
-                if (this.Product.yieldDistribType == '3') {
-                  $(".Profit").html('等额本息')
-                }
-                if (this.Product.status == '7') {
-                  this.isshow = false
-                };
+                setTimeout(() => {
+                    if (this.Product.yieldDistribType == '1') {
+                    $(".Profit").html('到期兑付本金收益')
+                    }
+                    if (this.Product.yieldDistribType == '2') {
+                      $(".Profit").html('先息后本')
+                    }
+                    if (this.Product.yieldDistribType == '3') {
+                      $(".Profit").html('等额本息')
+                    }
+                    // 持有中判断
+                    
+                    if (this.Product.interestType == '1') {
+                      $(".interest").html('T+0')
+                    }
+                    if (this.Product.interestType == '2') {
+                      $(".interest").html('T+1')
+                    }
+                    if (this.Product.interestType == '3') {
+                      $(".interest").html('满标计息')
+                    }
+
+                    if (this.Product.yieldDistribType == '1') {
+                      $(".Profit").html('到期兑付本金收益')
+                    }
+                    if (this.Product.yieldDistribType == '2') {
+                      $(".Profit").html('先息后本')
+                    }
+                    if (this.Product.yieldDistribType == '3') {
+                      $(".Profit").html('等额本息')
+                    }
+                    if (this.Product.status == '7') {
+                      setTimeout(() => {
+                        if (this.Product.yieldDistribType == '1') {
+                          this.isshow = false
+                        }
+                      }, 200)
+                    };
+                    if (this.Product.status == '6') {
+                      setTimeout(() => {
+                        this.isshow = true
+                        console.log(6)
+                        $(".DistribType").text("交易成功,等待满标")
+                      }, 300)
+                    };
+                  }, 200)
+                  
 
                 if (this.Product.rpMoney == 0) {
                     $(".rpMoney").empty();
@@ -261,7 +326,7 @@ export default {
             margin-top: 0.8rem;background: #fff;
             h5{
                 color: #333;font-size: 0.8rem;line-height: 2rem;border-bottom: 1px solid #eee;height: 2rem;padding: 0 0.8rem;
-                span{color: #FFA303}
+                span{color: #FFA303;float: right;color: #FFA303}
             }
             p{
                 font-size: 0.7rem;height: 2.5rem;line-height: 2.5rem;padding: 0 0.8rem;

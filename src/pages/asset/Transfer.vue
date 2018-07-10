@@ -13,9 +13,9 @@
                     <p>赶紧去产品中心挑选吧~</p>
                     <button class="button" @click="category">去理财</button>
                 </div>
-                <ul class="list" v-if="isshow2">
+                <ul class="list " v-if="isshow2">
                     <li v-for="(item,index) in Product" :key="index">
-                        <h5>{{item.productName}}<span>到期时间 <b>{{item.dueDate}}</b></span></h5>
+                        <h5>{{item.productName}}<span>到期时间 <b>{{item.dueDate}}</b></span><span class="id" style="position: absolute;opacity: 0;">{{item.productId}}</span></h5>
                         <p>
                             <span class="big">{{item.investMoney | numFilter}}</span>
                             <span>投资金额(元)</span>
@@ -25,7 +25,9 @@
                             <span>预计到期收益</span>
                         </p>
                         <p>
-                            <span class="button" @click="toZhuanRang(item.orderId)">转让</span>
+                            <span class="button 1" @click="Agreement(item.productId)">转让</span>
+                            <span class="button 2">转让中</span>
+                            <span class="button 3">已转让</span>
                             <span class="status">{{item.status}}</span>
                         </p>
                         <span class="img1"></span>
@@ -57,6 +59,9 @@ export default {
             isshow1:false,
             isshow2:true,
             isshow3:false,
+            isshow4:true,
+            isshow5:false,
+            isshow6:false,
             is_show2:false
         }
     },
@@ -106,8 +111,9 @@ export default {
         this.product('1,2','2','0')
     },
     methods: {
-        TransferAgreement() {
-            this.$router.push({ path: '/page/TransferAgreement' })
+        // 点击转让
+        Agreement(id){
+            this.$router.push({path:"/page/TransferAgreement",query: {id: id}})
         },
         category(){
             this.$router.push({ path: '/category' })
@@ -165,15 +171,20 @@ export default {
                     $(".status").each(function (i,n) {
                         if ($(".status").eq(i).text() == '4') {
                             $(".button").eq(i).text('转让中')
+                            $(".1").css("display","none")
+                            $(".2").css("display","inline-block")
+                            $(".3").css("display","none")
                         }else if ($(".status").eq(i).text() == '5') {
                             $(".button").eq(i).text('已转让')
-                        }else{
+                            $(".1").css("display","none")
+                            $(".2").css("display","none")
+                            $(".3").css("display","inline-block")
+                        }else if ($(".status").eq(i).text() == '1'){
                             $(".button").eq(i).text('转让')
-                            // $(".button").eq(i).click(function () {
-                            //     this.$router.push({path:"/page/detailProduct"})
-                            // })
-                        }
-
+                            $(".1").css("display","inline-block")
+                            $(".2").css("display","none")
+                            $(".3").css("display","none")
+                        }   
                     })
                   }, 300)
               }
@@ -182,10 +193,7 @@ export default {
               console.log(err)
           })
         },
-        // 点击转让
-        toZhuanRang(id){
-            this.$router.push({path:"/page/TransferAgreement",query: {id: id}})
-        },
+        
     },
     components: {
         PopupPicker,
@@ -238,8 +246,9 @@ export default {
                 .active{color: #FFA303;border-bottom: 2px solid #FFA303}
             }
             .list{
+                width: 100%;
                 li{
-                    margin-top: 0.5rem;background: #fff;
+                    margin-top: 0.5rem;background: #fff;position: relative;
                     h5{
                         font-size: 0.8rem;color: #666;height: 2.5rem;line-height: 2.5rem;font-weight: normal;padding: 0 0.8rem;border-bottom: 1px solid #eee;
                         span{float: right;color: #999;font-size: 0.6rem;b{color: #333;font-weight: normal;}}
@@ -249,7 +258,7 @@ export default {
                         span{display: inline-block;width: 100%;font-size: 0.6rem;color: #999}
                         .big{font-size: 0.9rem;color: #333;}
                         .color{font-size: 0.9rem;color: #FFA303}
-                        .button{border: 0;width: 80%;margin-left: 10%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 30px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;line-height: 30px;position: relative;bottom: 0.8rem;}
+                        .button{border: 0;width: 80%;margin-left: 10%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 30px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;line-height: 30px;position: relative;bottom: 0.8rem;display: none;}
                         .status{position: absolute;opacity: 0;}
                     }
                     .tl{text-align: left;}

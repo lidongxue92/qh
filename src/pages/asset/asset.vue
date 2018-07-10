@@ -188,7 +188,7 @@ export default {
         },
         zhezhaoHide(){
         $(".zhezhao").fadeOut(400);
-        $(".slider").animate({left:"-75%"},400);
+        $(".slider").animate({left:"-85%"},400);
         },
 
         linkToMsg(){

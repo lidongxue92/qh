@@ -392,7 +392,8 @@ export default {
                 sessionStorage.setItem("redPacketMoney",redPacketMoney);
                 sessionStorage.removeItem("incrId");
                 const flag = this.$route.query.flag;
-                this.$router.push({path:'/page/detail', query: { id: id,flag:flag,}})
+                const money = this.$route.query.money
+                this.$router.push({path:'/page/detail', query: { id: id,flag:flag,money:money}})
             }else{
                 this.$router.push({path:'/category'})
             }

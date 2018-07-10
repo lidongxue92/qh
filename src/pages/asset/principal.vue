@@ -111,7 +111,8 @@ export default {
             this.$router.push({ path: '/category' })
         },
         assetdetail(id){
-            this.$router.push({ path: '/page/assetdetail',query:{id:id} })
+            const status = $(".active").text()
+            this.$router.push({ path: '/page/assetdetail',query:{id:id,status:status} })
         },
         Transfer(){
             this.$router.push({ path: '/page/Transfer' })

@@ -1,17 +1,18 @@
 <template>
     <div class="detail page">
         <div class="product">
-            <topComponent title='产品详情' :showLeft='false'>
+            <topComponent :title=title :showLeft='false'>
                 <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
             </topComponent>
             <div class="left">
-                <span class="interest">{{product.baseAnnualYield}}<b class="activeLilv">%+{{product.actAnnualYield}}%</b></span>
+                <span class="interest" v-if='isshow5'>{{product.baseAnnualYield}}<b class="activeLilv">%+{{product.actAnnualYield}}%</b></span>
+                <span class="interest" v-if='isshow6'>{{product.baseAnnualYield}}<b class="activeLilv">%</b>-<span>{{product.actAnnualYield}}</span><b>%</b></span>
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
                 <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
                 <p>开放额度&emsp;<span class="openLimit">{{product.openLimit}}万元</span></p>
-                <span class="status">{{product.productType}}</span>
+                <span v-if="isshow3" style="font-size: 0.8rem;">募集期<b style="font-weight:normal;">{{product.raisePeriod}}</b>&ensp;</span><span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
                 <span class="before">
@@ -137,6 +138,8 @@ export default {
             totalCount:'',
             dqr:'',
             dzr:'',
+            isshow5:true,
+            isshow6:false,
 
 
             // 三方开户数据
@@ -162,12 +165,9 @@ export default {
         this.dz = dz
         console.log(this.dz)
         this.productdata();
-        // this.token();
     },
     activated: function() {
         this.productdata()
-        this.welfare()
-        this.Interest()
         setTimeout(() => {
             this.welfare()
             this.Interest()
@@ -176,10 +176,17 @@ export default {
                     console.log(sessionStorage.packetId+"红包")
                     $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
                     $(".usered b").css('color','#FFA303')
+                    const money = this.$route.query.money
+                    this.money = money
+                    this.welfare()
+                    this.Interest()
                 }else if (sessionStorage.incrMoney) {
                     console.log(sessionStorage.incrId+"加息券")
+                    const money = this.$route.query.money
                     $(".usered b").html(sessionStorage.incrMoney+'%加息券')
                     $(".usered b").css('color','#FFA303')
+                    this.welfare()
+                    this.Interest()
                 }
             }, 200)
         }, 300)
@@ -571,13 +578,22 @@ export default {
                 };
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
+                    this.isshow6 = true
+                    this.isshow5 = false
                 }else if (this.product.productType == '22') {
                     $(".status").text("不可转让")
+                    this.isshow6 = false
+                    this.isshow5 = true
                 }else if (this.product.productType == '3') {
                     $(".status").text("不可转让")
+                    this.isshow6 = false
+                    this.isshow5 = true
                 }else if (this.product.productType == '18') {
                     $(".status").text("不可转让")
-                };
+                    this.isshow6 = false
+                    this.isshow5 = true
+                }
+
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
                 $(".after").css("width",jd+'%');

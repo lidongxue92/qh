@@ -57,7 +57,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in hotlist"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>热销火爆 高收益</span><span class="status">{{item.productProperty}}</span><span class="img img2">热销产品</span></h5>
+                   <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>热销火爆 稳定收益</span><span class="status">{{item.productProperty}}</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -206,7 +206,7 @@ export default {
         },
         zhezhaoHide(){
            $(".zhezhao").fadeOut(400);
-           $(".slider").animate({left:"-75%"},400);
+           $(".slider").animate({left:"-85%"},400);
         },
         // 首页banner接口
         index_banner(){
