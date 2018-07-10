@@ -12,7 +12,7 @@
             <div class="right">
                 <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
                 <p>开放额度&emsp;<span class="openLimit">{{product.openLimit}}万元</span></p>
-                <span v-if="isshow3" style="font-size: 0.8rem;">募集期<b style="font-weight:normal;">{{product.raisePeriod}}</b>&ensp;</span><span class="status">{{product.productType}}</span>
+                <span v-if="isshow3" style="font-size: 0.8rem;">募集期<b style="font-weight:normal;">{{product.raisePeriod}}</b>天&ensp;</span><span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
                 <span class="before">
@@ -538,8 +538,10 @@ export default {
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
+                const dqr = data.ProductInfo.dqr
                 setTimeout(() => {
-                    const dqr = data.ProductInfo.dqr
+                    
+
                     var stringTime = dqr + " 10:21:12";
                     var timestamp2 = Date.parse(new Date(stringTime))+86400;
                     timestamp2 = timestamp2 / 1000;
@@ -556,7 +558,7 @@ export default {
                     }
                     this.dzr = timestampToTime();
                     console.log(timestampToTime());
-                }, 500)
+                }, 600)
                 if (this.product.openLimit != "") {
                     if (this.product.openLimit < 10000) {
                         $(".openLimit").text(this.product.openLimit + "元")
