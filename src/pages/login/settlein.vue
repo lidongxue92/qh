@@ -202,8 +202,7 @@ export default {
           _this.LUserPsd = ''
           _this.picLyanzhengma = ''
           _this.invitationCode = ''
-          _this.isshow1 = true
-          _this.isshow1 = false
+          window.location.reload()
         },
     methods:{
       login(){
@@ -613,7 +612,8 @@ export default {
     watch: {
       '$route' (to, from) {
           this.$router.go(0);
-      }//回退上一级页面并刷新
+          window.location.reload()
+      }
     },
     deactivated: function() {
         const _this = this
@@ -622,8 +622,6 @@ export default {
         _this.LUserPsd = ''
         _this.picLyanzhengma = ''
         _this.invitationCode = ''
-        _this.isshow1 = true
-        _this.isshow1 = false
      },
 
 
