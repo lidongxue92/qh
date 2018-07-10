@@ -41,7 +41,7 @@
                 <img src="../../assets/img/loginClear.png" class="img img4" @click="emipy3" style="right: 12%">
             </label>
             <label style="margin-top: 10px;">
-                <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
+                <input :type="type1" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
                 <span class="tishixiaoxi disappear1">请输入密码。</span>
                 <img :src="imgSrc1" class="LoginImg" @click="eyesTab1">
                 <img src="../../assets/img/loginClear.png" class="img img5" @click="emipy4" style="right: 12%">
@@ -331,17 +331,6 @@ export default {
           params.append('msgType',3);
           axios.post(url,params).then(res => {
               console.log(res);
-            //   if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
-            //       this.$vux.alert.show({
-            //           // title: '',
-            //           content: res.data.resultMsg
-            //       })
-            //       setTimeout(() => {
-            //           this.$vux.alert.hide()
-            //       }, 3000)
-            //   }
-
-
           }).catch((err) => {
           console.log(err)
           })
