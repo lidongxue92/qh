@@ -558,7 +558,11 @@ export default {
                     }
                     this.dzr = timestampToTime();
                     console.log(timestampToTime());
+<<<<<<< HEAD
                 }, 600)
+=======
+                }, 500);
+>>>>>>> 4cd5273d99f948b94a1d538611600d701a93c33e
                 if (this.product.openLimit != "") {
                     if (this.product.openLimit < 10000) {
                         $(".openLimit").text(this.product.openLimit + "元")
@@ -566,19 +570,18 @@ export default {
                         this.product.openLimit = this.product.openLimit/10000;
                     }
                     console.log(this.product.openLimit);
-                }
+                };
                 if (this.product.residueMoney != "") {
                     if (this.product.residueMoney < 10000) {
                         $(".residueMoney").text(this.product.residueMoney + "元")
                     }else{
                         this.product.residueMoney = this.product.residueMoney/10000;
                     }
-                }
-
+                };
 
                 if (this.actAnnualYield == 0 || this.actAnnualYield == "0") {
                     $(".activeLilv").text("%");
-                }
+                };
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
                     this.isshow6 = true
@@ -597,7 +600,6 @@ export default {
                     this.isshow5 = true
                 }
 
-
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
                 $(".after").css("width",jd+'%');
@@ -607,7 +609,7 @@ export default {
                 }else{
                     this.isshow3 = false
                     this.isshow4 = true
-                }
+                };
             }
           }).catch((err) => {
             console.log(err)

@@ -70,9 +70,15 @@ export default {
             this.$router.back()
         },
         linkToMsgDetail(id){
+            // $(".msgTitle").each(function (i) {
+            //     $(".msgTitle").eq(i).css("color","#999");
+            // });
             this.$router.push({path:'/page/msgDetail',query: { id: id }})
         },
         linkToMsgDetail1(title,content,data){
+            // $(".msgTitle").each(function (i) {
+            //     $(".msgTitle").eq(i).css("color","#999");
+            // });
             sessionStorage.setItem("title",title);
             sessionStorage.setItem("content",content);
             sessionStorage.setItem("data",data);
@@ -104,7 +110,6 @@ export default {
                 }
                 if (data.result == '200') {
                     this.Log = data.message
-                    // console.log(this.Log);
                 }
                 // console.log(data)
             }).catch((err) => {

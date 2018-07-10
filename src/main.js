@@ -90,8 +90,7 @@ Vue.prototype.toDecimal2 = function (x) {
     console.log(s);
 }
 
-
-})
+});
 
 
 /* eslint-disable no-new */
