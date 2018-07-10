@@ -135,6 +135,14 @@ export default {
                         $(".regSubmit").submit();
                     }, 500)
                     
+                }else{
+                    this.$vux.alert.show({
+                      title: '',
+                      content: res.data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
                 }
             }).catch((err) => {
                 console.log(err);
@@ -164,15 +172,6 @@ export default {
                   setTimeout(() => {
                       this.$vux.alert.hide()
                       this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                  }, 3000)
-                 }
-                 if (res.data.result == '300') {
-                  this.$vux.alert.show({
-                      title: '',
-                      content: data.resultMsg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
                   }, 3000)
                  }
                 if(res.data.result == 200){

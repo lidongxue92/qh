@@ -43,9 +43,10 @@
                   <h5><span class="prodecttitle">{{item.productName}}</span><span class="Propaganda" style="position: relative;top: -0.7rem;display: inline-block;"></span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit Profit1">{{item.baseAnnualYield}}<b style="font-weight: normal;color: #FFA303">%<span class="actAnnual">+{{item.actAnnualYield}}%</span></b></span>
-                            <span class="Profit Profit2">{{item.baseAnnualYield}}<b style="font-weight: normal;">%-</b>{{item.actAnnualYield}}<b>%</b></span>
-                            <span>历史年化收益率</span>
+                            <span class="Profit Profit1">{{item.annualYield}}
+                            <b style="font-weight: normal;color: #FFA303">%</b></span>
+                            <!-- <span class="Profit Profit2">{{item.baseAnnualYield}}<b style="font-weight: normal;">%-</b>{{item.actAnnualYield}}<b>%</b></span>
+                            <span>历史年化收益率</span> -->
                         </p>
                         <p class="right">
                             <span class="day"><b>{{item.period}}</b>天</span>

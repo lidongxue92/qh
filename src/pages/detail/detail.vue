@@ -27,7 +27,7 @@
                 <h5>购买金额 <b class="Type" style="position: absolute;opacity: 0;">{{product.yieldDistribType}}</b></h5>
                 <p>
                     <img class="leftimg" src="~@/assets/img/cont.png" @click="cont">
-                    <input class="money" v-model= "money" v-on:input="changeVal()"/>元
+                    <input class="money" v-model= "money" v-on:input="changeVal()" @click="full"/>元
                     <img class="rightimg" src="~@/assets/img/add.png" @click="add">
                 </p>
                 <p class="word" @click="red(product.productId,product.period)">
@@ -242,9 +242,13 @@ export default {
             const _this = this
             const num = $(".money")
             const value = num.val()
-            if (value >parseFloat(this.Money)) {
+            if (value > parseFloat(this.Money)) {
                 this.money = (parseFloat(this.money)-parseFloat(this.amountIncrease))
-                console.log (this.money+'00')
+                if (this.money == this.Money) {
+                    $(".leftimg").attr('src',"./static/img/cont.png");
+                }else{
+                    $(".leftimg").attr('src',"./static/img/add1.png")
+                }
                 if (sessionStorage.redPacketMoney) {
                     $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
                     this.Interest()
@@ -261,11 +265,16 @@ export default {
                 $(".leftimg").attr('src',"./static/img/cont.png");
             }
         },
+        // 点击空
+        full(){
+            console.log(1)
+            this.money = ''
+        },
         // 输入框
         changeVal(){
             const num = $(".money")
             const value = num.val()
-            if (value > parseFloat(this.residueMoney)) {
+            if (value > parseFloat(this.residueMoney) && value.replace(/[^\d]/g, '') == 0) {
                 $(".rightimg").attr('src',"./static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额已达最大值"
@@ -276,8 +285,20 @@ export default {
                     this.$vux.alert.hide()
                     $(".leftimg").attr('src',"./static/img/add1.png")
                 }, 1000)
-            }else if (value < parseFloat(this.Money)) {
+            }else if (value <= parseFloat(this.Money)) {
                 $(".leftimg").attr('src',"./static/img/cont.png")
+            }else if (value.replace(/[^\d]/g, '') == 0) {
+                this.$vux.alert.show({
+                    content: "只能输入数字,请重新输入"
+                })
+                setTimeout(() => {
+                    num.val(this.money)
+                    this.money = this.Money
+                    this.$vux.alert.hide()
+                    $(".leftimg").attr('src',"./static/img/cont.png")
+                }, 2000)
+                this.money = ''
+                $(".usered b").html('0个可用')
             }else{
                 console.log (this.residueMoney)
                 $(".leftimg").attr('src',"./static/img/add1.png")
@@ -499,24 +520,25 @@ export default {
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
-                const dqr = data.ProductInfo.dqr
-                var stringTime = dqr + " 10:21:12";
-                var timestamp2 = Date.parse(new Date(stringTime))+86400;
-                timestamp2 = timestamp2 / 1000; 
-                console.log(stringTime + "的时间戳为：" + timestamp2);
-                function timestampToTime(timestamp) {
-                    var date = new Date(timestamp2 * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-                    const Y = date.getFullYear() + '-';
-                    const M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-                    const D = (date.getDate() +1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1);
-                    const h = date.getHours() + ':';
-                    const m = date.getMinutes() + ':';
-                    const s = date.getSeconds();
-                    return Y+M+D;
-                }
-                this.dzr = timestampToTime();
-                console.log(timestampToTime());//2014-06-18 10:33:24
-
+                setTimeout(() => {
+                    const dqr = data.ProductInfo.dqr
+                    var stringTime = dqr + " 10:21:12";
+                    var timestamp2 = Date.parse(new Date(stringTime))+86400;
+                    timestamp2 = timestamp2 / 1000; 
+                    console.log(stringTime + "的时间戳为：" + timestamp2);
+                    function timestampToTime(timestamp) {
+                        var date = new Date(timestamp2 * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                        const Y = date.getFullYear() + '-';
+                        const M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                        const D = (date.getDate() +1 < 10 ? '0'+(date.getDate()+1) : date.getDate()+1);
+                        const h = date.getHours() + ':';
+                        const m = date.getMinutes() + ':';
+                        const s = date.getSeconds();
+                        return Y+M+D;
+                    }
+                    this.dzr = timestampToTime();
+                    console.log(timestampToTime());
+                }, 500)
                 if (this.product.openLimit != "") {
                     if (this.product.openLimit < 10000) {
                         $(".openLimit").text(this.product.openLimit + "元")
