@@ -14,7 +14,7 @@
                     <button class="button" @click="category">去理财</button>
                 </div>
                 <ul class="list" v-if="isshow2">
-                    <li v-for="(item,index) in Product">
+                    <li v-for="(item,index) in Product" :key="index">
                         <h5>{{item.productName}}<span>到期时间 <b>{{item.dueDate}}</b></span></h5>
                         <p>
                             <span class="big">{{item.investMoney | numFilter}}</span>
@@ -161,7 +161,7 @@ export default {
                             //     this.$router.push({path:"/page/detailProduct"})
                             // })
                         }
-                        
+
                     })
                   }, 300)
               }
