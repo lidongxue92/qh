@@ -622,8 +622,7 @@ export default {
         _this.LUserPsd = ''
         _this.picLyanzhengma = ''
         _this.invitationCode = ''
-        _this.isshow1 = true
-        _this.isshow1 = false
+        window.location.reload()
      },
 
 
