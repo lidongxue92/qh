@@ -21,7 +21,7 @@
                             <span>投资金额(元)</span>
                         </p>
                         <p>
-                            <span class="color">{{item.exceptedYield | numFilter}}%</span>
+                            <span class="color">{{item.exceptedYield | numFilter}}</span>
                             <span>预计到期收益</span>
                         </p>
                         <p>
@@ -84,10 +84,22 @@ export default {
     filters: {
         numFilter(value) {
             // 截取当前数据到小数点后三位
-            let transformVal = Number(value).toFixed(3)
-            let realVal = transformVal.substring(0, transformVal.length - 1)
-            // num.toFixed(3)获取的是字符串
-            return Number(realVal)
+            let transformVal = Number(value).toFixed(4)
+            let realVal = transformVal.substring(0, transformVal.length - 1);
+            // let val = Math.floor(realVal*100)/100;
+
+            var num = realVal + "";
+            var number = num.split(".")[0];//整数位
+            var len = num.split(".")[1];//小数
+            console.log(len);
+            if (len.length >= 3) {
+                var newNum = len.substr(0,2);
+                newNum = number + "." + newNum;
+                console.log(newNum);
+            }else{
+                var newNum = Number(num);
+            }
+            return newNum;
         }
     },
     activated() {

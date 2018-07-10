@@ -409,7 +409,11 @@ export default {
         // 返回产品
         Detail(){
             const id = this.$route.query.id
-            this.$router.push({path:'/page/detail', query: { id: id }})
+            if (id) {
+                this.$router.push({path:'/page/detail', query: { id: id }})
+            }else{
+                this.$router.push({path:'/category'})
+            }
         },
     },
     components: {
