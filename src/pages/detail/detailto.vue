@@ -201,7 +201,7 @@ export default {
 .detail {
     background: #f7f7f7;position: relative;height: auto;
     .product{
-        background: url(~@/assets/img/bg.png);color: #fefefe;padding-bottom: 1rem;
+        background: url(~@/assets/img/bg.png);color: #fefefe;padding-bottom: 1rem;min-height: 13rem;
         h5{text-align: center;font-size: 1rem;line-height:2.5rem;font-weight: normal;margin-bottom: 1rem;}
         .left{
             display: inline-block;width: 100%;text-align: center;position: relative;text-align: center;margin-top: 1rem;

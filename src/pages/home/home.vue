@@ -205,7 +205,7 @@ export default {
         },
         zhezhaoHide(){
            $(".zhezhao").fadeOut(400);
-           $(".slider").animate({left:"-75%"},400);
+           $(".slider").animate({left:"-85%"},400);
         },
         // 首页banner接口
         index_banner(){

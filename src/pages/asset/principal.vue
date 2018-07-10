@@ -32,7 +32,7 @@
         <div class="Data" v-else>
             <ul class="datalist">
                 <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" v-view-lazy :key="index">
-                    <h5>{{item.productName}}<span>预计满标: {{item.qxr}}</span></h5>
+                    <h5>{{item.productName}}<span>预计满标:{{item.qxr}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
                         <span>投资金额(元)</span>
