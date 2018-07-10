@@ -357,7 +357,6 @@ export default {
               _this.time--
               setTimeout(_this.timer, 1000)
               _this.percent = parseFloat(_this.percent)+17
-              console.log()
           }else{
             this.isshow = false
             const id = this.id
@@ -459,50 +458,89 @@ export default {
                         $(".rightimg").attr('src',"./static/img/add.png")
                     }, 1000)
                 }else{
-                    this.isshow = true
-                    this.timer()
-                    // const _this = this
-                    // _this.$loading.show();
-                    // const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-                    // const id = this.id
-                    // const orderMoney = this.money
-                    // var params = new URLSearchParams();
-                    // params.append('token',sessionStorage.getItem("token"));
-                    // params.append('productId',id);
-                    // params.append('clientType','h5');
-                    // params.append('orderMoney',orderMoney);
-                    // params.append('payType','1');
-                    // if (sessionStorage.packetId) {
-                    //     params.append('packetId',sessionStorage.packetId);
-                    // }
-                    // if (sessionStorage.incrId) {
-                    //     params.append('incrId',sessionStorage.incrId);
-                    // }
-                    // axios.post(url,params).then(res => {
-                    //     console.log(res.data)
-                    //     const data = res.data
-                    //     _this.$loading.hide();
-                    //     if (data.result == '400') {
-                    //         this.$vux.alert.show({
-                    //             title: '',
-                    //             content: data.resultMsg
-                    //         })
-                    //         setTimeout(() => {
-                    //             this.$vux.alert.hide()
-                    //             this.$router.push({path:"/login"})
-                    //         }, 3000)
-                    //     }
-                    //     if(res.data.result == 200){
-                    //         this.isshow = true
-                    //         this.timer()
-                    //     }
-                    //     if(res.data.result == 302){
-                    //         $(".toast").css("display","block")
-                    //         $(".bg").css("display","block")
-                    //     }
-                    // }).catch((err) => {
-                    //     console.log(err);
-                    // });
+                    const _this = this
+                    _this.$loading.show();
+                    const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+                    const id = this.id
+                    const orderMoney = this.money
+                    var params = new URLSearchParams();
+                    params.append('token',sessionStorage.getItem("token"));
+                    params.append('productId',id);
+                    params.append('clientType','h5');
+                    params.append('orderMoney',orderMoney);
+                    params.append('payType','1');
+                    if (sessionStorage.packetId) {
+                        params.append('packetId',sessionStorage.packetId);
+                    }
+                    if (sessionStorage.incrId) {
+                        params.append('incrId',sessionStorage.incrId);
+                    }
+                    axios.post(url,params).then(res => {
+                        console.log(res.data)
+                        const data = res.data
+                        _this.$loading.hide();
+                        if (data.result == '400') {
+                            this.$vux.alert.show({
+                                title: '',
+                                content: data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                                this.$router.push({path:"/login"})
+                            }, 3000)
+                        }
+                        if(res.data.result == 200){
+                              const data = res.data.buyInfo
+                            const Pay = res.data.buyInfo.PayInfo
+                            _this.brow = Pay.BorrowerDetails
+                            // 支付信息
+                            this.BorrowerDetails = this.BorrowerDetails
+                            for (var i in  _this.brow) {
+                                var obj = _this.brow[i]
+                                this.BorrowerDetails = '[{'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
+                            }
+                            sessionStorage.setItem('ChinaPnrServer',Pay.ChinaPnrServer)
+                            sessionStorage.setItem('Version',Pay.Version)
+                            sessionStorage.setItem('CmdId',Pay.CmdId)
+                            sessionStorage.setItem('OrdId',Pay.OrdId)
+                            sessionStorage.setItem('OrdDate',Pay.OrdDate)
+                            sessionStorage.setItem('TransAmt',Pay.TransAmt)
+                            sessionStorage.setItem('MaxTenderRate',Pay.MaxTenderRate)
+                            sessionStorage.setItem('BorrowerDetails',this.BorrowerDetails)
+                            sessionStorage.setItem('IsFreeze',Pay.IsFreeze)
+                            sessionStorage.setItem('MerCustId',Pay.MerCustId)
+                            sessionStorage.setItem('UsrCustId',Pay.UsrCustId)
+                            sessionStorage.setItem('PageType',Pay.PageType)
+                            sessionStorage.setItem('ChkValue',Pay.ChkValue)
+                            sessionStorage.setItem('BgRetUrl',Pay.BgRetUrl)
+                            sessionStorage.setItem('FreezeOrdId',Pay.FreezeOrdId)
+                            if (this.ReqExt == "{}") {
+                                this.ReqExt = " ";
+                                sessionStorage.setItem('ReqExt',this.ReqExt)
+                            } else {
+                                this.ReqExt = JSON.stringify(Pay.ReqExt);
+                                sessionStorage.setItem('ReqExt',this.ReqExt)
+                            }
+
+                            this.product = data.detailInfo;
+                            console.log(this.product);
+                            sessionStorage.setItem('IiRate',this.product.IiRate);
+                            sessionStorage.setItem('orderCode',this.product.orderCode)
+                            sessionStorage.setItem('payMoney',this.product.payMoney)
+                            sessionStorage.setItem('productName',this.product.productName)
+                            sessionStorage.setItem('redPacketMoney',this.product.redPacketMoney)
+                            sessionStorage.setItem('transAmt',this.product.transAmt);
+
+                            this.isshow = true;
+                            this.timer()
+                        }
+                        if(res.data.result == 302){
+                            $(".toast").css("display","block")
+                            $(".bg").css("display","block")
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                    });
                 }
             }else{
                 this.$vux.alert.show({
@@ -714,12 +752,12 @@ export default {
         topComponent,
         XCircle
     },
-    watch: {
-      '$route' (to, from) {
-          this.$router.go(0);
-        //   window.location.reload()
-      }
-    },
+    // watch: {
+    //   '$route' (to, from) {
+    //       this.$router.go(0);
+    //     //   window.location.reload()
+    //   }
+    // },
 }
 </script>
 <style>
