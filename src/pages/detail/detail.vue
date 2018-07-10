@@ -227,9 +227,19 @@ export default {
         },
         add(){
             const _this = this
-            const num = $(".money")
+            const num = $(".money");
             const value = num.val()
             if (value > parseFloat(this.residueMoney)) {
+                $(".rightimg").attr('src',"./static/img/add2.png");
+                this.$vux.alert.show({
+                    content: "投资金额已达最大值"
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    num.val(this.residueMoney)
+                    this.money = this.residueMoney
+                }, 1000)
+            }else if (this.money == parseFloat(this.residueMoney)) {
                 $(".rightimg").attr('src',"./static/img/add2.png");
                 this.$vux.alert.show({
                     content: "投资金额已达最大值"
@@ -286,12 +296,18 @@ export default {
         // 点击空
         full(){
             console.log(1)
-            this.money = ''
+
+            const value = num.val();
+            if (value <= parseFloat(this.residueMoney)) {
+                this.money = this.residueMoney;
+            }else{
+                this.money = '';
+            }
         },
         // 输入框
         changeVal(){
             const num = $(".money")
-            const value = num.val()
+            const value = num.val();
             if (value > parseFloat(this.residueMoney) && value.replace(/[^\d]/g, '') == 0) {
                 $(".rightimg").attr('src',"./static/img/add2.png");
                 this.$vux.alert.show({
@@ -304,16 +320,16 @@ export default {
                     $(".leftimg").attr('src',"./static/img/add1.png")
                 }, 1000)
             }else if (value <= parseFloat(this.Money)) {
-                $(".leftimg").attr('src',"./static/img/cont.png")
+                this.money = this.residueMoney;
+                $(".leftimg").attr('src',"./static/img/cont.png");
             }else if (value.replace(/[^\d]/g, '') == 0) {
                 this.$vux.alert.show({
                     content: "只能输入数字,请重新输入"
                 })
                 setTimeout(() => {
-                    num.val(this.money)
-                    this.money = this.Money
+                    num.val(this.residueMoney)
+                    this.money = this.residueMoney
                     this.$vux.alert.hide()
-                    $(".leftimg").attr('src',"./static/img/cont.png")
                 }, 2000)
                 this.money = ''
                 $(".usered b").html('0个可用')
@@ -540,8 +556,6 @@ export default {
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
                 const dqr = data.ProductInfo.dqr
                 setTimeout(() => {
-                    
-
                     var stringTime = dqr + " 10:21:12";
                     var timestamp2 = Date.parse(new Date(stringTime))+86400;
                     timestamp2 = timestamp2 / 1000;
@@ -558,7 +572,7 @@ export default {
                     }
                     this.dzr = timestampToTime();
                     console.log(timestampToTime());
-                }, 600)
+                }, 600);
 
                 if (this.product.openLimit != "") {
                     if (this.product.openLimit < 10000) {
@@ -595,7 +609,7 @@ export default {
                     $(".status").text("不可转让")
                     this.isshow6 = false
                     this.isshow5 = true
-                }
+                };
 
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
@@ -607,6 +621,10 @@ export default {
                     this.isshow3 = false
                     this.isshow4 = true
                 };
+
+                if (this.money == parseFloat(this.residueMoney)) {
+                    $(".rightimg").attr('src',"./static/img/add2.png");
+                }
             }
           }).catch((err) => {
             console.log(err)
