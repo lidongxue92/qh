@@ -27,7 +27,7 @@
     </div>
     <div class="assetTop2" v-if="isshow3">
       <p class="rpMoney">红包金额　-<b class="rpMoney">{{Product.rpMoney}}</b></p>
-      <p class="increaseMoney">加息券　+<b class="increaseMoney">{{Product.increaseMoney}}</b>%</p>
+      <p class="increaseMoney">加息券　+<b class="increaseMoney">{{Product.increaseRate}}</b>%</p>
     </div>
     <!-- 标 -->
     <div class="list" v-if ='isshow4' >
