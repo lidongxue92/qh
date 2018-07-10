@@ -236,37 +236,67 @@ export default {
       },
       next(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
-          const _this = this
-          _this.isshow1 =true
-          _this.isshow =false
-          // 手机号脱敏
-          const tel = $('.register_content_input').val()
-          const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
-          console.log(mtel)
-          _this.tel = mtel;
-
-            this.time = 90
-            this.disabled = true
-            this.timer()
-            const url = myPub.URL+`/three/getSmsCode` ;
+            const url = myPub.URL+`/check/checkPhone` ;
             var params = new URLSearchParams();
-            params.append('phone',this.userPhone);
-            params.append('msgType',3);
-            axios.post(url,params).then(res => {
-                console.log(res);
-                if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+            params.append('phone',this.userPhone);;
+            axios.post(url,params).then(response => {
+                console.log(response)
+                if (response.data.result == '302') {
                     this.$vux.alert.show({
-                        // title: '',
-                        content: res.data.resultMsg
+                        title: '',
+                        content: "该账号不存在，请先注册"
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
+                        this.$router.push({path:"/settlein"});
+                    }, 3000)
+                }else if (response.data.result == '301') {
+                    // 发送短信验证码
+                    const _this = this
+                    _this.isshow1 =true
+                    _this.isshow =false
+                    // 手机号脱敏
+                    const tel = $('.register_content_input').val()
+                    const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
+                    console.log(mtel)
+                    _this.tel = mtel;
+
+                    this.time = 90
+                    this.disabled = true
+                    this.timer()
+                    const url = myPub.URL+`/three/getSmsCode` ;
+                    var params = new URLSearchParams();
+                    params.append('phone',this.userPhone);
+                    params.append('msgType',3);
+                    axios.post(url,params).then(res => {
+                        console.log(res);
+                        if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+                            this.$vux.alert.show({
+                                content: res.data.resultMsg
+                            })
+                            setTimeout(() => {
+                                this.$vux.alert.hide()
+                            }, 3000)
+                        }
+
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+
+                }else{
+                    this.$vux.alert.show({
+                    title: '',
+                    content: response.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        // this.sendCode()
                     }, 3000)
                 }
-
             }).catch((err) => {
-            console.log(err)
+                console.log(err)
             })
+
         }
       },
       // 手机号验证码
@@ -281,15 +311,15 @@ export default {
           params.append('msgType',3);
           axios.post(url,params).then(res => {
               console.log(res);
-              if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
-                  this.$vux.alert.show({
-                      // title: '',
-                      content: res.data.resultMsg
-                  })
-                  setTimeout(() => {
-                      this.$vux.alert.hide()
-                  }, 3000)
-              }
+            //   if (res.data.resultMsg == "短信验证码发送过于频繁，请稍后再试") {
+            //       this.$vux.alert.show({
+            //           // title: '',
+            //           content: res.data.resultMsg
+            //       })
+            //       setTimeout(() => {
+            //           this.$vux.alert.hide()
+            //       }, 3000)
+            //   }
 
 
           }).catch((err) => {
@@ -335,56 +365,26 @@ export default {
       },
       sub(){
         if( this.checkLPsd() == true && this.checkLPsd1() == true){
+            const url = myPub.URL+`/pwd/findPwd` ;
+            var params = new URLSearchParams();
+            params.append('phone',this.userPhone);
+            params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
+            params.append('smsCode',this.verifyCode);
+            axios.post(url,params).then(res => {
+                console.log(res);
+                if (res.data.result == 200) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide();
+                        this.$router.push({path:"/login",query:{phone:this.userPhone}});
+                    }, 3000)
+                }
 
-          const url = myPub.URL+`/check/checkPhone` ;
-          var params = new URLSearchParams();
-          params.append('phone',this.userPhone);;
-           axios.post(url,params).then(response => {
-              console.log(response)
-              if (response.data.result == '302') {
-                const url = myPub.URL+`/pwd/findPwd` ;
-                var params = new URLSearchParams();
-                params.append('phone',this.userPhone);
-                params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
-                params.append('smsCode',this.verifyCode);
-                axios.post(url,params).then(res => {
-                    console.log(res);
-                    if (res.data.result == 200) {
-                        this.$vux.alert.show({
-                            content: res.data.resultMsg
-                        })
-                        setTimeout(() => {
-                            this.$vux.alert.hide();
-                            this.$router.push({path:"/login",query:{phone:this.userPhone}});
-                        }, 3000)
-                    }
-
-                }).catch((err) => {
+            }).catch((err) => {
                 console.log(err)
-                })
-              }
-              if (response.data.result == '301') {
-                  this.$vux.alert.show({
-                  title: '',
-                  content: '手机号验证码不正确,请重新输入'
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.sendCode()
-                }, 3000)
-              }else{
-                this.$vux.alert.show({
-                  title: '',
-                  content: response.data.resultMsg
-                })
-                setTimeout(() => {
-                    this.$vux.alert.hide()
-                    this.sendCode()
-                }, 3000)
-              }
-          }).catch((err) => {
-            console.log(err)
-          })
+            })
           }
       }
 
