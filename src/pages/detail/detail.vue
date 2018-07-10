@@ -558,11 +558,8 @@ export default {
                     }
                     this.dzr = timestampToTime();
                     console.log(timestampToTime());
-<<<<<<< HEAD
                 }, 600)
-=======
-                }, 500);
->>>>>>> 4cd5273d99f948b94a1d538611600d701a93c33e
+
                 if (this.product.openLimit != "") {
                     if (this.product.openLimit < 10000) {
                         $(".openLimit").text(this.product.openLimit + "元")
