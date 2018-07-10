@@ -75,7 +75,7 @@
                   </x-circle>
                 </div>
               </div>
-              <button class="button bottom">确认支付</button>
+              <!-- <button class="button bottom">确认支付</button> -->
         </div>
          <div class="toast">
           <span class="close" @click="close">&Chi;</span>
@@ -459,48 +459,50 @@ export default {
                         $(".rightimg").attr('src',"./static/img/add.png")
                     }, 1000)
                 }else{
-                    const _this = this
-                    _this.$loading.show();
-                    const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-                    const id = this.id
-                    const orderMoney = this.money
-                    var params = new URLSearchParams();
-                    params.append('token',sessionStorage.getItem("token"));
-                    params.append('productId',id);
-                    params.append('clientType','h5');
-                    params.append('orderMoney',orderMoney);
-                    params.append('payType','1');
-                    if (sessionStorage.packetId) {
-                        params.append('packetId',sessionStorage.packetId);
-                    }
-                    if (sessionStorage.incrId) {
-                        params.append('incrId',sessionStorage.incrId);
-                    }
-                    axios.post(url,params).then(res => {
-                        console.log(res.data)
-                        const data = res.data
-                        _this.$loading.hide();
-                        if (data.result == '400') {
-                            this.$vux.alert.show({
-                                title: '',
-                                content: data.resultMsg
-                            })
-                            setTimeout(() => {
-                                this.$vux.alert.hide()
-                                this.$router.push({path:"/login"})
-                            }, 3000)
-                        }
-                        if(res.data.result == 200){
-                            this.isshow = true
-                            this.timer()
-                        }
-                        if(res.data.result == 302){
-                            $(".toast").css("display","block")
-                            $(".bg").css("display","block")
-                        }
-                    }).catch((err) => {
-                        console.log(err);
-                    });
+                    this.isshow = true
+                    this.timer()
+                    // const _this = this
+                    // _this.$loading.show();
+                    // const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+                    // const id = this.id
+                    // const orderMoney = this.money
+                    // var params = new URLSearchParams();
+                    // params.append('token',sessionStorage.getItem("token"));
+                    // params.append('productId',id);
+                    // params.append('clientType','h5');
+                    // params.append('orderMoney',orderMoney);
+                    // params.append('payType','1');
+                    // if (sessionStorage.packetId) {
+                    //     params.append('packetId',sessionStorage.packetId);
+                    // }
+                    // if (sessionStorage.incrId) {
+                    //     params.append('incrId',sessionStorage.incrId);
+                    // }
+                    // axios.post(url,params).then(res => {
+                    //     console.log(res.data)
+                    //     const data = res.data
+                    //     _this.$loading.hide();
+                    //     if (data.result == '400') {
+                    //         this.$vux.alert.show({
+                    //             title: '',
+                    //             content: data.resultMsg
+                    //         })
+                    //         setTimeout(() => {
+                    //             this.$vux.alert.hide()
+                    //             this.$router.push({path:"/login"})
+                    //         }, 3000)
+                    //     }
+                    //     if(res.data.result == 200){
+                    //         this.isshow = true
+                    //         this.timer()
+                    //     }
+                    //     if(res.data.result == 302){
+                    //         $(".toast").css("display","block")
+                    //         $(".bg").css("display","block")
+                    //     }
+                    // }).catch((err) => {
+                    //     console.log(err);
+                    // });
                 }
             }else{
                 this.$vux.alert.show({

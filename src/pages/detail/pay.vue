@@ -13,7 +13,7 @@
                 <li>实际支付金额 <span class="c-FFA303">{{product.payMoney}}</span></li>
             </ul>
         </div>
-        <button class="button" @click.once="buy">确认支付</button>
+        <button class="button" @click.once="sub">确认支付</button>
         <div class="box" style="display:none;">
             <form  name="regSubmit" method="post" :action="ChinaPnrServer">
             <input type='text' name='Version' :value='Version'> Version
@@ -145,44 +145,7 @@ export default {
                 }
                 if(res.data.result == 200){
                     this.product = data.buyInfo.detailInfo;
-                }else{
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.back()
-                    }, 3000)
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
-        },
 
-        // 三方购买
-        buy(){
-            const _this = this
-            _this.$loading.show();
-            const url = myPub.URL+`/trade/buyProductByChinaPnr`;
-            const id = this.$route.query.id
-            const orderMoney = this.$route.query.money
-            var params = new URLSearchParams();
-            params.append('token',sessionStorage.getItem("token"));
-            params.append('productId',id);
-            params.append('clientType','h5');
-            params.append('orderMoney',orderMoney);
-            params.append('payType','1');
-            if (sessionStorage.packetId) {
-                params.append('packetId',sessionStorage.packetId);
-            }
-            if (sessionStorage.incrId) {
-                params.append('incrId',sessionStorage.incrId);
-            }
-            axios.post(url,params).then(res => {
-                _this.$loading.hide();
-                console.log(res.data.buyInfo);
-                if(res.data.result == 200){
                     const data = res.data.buyInfo
                     const Pay = res.data.buyInfo.PayInfo
                     _this.brow = Pay.BorrowerDetails
@@ -219,17 +182,93 @@ export default {
                     } else {
                         this.ReqExt = JSON.stringify(Pay.ReqExt);
                     }
-                    //提交from表单
+                }else{
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
                     setTimeout(() => {
-                        console.log(this.PageType)
-                        document.regSubmit.submit();
-                    }, 500)
-
+                        this.$vux.alert.hide()
+                        this.$router.back()
+                    }, 3000)
                 }
             }).catch((err) => {
                 console.log(err);
             });
         },
+
+        // 三方购买
+        // buy(){
+        //     const _this = this
+        //     _this.$loading.show();
+        //     const url = myPub.URL+`/trade/buyProductByChinaPnr`;
+        //     const id = this.$route.query.id
+        //     const orderMoney = this.$route.query.money
+        //     var params = new URLSearchParams();
+        //     params.append('token',sessionStorage.getItem("token"));
+        //     params.append('productId',id);
+        //     params.append('clientType','h5');
+        //     params.append('orderMoney',orderMoney);
+        //     params.append('payType','1');
+        //     if (sessionStorage.packetId) {
+        //         params.append('packetId',sessionStorage.packetId);
+        //     }
+        //     if (sessionStorage.incrId) {
+        //         params.append('incrId',sessionStorage.incrId);
+        //     }
+        //     axios.post(url,params).then(res => {
+        //         _this.$loading.hide();
+        //         const data = res.data.buyInfo
+        //         console.log(res.data.buyInfo);
+        //         if(res.data.result == 200){
+                    
+        //             console.log(data.PayInfo)
+        //             const data = res.data.buyInfo
+        //             const Pay = res.data.buyInfo.PayInfo
+        //             _this.brow = Pay.BorrowerDetails
+        //             // 支付信息
+        //             this.ChinaPnrServer = Pay.ChinaPnrServer;
+        //             this.Version = Pay.Version;
+        //             this.CmdId = Pay.CmdId;
+        //             this.OrdId = Pay.OrdId;
+        //             this.OrdDate = Pay.OrdDate;
+        //             this.TransAmt = Pay.TransAmt;
+        //             this.MaxTenderRate = Pay.MaxTenderRate;
+        //             this.BorrowerDetails = this.BorrowerDetails
+        //             for (var i in  _this.brow) {
+        //                 var obj = _this.brow[i]
+        //                 this.BorrowerDetails = '[{'+'"BorrowerCustId":'+'"'+obj.BorrowerCustId+'",'+'"BorrowerAmt":'+'"'+obj.BorrowerAmt+'",'+'"BorrowerRate":'+'"'+obj.BorrowerRate+'",'+'"ProId":'+'"'+obj.ProId+'"}]'
+        //             }
+        //             // console.log(this.BorrowerDetails)
+        //             // this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);
+        //             // if (this.BorrowerDetails == "{}") {
+        //             //     this.BorrowerDetails = "";
+        //             // } else {
+        //             //     this.BorrowerDetails = JSON.stringify(Pay.BorrowerDetails);
+        //             // }
+        //             this.IsFreeze = Pay.IsFreeze; //交易金额
+        //             this.MerCustId = Pay.MerCustId; //最大投资手续费率
+        //             this.UsrCustId = Pay.UsrCustId;
+        //             this.PageType = Pay.PageType;
+        //             this.ChkValue = Pay.ChkValue;
+        //             this.BgRetUrl = Pay.BgRetUrl;
+        //             this.FreezeOrdId = Pay.FreezeOrdId;
+        //             this.ReqExt = JSON.stringify(Pay.ReqExt);
+        //             if (this.ReqExt == "{}") {
+        //                 this.ReqExt = " ";
+        //             } else {
+        //                 this.ReqExt = JSON.stringify(Pay.ReqExt);
+        //             }
+        //             //提交from表单
+
+        //         }
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     });
+        // },
+        sub(){
+            document.regSubmit.submit();
+        }
     },
     deactivated: function() {
         sessionStorage.removeItem("packetId");
