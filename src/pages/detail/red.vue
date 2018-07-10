@@ -244,7 +244,7 @@ export default {
             this.isshow4 = false
             this.isshow5 = false
             this.isshow6 = false
-            this.welfare('2')
+            this.welfare('1,2,4,5')
         },
         history1(){
             const _this = this
@@ -253,7 +253,7 @@ export default {
             this.isshow4 = false
             this.isshow5 = false
             this.isshow6 = true,
-            this.addwelfare('1')
+            this.addwelfare('1,2,4,5')
         },
         // 红包数据
         welfare(status){
