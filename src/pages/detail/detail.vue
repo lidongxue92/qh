@@ -168,6 +168,7 @@ export default {
     },
     activated: function() {
         this.productdata()
+
         setTimeout(() => {
             this.welfare()
             this.Interest()
@@ -178,14 +179,12 @@ export default {
                     $(".usered b").css('color','#FFA303')
                     const money = this.$route.query.money
                     this.money = money
-                    this.welfare()
                     this.Interest()
                 }else if (sessionStorage.incrMoney) {
                     console.log(sessionStorage.incrId+"加息券")
                     const money = this.$route.query.money
                     $(".usered b").html(sessionStorage.incrMoney+'%加息券')
                     $(".usered b").css('color','#FFA303')
-                    this.welfare()
                     this.Interest()
                 }
             }, 200)
@@ -618,6 +617,7 @@ export default {
             const id = this.id
             const orderMoney = this.money
             const proPeriod = this.day
+            console.log
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('proPeriod',id);
@@ -628,6 +628,7 @@ export default {
                 const data = res.data
                 this.free= data
                 this.totalCount = this.free.totalCount
+                console.log(this.free.totalCount)
                 $(".usered b").html(this.totalCount+'个可用')
             }).catch((err) => {
                 console.log(err);
