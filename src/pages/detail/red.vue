@@ -15,7 +15,7 @@
             </div>
             <!-- 红包 -->
             <div class="Data" v-if='isshow2'>
-                <p class="no" v-if='isshow4'>不使用红包卡券</p>
+                <p class="no"  @click="Detail">不使用红包卡券</p>
                 <ul class="list">
                     <!-- <li>
                         <p class="title">新手红包</p>
@@ -79,7 +79,7 @@
             </div>
             <!-- 加息券 -->
             <div class="page" v-if="isshow5">
-                <p class="no" v-if='isshow4'>不使用红包卡券</p>
+                <p class="no" @click="Detail">不使用红包卡券</p>
                 <ul class="list">
                     <!-- <li>
                         <p class="title">新手红包</p>
@@ -264,8 +264,8 @@ export default {
             params.append('curPage','1');
             params.append('pageSize','50');
             if (proPeriod) {
-                params.append('proPeriod','10');
-                params.append('transMoney','10');
+                params.append('proPeriod',proPeriod);
+                params.append('transMoney',transMoney);
             }
             axios.post(url,params).then(res => {
                 console.log(res.data)
@@ -321,11 +321,17 @@ export default {
             const _this = this
             _this.$loading.show();
             const url = myPub.URL+`/welfare/getMyIncreaseList`;
+            const proPeriod = this.$route.query.proPeriod
+            const transMoney = this.$route.query.money
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('status',status);
             params.append('curPage','1');
             params.append('pageSize','50');
+             if (proPeriod) {
+                params.append('proPeriod',proPeriod);
+                params.append('transMoney',transMoney);
+            }
             axios.post(url,params).then(res => {
                 console.log(res.data)
                 const data = res.data
@@ -395,6 +401,11 @@ export default {
             }else{
                 this.$router.push({path:'/category'})
             }
+        },
+        // 返回产品
+        Detail(){
+            const id = this.$route.query.id
+            this.$router.push({path:'/page/detail', query: { id: id }})
         },
     },
     components: {

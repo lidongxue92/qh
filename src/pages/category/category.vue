@@ -225,7 +225,7 @@ export default {
                         }
                       });
                     $(".actAnnual").each(function (s) {
-                        if ($(".actAnnual").eq(s).text() == '0%') {
+                        if ($(".actAnnual").eq(s).text() == '+0%') {
                           $(".actAnnual").eq(s).css("display","none")
                         }else{
                           $(".actAnnual").eq(s).css("display","inline-block")

@@ -202,6 +202,8 @@ export default {
           _this.LUserPsd = ''
           _this.picLyanzhengma = ''
           _this.invitationCode = ''
+          _this.isshow1 = true
+          _this.isshow1 = false
         },
     methods:{
       login(){
@@ -613,6 +615,16 @@ export default {
           this.$router.go(0);
       }//回退上一级页面并刷新
     },
+    deactivated: function() {
+        const _this = this
+        _this.verifyCode = ''
+        _this.phoneNumber = ''
+        _this.LUserPsd = ''
+        _this.picLyanzhengma = ''
+        _this.invitationCode = ''
+        _this.isshow1 = true
+        _this.isshow1 = false
+     },
 
 
 }
