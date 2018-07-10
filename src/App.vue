@@ -19,9 +19,24 @@ export default {
 
         }
     },
+    mounted() {
+            var url = location.href;
+			// alert(url)
+			if (url == "http://test.qihangjf.com:29089/#/" || url == "test.qihangjf.com:29089") {
+				if (!this.isMobile()) {
+					location.href = "http://test.qihangjf.com:29082/"
+				}
+            }//测试
+            // if (url == "http://test.qihangjf.com:29089/#/" || url == "test.qihangjf.com:29089") {
+			// 	if (!this.isMobile()) {
+			// 		location.href = "https://www.qihangjf.com/"
+			// 	}
+			// }//生产
+    },
     methods:{
-        reload () {
-
+        isMobile() {
+            let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+            return flag;
         }
     },
     directives: {
