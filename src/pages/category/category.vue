@@ -216,9 +216,9 @@ export default {
                         $(".Property").eq(i).css("opacity","1")
                         $(".Property").eq(i).text('不可转让')
                         $(".img").eq(i).css("opacity","1")
-                        $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
-                        $(".img span").eq(i).text('固收产品')
-                        $(".Slogan").eq(i).text('固定期限 省心理财')
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                        $(".img span").eq(i).text('火爆产品')
+                        $(".Slogan").eq(i).text('热销火爆 稳定收益')
                         $(".Profit2").eq(i).css("display",'none')
                         $(".Profit1").eq(i).css("display",'block')
                     }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '19') {
@@ -235,7 +235,7 @@ export default {
                         $(".Property").eq(i).text('不可转让')
                       $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
                       $(".Slogan").eq(i).text('热销火爆 稳定收益')
-                      $(".img span").eq(i).text('火爆产品')
+                      $(".img span").eq(i).text('热销产品')
                       $(".Profit2").eq(i).css("display",'none')
                       $(".Profit1").eq(i).css("display",'block')
                     }
@@ -244,7 +244,7 @@ export default {
                         $(".Property").eq(i).text('不可转让')
                       $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
                       $(".Slogan").eq(i).text('热销火爆 稳定收益')
-                      $(".img span").eq(i).text('火爆产品')
+                      $(".img span").eq(i).text('热销产品')
                       $(".Profit2").eq(i).css("display",'none')
                       $(".Profit1").eq(i).css("display",'block')
                     }
@@ -253,7 +253,7 @@ export default {
                         $(".Property").eq(i).text('不可转让')
                       $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
                       $(".Slogan").eq(i).text('热销火爆 稳定收益')
-                      $(".img span").eq(i).text('火爆产品')
+                      $(".img span").eq(i).text('热销产品')
                       $(".Profit2").eq(i).css("display",'none')
                       $(".Profit1").eq(i).css("display",'block')
                     }
@@ -262,7 +262,7 @@ export default {
                         $(".Property").eq(i).text('可转让')
                       $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
                       $(".Slogan").eq(i).text('热销火爆 稳定收益')
-                      $(".img span").eq(i).text('火爆产品')
+                      $(".img span").eq(i).text('热销产品')
                       $(".Profit2").eq(i).css("display",'none')
                       $(".Profit1").eq(i).css("display",'block')
                     }
@@ -425,7 +425,7 @@ export default {
           .Profit{font-size:3rem;color: #FFA303;font-weight: 600;margin-top: 1rem;margin-bottom: 1rem;}
           .button{display: inline-block;width: 80%;line-height: 40px;height: 40px;border: 0;border-radius: 30px;background: #2773FF;color: #fff;margin-top: 10px;margin-left: 10%;}
         }
-        .middle{
+        .middle{padding-bottom: 3rem;
           .productlist{
             .list{
                 background: #fff;margin-top: 10px;padding:1rem;position: relative;min-height: 8rem; margin-bottom: 10px;
@@ -482,11 +482,12 @@ export default {
             }
             .list:first-child{display: none;}
         }
+        .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
       }
-      .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
+      
     }
     .Transfer{
-      .middle{
+      .middle{padding-bottom: 3rem;
           .productlist{
             .list{
                 background: #fff;margin-top: 10px;padding:1rem;position: relative;min-height: 8rem; margin-bottom: 10px;
@@ -535,6 +536,7 @@ export default {
                 .bg{position: absolute;width: 100%;height: 100%;background: rgba(255,255,255,.3);left: 0;top: 0;}
             }
         }
+        .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;}
       }
     }
 }

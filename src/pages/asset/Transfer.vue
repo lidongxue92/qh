@@ -128,7 +128,7 @@ export default {
         Notransferable(){
             const _this = this;
             this.product('4,5','1','1');
-            this.is_show2 = false
+            this.is_show2 = true
             this.is_show = false
         },
         product(status,cx,order){
