@@ -8,13 +8,13 @@
         <div class="phone" v-if='isshow'>
             <div class="login_content1 ">
                 <label>
-                <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11">
-                <img @click="emipy" class="img" src="~@/assets/img/emipy.png">
+                <input type="text" placeholder="请输入手机号" class="register_content_input" v-model= "userPhone" @blur="checkLPhone" maxlength="11" @input="img1">
+                <img @click="emipy" class="img img1" src="~@/assets/img/emipy.png">
                 <span class="tishixiaoxi disappear">请输入手机号。</span>
                 </label>
                 <label class="clearfix">
                 <input type="text" placeholder="请输入验证码" class="yanzhengma_input" @blur="checkLpicma" v-model="picLyanzhengma" maxlength="4" @input="changeBGC">
-                <img @click="emipy" class="img" src="~@/assets/img/emipy.png" style="right: 40%;">
+                <img @click="emipy" class="img img2" src="~@/assets/img/emipy.png" style="right: 40%;">
                 <input type="button" id="code" @click="createCode"  class="verification1" v-model="checkCode"/> <br>
                     <span class="tishixiaoxi disappear">请输入验证码。</span>
                 </label>
@@ -28,23 +28,23 @@
             <h5>短信验证码已发送至：<span class="span">{{tel}}</span></h5>
             <label class="clearfix" style="margin-top: 30px;">
                 <p style="border-bottom: 1px solid #eee">
-                <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6">
-                <img src="../../assets/img/loginClear.png" class="img" @click="emipy2" style="right: 40%">
+                <input type="text" placeholder="请输入验证码" class="yanzhengma_input" v-model="verifyCode" maxlength="6" @input="img3">
+                <img src="../../assets/img/loginClear.png" class="img img3" @click="emipy2" style="right: 40%">
                 <input type="button" :value="btnText"
                 :disabled="disabled"  @click="sendCode" class="verification"/></p>
                 <span class="tishixiaoxi disappear" >请输入验证码。</span>
             </label>
             <label style="margin-top: 10px; position: relative;">
-                <input :type="type" placeholder="请输入新密码" class="register_content_input" v-model="newUserPwd" @blur="checkLPsd"><br>
+                <input :type="type" placeholder="请输入新密码" class="register_content_input" v-model="newUserPwd" @blur="checkLPsd" @input="img4"><br>
                 <span class="tishixiaoxi disappear">请输入新密码。</span>
                 <img :src="imgSrc" class="LoginImg" @click="eyesTab">
-                <img src="../../assets/img/loginClear.png" class="img" @click="emipy3" style="right: 12%">
+                <img src="../../assets/img/loginClear.png" class="img img4" @click="emipy3" style="right: 12%">
             </label>
             <label style="margin-top: 10px;">
                 <input type="password" placeholder="确认新密码" class="register_content_input" v-model="newUserPwd1" @blur="checkLPsd1" @input="changeBGC"><br>
                 <span class="tishixiaoxi disappear1">请输入密码。</span>
                 <img :src="imgSrc1" class="LoginImg" @click="eyesTab1">
-                <img src="../../assets/img/loginClear.png" class="img" @click="emipy4" style="right: 12%">
+                <img src="../../assets/img/loginClear.png" class="img img5" @click="emipy4" style="right: 12%">
             </label>
             <p style="font-size: 0.8rem;color: #999">密码长度为6-20位,须包含数字;字母;符号;至少2种或以上元素;且不包含空格</p>
             <a class="user_login" @click="sub">确认提交</a>
@@ -108,21 +108,42 @@ export default {
         // 清空手机号
         emipy(){
           this.userPhone =''
+          $(".img1").css("opacity","0")
         },
         // 清空图形验证码
         emipy1(){
           this.picLyanzhengma = ''
+          $(".img1").css("opacity","0")
         },
         // 清空手机验证码
         emipy2(){
           this.verifyCode = ''
+          $(".img1").css("opacity","0")
         },
         // 清空登录密码
         emipy3(){
           this.newUserPwd = ''
+          $(".img1").css("opacity","0")
         },
         emipy4(){
           this.newUserPwd1 = ''
+          $(".img1").css("opacity","0")
+        },
+        img1(){
+          $(".img1").css("opacity","1")
+        },
+        img2(){
+          $(".img2").css("opacity","1")
+        }
+        ,
+        img3(){
+          $(".img3").css("opacity","1")
+        },
+        img4(){
+          $(".img4").css("opacity","1")
+        },
+        img5(){
+          $(".img5").css("opacity","1")
         },
         // 眼睛切换
         eyesTab(){
@@ -541,7 +562,7 @@ export default {
       padding: 0 5%;
   }
   .login_content1 label{width: 100%;display: block;position: relative;}
-  .login_content1 label .img{position: absolute;right: .8rem;top:0.8rem;width: 1rem;height: 1rem;}
+  .login_content1 label .img{position: absolute;right: .8rem;top:0.8rem;width: 1rem;height: 1rem;opacity: 0;}
   .user_login{
       display: block;
       width: 100%;
@@ -700,7 +721,7 @@ export default {
     .Agreement{
       font-size: 0.8rem;margin-top: 20px;position: relative;
       input{width: 1.1rem;height: 1.1rem;opacity: 0;position: relative;z-index: 11; outline: none}
-      .img{position: absolute;width: 0.8rem;height: 0.8rem;left: 0;top: 0.4rem;display: inline-block;}
+      .img{position: absolute;width: 0.8rem;height: 0.8rem;left: 0;top: 0.4rem;display: none;}
       .img1{background: url(~@/assets/img/noagree.png);background-size: 100%;background-repeat: no-repeat;}
       .img2{background: url(~@/assets/img/agree_blue.png);background-size: 100%;background-repeat: no-repeat;}
       b{font-weight: normal;}
