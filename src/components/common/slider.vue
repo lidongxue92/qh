@@ -699,7 +699,7 @@ export default {
 
 
   }
-  .bg{position: fixed;width: 100%;height: 100%;background: rgba(0,0,0,.5);top: 0;left: 0;display: none;}
+    .bg{position: fixed;width: 200%;height: 100%;background: rgba(0,0,0,.5);top: 0;left: 0;display: none;}
   .toast{
     position: fixed;width: 70%;border-radius: 5px;background: #fff;top: 30%;left: 15%;text-align: center;font-size: 0.8rem;color: #999;display:block;min-height: 6rem;overflow: hidden;display: none;
     p{margin-top: 2rem;}

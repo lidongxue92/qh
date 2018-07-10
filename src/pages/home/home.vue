@@ -47,7 +47,7 @@
                     <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>新手福利高预期收益</span> <span class="img img1">新人专享</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
+                        <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -61,7 +61,7 @@
                    <h5>{{item.productName}} <span>热销火爆 高收益</span><span class="img img2">热销产品</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
+                            <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -75,7 +75,7 @@
                    <h5>{{item.productName}} <span>固定期限 省心理财</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
-                            <span class="Profit">{{item.baseAnnualYield}}<b>%+{{item.actAnnualYield}}%</b></span>
+                            <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
                             <span>历史年化收益率</span>
                         </p>
                         <p class="right">
@@ -264,6 +264,16 @@ export default {
                     _this.list = data.GsInfo;
 
                     setTimeout(() => {
+                        
+                        $(".actAnnua").each(function (i) {
+                            if ($(".actAnnua").eq(i).text() == '+0%') {
+                                $(".actAnnua").eq(i).css("opacity","0")
+                            }else{
+                                 $(".actAnnua").eq(i).css("opacity","1")
+                            }
+                        })
+                        
+
                         $(".residueMoney").each(function (i) {
                             var residueMoney = Number($(".residueMoney").eq(i).text());
                             if (residueMoney  != "" && residueMoney < 10000) {
