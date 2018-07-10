@@ -5,10 +5,13 @@
             <div class="noset" v-if = 'isshow'>
                 <ul class="list">
                     <li>
-                        手机号&ensp;<input type="type" placeholder="请输入手机号" v-model="Tel" @blur="checkLPhone"></li>
+                        手机号&ensp;<input type="type" placeholder="请输入手机号" v-model="Tel" @blur="checkLPhone" @focus="showTab">
+                        <img src="../../assets/img/loginClear.png" class="LoginImg" @click="clear">
+                    </li>
                     <li>
                         验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode" @input="changBGC">
                         <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
+                        <img src="../../assets/img/loginClear.png" class="LoginImg1" @click="clear2">
                     </li>
                 </ul>
             </div>
@@ -55,9 +58,31 @@ export default {
         const mtel = tel.substr(0, 3) + '****' + tel.substr(7);
         this.Tel = mtel
     },
-    activated() {
-    },
     methods: {
+        showTab(){
+            this.tishis = "";
+            var Tel = $(".Tel").val();
+            console.log(Tel);
+
+            if (Tel != 0) {
+                $(".LoginImg").show();
+            }
+        },
+        clear(){
+            this.Tel = "";
+            $(".LoginImg").hide();
+        },
+        clear2(){
+            this.pwd = "";
+            $(".LoginImg1").hide();
+        },
+
+
+
+
+
+
+
         checkLPhone(){
             if(this.userPhone == ''){
                 this.tishis = "请输入手机号"
@@ -67,7 +92,6 @@ export default {
                 this.tishis = "请输入正确手机号"
             }
         },
-
         // 手机号验证码
         sendCode() {
             this.time = 90
@@ -106,6 +130,7 @@ export default {
         },
         // 判断验证背景色
         changBGC(){
+            $(".LoginImg1").show();
             var pwdLen = $(".pwd").val().length;
             if (pwdLen >= 6) {
                 // console.log(pwdLen);
@@ -223,6 +248,16 @@ export default {
 
         }
          .button{border: 0;width: 90%;margin-left: 5%;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);height: 40px;text-align: center;color: #fff;font-size: 0.9rem;border-radius: 30px;opacity: .5;}
+         .LoginImg,.LoginImg1{
+            width: 1rem /* 34/40 */;
+            position: absolute;
+            right: .8rem;
+            top: 1rem;
+            display: none;
+        }
+        .LoginImg1{
+            right: 8.5rem;
+        }
     }
 }
 </style>

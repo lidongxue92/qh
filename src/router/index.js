@@ -497,7 +497,7 @@ export default new Router({
             path: '/page/log',
             name: 'log',
             meta: {
-                title: '日志',
+                title: '投资记录',
             },
             component: Log
         },

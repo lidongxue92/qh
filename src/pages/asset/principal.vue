@@ -142,7 +142,6 @@ export default {
             params1.append('productFullStatus',"0,1,2");
             params1.append('czlx',1);
             params1.append('orderType',"0,1");
-            params1.append('clientType','h5');
             axios.post(url1,params1).then(res => {
                 console.log(res);
                 _this.$loading.hide();
@@ -174,7 +173,6 @@ export default {
                         params1.append('status',"3");
                         params1.append('productFullStatus',"0,1,2");
                         params1.append('orderType','0,1');
-                        params1.append('clientType','h5');
                         axios.post(url1,params1).then(res => {
                             console.log(res);
                              _this.$loading.hide();
