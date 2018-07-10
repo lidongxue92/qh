@@ -170,7 +170,8 @@ export default {
                     this.$router.push({path:"/login",query: {redirect: 'your path'}})
                 }, 2000)
             }else{
-                this.$router.push({ path: '/page/detail', query: { id: id,dz:dz } })
+                const flag = "index";
+                this.$router.push({ path: '/page/detail', query: { id: id,dz:dz,flag:flag } })
             }
         },
         linkToInvite(){
@@ -262,7 +263,7 @@ export default {
                     _this.list = data.GsInfo;
 
                     setTimeout(() => {
-                        
+
                         $(".actAnnua").each(function (i) {
                             if ($(".actAnnua").eq(i).text() == '+0%') {
                                 $(".actAnnua").eq(i).css("opacity","0")
@@ -270,7 +271,7 @@ export default {
                                  $(".actAnnua").eq(i).css("opacity","1")
                             }
                         })
-                        
+
 
                         $(".residueMoney").each(function (i) {
                             var residueMoney = Number($(".residueMoney").eq(i).text());

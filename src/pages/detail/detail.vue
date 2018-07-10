@@ -1,7 +1,9 @@
 <template>
     <div class="detail page">
         <div class="product">
-            <top v-bind:title="title"></top>
+            <topComponent title='产品详情' :showLeft='false'>
+                <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+            </topComponent>
             <div class="left">
                 <span class="interest">{{product.baseAnnualYield}}<b class="activeLilv">%+{{product.actAnnualYield}}%</b></span>
                 <span class="rate">预计年化收益率</span>
@@ -103,7 +105,7 @@
 <script>
 import { PopupPicker, Tab, TabItem, Swiper,XCircle, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
-import top from '../../components/common/top1'
+import topComponent from '../../components/common/top'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
@@ -183,7 +185,15 @@ export default {
         }, 300)
     },
     methods: {
-
+        goBack(){
+            if (this.$route.query.flag == "category") {
+                this.$router.push({ path: '/category'})
+            }else if (this.$route.query.flag == "index") {
+                this.$router.push({ path: '/'})
+            }else{
+                this.$router.back();
+            }
+        },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
@@ -191,8 +201,9 @@ export default {
             this.$router.push({ path: '/page/log',query: { id: id } })
         },
         red(id,proPeriod) {
-            const money = this.money
-            this.$router.push({ path: '/page/red', query: { id: id, proPeriod: proPeriod, money: money,}})
+            const money = this.money;
+            const flag = this.$route.query.flag;
+            this.$router.push({ path: '/page/red', query: { id: id, proPeriod: proPeriod, money: money,flag:flag}})
         },
         rightclose(){
           $(".bg").css("display","none")
@@ -524,7 +535,7 @@ export default {
                     const dqr = data.ProductInfo.dqr
                     var stringTime = dqr + " 10:21:12";
                     var timestamp2 = Date.parse(new Date(stringTime))+86400;
-                    timestamp2 = timestamp2 / 1000; 
+                    timestamp2 = timestamp2 / 1000;
                     console.log(stringTime + "的时间戳为：" + timestamp2);
                     function timestampToTime(timestamp) {
                         var date = new Date(timestamp2 * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -608,6 +619,11 @@ export default {
     deactivated: function() {
         sessionStorage.removeItem("redPacketMoney");
         sessionStorage.removeItem("incrMoney");
+        if (sessionStorage.packetId) {
+            sessionStorage.removeItem("incrId");
+        }else if (sessionStorage.incrId) {
+            sessionStorage.removeItem("packetId");
+        }
      },
     components: {
         PopupPicker,
@@ -628,7 +644,7 @@ export default {
         Toast,
         XAddress,
         XButton,
-        top,
+        topComponent,
         XCircle
     },
     watch: {

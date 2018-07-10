@@ -128,10 +128,12 @@ export default {
     methods: {
       // 跳转详情页
         linktoDetail(id,dz) {
-            this.$router.push({ path: '/page/detail',query: { id: id,dz:dz }})
+            const flag = "category";
+            this.$router.push({ path: '/page/detail',query: { id: id,dz:dz,flag:flag}})
         },
         linktoDetailto(id,dz) {
-            this.$router.push({ path: '/page/detailto',query: { id: id,dz:dz }})
+            const flag = "category";
+            this.$router.push({ path: '/page/detailto',query: { id: id,dz:dz,flag:flag}})
         },
         // 理财专区
         Conducttab(){

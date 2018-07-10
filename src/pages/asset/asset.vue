@@ -236,16 +236,16 @@ export default {
                 _this.$loading.hide();
                 const data = response.data
                 console.log(response.data)
-                if (data.result == '400') {
-                    this.$vux.alert.show({
-                        title: '',
-                        content: data.resultMsg
-                    })
-                    setTimeout(() => {
-                        this.$vux.alert.hide()
-                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                    }, 3000)
-                }
+                // if (data.result == '400') {
+                //     this.$vux.alert.show({
+                //         title: '',
+                //         content: data.resultMsg
+                //     })
+                //     setTimeout(() => {
+                //         this.$vux.alert.hide()
+                //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                //     }, 3000)
+                // }
                 if (data.result == '200') {
                   this.asset = data.Account
                   this.lczc = this.asset.lczc
