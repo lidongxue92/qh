@@ -1,15 +1,18 @@
 <template>
     <div class="detail page">
         <div class="product">
-            <top v-bind:title="title"></top>
+            <topComponent :title=title :showLeft='false'>
+                <span class="back" @click='goBack' slot="left"><img src="../../assets/img/left.png"></span>
+            </topComponent>
             <div class="left">
-                <span class="interest">{{product.baseAnnualYield}}<b class="activeLilv">%+{{product.actAnnualYield}}%</b></span>
+                <span class="interest" v-if='isshow5'>{{product.baseAnnualYield}}<b class="activeLilv">%+{{product.actAnnualYield}}%</b></span>
+                <span class="interest" v-if='isshow6'>{{product.baseAnnualYield}}<b class="activeLilv">%</b>-<span>{{product.actAnnualYield}}</span><b>%</b></span>
                 <span class="rate">预计年化收益率</span>
             </div>
             <div class="right">
                 <p style="margin-top: 1rem;">理财期限&emsp;<span>{{product.period}}天</span></p>
                 <p>开放额度&emsp;<span class="openLimit">{{product.openLimit}}万元</span></p>
-                <span class="status">{{product.productType}}</span>
+                <span v-if="isshow3" style="font-size: 0.8rem;">募集期<b style="font-weight:normal;">{{product.raisePeriod}}</b>&ensp;</span><span class="status">{{product.productType}}</span>
             </div>
             <p class="line">
                 <span class="before">
@@ -103,7 +106,7 @@
 <script>
 import { PopupPicker, Tab, TabItem, Swiper,XCircle, SwiperItem,Qrcode, Divider,XDialog, Popup, Group, Cell, XButton, XSwitch, Toast, XAddress, ChinaAddressData,TransferDomDirective as TransferDom } from 'vux'
 import { mapState, mapMutations, mapGetters } from 'vuex'
-import top from '../../components/common/top1'
+import topComponent from '../../components/common/top'
 import * as myPub from '@/assets/js/public.js'
 import axios from 'axios'
 import $ from 'jquery'
@@ -135,6 +138,8 @@ export default {
             totalCount:'',
             dqr:'',
             dzr:'',
+            isshow5:true,
+            isshow6:false,
 
 
             // 三方开户数据
@@ -160,12 +165,9 @@ export default {
         this.dz = dz
         console.log(this.dz)
         this.productdata();
-        // this.token();
     },
     activated: function() {
         this.productdata()
-        this.welfare()
-        this.Interest()
         setTimeout(() => {
             this.welfare()
             this.Interest()
@@ -174,16 +176,31 @@ export default {
                     console.log(sessionStorage.packetId+"红包")
                     $(".usered b").html(sessionStorage.redPacketMoney+'元红包')
                     $(".usered b").css('color','#FFA303')
+                    const money = this.$route.query.money
+                    this.money = money
+                    this.welfare()
+                    this.Interest()
                 }else if (sessionStorage.incrMoney) {
                     console.log(sessionStorage.incrId+"加息券")
+                    const money = this.$route.query.money
                     $(".usered b").html(sessionStorage.incrMoney+'%加息券')
                     $(".usered b").css('color','#FFA303')
+                    this.welfare()
+                    this.Interest()
                 }
             }, 200)
         }, 300)
     },
     methods: {
-
+        goBack(){
+            if (this.$route.query.flag == "category") {
+                this.$router.push({ path: '/category'})
+            }else if (this.$route.query.flag == "index") {
+                this.$router.push({ path: '/'})
+            }else{
+                this.$router.back();
+            }
+        },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
         },
@@ -191,8 +208,9 @@ export default {
             this.$router.push({ path: '/page/log',query: { id: id } })
         },
         red(id,proPeriod) {
-            const money = this.money
-            this.$router.push({ path: '/page/red', query: { id: id, proPeriod: proPeriod, money: money,}})
+            const money = this.money;
+            const flag = this.$route.query.flag;
+            this.$router.push({ path: '/page/red', query: { id: id, proPeriod: proPeriod, money: money,flag:flag}})
         },
         rightclose(){
           $(".bg").css("display","none")
@@ -524,7 +542,7 @@ export default {
                     const dqr = data.ProductInfo.dqr
                     var stringTime = dqr + " 10:21:12";
                     var timestamp2 = Date.parse(new Date(stringTime))+86400;
-                    timestamp2 = timestamp2 / 1000; 
+                    timestamp2 = timestamp2 / 1000;
                     console.log(stringTime + "的时间戳为：" + timestamp2);
                     function timestampToTime(timestamp) {
                         var date = new Date(timestamp2 * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -561,13 +579,23 @@ export default {
                 }
                 if (this.product.productType == '19') {
                     $(".status").text("可转让")
+                    this.isshow6 = true
+                    this.isshow5 = false
                 }else if (this.product.productType == '22') {
                     $(".status").text("不可转让")
+                    this.isshow6 = false
+                    this.isshow5 = true
                 }else if (this.product.productType == '3') {
                     $(".status").text("不可转让")
+                    this.isshow6 = false
+                    this.isshow5 = true
                 }else if (this.product.productType == '18') {
                     $(".status").text("不可转让")
+                    this.isshow6 = false
+                    this.isshow5 = true
                 }
+
+
                 const jd = Math.round(this.product.xmjd)
                 console.log(jd)
                 $(".after").css("width",jd+'%');
@@ -608,6 +636,11 @@ export default {
     deactivated: function() {
         sessionStorage.removeItem("redPacketMoney");
         sessionStorage.removeItem("incrMoney");
+        if (sessionStorage.packetId) {
+            sessionStorage.removeItem("incrId");
+        }else if (sessionStorage.incrId) {
+            sessionStorage.removeItem("packetId");
+        }
      },
     components: {
         PopupPicker,
@@ -628,7 +661,7 @@ export default {
         Toast,
         XAddress,
         XButton,
-        top,
+        topComponent,
         XCircle
     },
     watch: {

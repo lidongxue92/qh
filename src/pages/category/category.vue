@@ -17,7 +17,7 @@
                     <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy :key="index">
                     <h5>
                       <span class="prodecttitle">{{item.productName}}</span>
-                      <span class="Slogan" style="position: relative;display: inline-block;"></span>
+                      <span class="Slogan" style="position: relative;display: inline-block;bottom: 0.7rem;"></span>
                       <span class="Property">{{item.productType}}</span>
                       <p class="img">
                         <b class="hot">{{item.isHot}}</b>
@@ -140,10 +140,12 @@ export default {
     methods: {
       // 跳转详情页
         linktoDetail(id,dz) {
-            this.$router.push({ path: '/page/detail',query: { id: id,dz:dz }})
+            const flag = "category";
+            this.$router.push({ path: '/page/detail',query: { id: id,dz:dz,flag:flag}})
         },
         linktoDetailto(id,dz) {
-            this.$router.push({ path: '/page/detailto',query: { id: id,dz:dz }})
+            const flag = "category";
+            this.$router.push({ path: '/page/detailto',query: { id: id,dz:dz,flag:flag}})
         },
         // 理财专区
         Conducttab(){

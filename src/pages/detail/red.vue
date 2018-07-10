@@ -390,7 +390,10 @@ export default {
             if (id) {
                 sessionStorage.setItem("packetId",packetId);
                 sessionStorage.setItem("redPacketMoney",redPacketMoney);
-                this.$router.push({path:'/page/detail', query: { id: id }})
+                sessionStorage.removeItem("incrId");
+                const flag = this.$route.query.flag;
+                const money = this.$route.query.money
+                this.$router.push({path:'/page/detail', query: { id: id,flag:flag,money:money}})
             }else{
                 this.$router.push({path:'/category'})
             }
@@ -401,7 +404,9 @@ export default {
             if (id) {
                 sessionStorage.setItem("incrId",incrId);
                 sessionStorage.setItem("incrMoney",incrMoney);
-                this.$router.push({path:'/page/detail', query: { id: id }})
+                sessionStorage.removeItem("packetId");
+                const flag = this.$route.query.flag;
+                this.$router.push({path:'/page/detail', query: { id: id,flag:flag, }})
             }else{
                 this.$router.push({path:'/category'})
             }

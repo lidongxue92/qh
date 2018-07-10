@@ -123,9 +123,11 @@ export default {
             params.append('payType','1');
             if (sessionStorage.packetId) {
                 params.append('packetId',sessionStorage.packetId);
-            }
-            if (sessionStorage.incrId) {
+                sessionStorage.removeItem("incrId");
+
+            }else if (sessionStorage.incrId) {
                 params.append('incrId',sessionStorage.incrId);
+                sessionStorage.removeItem("packetId");
             }
             axios.post(url,params).then(res => {
                 console.log(res.data)

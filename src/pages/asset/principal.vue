@@ -32,7 +32,7 @@
         <div class="Data" v-else>
             <ul class="datalist">
                 <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" v-view-lazy :key="index">
-                    <h5>{{item.productName}}<span>预计满标:{{item.qxr}}</span></h5>
+                    <h5>{{item.productName}}<span><b class="isFull" style="display:none; font-weight:normal">预计满标：</b> {{item.qxr}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
                         <span>投资金额(元)</span>
@@ -72,7 +72,8 @@ export default {
         money:'',
         Account:{},
         totalCount:'',
-        isshowHas: true
+        isshowHas: true,
+        qxr:""
 　　  }
 　　},
     created() {
@@ -110,7 +111,8 @@ export default {
             this.$router.push({ path: '/category' })
         },
         assetdetail(id){
-            this.$router.push({ path: '/page/assetdetail',query:{id:id} })
+            const status = $(".active").text()
+            this.$router.push({ path: '/page/assetdetail',query:{id:id,status:status} })
         },
         Transfer(){
             this.$router.push({ path: '/page/Transfer' })
@@ -183,7 +185,8 @@ export default {
                                     this.isshowHas = true;
                                 }else{
                                     this.isshowHas = false;
-                                }
+                                };
+                                $(".isFull").hide();
                             }
                         }).catch((err) => {
                             console.log(err)
@@ -209,7 +212,7 @@ export default {
             _this.$loading.show();
             params1.append('token',sessionStorage.token);
             params1.append('curPage',1);
-            params1.append('pageSize',9);
+            params1.append('pageSize',20);
             params1.append('czlx',1);
             params1.append('status',"1,2");
             params1.append('productFullStatus',"0,1,2");
@@ -257,6 +260,8 @@ export default {
                                     }else{
                                         this.isshowHas = false;
                                     };
+
+                                    $(".isFull").hide();
                                 }
                             }).catch((err) => {
                                 console.log(err)
@@ -299,9 +304,9 @@ export default {
                     if (res.data.totalCount == 0) {
                         this.isshowHas = true;
                     }else{
-                        console.log(this.totalCount)
+                        // console.log(this.totalCount)
                         const url1 = myPub.URL+`/user/getUserAssetsList` ;
-                        const _this = this
+                        const _this = this;
                         const params1 = new URLSearchParams();
                         _this.$loading.show();
                         params1.append('token',sessionStorage.token);
@@ -321,6 +326,7 @@ export default {
                                 }else{
                                     this.isshowHas = false;
                                 };
+                                $(".isFull").show();
                             }
                         }).catch((err) => {
                             console.log(err)
@@ -344,18 +350,18 @@ export default {
             let realVal = transformVal.substring(0, transformVal.length - 1);
             let val = Math.floor(realVal*100)/100;
 
-            var num = val + "";
-            var len = num.split(".")[1].length;
-            if (len == 1) {
-                var newNum = num + 0;
-                console.log(newNum);
-            }else{
-                var newNum = Number(num);
-            }
+            //var num = val + "";
+            // var len = num.split(".")[1].length;
+            // if (len == 1) {
+            //     var newNum = num + 0;
+            //     // console.log(newNum);
+            // }else{
+            //     var newNum = Number(num);
+            // }
 
-            // num.toFixed(3)获取的是字符串
-            // return Number(newNum);
-            return newNum;
+            // // num.toFixed(3)获取的是字符串
+            // // return Number(newNum);
+            return Number(val);
         }
     },
     watch: {
