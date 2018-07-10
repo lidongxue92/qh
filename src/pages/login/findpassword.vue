@@ -290,7 +290,6 @@ export default {
                     })
                     setTimeout(() => {
                         this.$vux.alert.hide()
-                        // this.sendCode()
                     }, 3000)
                 }
             }).catch((err) => {
