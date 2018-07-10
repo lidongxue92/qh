@@ -366,25 +366,25 @@ export default {
       sub(){
         if( this.checkLPsd() == true && this.checkLPsd1() == true){
             const url = myPub.URL+`/pwd/findPwd` ;
-                    var params = new URLSearchParams();
-                    params.append('phone',this.userPhone);
-                    params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
-                    params.append('smsCode',this.verifyCode);
-                    axios.post(url,params).then(res => {
-                        console.log(res);
-                        if (res.data.result == 200) {
-                            this.$vux.alert.show({
-                                content: res.data.resultMsg
-                            })
-                            setTimeout(() => {
-                                this.$vux.alert.hide();
-                                this.$router.push({path:"/login",query:{phone:this.userPhone}});
-                            }, 3000)
-                        }
-
-                    }).catch((err) => {
-                    console.log(err)
+            var params = new URLSearchParams();
+            params.append('phone',this.userPhone);
+            params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
+            params.append('smsCode',this.verifyCode);
+            axios.post(url,params).then(res => {
+                console.log(res);
+                if (res.data.result == 200) {
+                    this.$vux.alert.show({
+                        content: res.data.resultMsg
                     })
+                    setTimeout(() => {
+                        this.$vux.alert.hide();
+                        this.$router.push({path:"/login",query:{phone:this.userPhone}});
+                    }, 3000)
+                }
+
+            }).catch((err) => {
+                console.log(err)
+            })
           }
       }
 
