@@ -168,7 +168,7 @@ export default {
             $(".Conducttab").removeClass('active')
             this.pro('2','19',50)
             setTimeout(() => {
-              this.pro(2,19,this.totalCount)
+              this.pro1(2,19,this.totalCount)
             }, 500)
         },
         pro(status,a,i){
@@ -267,18 +267,6 @@ export default {
                       $(".Profit1").eq(i).css("display",'block')
                     }
                   });
-
-                  // 判断是否转让
-                    // $(".productProperty").each(function (i) {
-                    //   if ($(".productProperty").eq(i).text() == '1') {
-                    //     $(".Property").eq(i).css("opacity","1")
-                    //         $(".Property").eq(i).text('不可转让')
-                    //   }
-                    //   if ($(".productProperty").eq(i).text() == '2') {
-                    //     $(".Property").eq(i).css("opacity","1")
-                    //     $(".Property").eq(i).text('可转让')
-                    //   }
-                    // })
                     $(".actAnnual").each(function (s) {
                         if ($(".actAnnual").eq(s).text() == '+0%') {
                           $(".actAnnual").eq(s).css("display","none")
@@ -316,20 +304,211 @@ export default {
                       $(".Propagan").text('热销火爆 稳定收益')
                     };
 
-                    $(".LCopenLimit").each(function (i) {
-                        var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
-                        if (LCopenLimit != "" && LCopenLimit < 10000) {
-                            $(".LCopenLimit").eq(i).text(LCopenLimit);
-                            $(".danWei").eq(i).empty().append("元");
-                            var reg = /.*\..*/;
-                            if (reg.test(LCopenLimit) == true) {
-                                $(".danWei").eq(i).empty().append("万元");
-                            }
+                    for (var i = 0; i < this.datalist.length; i++) {
+                      // console.log(this.datalist[i].openLimit)
+                      if (this.datalist[i].openLimit / 10000 >= 1) {
+                        $(".LCopenLimit").eq(i+1).text(this.datalist[i].openLimit / 10000 +'万元')
+                      }else{
+                        $(".LCopenLimit").eq(i+1).text(this.datalist[i].openLimit+'元')
+                      }
+                    }
+
+
+                    // _this.datalist.each(function (i) {
+                    //  console.log(this.datalist[i].openLimit)
+                    // })
+                    // $(".LCopenLimit").each(function (i) {
+                    //     var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                    //     if (LCopenLimit != "" && LCopenLimit < 10000) {
+                    //         $(".LCopenLimit").eq(i).text(LCopenLimit);
+                    //         $(".danWei").eq(i).empty().append("元");
+                    //         var reg = /.*\..*/;
+                    //         if (reg.test(LCopenLimit) == true) {
+                    //             $(".danWei").eq(i).empty().append("万元");
+                    //         }
+                    //     }else{
+                    //         $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
+                    //         $(".danWei").eq(i).empty().append("万元")
+                    //     }
+                    // });
+                  }, 200);
+
+
+
+                }else if (data.result == '400') {
+                this.$vux.alert.show({
+                    title: '',
+                    content: data.resultMsg
+                })
+                setTimeout(() => {
+                    this.$vux.alert.hide()
+                    this.$router.push({path:"/login"})
+                }, 3000)
+            }
+          }).catch((err) => {
+              console.log(err);
+          });
+        },
+        pro1(status,a,i){
+          const _this = this
+          const url = myPub.URL+`/product/getProductList`;
+          var params = new URLSearchParams();
+          _this.$loading.show();
+          params.append('productType','14');
+          params.append('productSubType',a);
+          params.append('productProperty',status);
+          params.append('clientType','h5');
+          params.append('token',sessionStorage.token)
+          params.append('pageSize',i);
+          params.append('curPage','1');
+          axios.post(url,params).then(res => {
+            _this.$loading.hide();
+              console.log(res.data);
+              const data = res.data
+              if (data.result == '200') {
+                this.datalist = res.data.Product
+                this.totalCount = res.data.totalCount
+                console.log(this.totalCount);
+                setTimeout(() => {
+                  // 判断 固收 新手 转让 热销
+                  $(".Property").each(function (i,n) {
+                    if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '18') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
+                        $(".img span").eq(i).text('固收产品')
+                        $(".Slogan").eq(i).text('固定期限 省心理财')
+                        $(".Profit2").eq(i).css("display",'none')
+                        $(".Profit1").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '3') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao1@2x.png")
+                        $(".img span").eq(i).text('新手产品')
+                        $(".Slogan").eq(i).text('新手产品高预期收益')
+                        $(".Profit2").eq(i).css("display",'none')
+                        $(".Profit1").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '22') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                        $(".img span").eq(i).text('火爆产品')
+                        $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                        $(".Profit2").eq(i).css("display",'none')
+                        $(".Profit1").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '19') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
+                        $(".img span").eq(i).text('转让产品')
+                        $(".Slogan").eq(i).text('转让灵活 周转无忧')
+                        $(".Profit1").eq(i).css("display",'none')
+                        $(".Profit2").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '18') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('热销产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                    else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '3') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('热销产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                    else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '22') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('热销产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                    else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '19') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('热销产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                  });
+                    $(".actAnnual").each(function (s) {
+                        if ($(".actAnnual").eq(s).text() == '+0%') {
+                          $(".actAnnual").eq(s).css("display","none")
                         }else{
-                            $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
-                            $(".danWei").eq(i).empty().append("万元")
+                          $(".actAnnual").eq(s).css("display","inline-block")
                         }
+                      })
+                    $(".status").each(function (i,n) {
+                      if ($(".status").eq(i).text() == '3') {
+                          $(".status").eq(i).css({"opacity":"1"})
+                          $(".status").eq(i).text('')
+                          $(".bg-img").eq(i).css("display","none")
+                          $(".bg").eq(i).css("display","none")
+                      }
+                      if ($(".status").eq(i).text() == '4') {
+                          $(".status").eq(i).css({"opacity":"1","color":"#999"})
+                          $(".status").eq(i).text('')
+                          $(".bg-img").eq(i).css("display","block")
+                          $(".bg").eq(i).css("display","block")
+                      }
                     });
+                    if (this.datalist[0].productType == '3' && this.datalist[0].isHot == '0') {
+                      $(".Propagan").text('新手福利预期高收益')
+                    }
+                    if (this.datalist[0].productType == '18' && this.datalist[0].isHot == '0') {
+                      $(".Propagan").text('固定期限 省心理财')
+                    }
+                    if (this.datalist[0].productType == '22' && this.datalist[0].isHot == '0') {
+                      $(".Propagan").text('固定期限 省心理财')
+                    }
+                    if (this.datalist[0].productType == '19' && this.datalist[0].isHot == '0') {
+                      $(".Propagan").text('转让灵活 周转无忧')
+                    }
+                    if (this.datalist[0].isHot == '1') {
+                      $(".Propagan").text('热销火爆 稳定收益')
+                    };
+
+                    for (var i = 0; i < this.datalist.length; i++) {
+                      // console.log(this.datalist[i].openLimit)
+                      if (this.datalist[i].openLimit / 10000 >= 1) {
+                        $(".LCopenLimit").eq(i).text(this.datalist[i].openLimit / 10000 +'万元')
+                      }else{
+                        $(".LCopenLimit").eq(i).text(this.datalist[i].openLimit+'元')
+                      }
+                    }
+
+
+                    // _this.datalist.each(function (i) {
+                    //  console.log(this.datalist[i].openLimit)
+                    // })
+                    // $(".LCopenLimit").each(function (i) {
+                    //     var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                    //     if (LCopenLimit != "" && LCopenLimit < 10000) {
+                    //         $(".LCopenLimit").eq(i).text(LCopenLimit);
+                    //         $(".danWei").eq(i).empty().append("元");
+                    //         var reg = /.*\..*/;
+                    //         if (reg.test(LCopenLimit) == true) {
+                    //             $(".danWei").eq(i).empty().append("万元");
+                    //         }
+                    //     }else{
+                    //         $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
+                    //         $(".danWei").eq(i).empty().append("万元")
+                    //     }
+                    // });
                   }, 200);
 
 
