@@ -277,7 +277,7 @@ export default {
             }else{
                  this.$vux.alert.show({
                 title: '',
-                content: '密码由6~20位数字、字母或特殊符号组合'
+                content: '请输入正确的密码'
               })
               setTimeout(() => {
                   this.$vux.alert.hide()

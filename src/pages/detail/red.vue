@@ -227,7 +227,11 @@ export default {
         },
         close(){
             $(".bg").css('display',"none")
-            $(".toast").css('display',"none")
+            $(".toast").css('display',"none");
+            //页面禁止滚动（有效）
+            $(".bg").bind('touchmove',function (e){
+                e.preventDefault();
+            });
         },
         notes(){
             $(".bg").css('display',"block")
@@ -634,9 +638,25 @@ export default {
         padding-bottom: 1rem;
         background: #f6f6f6;
     }*/
-    .bg{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,.5);left: 0;top: 0;display: none;}
+    .bg{
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.5);
+        left: 0;
+        top: 0;
+        display: none;
+    }
     .toast{
-        position: absolute;width: 80%;margin-left: 10%;border-radius: 5px;overflow: hidden;background: #f6f6f6;top: 10%;display: none;
+        position: absolute;
+        width: 80%;
+        margin-left: 10%;
+        border-radius: 5px;
+        // overflow: hidden;
+        background: #f6f6f6;
+        top: 10%;
+        display: none;
+
         h5{font-size: 0.9rem;color: #fff;text-align: center;background: #2B9AFF;font-weight:normal;padding: 0.5rem 0.8rem;span{position: absolute;top: 0.2rem;right: 0.5rem;}}
         h6{
             font-weight: normal;font-size: 0.8rem;color: #333;padding: 0 0.8rem;margin-top: 1rem;
