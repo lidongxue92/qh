@@ -15,22 +15,31 @@
             <div class="middle">
                <ul class="productlist">
                     <li class="list" v-for="(item,index) in datalist" @click="linktoDetail(item.productId,item.qcdz)" v-view-lazy :key="index">
-                      <h5><span class="prodecttitle">{{item.productName}}</span><span style="position: relative;display: inline-block;">热销火爆 高收益</span><span class="Property">{{item.productType}}</span><p class="img">{{item.isHot}}</p></h5>
-                      <div>
-                          <p class="left">
-                              <span class="Profit Profit1">{{item.baseAnnualYield}}<b style="font-weight: normal;color: #FFA303">%<span class="actAnnual">+{{item.actAnnualYield}}%</span></b></span>
-                              <span class="Profit Profit2">{{item.baseAnnualYield}}<b style="font-weight: normal;">%-</b>{{item.actAnnualYield}}<b>%</b></span>
-                              <span>历史年化收益率</span>
-                          </p>
-                          <p class="right">
-                              <span class="day"><b>{{item.period}}</b>天</span>
-                              <span class="status">{{item.status}}</span>
-                              <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>
-                          </p>
-                      </div>
-                      <img class="bg-img" src="~@/assets/img/full.png">
-                      <div class="bg"></div>
-                    </li>
+                    <h5>
+                      <span class="prodecttitle">{{item.productName}}</span>
+                      <span class="Slogan" style="position: relative;display: inline-block;"></span>
+                      <span class="Property">{{item.productType}}</span>
+                      <p class="img">
+                        <b class="hot">{{item.isHot}}</b>
+                        <img src=""> <span></span>
+                      </p>
+                      <span class="productProperty" style="position: absolute;opacity: 0">{{item.productProperty}}</span>
+                    </h5>
+                    <div>
+                        <p class="left">
+                            <span class="Profit Profit1">{{item.baseAnnualYield}}<b style="font-weight: normal;color: #FFA303">%<span class="actAnnual">+{{item.actAnnualYield}}%</span></b></span>
+                            <span class="Profit Profit2">{{item.baseAnnualYield}}<b style="font-weight: normal;">%-</b>{{item.actAnnualYield}}<b>%</b></span>
+                            <span>历史年化收益率</span>
+                        </p>
+                        <p class="right">
+                            <span class="day"><b>{{item.period}}</b>天</span>
+                            <span class="status">{{item.status}}</span>
+                            <span class="Quota">剩余金额 <b class="LCopenLimit">{{item.openLimit}}</b><i class="danWei" style="font-style:normal"></i></span>
+                        </p>
+                    </div>
+                    <img class="bg-img" src="~@/assets/img/full.png">
+                    <div class="bg"></div>
+                  </li>
                </ul>
              <p class="note">理财有风险投资需谨慎 </p>
          </div>
@@ -90,6 +99,9 @@ export default {
         disQuestionList:[],//每次加载出来的新数据
         datalist:[],
         totalCount:'',　　//每次加载累加后的总数据
+        imgsrc1:"./static/img/icon_biao1@2x.png",
+        imgsrc2:"./static/img/icon_biao2@2x.png",
+        imgsrc3:"./static/img/icon_biao4@2x.png"
 　　　}
 　　},
     created() {
@@ -178,61 +190,95 @@ export default {
               if (data.result == '200') {
                 this.datalist = res.data.Product
                 this.totalCount = res.data.totalCount
-                // console.log(this.datalist[0])
                 console.log(this.totalCount);
                 setTimeout(() => {
-                    $(".img").each(function (b,n) {
-                      if ($(".img").eq(b).text() == '1') {
-                          $(".img").eq(b).css("opacity","1")
-                          $(".img").eq(b).addClass('img2')
-                          $(".img").eq(b).text('热销产品')
-                          $(".Propaganda").eq(b).text('热销火爆 稳定收益')
-                          $(".Profit2").eq(i).css("display",'none')
-                          $(".Profit1").eq(i).css("display",'block')
-                        }
-                      });
-                    $(".Property").each(function (i,n) {
-                        if ($(".Property").eq(i).text() == '18') {
-                            $(".Property").eq(i).css("opacity","1")
-                            $(".Property").eq(i).text('不可转让')
-                            $(".img").eq(i).css("opacity","1")
-                            $(".img").eq(i).addClass('img3')
-                            $(".img").eq(i).text('固收产品')
-                            $(".Propaganda").eq(i).text('固定期限 省心理财')
-                            $(".Profit2").eq(i).css("display",'none')
-                            $(".Profit1").eq(i).css("display",'block')
-                        }
-                        if ($(".Property").eq(i).text() == '3') {
-                            $(".Property").eq(i).css("opacity","1")
-                            $(".Property").eq(i).text('不可转让')
-                            $(".img").eq(i).css("opacity","1")
-                            $(".img").eq(i).addClass('img3')
-                            $(".img").eq(i).text('新手产品')
-                            $(".Propaganda").eq(i).text('新手产品高预期收益')
-                            $(".Profit2").eq(i).css("display",'none')
-                            $(".Profit1").eq(i).css("display",'block')
-                        }
-                        if ($(".Property").eq(i).text() == '22' ) {
-                            $(".Property").eq(i).css("opacity","1")
-                            $(".Property").eq(i).text('不可转让')
-                            $(".img").eq(i).css("opacity","1")
-                            $(".img").eq(i).addClass('img2')
-                            $(".img").eq(i).text('火爆产品')
-                            $(".Propaganda").eq(i).text('热销火爆 稳定收益')
-                            $(".Profit2").eq(i).css("display",'none')
-                            $(".Profit1").eq(i).css("display",'block')
-                        }
-                        if ($(".Property").eq(i).text() == '19') {
-                            $(".Property").eq(i).css("opacity","1")
-                            $(".Property").eq(i).text('可转让')
-                            $(".img").eq(i).css("opacity","1")
-                            $(".img").eq(i).addClass('img3')
-                            $(".img").eq(i).text('转让产品')
-                            $(".Propaganda").eq(i).text('转让灵活 周转无忧')
-                            $(".Profit1").eq(i).css("display",'none')
-                            $(".Profit2").eq(i).css("display",'block')
-                        }
-                      });
+                  // 判断 固收 新手 转让 热销
+                  $(".Property").each(function (i,n) {
+                    if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '18') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
+                        $(".img span").eq(i).text('固收产品')
+                        $(".Slogan").eq(i).text('固定期限 省心理财')
+                        $(".Profit2").eq(i).css("display",'none')
+                        $(".Profit1").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '3') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao1@2x.png")
+                        $(".img span").eq(i).text('新手产品')
+                        $(".Slogan").eq(i).text('新手产品高预期收益')
+                        $(".Profit2").eq(i).css("display",'none')
+                        $(".Profit1").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '22') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
+                        $(".img span").eq(i).text('固收产品')
+                        $(".Slogan").eq(i).text('固定期限 省心理财')
+                        $(".Profit2").eq(i).css("display",'none')
+                        $(".Profit1").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '19') {
+                        $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('可转让')
+                        $(".img").eq(i).css("opacity","1")
+                        $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
+                        $(".img span").eq(i).text('转让产品')
+                        $(".Slogan").eq(i).text('转让灵活 周转无忧')
+                        $(".Profit1").eq(i).css("display",'none')
+                        $(".Profit2").eq(i).css("display",'block')
+                    }else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '18') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('火爆产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                    else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '3') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('火爆产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                    else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '22') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('不可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('火爆产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                    else if ($(".hot").eq(i).text() == '1' && $(".Property").eq(i).text() == '19') {
+                      $(".Property").eq(i).css("opacity","1")
+                        $(".Property").eq(i).text('可转让')
+                      $(".img img").eq(i).attr("src","./static/img/icon_biao2@2x.png")
+                      $(".Slogan").eq(i).text('热销火爆 稳定收益')
+                      $(".img span").eq(i).text('火爆产品')
+                      $(".Profit2").eq(i).css("display",'none')
+                      $(".Profit1").eq(i).css("display",'block')
+                    }
+                  });
+
+                  // 判断是否转让
+                    // $(".productProperty").each(function (i) {
+                    //   if ($(".productProperty").eq(i).text() == '1') {
+                    //     $(".Property").eq(i).css("opacity","1")
+                    //         $(".Property").eq(i).text('不可转让')
+                    //   }
+                    //   if ($(".productProperty").eq(i).text() == '2') {
+                    //     $(".Property").eq(i).css("opacity","1")
+                    //     $(".Property").eq(i).text('可转让')
+                    //   }
+                    // })
                     $(".actAnnual").each(function (s) {
                         if ($(".actAnnual").eq(s).text() == '+0%') {
                           $(".actAnnual").eq(s).css("display","none")
@@ -371,7 +417,7 @@ export default {
             text-align: center;font-size: 0.8rem;line-height: 30px;color: #999;
             b{font-weight: normal;font-size: 0.9rem;color: #333}
           }
-          .Property{position: absolute;opacity: 0}
+          .Property{position: absolute;opacity:1}
           .Profit{font-size:3rem;color: #FFA303;font-weight: 600;margin-top: 1rem;margin-bottom: 1rem;}
           .button{display: inline-block;width: 80%;line-height: 40px;height: 40px;border: 0;border-radius: 30px;background: #2773FF;color: #fff;margin-top: 10px;margin-left: 10%;}
         }
@@ -397,7 +443,9 @@ export default {
                       }
                     .Property{line-height: 1rem;padding:0 0.2rem;border: 1px solid #FFA303;border-radius: 30px;color:#FFA303;opacity: 0;position: absolute;right: 5.1rem;top: 0.3rem;}
                     .img{
-                        float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;position: absolute;opacity: 0;right: 0;
+                        float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;position: absolute;opacity: 1;right: 0;
+                        img{width: 5rem;height: 1.8rem;position: absolute;top: 0;left: 0;}
+                        span{position: absolute;z-index: 11;color: #fff;left: 1rem;}
                     }
                     .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                     .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}
@@ -458,9 +506,6 @@ export default {
                     .img{
                         float: right;display: inline-block;width: 5rem;height:1.8rem;color: #fff;text-align: center;line-height:1.8rem;font-size: 0.6rem;position: absolute;opacity: 0;right: 0;
                     }
-                    .img1{background: url(~@/assets/img/icon_biao1@2x.png);background-size: 100% ;background-repeat: no-repeat;}
-                    .img2{background: url(~@/assets/img/icon_biao2@2x.png);background-size: 100% ;background-repeat: no-repeat;}
-                    .img3{background: url(~@/assets/img/icon_biao4@2x.png);background-size: 100% ;background-repeat: no-repeat;}
                 }
                 .left{
                     display: inline-block;width: 48%;border-right: 1px solid #eee;margin-top: 1rem;text-align: left;font-size: 0.6rem;color: #999;
