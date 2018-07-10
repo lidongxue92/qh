@@ -315,20 +315,24 @@ export default {
                     if (this.datalist[0].isHot == '1') {
                       $(".Propagan").text('热销火爆 稳定收益')
                     };
-                  }, 200);
 
-                $(".LCopenLimit").each(function (i) {
-                    var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
-                    if (LCopenLimit != "" && LCopenLimit < 10000) {
-                        $(".LCopenLimit").eq(i).text(LCopenLimit);
-                        $(".danWei").eq(i).empty().append("元")
-                    }else{
-                        if (LCopenLimit >= 10000) {
+                    $(".LCopenLimit").each(function (i) {
+                        var LCopenLimit = Number($(".LCopenLimit").eq(i).text());
+                        if (LCopenLimit != "" && LCopenLimit < 10000) {
+                            $(".LCopenLimit").eq(i).text(LCopenLimit);
+                            $(".danWei").eq(i).empty().append("元");
+                            var reg = /.*\..*/;
+                            if (reg.test(LCopenLimit) == true) {
+                                $(".danWei").eq(i).empty().append("万元");
+                            }
+                        }else{
                             $(".LCopenLimit").eq(i).text(Number($(".LCopenLimit").eq(i).text())/10000);
                             $(".danWei").eq(i).empty().append("万元")
                         }
-                    }
-                });
+                    });
+                  }, 200);
+
+
 
                 }else if (data.result == '400') {
                 this.$vux.alert.show({
