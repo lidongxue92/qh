@@ -50,7 +50,7 @@
                     </span>
                     <span class="fr">
                         到帐日
-                        <b>{{dzr}}</b>
+                        <b>{{product.dzr}}</b>
                     </span>
                 </p>
                 <p v-if="isshow3" class="full"><img src="~@/assets/img/clock.png">&emsp;满标计息</p>
@@ -557,6 +557,7 @@ export default {
       // 开户
       go(){
          const url = myPub.URL+`/chinaPnr/userRegister`;
+         const _this = this
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('clientType','h5');
@@ -588,14 +589,12 @@ export default {
       // 产品数据
       productdata(){
           const _this = this
-          _this.$loading.show();
           const id = this.$route.query.id
           const url = myPub.URL+`/product/getProductDetail` ;
           const params = new URLSearchParams();
           params.append('productId',id);
           params.append('token',sessionStorage.token);
           axios.post(url,params).then(response => {
-            _this.$loading.hide();
             const data = response.data
             console.log(data)
             if (data.result == '400') {
@@ -702,7 +701,7 @@ export default {
             const id = this.id
             const orderMoney = this.money
             const proPeriod = this.day
-            console.log
+            const _this = this
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('proPeriod',id);

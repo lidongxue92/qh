@@ -3,7 +3,7 @@
     <topComponent title='发现' :showLeft='false'></topComponent>
       <ul>
         <li >
-          <a  class="res" @click="res">
+          <a  class="res" @click="yao">
             <img src="../../assets/img/find/zhuCeSongLi.png" alt="" srcset="">
             <p>注册送礼</p>
           </a>
@@ -55,7 +55,7 @@ export default {
   },
   methods:{
     // 判断token
-    token(){
+    Token(){
         if (!sessionStorage.token) {
           this.$vux.alert.show({
               title: '',
@@ -69,28 +69,28 @@ export default {
     },
     yao(){
       const token = sessionStorage.token
-      window.location.href='../active/yaoQing.html?token=' + token;
+      window.location.href='http://h5.qihangjf.com/zhuCeSongLi.html?token=' + token;
     },
     fen(){
       const token = sessionStorage.token
-      window.location.href='../active/fengKong.html?token=' + token;
+      window.location.href='http://h5.qihangjf.com/fengKong.html?token=' + token;
     },
     ten(){
       const token = sessionStorage.token
-      window.location.href='../active/TenHaoLi.html?token=' + token;
+      window.location.href='http://h5.qihangjf.com/yaoQing.html?token=' + token;
     },
     trip(){
       const token = sessionStorage.token
-      window.location.href='../active/zhaocha?token=' + token;
+      window.location.href='http://h5.qihangjf.com/zhaocha.html?token=' + token;
     },
     zhao(){
       const token = sessionStorage.token
-      window.location.href='../active/tripleGifts?token=' + token;
+      window.location.href='http://h5.qihangjf.com/tripleGifts.html?token=' + token;
     }
   },
 
   mounted(){
-    this.token()
+    this.Token()
   }
 }
 </script>

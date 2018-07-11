@@ -44,12 +44,15 @@ export default {
     created(){
         // 常见问题
             const url = myPub.URL+`/question/getQuestionList`;
+            const _this = this
+            _this.$loading.show();
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('curPage',1);
             params.append('pageSize',10);
 
             axios.post(url,params).then(res => {
+                _this.$loading.hide()
                 // console.log(res);
                 this.number = res.data.totalCount;
                 if (res.data.result == 200) {

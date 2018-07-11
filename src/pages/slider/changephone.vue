@@ -137,6 +137,8 @@ export default {
             // console.log(this.checkLPhone());
               if (this.checkLPhone() == true) {
                 const url = myPub.URL+`/user/updateUserPhone` ;
+                const _this = this
+                _this.$loading.show();
                 var params = new URLSearchParams();
                 params.append('token',sessionStorage.token);
                 params.append('phone',this.userPhone);
@@ -144,6 +146,7 @@ export default {
 
                 axios.post(url,params).then(res => {
                         console.log(res);
+                        _this.$loading.hide()
 
                         if (res.data.result == 400) {
                             this.$vux.alert.show({

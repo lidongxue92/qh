@@ -235,7 +235,7 @@ export default {
         margin-top: 0.5rem;
         background: #f6f6f6;height:100%;
         .nodata{
-            text-align: center;
+            text-align: center;min-height: 35rem;
             img{margin-top: 3rem;width: 4.2rem;height: 4.5rem;}
             p{font-size: 0.8rem;color: #999;line-height:1rem;margin-top: 0.8rem;}
             .button{width: 10rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border: 0;border-radius: 30px;line-height: 2.2rem;height: 2.2rem;color: #fff;font-size: 0.9rem;margin-top: 2rem;}

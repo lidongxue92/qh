@@ -194,9 +194,12 @@ export default {
               $(".login_content1 span:eq(0)").addClass("disappear")
 
                 const url = myPub.URL+`/check/checkPhone` ;
+                const _this = this
+                _this.$loading.show();
                 var params = new URLSearchParams();
                 params.append('phone',this.userPhone);;
                 axios.post(url,params).then(response => {
+                  _this.$loading.hide()
                     console.log(response)
                     if (response.data.result == '302') {
                         this.$vux.alert.show({
@@ -375,13 +378,17 @@ export default {
       sub(){
         if( this.checkLPsd() == true && this.checkLPsd1() == true){
             const url = myPub.URL+`/pwd/findPwd` ;
+            const _this = this
+            _this.$loading.show();
             var params = new URLSearchParams();
             params.append('phone',this.userPhone);
             params.append('password',Base64.encode(this.newUserPwd1,'utf-8'));
             params.append('smsCode',this.verifyCode);
             axios.post(url,params).then(res => {
+            _this.$loading.hide()
                 console.log(res);
                 if (res.data.result == 200) {
+                  
                     this.$vux.alert.show({
                         content: res.data.resultMsg
                     })

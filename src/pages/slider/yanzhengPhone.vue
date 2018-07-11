@@ -141,10 +141,13 @@ export default {
         },
         check(){
             const url = myPub.URL+`/three/checkSmsCode`;
+            const _this = this
+            _this.$loading.show();
             var params = new URLSearchParams();
             params.append('phone',sessionStorage.userPhonem);
             params.append('smsCode',this.smsCode);
             axios.post(url,params).then(res => {
+                _this.$loading.hide()
                 console.log(res);
                 if (res.data.result == 200) {
                     const url = myPub.URL+`/three/checkSmsCode`;

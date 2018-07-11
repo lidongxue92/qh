@@ -43,11 +43,14 @@ export default {
     },
     created() {
         const url = myPub.URL+`/product/getProductBuyRecords`;
+        const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         const id = this.$route.query.id
         params.append('productId',id);
         params.append('curPage',this.currPage);
         axios.post(url,params).then(res => {
+            _this.$loading.hide()
             // console.log(res);
             this.Data = res.data.Record;
             this.currPage = res.data.currPage;

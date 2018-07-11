@@ -47,11 +47,14 @@ export default {
     created() {
         //用户银行卡信息
         const url = myPub.URL+`/bankCard/getUserBankCardList`;
+        const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         params.append('token',sessionStorage.token);
 
         axios.post(url,params).then(res => {
-            // console.log(res.data);
+            _this.$loading.hide()
+            console.log(res.data);
 
             if (res.data.result == 200 && res.data.BankCard.length > 0) {
                 console.log(res.data.BankCard[0]);

@@ -138,7 +138,8 @@ export default {
           $(".bg").css("display","none")
           $(".tost").css("display","none");
 
-            const _this = this;
+            const _this = this
+             _this.$loading.show();
             const url = myPub.URL+`/user/getUserTransferProduct` ;
             const params = new URLSearchParams();
             params.append('token',sessionStorage.token);

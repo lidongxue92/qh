@@ -115,12 +115,15 @@ export default {
             if (this.checkLPsd() == true && this.checkLPsd1() == true && this.pwd == this.surePwd) {
                 $(".button").css("opacity"," 1");
                 const url = myPub.URL+`/pwd/updateUserLoginPwd` ;
+                const _this = this
+                _this.$loading.show();
                 const surePwd = Base64.encode(this.surePwd,'utf-8');
 
                 var params = new URLSearchParams();
                 params.append('token',sessionStorage.token);
                 params.append('newPwd',surePwd);
                 axios.post(url,params).then(res => {
+                    _this.$loading.hide()
                         // console.log(res);
                         if (res.data.result == 200) {
                             this.$vux.alert.show({

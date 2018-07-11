@@ -160,9 +160,11 @@ export default {
             const url = myPub.URL+`/user/getUserInfo`;
             const transMoney = this.transMoney
             const _this = this
+            _this.$loading.show();
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             axios.post(url,params).then(res => {
+                _this.$loading.hide()
                 console.log(res.data);
                 if (res.data.result == '400') {
                   this.$vux.alert.show({

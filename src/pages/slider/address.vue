@@ -55,10 +55,13 @@ export default {
     },
     created() {
         const url = myPub.URL+`/user/getUserInfo`;
+        const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
 
         axios.post(url,params).then(res => {
+            _this.$loading.hide()
             // console.log(res.data);
             if (res.data.User.address != "") {
                 this.address = res.data.User.address;
@@ -90,12 +93,15 @@ export default {
         submitAddress(){
             if (this.addressVal != "") {
                 const url = myPub.URL+`/user/saveAddress`;
+                const _this = this
+                _this.$loading.show();
                 var params = new URLSearchParams();
                 params.append('token',sessionStorage.getItem("token"));
                 // params.append('type',2);
                 params.append('address',this.addressVal);
 
                 axios.post(url,params).then(res => {
+                    _this.$loading.hide()
                     console.log(res.data);
                     if (res.data.result == 200) {
                         setTimeout(() => {

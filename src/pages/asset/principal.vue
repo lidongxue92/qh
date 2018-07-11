@@ -32,7 +32,7 @@
         <div class="Data" v-else>
             <ul class="datalist">
                 <li @click="assetdetail(item.orderId)"  v-for="(item,index) in Product" v-view-lazy :key="index">
-                    <h5>{{item.productName}}<span><b class="isFull" style="display:none; font-weight:normal">预计满标：</b> {{item.qxr}}</span></h5>
+                    <h5>{{item.productName}}<span><b class="isFull" style="display:none; font-weight:normal">预计满标：</b> {{item.orderBuyTime}}</span></h5>
                     <p class="left">
                         <span class="big">{{item.investMoney}}</span>
                         <span>投资金额(元)</span>
@@ -77,11 +77,14 @@ export default {
 　　  }
 　　},
     created() {
-        this.lczc = this.$route.query.lazc;
+            this.lczc = this.$route.query.lazc;
           const url = myPub.URL+`/user/getAccountOverview` ;
+          const _this = this
+        _this.$loading.show();
           const params = new URLSearchParams();
           params.append('token',sessionStorage.token);
           axios.post(url,params).then(res => {
+            _this.$loading.hide()
                this.Account = res.data.Account;
                 // console.log(res);
                 if (res.data.result == '400') {
@@ -165,9 +168,7 @@ export default {
                     }else{
                         console.log(this.totalCount)
                         const url1 = myPub.URL+`/user/getUserAssetsList` ;
-                        const _this = this
                         const params1 = new URLSearchParams();
-                        _this.$loading.show();
                         params1.append('token',sessionStorage.token);
                         params1.append('curPage',1);
                         params1.append('pageSize',this.totalCount);
@@ -177,7 +178,6 @@ export default {
                         params1.append('orderType','0,1');
                         axios.post(url1,params1).then(res => {
                             console.log(res);
-                             _this.$loading.hide();
                            if (res.data.result == 200) {
                                 this.totalCount = res.data.totalCount
                                 this.Product = res.data.Product

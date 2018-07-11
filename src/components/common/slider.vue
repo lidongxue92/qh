@@ -20,7 +20,7 @@
                 <h6>理财卡</h6>
                 <p>未绑卡</p>
               </div>
-              <div v-else @click="linkToBankCard">
+              <div v-if="!isCard" @click="linkToBankCard1">
                 <h6>理财卡</h6>
                 <p>已绑卡</p>
               </div>
@@ -43,11 +43,10 @@
       <!-- 侧栏菜单项 -->
       <div class="sliderMain">
         <ul>
-          <li @click="linkToKaiHu" v-if="isReg">
+          <li class="1" @click="linkToKaiHu" v-if="isReg">
             <img src="../../assets/img/sliderBox/slider1.png">
             <span>托管账户<b>(未开通)</b></span>
           </li>
-
           <li @click="linkToMsg" v-else>
             <img src="../../assets/img/sliderBox/slider1.png">
             <span>托管账户<b>(已开通)</b></span>
@@ -125,7 +124,7 @@
 		<input type='text' name='MerCustId' :value='cardMerCustId'>
 		<input type='text' name='UsrCustId' :value='cardUsrCustId'>
 		<input type='text' name='BgRetUrl' :value='cardBgRetUrl'>
-        <input type='text' name='MerPriv' :value='cardMerPriv'>
+        <!-- <input type='text' name='MerPriv' :value='cardMerPriv'> -->
 		<input type='text' name='PageType' :value='cardPageType'>
 		<input type='text' name='ChkValue' :value='cardChkValue'>
 	</form>
@@ -146,6 +145,7 @@ export default {
             isShow: false,
             isName:false,
             isReg:true,
+            isReg1:false,
             isCard:true,
             isTest:true,
             name:"未实名",
@@ -244,6 +244,11 @@ export default {
             }
             if (res.data.User.realNameStatus == 2) {
                 this.isReg = false
+            }
+            if (res.data.User.chinaPnrAcc != '') {
+                this.isCard = false
+            }else{
+                this.isCard = true
             }
 
 
@@ -390,7 +395,7 @@ export default {
             this.isShow = true
           }
         },
-        linkToBankCard(){
+        linkToBankCard1(){
             if (!sessionStorage.token) {
                 this.$vux.alert.show({
                     title: '',
@@ -433,21 +438,24 @@ export default {
 
                             axios.post(url,params).then(res => {
                                 console.log(res.data);
-                                this.cardChinaPnrServer = res.data.chinaPnrServer;
-                                this.cardVersion = res.data.Version; //版本号
-                                this.cardCmdId = res.data.CmdId; //消息信息
-                                this.cardMerCustId = res.data.MerCustId; //商户客户号
-                                this.cardBgRetUrl = res.data.BgRetUrl; //商户后台应地址
-                                this.cardUsrId = res.data.UsrCustId; //用户客户号
-                                this.cardMerPriv = res.data.MerPriv;//商户私有域
-                                this.cardPageType = res.data.PageType; //页面类型
-                                this.cardChkValue = res.data.ChkValue; //签名
+                                setTimeout(() => {
+                                    this.cardChinaPnrServer = res.data.chinaPnrServer;
+                                    this.cardVersion = res.data.Version; //版本号
+                                    this.cardCmdId  = res.data.CmdId; //消息信息
+                                    this.cardMerCustId = res.data.MerCustId; //商户客户号
+                                    this.cardBgRetUrl = res.data.BgRetUrl; //商户后台应地址
+                                    this.cardUsrCustId = res.data.UsrCustId; //用户客户号
+                                    // this.cardMerPriv = res.data.MerPriv;//商户私有域
+                                    this.cardPageType = res.data.PageType; //页面类型
+                                    this.cardChkValue = res.data.ChkValue; //签名
+                                }, 500)
+                                
 
                                 if(res.data.result == 200){
                                     //提交from表单
                                     setTimeout(() => {
                                         document.bangkaSubmit.submit();
-                                    }, 1000)
+                                    }, 500)
 
                                 }
                             }).catch((err) => {

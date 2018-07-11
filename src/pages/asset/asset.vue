@@ -347,12 +347,14 @@ export default {
       // 消息
       msg(){
         const _this = this
+        _this.$loading.show();
         const url = myPub.URL+`/msg/getMessageList` ;
         const params = new URLSearchParams();
         params.append('token',sessionStorage.token);
         params.append('pageSize','10');
         params.append('curPagel','1');
         axios.post(url,params).then(response => {
+          _this.$loading.hide()
           const data = response.data;
           if (data.unReadNum == 0) {
               this.imgMsg ='./static/img/xiaoXi.png';

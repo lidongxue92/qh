@@ -11,11 +11,11 @@
                 <img src="~@/assets/img/no_data.png">
                 <p>亲，抱歉哦！您暂无可用红包或加息券</p>
                 <p>快去小航的发现中心逛逛吧!</p>
-                <button class="button" @click="data">去逛逛</button>
+                <button class="button" @click="category">去逛逛</button>
             </div>
             <!-- 红包 -->
             <div class="Data" v-if='isshow2'>
-                <p class="no"  @click="Detail">不使用红包卡券</p>
+                <p class="no"  @click="Detail" v-if="is_show1">不使用红包卡券</p>
                 <ul class="list">
                     <!-- <li>
                         <p class="title">新手红包</p>
@@ -79,7 +79,7 @@
             </div>
             <!-- 加息券 -->
             <div class="page" v-if="isshow5">
-                <p class="no" @click="Detail">不使用红包卡券</p>
+                <p class="no" @click="Detail" v-if="is_show2">不使用红包卡券</p>
                 <ul class="list">
                     <!-- <li>
                         <p class="title">新手红包</p>
@@ -144,8 +144,8 @@
                 </ul>
             </div>
         </div>
-        <p class="notes" v-if='isshow2' @click="history">查看历史红包</p>
-        <p class="notes" v-if='isshow5' @click="history1">查看历史加息券</p>
+        <p class="notes" v-if='isshow8' @click="history">查看历史红包</p>
+        <p class="notes" v-if='isshow9' @click="history1">查看历史加息券</p>
         <div class="bg"></div>
         <div class="toast">
             <h5>红包加息券使用说明<span @click="close">&Chi;</span></h5>
@@ -187,21 +187,42 @@ export default {
             isshow5:false,
             isshow6:false,
             id:'',
-            isshow7:true
+            isshow7:true,
+            isshow8:false,
+            isshow9:false,
+            is_show1:false,
+            is_show2:false,
         }
     },
     computed: {
     },
     mounted () {
     },
-    created() {},
+    created() {
+        const proPeriod = this.$route.query.proPeriod
+        if (proPeriod) {
+            this.is_show1 = true;
+            this.is_show2 = true
+        }else{
+            this.is_show1 = false;
+            this.is_show2 = false
+        }
+    },
     activated() {
+        const proPeriod = this.$route.query.proPeriod
+        if (proPeriod) {
+            this.is_show1 = true;
+            this.is_show2 = true
+        }else{
+            this.is_show1 = false;
+            this.is_show2 = false
+        }
         const status = '3'
         this.welfare(status)
     },
     methods: {
-        data() {
-            this.$router.push({ path: '/page/data' })
+        category(){
+            this.$router.push({ path: '/category' })
         },
         red(){
             const _this = this
@@ -222,7 +243,7 @@ export default {
             this.isshow3 = false
             this.isshow4 = false
             this.isshow5 = true
-            this.isshow6 = false,
+            this.isshow6 = false
             this.addwelfare('3')
         },
         close(){
@@ -239,21 +260,21 @@ export default {
         },
         history(){
             const _this = this
+            this.welfare('1,2,4,5')
             this.isshow2 = false
             this.isshow3 = true
             this.isshow4 = false
             this.isshow5 = false
             this.isshow6 = false
-            this.welfare('1,2,4,5')
         },
         history1(){
             const _this = this
+            this.addwelfare('1,2,4,5')
             this.isshow2 = false
             this.isshow3 = false
             this.isshow4 = false
             this.isshow5 = false
-            this.isshow6 = true,
-            this.addwelfare('1,2,4,5')
+            this.isshow6 = true
         },
         // 红包数据
         welfare(status){
@@ -288,6 +309,25 @@ export default {
                 if(res.data.result == '200'){
                     this.product = res.data.RedPacket
                     this.id = this.product.welfareId
+                    if (this.product.length == '0') {
+                        this.isshow1 = true
+                        this.isshow2 = false
+                        this.isshow8 = true
+                        this.isshow9 = false
+                    }else if (this.product.length > '0' &&  this.isshow3 == true) {
+                        this.isshow1 = false
+                        this.isshow2 = false
+                        this.isshow3 = true
+                        this.isshow4 = false
+                        this.isshow5 = false
+                        this.isshow6 = false
+                        this.isshow8 = false
+                    }else{
+                        this.isshow1 = false
+                        this.isshow2 = true
+                        this.isshow8 = true
+                        this.isshow9 = false
+                    }
                     setTimeout(() => {
                         $(".status").each(function (i,n) {
                             if ($(".status").eq(i).text() == '1') {
@@ -353,6 +393,26 @@ export default {
                 if(res.data.result == '200'){
                     this.addpro = res.data.Increase
                     this.id = this.addpro.welfareId
+                    if (this.addpro.length == '0') {
+                        this.isshow1 = true
+                        this.isshow5 = false
+                        this.isshow9 = true
+                        this.isshow8 = false
+                    }else if (this.addpro > '0' &&  this.isshow6 == true) {
+                        this.isshow1 = false
+                        this.isshow2 = false
+                        this.isshow3 = false
+                        this.isshow4 = false
+                        this.isshow5 = false
+                        this.isshow6 = true
+                        this.isshow9 = false
+                        this.isshow8 = false
+                    }else{
+                        this.isshow1 = false
+                        this.isshow5 = true
+                        this.isshow9 = true
+                        this.isshow8 = false
+                    }
                     setTimeout(() => {
                         $(".status").each(function (i,n) {
                             if ($(".status").eq(i).text() == '1') {
@@ -471,7 +531,7 @@ export default {
     }
     .middle{
         .nodata{
-            text-align: center;
+            text-align: center;min-height: 35rem;
             img{margin-top: 3rem;width: 4.2rem;height: 4.5rem;}
             p{font-size: 0.8rem;color: #999;line-height:1rem;margin-top: 0.5rem;}
             .button{width: 10rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border: 0;border-radius: 30px;line-height: 2.2rem;height: 2.2rem;color: #fff;font-size: 0.9rem;margin-top: 1.2rem;}
@@ -536,7 +596,7 @@ export default {
                     .note{
                         font-size: 0.6rem;color: #333;padding: 0;margin-top:1.5rem;position: relative;display: block;position: relative;
                         .status{opacity: 0;position: absolute;}
-                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #F0463D;color: #F0463D;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
+                        .button{display: inline-block;float: right;width: 4.5rem;height: 1.4rem;border-radius: 30px;border: 1px solid #999;color: #999;text-align: center;line-height: 1.4rem;position: absolute;right: 1rem;top: 0;}
                     }
                 }
                 @media screen and (max-width: 320px) {
@@ -634,7 +694,7 @@ export default {
         }
     }
     .titlenote{position: absolute;top: 0.8rem;right: 0.5rem;color: #fff;font-size: 0.8rem;}
-    .notes{font-size: 0.7rem;color: #FFA303;text-align: center;position:relative;top: 1rem;width: 100%;padding-bottom: 1rem;}
+    .notes{font-size: 0.7rem;color: #FFA303;text-align: center;position:relative;top: 1rem;width: 100%;padding-bottom: 3rem;}
     /*.notes{
         font-size: 0.7rem;
         color: #FFA303;

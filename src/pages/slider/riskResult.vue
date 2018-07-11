@@ -40,10 +40,13 @@ export default {
     created() {
         //获取测试结果
         const url1 = myPub.URL+`/user/getInvestTestResult`;
+        const _this = this
+        _this.$loading.show();
         var params1 = new URLSearchParams();
         params1.append('token',sessionStorage.getItem("token"));
 
         axios.post(url1,params1).then(res => {
+            _this.$loading.hide()
             // console.log(res.data);
             // console.log(res.data.investTestResult);
             if (res.data.investTestResult != undefined || res.data.investTestResult != 0 || res.data.investTestResult != "0") {

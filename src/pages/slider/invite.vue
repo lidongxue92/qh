@@ -50,11 +50,14 @@ export default {
 
         // 邀请图片
         const url1 = myPub.URL+`/front/getAdvList`;
+        const _this = this
+        _this.$loading.show();
         var params1 = new URLSearchParams();
         params1.append('adType','1');
         params1.append('adPosition','11');
         params1.append('adPort','h5');
         axios.post(url1,params1).then(res => {
+            _this.$loading.hide()
             console.log(res);
             if (res.data.Advertise[0] != "") {
                 this.adLink = res.data.Advertise[0].adLink;

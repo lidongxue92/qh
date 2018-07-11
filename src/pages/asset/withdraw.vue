@@ -114,12 +114,15 @@ export default {
         },
         withdraw(){
             const url = myPub.URL+`/chinaPnr/userCash`;
+            const _this = this
+            _this.$loading.show();
             const transMoney = this.transMoney
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('clientType','h5');
             params.append('transMoney',transMoney);
             axios.post(url,params).then(res => {
+                _this.$loading.hide()
                 console.log(res.data);
                 if (res.data.result == '400') {
                   this.$vux.alert.show({

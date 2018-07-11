@@ -53,12 +53,15 @@ export default {
     created() {
         // 查询邀请列表数据
         const url = myPub.URL+`/invite/getMyInviteList`;
+        const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
         params.append('curPage',this.currPage);
         params.append('pageSize',this.pageSize);
 
         axios.post(url,params).then(res => {
+            _this.$loading.hide()
             console.log(res.data);
             this.pageSize = res.data.totalCount;
             setTimeout(() => {

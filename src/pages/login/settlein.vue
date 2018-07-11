@@ -367,9 +367,12 @@ export default {
       next1(){
         if((this.checkLPhone() ==true && this.checkLpicma() == true)){
           const url = myPub.URL+`/check/checkPhone` ;
+          const _this = this
+          _this.$loading.show();
           var params = new URLSearchParams();
           params.append('phone',this.phoneNumber);;
            axios.post(url,params).then(response => {
+            _this.$loading.hide()
               console.log(response)
               if (response.data.result == '302') {
                 $(".img3").css("display","none");
@@ -480,10 +483,13 @@ export default {
       // 验证手机验证码
       checkSmsCode(){
         const url = myPub.URL+`/three/checkSmsCode` ;
+        const _this = this
+        _this.$loading.show();
           var params = new URLSearchParams();
           params.append('phone',this.phoneNumber);
           params.append('smsCode',this.verifyCode);
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
                 console.log(response)
                 if (response.data.result == 200) {
                   this.register()
@@ -515,6 +521,8 @@ export default {
             }
             if( this.checkLPsd() == true && this.check() == true){
                 const url = myPub.URL+`/reg/register`;
+                const _this = this
+              _this.$loading.show();
                 const pwd = Base64.encode(this.LUserPsd,'utf-8')
                 var params = new URLSearchParams();
                 params.append('phone',this.phoneNumber);
@@ -524,6 +532,7 @@ export default {
                 params.append('reqPwd',pwd);
                 params.append('invitationCode',this.invitationCode);
                 axios.post(url,params).then(response => {
+                  _this.$loading.hide()
                     console.log(response.data)
                     const data = response.data
                     if (data.result == '200') {
@@ -579,10 +588,13 @@ export default {
         // 三方开户
         kaiHu(){
           const url = myPub.URL+`/chinaPnr/userRegister`;
+          const _this = this
+         _this.$loading.show();
           var params = new URLSearchParams();
           params.append('token',sessionStorage.getItem("token"));
           params.append('clientType','h5');
           axios.post(url,params).then(res => {
+            _this.$loading.hide()
               console.log(res.data);
                   this.ChinaPnrServer = res.data.chinaPnrServer;
                   this.Version = res.data.Version; //版本号

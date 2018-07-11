@@ -70,7 +70,7 @@
                     </div>
                 </li>
                 <li v-for="(item,index) in list"  @click="linkToDetail(item.productId,item.qcdz)" :key="index">
-                   <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>固定期限 省心理财</span><span class="status">{{item.productProperty}}</span><span class="img img3">固收产品</span></h5>
+                   <h5><sapn class="prodecttitle">{{item.productName}}</sapn><span>固定期限 稳定投资</span><span class="status">{{item.productProperty}}</span><span class="img img3">固收产品</span></h5>
                     <div>
                         <p class="left">
                             <span class="Profit">{{item.baseAnnualYield}}<b>%<span class="actAnnua">+{{item.actAnnualYield}}%</span></b></span>
@@ -322,8 +322,10 @@ export default {
         // 首页活动接口
         active(){
           const _this = this
+         _this.$loading.show();
           const url = myPub.URL+`/activity/getActivity` ;
           axios.post(url).then(response => {
+            _this.$loading.hide()
             const data = response.data;
               console.log(data);
 
@@ -362,12 +364,14 @@ export default {
         // 消息接口
         msg(){
           const _this = this
+            _this.$loading.show();
           const url = myPub.URL+`/msg/getMessageList` ;
           const params = new URLSearchParams();
           params.append('token',sessionStorage.token);
           params.append('pageSize','10');
           params.append('curPagel','1');
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
             const data = response.data
             if (data.unReadNum == '0') {
                 this.isshow3 = false
@@ -382,10 +386,12 @@ export default {
         // 公告
         Notice(){
           const _this = this
+            _this.$loading.show();
           const url = myPub.URL+`/index/getInfoManageList` ;
           const params = new URLSearchParams();
           params.append('imType','2');
           axios.post(url,params).then(response => {
+            _this.$loading.hide()
             const data = response.data
             this.items = data.InfoManage;
 

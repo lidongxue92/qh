@@ -78,11 +78,14 @@ export default {
     created () {
         // 开户
         const url = myPub.URL+`/chinaPnr/userRegister`;
+        const _this = this
+        _this.$loading.show();
         var params = new URLSearchParams();
         params.append('token',sessionStorage.getItem("token"));
         params.append('clientType','h5');
 
         axios.post(url,params).then(res => {
+            _this.$loading.hide()
             // console.log(res.data);
             this.ChinaPnrServer = res.data.chinaPnrServer;
             this.Version = res.data.Version; //版本号
@@ -118,11 +121,14 @@ export default {
         nameset() {
             // 开户
             const url = myPub.URL+`/chinaPnr/userRegister`;
+            const _this = this
+            _this.$loading.show();
             var params = new URLSearchParams();
             params.append('token',sessionStorage.getItem("token"));
             params.append('clientType','h5');
 
             axios.post(url,params).then(res => {
+                _this.$loading.hide()
                 // console.log(res.data);
                 this.ChinaPnrServer = res.data.chinaPnrServer;
                 this.Version = res.data.Version; //版本号

@@ -398,6 +398,8 @@ export default {
         Login(){
             if((this.checkLPhone() ==true && this.checkLPsd() == true)){
                 //登陆
+                const _this = this
+                _this.$loading.show();
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
                 var params = new URLSearchParams();
@@ -407,6 +409,7 @@ export default {
                 params.append('clientType','h5');
                 axios.post(url,params).then(res => {
                     console.log(res.data);
+                    _this.$loading.hide();
                     var user = res.data.User;
                     if (res.data.result == 200) {
                         sessionStorage.setItem("token",res.data.token);
@@ -474,13 +477,15 @@ export default {
                 //登陆
                 const url = myPub.URL+`/login`;
                 const pwd = Base64.encode(this.userPwd,'utf-8');
-
+                const _this = this
+                _this.$loading.show();
                 var params = new URLSearchParams();
                 params.append('phone',this.userPhone1);
                 params.append('smsCode',this.verifyCode);
                 params.append('loginType',2);
                 params.append('clientType','h5');
                 axios.post(url,params).then(res => {
+                    _this.$loading.hide();
                     console.log(res.data);
                     var user = res.data.User;
 
