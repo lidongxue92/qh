@@ -27,11 +27,12 @@ export default {
 					location.href = "http://test.qihangjf.com:29082/"
 				}
             }//测试
-            // if (url == "http://test.qihangjf.com:29089/#/" || url == "test.qihangjf.com:29089") {
-			// 	if (!this.isMobile()) {
-			// 		location.href = "https://www.qihangjf.com/"
-			// 	}
-			// }//生产
+            //h5官网
+            if (url == "http://h5.qihangjf.com:8080/#/" || url == "h5.qihangjf.com:8080/#/") {
+				if (!this.isMobile()) {
+					location.href = "https://www.qihangjf.com/"
+				}
+			}//生产
     },
     methods:{
         isMobile() {
