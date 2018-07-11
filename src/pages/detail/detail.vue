@@ -419,24 +419,23 @@ export default {
             if ($(".Type").text() == '1') {
                 if (this.productType == 19) {
                     var zrLilv = this.actAnnualYield / 100;
-                    const total1 =((newAddMoney * zrLilv / 365 * this.day) * 100) / 100
                     if(Mon){
-                        var total = Math.floor(total1 + Mon);
+                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon)
                     }else{
-                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon);
+                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 );
                     }
-                    console.log(total1);
+                    console.log(total);
                     $(".rate1").text(total)
                 }else{
                     // var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
-                    const total1 =((newAddMoney * zrLilv / 365 * this.day) * 100) / 100
+                    // const total1 =((newAddMoney * zrLilv / 365 * this.day) * 100) / 100
                     // var total = this.toDecimal2(Math.floor(total1 + Mon));
                     if(Mon){
                         var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon);
                     }else{
                         var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
                     }
-                    console.log(total1);
+                    console.log(total);
                     $(".rate1").text(total)
                 }
             }
