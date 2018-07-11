@@ -135,10 +135,10 @@ export default {
                         $(".regSubmit").submit();
                     }, 500)
                     
-                }else{
+                }else if (res.data.result == 300) {
                     this.$vux.alert.show({
                       title: '',
-                      content: res.data.resultMsg
+                      content: '充值金额不能为空'
                   })
                   setTimeout(() => {
                       this.$vux.alert.hide()
@@ -183,7 +183,7 @@ export default {
                         })
                     }else{
                         $(".button").click(function () {
-                            _this.recharge()
+                             _this.recharge()
                         })
                     }
                 }

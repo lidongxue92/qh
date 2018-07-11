@@ -332,8 +332,12 @@ export default {
             $(".act a").attr("href",response.data.activityLink)
             $(".act p").text(response.data.activityName)
 
-            if (data.activityIcon != "") {
+            if (data.activityIcon) {
+                console.log(1)
                 this.activeImg = data.activityIcon;
+            }else{
+                console.log(2)
+                $(".act img").css("display","none")
             }
 
 
@@ -530,7 +534,7 @@ export default {
             }
         }
     }
-    .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;margin-bottom: 4rem;background: #f7f7f7;}
+    .note{text-align: center;padding: 1rem 5rem;font-size: 0.5rem;color: #999;margin-bottom: 10rem;background: #f7f7f7;}
     .zhezhao{background: rgba(0, 0, 0, .3);position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 600;display: none}
 
     .act{

@@ -18,7 +18,7 @@
                 <span class="before">
                     <b class="after"></b>
                 </span>
-            </p>&emsp;<span class="Percentage">已售{{product.xmjd}}%</span>
+            </p>&emsp;<span class="Percentage">已售{{product.xmjd | numFilter}}%</span>
             <p class="note">
                 <span class="left1">剩余额度&emsp;<b class="residueMoney">{{product.residueMoney}}万元</b></span>
                 <span class="right1">起投金额&emsp;<b>{{product.amountMin}}</b></span>
@@ -140,6 +140,7 @@ export default {
             dzr:'',
             isshow5:true,
             isshow6:false,
+            annualYield:'',
 
 
             // 三方开户数据
@@ -159,6 +160,15 @@ export default {
     computed: {
     },
     mounted () {
+    },
+    filters: {
+        numFilter(value) {
+            // 截取当前数据到小数点后三位
+            let transformVal = Number(value).toFixed(3)
+            let realVal = transformVal.substring(0, transformVal.length - 1)
+            // num.toFixed(3)获取的是字符串
+            return Number(realVal)
+        }
     },
     created() {
         const dz = this.$route.query.dz
@@ -417,25 +427,23 @@ export default {
                 $(".rate1").text(total)
             }
             if ($(".Type").text() == '1') {
+                var zrLilv = this.annualYield / 100;
                 if (this.productType == 19) {
-                    var zrLilv = this.actAnnualYield / 100;
                     if(Mon){
-                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon)
+                        var total = this.toDecimal2(Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100 + Mon)
                     }else{
-                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 );
+                        var total = this.toDecimal2(Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
                     }
                     console.log(total);
                     $(".rate1").text(total)
                 }else{
-                    // var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
-                    // const total1 =((newAddMoney * zrLilv / 365 * this.day) * 100) / 100
-                    // var total = this.toDecimal2(Math.floor(total1 + Mon));
+                    var zrLilv = this.annualYield / 100;
                     if(Mon){
-                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100 + Mon);
+                        var total = this.toDecimal2(Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100 + Mon);
                     }else{
-                        var total = this.toDecimal2(Math.floor((newAddMoney * lilv / 365 * this.day) * 100) / 100);
+                        var total = this.toDecimal2(Math.floor((newAddMoney * zrLilv / 365 * this.day) * 100) / 100);
                     }
-                    console.log(total);
+                    console.log(this.annualYield);
                     $(".rate1").text(total)
                 }
             }
@@ -619,6 +627,8 @@ export default {
                 this.actAnnualYield = data.ProductInfo.actAnnualYield
                 this.residueMoney = data.ProductInfo.residueMoney //剩余额度
                 this.amountIncrease = data.ProductInfo.amountIncrease //起投额度
+
+                this.annualYield = data.ProductInfo.annualYield
                 const dqr = data.ProductInfo.dqr
                 setTimeout(() => {
                     var stringTime = dqr + " 10:21:12";

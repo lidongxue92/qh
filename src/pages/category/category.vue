@@ -7,7 +7,7 @@
 
         <!-- 没有数据 -->
         <div class="nodata" v-if="isshowHas">
-            <!-- <img src="~@/assets/img/no_data.png"> -->
+            <img src="~@/assets/img/no_data.png">
            <!--  <p>您还没有持有理财产品哦</p> -->
             <p>~暂无数据~</p>
             <!-- <button class="button" @click="category">去理财</button> -->
@@ -227,7 +227,7 @@ export default {
                         $(".img").eq(i).css("opacity","1")
                         $(".img img").eq(i).attr("src","./static/img/icon_biao4@2x.png")
                         $(".img span").eq(i).text('固收产品')
-                        $(".Slogan").eq(i).text('固定期限 省心理财')
+                        $(".Slogan").eq(i).text('固定期限 稳定投资')
                         $(".Profit2").eq(i+1).css("display",'none')
                         // $(".Profit1").eq(i).css("display",'block')
                     }else if ($(".hot").eq(i).text() == '0'  &&  $(".Property").eq(i).text() == '19') {
@@ -316,7 +316,7 @@ export default {
                       $(".top .Profit2").css("display","none")
                     }
                     if (this.datalist[0].productType == '18' && this.datalist[0].isHot == '0') {
-                      $(".Propagan").text('固定期限 省心理财')
+                      $(".Propagan").text('固定期限 稳定投资')
                       $(".top .Profit2").css("display","none")
                     }
                     if (this.datalist[0].productType == '22' && this.datalist[0].isHot == '0') {
@@ -603,7 +603,7 @@ export default {
     }
     .nodata{
         text-align: center;padding-bottom: 13rem;min-height:14rem;
-        img{margin-top: 6rem;width: 4.2rem;height: 4.5rem;}
+        img{margin-top: 10rem;width: 4.2rem;height: 4.5rem;}
         p{font-size: 0.8rem;color: #999;line-height:1rem;margin-top: 0.5rem;}
         .button{width: 10rem;background: -webkit-linear-gradient(left, #2B9AFF, #2773FF);border: 0;border-radius: 30px;line-height: 2.2rem;height: 2.2rem;color: #fff;font-size: 0.9rem;margin-top: 1.2rem;}
         .note{margin-top: 40rem;}

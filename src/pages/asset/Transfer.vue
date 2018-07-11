@@ -9,7 +9,7 @@
                 </ul>
                 <div class="nodata" v-if="isshow1">
                     <img src="~@/assets/img/no_data.png">
-                    <p>您还没有持有理财产品哦</p>
+                    <p>您还没有<span v-if = 'isshow7'>已</span>转让的理财产品哦</p>
                     <p>赶紧去产品中心挑选吧~</p>
                     <button class="button" @click="category">去理财</button>
                 </div>
@@ -35,6 +35,7 @@
                 </ul>
             </div>
         </div>
+        <p class="note"> 理财有风险，投资需谨慎 </p>
     </div>
 </template>
 
@@ -62,7 +63,8 @@ export default {
             isshow4:true,
             isshow5:false,
             isshow6:false,
-            is_show2:false
+            is_show2:false,
+            isshow7:false
         }
     },
     mounted () {
@@ -123,12 +125,14 @@ export default {
             this.isshow3 = false
             this.is_show2 = false
             this.is_show = true
+            this.isshow7 = false
             this.product('1,2','2','0')
         },
         Notransferable(){
             const _this = this;
             this.product('4,5','1','1');
             this.isshow3 = true;
+            this.isshow7 = true
             this.is_show2 = true;
             this.is_show = false
         },
@@ -269,5 +273,6 @@ export default {
             }
         }
     }
+    .note{font-size: 0.8rem;text-align: center;color: #999}
 }
 </style>

@@ -30,27 +30,27 @@
       <p class="increaseMoney">加息券　+<b class="increaseMoney">{{Product.increaseRate}}</b>%</p>
     </div>
     <!-- 标 -->
-    <div class="list" v-if ='isshow4' >
+    <div class="list 1" v-if ='isshow4' >
         <ul>
             <li>到期日 <span>{{Product.dueDate}}</span></li>
             <li>起息日 <span>{{Product.interestDate}}</span></li>
             <li>投资日 <span>{{Product.buyTime}}</span></li>
             <li>收益方式 <span class="Profit">{{Product.interestType}}</span></li>
         </ul>
-        <img v-if="isshow2" src="~@/assets/img/had.png">
+        <img v-if = 'isshow2' src="~@/assets/img/had.png">
         <div class="product" v-if="isshow7">
             <h5>资金去向 <span></span></h5>
             <p v-if="isshow" @click="linkTodetail1(Product.productId)">{{Product.productName}} <img class="img" src="~@/assets/img/right.png"></p>
         </div>
     </div>
-    <div class="list" v-if ='isshow5'>
+    <div class="list 2" v-if ='isshow5'>
         <ul>
             <li>预计满标日<span>{{Product.fullDate}}</span></li>
             <li>投资日 <span>{{Product.buyTime}}</span></li>
             <li>计息方式<span class="interest">{{Product.interestType}}</span></li>
             <li>收益方式 <span class="Profit">{{Product.yieldDistribType}}</span></li>
         </ul>
-        <img v-if="isshow2" src="~@/assets/img/had.png">
+        
         <div class="product">
             <h5>投资状态 <span class="DistribType">{{Product.status}}</span></h5>
         </div>
@@ -104,11 +104,13 @@ export default {
           this.isshow4 = true
           this.isshow5 = false
           this.isshow7 = false
+          this.isshow2 = true
         }
     },
     methods:{
         goBack() {
-            this.$router.back()
+          const status = this.$route.query.status
+          this.$router.push({path:'/page/principal' , query: { status : status}})
         },
         linkTodetail1(id) {
             this.$router.push({ path: '/page/detailProduct',query: { id: id } })
@@ -189,6 +191,13 @@ export default {
                         }
                       }, 200)
                     };
+                    if (this.Product.status == '1') {
+                      setTimeout(() => {
+                        this.isshow = true
+                        console.log(6)
+                        $(".DistribType").text("交易成功,等待满标")
+                      }, 300)
+                    };
                     if (this.Product.status == '6') {
                       setTimeout(() => {
                         this.isshow = true
@@ -220,22 +229,11 @@ export default {
     filters: {
         numFilter(value) {
             // 截取当前数据到小数点后三位
-            let transformVal = Number(value).toFixed(4)
-            let realVal = transformVal.substring(0, transformVal.length - 1);
-            // let val = Math.floor(realVal*100)/100;
-
-            var num = realVal + "";
-            var number = num.split(".")[0];//整数位
-            var len = num.split(".")[1];//小数
-            console.log(len);
-            if (len.length >= 3) {
-                var newNum = len.substr(0,2);
-                newNum = number + "." + newNum;
-                console.log(newNum);
-            }else{
-                var newNum = Number(num);
-            }
-            return newNum;
+              let transformVal = Number(value).toFixed(3)
+              let realVal = transformVal.substring(0, transformVal.length - 1)
+              // num.toFixed(3)获取的是字符串
+              return Number(realVal)
+            
         }
     },
     watch: {

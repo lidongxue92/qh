@@ -9,8 +9,8 @@
         <div class="middle">
             <div class="nodata" v-if="isshow1">
                 <img src="~@/assets/img/no_data.png">
-                <p>亲，抱歉哦！您暂无可用红包或加息券</p>
-                <p>快去小航的发现中心逛逛吧!</p>
+                <p>亲，抱歉哦！您暂无可用<span v-if="redshow" >红包</span><span v-if="addshow">加息券</span></p>
+                <p>快去小航的产品中心逛逛吧!</p>
                 <button class="button" @click="category">去逛逛</button>
             </div>
             <!-- 红包 -->
@@ -37,7 +37,7 @@
                             </p>
                         </div>
                         <div class="note">有效期：
-                            <span>{{item.startDate}}</span>
+                            <span>{{item.startDate}}</span>至
                             <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
                             <span class="button"></span><span class="status">{{item.status}}</span>
                         </div>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="note">有效期：
-                            <span>{{item.startDate}}</span>
+                            <span>{{item.startDate}}</span>至
                             <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
                             <span class="button"></span><span class="status">{{item.status}}</span>
                         </div>
@@ -103,7 +103,7 @@
                             </div>
                         </div>
                         <div class="note">有效期：
-                            <span>{{item.startDate}}</span>
+                            <span>{{item.startDate}}</span>至
                             <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
                             <span class="button"></span><span class="status">{{item.status}}</span>
                         </div>
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                         <div class="note">有效期：
-                            <span>{{item.startDate}}</span>
+                            <span>{{item.startDate}}</span>至
                             <p style="margin-left: 3.2rem;">{{item.endDate}}</p>
                             <span class="button"></span><span class="status">{{item.status}}</span>
                         </div>
@@ -150,6 +150,18 @@
         <div class="toast">
             <h5>红包加息券使用说明<span @click="close">&Chi;</span></h5>
             <h6><span class="c-FFC62E"></span>红包使用说明</h6>
+            <p>1.每个红包均有相应的使用产品.起投金额限制,红包仅用于投资抵扣,不能直接提现;</p>
+            <p>2. 红包的获得途径主要有新手注册活动,参与平台活动,以及平台优质用户额外奖励</p>
+            <p>3. 每个红包均有标注使用期,请在使用期限内投资使用,逾期将作废;</p>
+            <h6><span class="c-A1CB46"></span>加息券使用说明</h6>
+            <p>1. 加息劵是启航为了给用户增加所投产品收益推出的,用户可根据使用加息劵的年化利率；等得额外的收益奖励</p>
+            <p>2. 每张加息券的起投金额和使用产品均不一样,请注意使用条件;</p>
+            <p>3. 每张加息券均有标注使用期,请在使用期限内投资使用,逾期将作废;</p>
+            <button class="button" @click="close">我知道了</button>
+        </div>
+        <!-- <div class="toast">
+            <h5>红包加息券使用说明<span @click="close">&Chi;</span></h5>
+            <h6><span class="c-FFC62E"></span>红包使用说明</h6>
             <p>1. 红包领取后，红包金额将直接转入您的余额账户，可以进行投资或提现；</p>
             <p>2. 只有投资过（日日赚、新手标、转让标除外）的用户才能领取红包或参加抢红包活动；</p>
             <p>3. 请在收到红包领取提示后，在有效期内领取，否则红包将会作废。</p>
@@ -157,7 +169,7 @@
             <p>1. 红包领取后，红包金额将直接转入您的余额账户，可以进行投资或提现；</p>
             <p>2. 只有投资过（日日赚、新手标、转让标除外）的用户才能领取红包或参加抢红包活动。</p>
             <button class="button" @click="close">我知道了</button>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -192,6 +204,8 @@ export default {
             isshow9:false,
             is_show1:false,
             is_show2:false,
+            redshow:true,
+            addshow:false
         }
     },
     computed: {
@@ -228,6 +242,8 @@ export default {
             const _this = this
             $(".red").addClass('active')
             $('.add').removeClass('active')
+            this.addshow = false
+            this.redshow = true
             this.isshow2 = true
             this.isshow3 = false
             this.isshow4 = false
@@ -239,6 +255,8 @@ export default {
             const _this = this
             $(".add").addClass('active')
             $('.red').removeClass('active')
+            this.addshow = true
+            this.redshow = false
             this.isshow2 = false
             this.isshow3 = false
             this.isshow4 = false

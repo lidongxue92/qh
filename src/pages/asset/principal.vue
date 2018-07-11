@@ -18,8 +18,8 @@
     <!-- 标 -->
     <div class="list">
         <ul class="tab">
-            <li class="has active" @click="has">持有中</li>
-            <li class="going" @click="going">投标中</li>
+            <li class="has active" @click="cyz">持有中</li>
+            <li class="going" @click="tbz">投标中</li>
             <li class="had" @click="had">已兑付</li>
         </ul>
 
@@ -39,12 +39,11 @@
                     </p>
                     <p class="right">
                         <span class="color exceptedYield">{{item.exceptedYield | numFilter}}</span>
-                        <span>预计到期收益(元)</span>
+                        <span v-if="!isshow7">预计到期收益(元)</span>
+                        <span v-if="isshow7">实际到期收益</span>
                     </p>
                     <span class="productStatus" style="position: absolute;opacity: 0;">{{item.productStatus}}</span>
-                    <img class="img1" src="~@/assets/img/lost.png">
-                    <img class="isshow4" v-if="isshow4" src="~@/assets/img/had.png">
-                    <img v-if="isshow5" src="~@/assets/img/lost.png">
+                    <img class="img1" src="">
                 </li>
             </ul>
         </div>
@@ -69,11 +68,13 @@ export default {
         isshow3:false,
         isshow4:false,
         isshow5:false,
+        isshow6:false,
         money:'',
         Account:{},
         totalCount:'',
         isshowHas: true,
-        qxr:""
+        qxr:"",
+        isshow7:false
 　　  }
 　　},
     created() {
@@ -103,8 +104,30 @@ export default {
           }).catch((err) => {
               console.log(err)
           });
-
-          this.cyz();
+          // const status = this.$route.query.status
+          // if (status == '投标中') {
+          //     this.tbz();
+          //   }else if (status == '持有中') {
+          //     this.cyz();
+          //   }else if (status == '已兑付') {
+          //     this.had();
+          //   }else{
+          //       this.cyz();
+          //   }
+          
+    },
+    activated() {
+        setTimeout(() => {
+            const status = this.$route.query.status
+              if (status == '投标中') {
+                  this.tbz();
+                }else if (status == '持有中') {
+                  this.cyz();
+                }else if (status == '已兑付') {
+                  this.had();
+                }
+        }, 500)
+     
     },
     methods:{
         goBack() {
@@ -120,19 +143,11 @@ export default {
         Transfer(){
             this.$router.push({ path: '/page/Transfer' })
         },
-        has(){
-            $(".has").addClass('active')
-            $(".going").removeClass('active')
-            $(".had").removeClass('active')
-            this.cyz();
-        },
-        going(){
-            $(".going").addClass('active')
-            $(".had").removeClass('active')
-            $(".has").removeClass('active');
-            this.tbz();
-        },
+        // 已兑付
         had(){
+            $(".isshow4").hide();
+            this.isshow7 = true
+            $(".img1").hide();
             const _this = this
             _this.$loading.show();
             $(".had").addClass('active')
@@ -192,19 +207,31 @@ export default {
                             console.log(err)
                         })
                     }
-                    $(".productStatus").each(function (i,n) {
-                        if ($(".productStatus").eq(i).text() == '6') {
-                            $(".img1").eq(i).css("display","inline-block")
-                        }
-                    })
+                    setTimeout(() => {
+                        $(".productStatus").each(function (i,n) {
+                            if ($(".productStatus").eq(i).text() == '4') {
+                                $(".img1").attr("src","./static/img/had.png")
+                                $(".img1").show()
+                            }
+                        })
+                        $(".exceptedYield").each(function (i) {
+                            const value = $(".exceptedYield").eq(i).text()
+                            const newvalue = Math.floor(value * 100) / 100
+                            $(".exceptedYield").eq(i).text(value)
+                        })
+                    }, 300)
+                    
                 }
             }).catch((err) => {
                 console.log(err)
             })
         },
-
         // 持有
         cyz(){
+            this.isshow7 = false
+            $(".has").addClass('active')
+            $(".going").removeClass('active')
+            $(".had").removeClass('active')
             //持有数据
             const url1 = myPub.URL+`/user/getUserAssetsList` ;
             const _this = this
@@ -251,8 +278,6 @@ export default {
                                 console.log(res);
                                  _this.$loading.hide();
                                if (res.data.result == 200) {
-                                   $(".isshow4").hide();
-                                   $(".img1").hide();
                                     this.totalCount = res.data.totalCount
                                     this.Product = res.data.Product
                                     if (res.data.totalCount == 0) {
@@ -274,6 +299,10 @@ export default {
         },
         // 投标中
         tbz(){
+            this.isshow7 = false
+            $(".going").addClass('active')
+            $(".had").removeClass('active')
+            $(".has").removeClass('active');
             const _this = this;
             _this.$loading.show();
             const url1 = myPub.URL+`/user/getUserAssetsList` ;
@@ -284,7 +313,7 @@ export default {
             params1.append('czlx',1);
             params1.append('status',"6,7");
             params1.append('productFullStatus',"0,2");
-            params1.append('orderType',0);
+            params1.append('orderType',0,1);
             axios.post(url1,params1).then(res => {
                 console.log(res);
                 _this.$loading.hide();
@@ -332,11 +361,18 @@ export default {
                             console.log(err)
                         })
                     }
-                    $(".productStatus").each(function (i,n) {
-                        if ($(".productStatus").eq(i).text() == '6') {
-                            $(".img1").eq(i).css("display","inline-block")
-                        }
-                    })
+                    setTimeout(() => {
+                        $(".productStatus").each(function (i,n) {
+                            console.log(i)
+                            if ($(".productStatus").eq(i).text() == '6') {
+                                $(".img1").eq(i).css("display","b")
+                                $(".img1").eq(i).attr("src","./static/img/lost.png")
+                            }else{
+                                $(".img1").eq(i).css("display","none")
+                            }
+                        })
+                    }, 300)
+                    
                 }
             }).catch((err) => {
                 console.log(err)
@@ -348,20 +384,20 @@ export default {
             // 截取当前数据到小数点后三位
             let transformVal = Number(value).toFixed(4)
             let realVal = transformVal.substring(0, transformVal.length - 1);
-            let val = Math.floor(realVal*100)/100;
+            // let val = Math.floor(realVal*100)/100;
 
-            //var num = val + "";
-            // var len = num.split(".")[1].length;
-            // if (len == 1) {
-            //     var newNum = num + 0;
-            //     // console.log(newNum);
-            // }else{
-            //     var newNum = Number(num);
-            // }
-
-            // // num.toFixed(3)获取的是字符串
-            // // return Number(newNum);
-            return Number(val);
+            var num = realVal + "";
+            var number = num.split(".")[0];//整数位
+            var len = num.split(".")[1];//小数
+            console.log(len);
+            if (len.length >= 3) {
+                var newNum = len.substr(0,2);
+                newNum = number + "." + newNum;
+                console.log(newNum);
+            }else{
+                var newNum = Number(num);
+            }
+            return newNum;
         }
     },
     watch: {
@@ -444,8 +480,9 @@ export default {
         }
         .Data{
             .datalist{
+                
                 li{
-                    margin-top: 0.5rem;background: #fff;position: relative;min-height: 8rem;
+                    background: #fff;position: relative;margin-top: 0.5rem;
                     h5{
                         padding: 0.8rem 1rem;color: #666;border-bottom:1px solid #eee;
                         span{float: right;color: #999;font-size: 0.5rem;}

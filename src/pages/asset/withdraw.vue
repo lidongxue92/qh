@@ -7,7 +7,7 @@
                     <li>提现金额&ensp;<input type="type" v-model = 'transMoney' @input="re" maxlength="8">元</li>
                 </ul>
                 <p>您当前可提现金额<span>￥{{avlBalance}}</span> <span class="right" @click="all">全部提现</span></p>
-                <button class="button" @click="withdraw">下一步</button>
+                <button class="button" @click="withd">下一步</button>
                 <p class="title">提现规则：</p>
                 <p>1. 您每月拥有三次免费提现的机会，超过三次收取2元/笔；</p>
                 <p>2. 免费提现次数不累计到下月；</p>
@@ -109,6 +109,19 @@ export default {
             this.transMoney = this.$route.query.avlBalance
             $(".button").css("opacity","1")
         },
+        withd(){
+            if (this.transMoney.length >=3) {
+                this.withdraw()
+            }else{
+                this.$vux.alert.show({
+                      title: '',
+                      content: '提现金额不能为空'
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
+            }
+        },
         withdrawsuccess() {
             this.$router.push({ path: '/page/withdrawsuccess' })
         },
@@ -127,7 +140,7 @@ export default {
                 if (res.data.result == '400') {
                   this.$vux.alert.show({
                       title: '',
-                      content: data.resultMsg
+                      content: res.data.resultMsg
                   })
                   setTimeout(() => {
                       this.$vux.alert.hide()
@@ -163,6 +176,14 @@ export default {
                         $(".regSubmit").submit();
                     }, 500)
                     
+                }else{
+                    this.$vux.alert.show({
+                      title: '',
+                      content: res.data.resultMsg
+                  })
+                  setTimeout(() => {
+                      this.$vux.alert.hide()
+                  }, 3000)
                 }
             }).catch((err) => {
                 console.log(err);

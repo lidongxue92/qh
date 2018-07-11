@@ -11,7 +11,7 @@
                     <li>
                         验证码&ensp;<input type="type" placeholder="请输入验证码" class="register_content_input pwd" v-model="smsCode"  @input="changBGC" maxlength="6">
                         <img src="../../assets/img/loginClear.png" class="LoginImg1" @click="clear2">
-                        <input id="sm" type="primary" @click="sendCode" v-model="btnText" :disabled="disabled">
+                        <span id="sm" type="button" @click="sendCode" v-model="btnText" :disabled="disabled" style="background: transparent;"></span>
                     </li>
                 </ul>
                  <p>{{tishis}}</p>

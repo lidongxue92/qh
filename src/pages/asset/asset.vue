@@ -18,7 +18,7 @@
         </div>
         <div class="atbRight">
           <h6>累计收益(元)</h6>
-          <p class="numberChange lssy">{{asset.lssy | numFilter}}</p>
+          <p class="numberChange lssy">{{asset.lssy }}</p>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
           <div>
             <b></b>
             <span>账户余额</span>
-            <p class="numberChange avlBalance">{{asset.avlBalance}}</p>
+            <p class="numberChange avlBalance">{{asset.avlBalance | numFilter}}</p>
           </div>
         </div>
 
@@ -123,18 +123,26 @@ export default {
             imgSrc:"./static/img/openEyes.png",
             totalMoney:0.00,
             numberChange: 0.00,
-            asset:'{}',
+            asset:{'totalMoney':'',investMoney:'','lssy':'','totalMoney':'','lczc':'','dssy':'','zrje':'','avlBalance':'','frzBalance':''},
+            totalMoney:'',//总资产
+            imgMsg:"./static/img/xiaoXi.png",
             totalMoney:'',
-            imgMsg:"./static/img/xiaoXi.png"
+            dssy:''
     　　　}
     　},
     filters: {
         numFilter(value) {
             // 截取当前数据到小数点后三位
-            let transformVal = Number(value).toFixed(3)
-            let realVal = transformVal.substring(0, transformVal.length - 1)
-            // num.toFixed(3)获取的是字符串
-            return Number(realVal)
+              let transformVal = Number(value).toFixed(3)
+              let realVal = transformVal.substring(0, transformVal.length - 1)
+              // num.toFixed(3)获取的是字符串
+              return Number(realVal)
+            if (realVal%1 === 0) {
+              return Number(realVal + '.00')
+            }else{
+              return Number(realVal)
+            }
+            
         }
     },
    created() {
@@ -236,16 +244,16 @@ export default {
                 _this.$loading.hide();
                 const data = response.data
                 console.log(response.data)
-                // if (data.result == '400') {
-                //     this.$vux.alert.show({
-                //         title: '',
-                //         content: data.resultMsg
-                //     })
-                //     setTimeout(() => {
-                //         this.$vux.alert.hide()
-                //         this.$router.push({path:"/login",query: {redirect: 'your path'}})
-                //     }, 3000)
-                // }
+                if (data.result == '400') {
+                    this.$vux.alert.show({
+                        title: '',
+                        content: data.resultMsg
+                    })
+                    setTimeout(() => {
+                        this.$vux.alert.hide()
+                        this.$router.push({path:"/login",query: {redirect: 'your path'}})
+                    }, 3000)
+                }
                 if (data.result == '200') {
                   this.asset = data.Account
                   this.lczc = this.asset.lczc
