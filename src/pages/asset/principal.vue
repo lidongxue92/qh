@@ -104,6 +104,7 @@ export default {
           }).catch((err) => {
               console.log(err)
           });
+          this.cyz();
           // const status = this.$route.query.status
           // if (status == '投标中') {
           //     this.tbz();
@@ -228,6 +229,7 @@ export default {
         },
         // 持有
         cyz(){
+            $(".img1").hide()
             this.isshow7 = false
             $(".has").addClass('active')
             $(".going").removeClass('active')
@@ -365,6 +367,7 @@ export default {
                         $(".productStatus").each(function (i,n) {
                             console.log(i)
                             if ($(".productStatus").eq(i).text() == '6') {
+                                $(".img1").eq(i).css("display","inline-block")
                                 $(".img1").eq(i).css("display","b")
                                 $(".img1").eq(i).attr("src","./static/img/lost.png")
                             }else{
@@ -482,7 +485,7 @@ export default {
             .datalist{
                 
                 li{
-                    background: #fff;position: relative;margin-top: 0.5rem;
+                    background: #fff;position: relative;margin-top: 0.5rem;min-height: 8rem;
                     h5{
                         padding: 0.8rem 1rem;color: #666;border-bottom:1px solid #eee;
                         span{float: right;color: #999;font-size: 0.5rem;}
