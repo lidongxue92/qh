@@ -205,6 +205,13 @@ export default {
                         $(".DistribType").text("交易成功,等待满标")
                       }, 300)
                     };
+                     if (this.Product.status == '7') {
+                      setTimeout(() => {
+                        this.isshow = true
+                        console.log(6)
+                        $(".DistribType").text("流标，标的募集未满额")
+                      }, 300)
+                    };
                   }, 200)
                   
 
